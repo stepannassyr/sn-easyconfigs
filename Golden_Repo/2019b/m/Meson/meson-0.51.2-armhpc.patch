@@ -1,0 +1,311 @@
+diff -urN meson-0.51.2/mesonbuild/compilers/compilers.py meson-0.51.2-patched/mesonbuild/compilers/compilers.py
+--- meson-0.51.2/mesonbuild/compilers/compilers.py	2019-08-25 21:17:02.000000000 +0200
++++ meson-0.51.2-patched/mesonbuild/compilers/compilers.py	2019-09-10 18:03:26.761967103 +0200
+@@ -1411,6 +1411,7 @@
+     ICC_WIN = 22
+ 
+     ARM_WIN = 30
++    ARM_HPC = 31
+ 
+     CCRX_WIN = 40
+ 
+@@ -1420,7 +1421,7 @@
+ 
+     @property
+     def is_standard_compiler(self):
+-        return self.name in ('GCC_STANDARD', 'CLANG_STANDARD', 'ICC_STANDARD', 'PGI_STANDARD')
++        return self.name in ('GCC_STANDARD', 'CLANG_STANDARD', 'ICC_STANDARD', 'PGI_STANDARD', 'ARM_HPC')
+ 
+     @property
+     def is_osx_compiler(self):
+@@ -2193,6 +2194,47 @@
+             return []
+ 
+ 
++class ArmHPCCompiler(GnuLikeCompiler):
++    def __init__(self, compiler_type):
++        super().__init__(compiler_type)
++        self.id = 'armclang'
++        self.base_options.append('b_colorout')
++        # All Clang backends can also do LLVM IR
++        self.can_compile_suffixes.add('ll')
++
++    def get_colorout_args(self, colortype):
++        return clang_color_args[colortype][:]
++
++    def get_optimization_args(self, optimization_level):
++        return clike_optimization_args[optimization_level]
++
++    def get_pch_suffix(self):
++        return 'pch'
++
++    def get_pch_use_args(self, pch_dir, header):
++        # Workaround for Clang bug http://llvm.org/bugs/show_bug.cgi?id=15136
++        # This flag is internal to Clang (or at least not documented on the man page)
++        # so it might change semantics at any time.
++        return ['-include-pch', os.path.join(pch_dir, self.get_pch_name(header))]
++
++    def has_multi_arguments(self, args, env):
++        myargs = ['-Werror=unknown-warning-option', '-Werror=unused-command-line-argument']
++        if mesonlib.version_compare(self.version, '>=3.6.0'):
++            myargs.append('-Werror=ignored-optimization-argument')
++        return super().has_multi_arguments(
++            myargs + args,
++            env)
++
++    def has_function(self, funcname, prefix, env, *, extra_args=None, dependencies=None):
++        if extra_args is None:
++            extra_args = []
++        return super().has_function(funcname, prefix, env, extra_args=extra_args,
++                                    dependencies=dependencies)
++
++    def openmp_flags(self):
++        return ['-fopenmp=libomp']
++
++
+ class ArmclangCompiler:
+     def __init__(self, compiler_type):
+         if not self.is_cross:
+diff -urN meson-0.51.2/mesonbuild/compilers/cpp.py meson-0.51.2-patched/mesonbuild/compilers/cpp.py
+--- meson-0.51.2/mesonbuild/compilers/cpp.py	2019-08-25 21:17:02.000000000 +0200
++++ meson-0.51.2-patched/mesonbuild/compilers/cpp.py	2019-09-10 17:45:28.838646254 +0200
+@@ -30,6 +30,7 @@
+     IntelGnuLikeCompiler,
+     IntelVisualStudioLikeCompiler,
+     PGICompiler,
++    ArmHPCCompiler,
+     ArmCompiler,
+     ArmclangCompiler,
+     CcrxCompiler,
+@@ -175,6 +176,44 @@
+ 
+         non_msvc_eh_options(options['cpp_eh'].value, args)
+ 
++        return args
++
++    def get_option_link_args(self, options):
++        return []
++
++    def language_stdlib_only_link_flags(self):
++        return ['-lstdc++']
++
++
++class ArmHPCCPPCompiler(ArmHPCCompiler, CPPCompiler):
++    def __init__(self, exelist, version, compiler_type, for_machine: MachineChoice, is_cross, exe_wrapper=None, **kwargs):
++        CPPCompiler.__init__(self, exelist, version, for_machine, is_cross, exe_wrapper, **kwargs)
++        ArmHPCCompiler.__init__(self, compiler_type)
++        default_warn_args = ['-Wall', '-Winvalid-pch', '-Wnon-virtual-dtor']
++        self.warn_args = {'0': [],
++                          '1': default_warn_args,
++                          '2': default_warn_args + ['-Wextra'],
++                          '3': default_warn_args + ['-Wextra', '-Wpedantic']}
++
++    def get_options(self):
++        opts = CPPCompiler.get_options(self)
++        opts.update({'cpp_eh': coredata.UserComboOption('C++ exception handling type.',
++                                                        ['none', 'default', 'a', 's', 'sc'],
++                                                        'default'),
++                     'cpp_std': coredata.UserComboOption('C++ language standard to use',
++                                                         ['none', 'c++98', 'c++03', 'c++11', 'c++14', 'c++17', 'c++1z', 'c++2a'
++                                                          'gnu++11', 'gnu++14', 'gnu++17', 'gnu++1z', 'gnu++2a'],
++                                                         'none')})
++        return opts
++
++    def get_option_compile_args(self, options):
++        args = []
++        std = options['cpp_std']
++        if std.value != 'none':
++            args.append('-std=' + std.value)
++
++        non_msvc_eh_options(options['cpp_eh'].value, args)
++
+         return args
+ 
+     def get_option_link_args(self, options):
+diff -urN meson-0.51.2/mesonbuild/compilers/c.py meson-0.51.2-patched/mesonbuild/compilers/c.py
+--- meson-0.51.2/mesonbuild/compilers/c.py	2019-08-25 21:17:02.000000000 +0200
++++ meson-0.51.2-patched/mesonbuild/compilers/c.py	2019-09-10 17:52:58.308641049 +0200
+@@ -23,6 +23,7 @@
+ from .compilers import (
+     gnu_winlibs,
+     msvc_winlibs,
++    ArmHPCCompiler,
+     ArmCompiler,
+     ArmclangCompiler,
+     ClangCompiler,
+@@ -119,6 +120,35 @@
+         return basic
+ 
+ 
++class ArmHPCCCompiler(ArmHPCCompiler, CCompiler):
++    def __init__(self, exelist, version, compiler_type, for_machine: MachineChoice, is_cross, exe_wrapper=None, **kwargs):
++        CCompiler.__init__(self, exelist, version, for_machine, is_cross, exe_wrapper, **kwargs)
++        ArmHPCCompiler.__init__(self, compiler_type)
++        default_warn_args = ['-Wall', '-Winvalid-pch']
++        self.warn_args = {'0': [],
++                          '1': default_warn_args,
++                          '2': default_warn_args + ['-Wextra'],
++                          '3': default_warn_args + ['-Wextra', '-Wpedantic']}
++
++    def get_options(self):
++        opts = CCompiler.get_options(self)
++        opts.update({'c_std': coredata.UserComboOption('C language standard to use',
++                                                       ['none', 'c90', 'c99', 'c11',
++                                                        'gnu89', 'gnu90', 'gnu99', 'gnu11',
++                                                        'c17','gnu17'],
++                                                       'none')})
++        return opts
++
++    def get_option_compile_args(self, options):
++        args = []
++        std = options['c_std']
++        if std.value != 'none':
++            args.append('-std=' + std.value)
++        return args
++
++    def get_option_link_args(self, options):
++        return []
++
+ class ArmclangCCompiler(ArmclangCompiler, CCompiler):
+     def __init__(self, exelist, version, compiler_type, for_machine: MachineChoice, is_cross, exe_wrapper=None, **kwargs):
+         CCompiler.__init__(self, exelist, version, for_machine, is_cross, exe_wrapper, **kwargs)
+diff -urN meson-0.51.2/mesonbuild/compilers/fortran.py meson-0.51.2-patched/mesonbuild/compilers/fortran.py
+--- meson-0.51.2/mesonbuild/compilers/fortran.py	2019-08-25 21:16:54.000000000 +0200
++++ meson-0.51.2-patched/mesonbuild/compilers/fortran.py	2019-09-10 17:48:25.128644213 +0200
+@@ -24,6 +24,7 @@
+     clike_debug_args,
+     Compiler,
+     GnuCompiler,
++    ArmHPCCompiler,
+     ClangCompiler,
+     ElbrusCompiler,
+     IntelGnuLikeCompiler,
+@@ -161,6 +162,16 @@
+         code = 'program main\ncall exit(0)\nend program main'
+         return self.has_arguments(args, env, code, mode='compile')
+ 
++class ArmHPCFortranCompiler(ArmHPCCompiler, FortranCompiler):
++    def __init__(self, exelist, version, for_machine: MachineChoice, is_cross, exe_wrapper=None, **kwags):
++        FortranCompiler.__init__(self, exelist, version, for_machine, is_cross, exe_wrapper, **kwags)
++        ArmHPCCompiler.__init__(self, CompilerType.CLANG_STANDARD)
++        self.id = 'armflang'
++        default_warn_args = ['-Minform=inform']
++        self.warn_args = {'0': [],
++                          '1': default_warn_args,
++                          '2': default_warn_args,
++                          '3': default_warn_args}
+ 
+ class GnuFortranCompiler(GnuCompiler, FortranCompiler):
+     def __init__(self, exelist, version, compiler_type, for_machine: MachineChoice, is_cross, exe_wrapper=None, defines=None, **kwargs):
+diff -urN meson-0.51.2/mesonbuild/compilers/__init__.py meson-0.51.2-patched/mesonbuild/compilers/__init__.py
+--- meson-0.51.2/mesonbuild/compilers/__init__.py	2019-08-25 21:16:54.000000000 +0200
++++ meson-0.51.2-patched/mesonbuild/compilers/__init__.py	2019-09-10 17:06:01.635340339 +0200
+@@ -36,6 +36,9 @@
+     'sanitizer_compile_args',
+     'sort_clink',
+ 
++    'ArmHPCCCompiler'
++    'ArmHPCCPPCompiler'
++    'ArmHPCFortranCompiler'
+     'ArmCCompiler',
+     'ArmCPPCompiler',
+     'ArmclangCCompiler',
+@@ -130,6 +133,7 @@
+ )
+ from .c import (
+     CCompiler,
++    ArmHPCCCompiler,
+     ArmCCompiler,
+     ArmclangCCompiler,
+     ClangCCompiler,
+@@ -144,6 +148,7 @@
+ )
+ from .cpp import (
+     CPPCompiler,
++    ArmHPCCPPCompiler,
+     ArmCPPCompiler,
+     ArmclangCPPCompiler,
+     ClangCPPCompiler,
+@@ -166,6 +171,7 @@
+ from .cuda import CudaCompiler
+ from .fortran import (
+     FortranCompiler,
++    ArmHPCFortranCompiler,
+     G95FortranCompiler,
+     GnuFortranCompiler,
+     ElbrusFortranCompiler,
+diff -urN meson-0.51.2/mesonbuild/environment.py meson-0.51.2-patched/mesonbuild/environment.py
+--- meson-0.51.2/mesonbuild/environment.py	2019-08-25 21:17:02.000000000 +0200
++++ meson-0.51.2-patched/mesonbuild/environment.py	2019-09-10 17:46:44.828645374 +0200
+@@ -40,6 +40,8 @@
+ )
+ from functools import lru_cache
+ from .compilers import (
++    ArmHPCCCompiler,
++    ArmHPCCPPCompiler,
+     ArmCCompiler,
+     ArmCPPCompiler,
+     ArmclangCCompiler,
+@@ -477,9 +479,9 @@
+             self.default_cpp = ['icl', 'cl', 'c++', 'g++', 'clang++', 'clang-cl']
+             self.default_fortran = ['ifort', 'gfortran', 'flang', 'pgfortran', 'g95']
+         else:
+-            self.default_c = ['cc', 'gcc', 'clang', 'pgcc', 'icc']
+-            self.default_cpp = ['c++', 'g++', 'clang++', 'pgc++', 'icpc']
+-            self.default_fortran = ['gfortran', 'flang', 'pgfortran', 'ifort', 'g95']
++            self.default_c = ['cc', 'gcc', 'armclang', 'clang', 'pgcc', 'icc']
++            self.default_cpp = ['c++', 'g++', 'armclang++', 'clang++', 'pgc++', 'icpc']
++            self.default_fortran = ['gfortran', 'armflang', 'flang', 'pgfortran', 'ifort', 'g95']
+         if mesonlib.is_windows():
+             self.default_cs = ['csc', 'mcs']
+         else:
+@@ -708,6 +710,17 @@
+                     cls = GnuCCompiler if lang == 'c' else GnuCPPCompiler
+                 return cls(ccache + compiler, version, compiler_type, for_machine, is_cross, exe_wrap, defines, full_version=full_version)
+ 
++            if 'Arm C/C++/Fortran Compiler' in out:
++                arm_ver_str = re.search('.*version ([0-9.]+).*',out)
++                if arm_ver_str is None:
++                    popen_exceptions[' '.join(compiler)] = 'version string not found'
++                    continue
++                arm_ver_str = arm_ver_str.group(1)
++                version = search_version(arm_ver_str)
++                full_version = arm_ver_str
++                compiler_type = CompilerType.ARM_HPC
++                cls = ArmHPCCCompiler if lang == 'c' else ArmHPCCPPCompiler
++                return cls(ccache + compiler, version, compiler_type, for_machine, is_cross, exe_wrap, full_version=full_version)
+             if 'armclang' in out:
+                 # The compiler version is not present in the first line of output,
+                 # instead it is present in second line, startswith 'Component:'.
+@@ -909,6 +922,15 @@
+                         compiler_type = CompilerType.PGI_STANDARD
+                     return PGIFortranCompiler(compiler, version, compiler_type, for_machine, is_cross, exe_wrap, full_version=full_version)
+ 
++                if 'Arm C/C++/Fortran Compiler' in out:
++                    arm_ver_str = re.search('.*version ([0-9.]+).*',out)
++                    if arm_ver_str is None:
++                        popen_exceptions[' '.join(compiler)] = 'version string not found'
++                        continue
++                    arm_ver_str = arm_ver_str.group(1)
++                    version = search_version(arm_ver_str)
++                    full_version = arm_ver_str
++                    return ArmHPCFortranCompiler(compiler, version, for_machine, is_cross, exe_wrap, full_version=full_version)
+                 if 'flang' in out or 'clang' in out:
+                     return FlangFortranCompiler(compiler, version, for_machine, is_cross, exe_wrap, full_version=full_version)
+ 
+diff -urN meson-0.51.2-py3.7.egg-unpatched/mesonbuild/build.py meson-0.51.2-py3.7.egg/mesonbuild/build.py
+--- meson-0.51.2-py3.7.egg-unpatched/mesonbuild/build.py	2019-09-13 14:33:23.030638378 +0200
++++ meson-0.51.2-py3.7.egg/mesonbuild/build.py	2019-09-13 14:33:43.825949773 +0200
+@@ -1432,9 +1432,9 @@
+             # Executable for Windows or C#/Mono
+             if machine.is_windows() or machine.is_cygwin() or 'cs' in self.compilers:
+                 self.suffix = 'exe'
+-            elif ('c' in self.compilers and self.compilers['c'].get_id().startswith('arm') or
+-                  'cpp' in self.compilers and self.compilers['cpp'].get_id().startswith('arm')):
+-                self.suffix = 'axf'
++#            elif ('c' in self.compilers and self.compilers['c'].get_id().startswith('arm') or
++#                  'cpp' in self.compilers and self.compilers['cpp'].get_id().startswith('arm')):
++#                self.suffix = 'axf'
+             elif ('c' in self.compilers and self.compilers['c'].get_id().startswith('ccrx') or
+                   'cpp' in self.compilers and self.compilers['cpp'].get_id().startswith('ccrx')):
+                 self.suffix = 'abs'

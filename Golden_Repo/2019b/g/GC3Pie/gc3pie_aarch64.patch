@@ -1,0 +1,47 @@
+diff --git a/gc3libs/__init__.py b/gc3libs/__init__.py
+index 7d8ce8c2..6e73fc8d 100755
+--- a/gc3libs/__init__.py
++++ b/gc3libs/__init__.py
+@@ -987,10 +987,11 @@ class Application(Task):
+         if self.requested_architecture is not None \
+                 and self.requested_architecture not in [
+                     Run.Arch.X86_32,
+-                    Run.Arch.X86_64]:
++                    Run.Arch.X86_64,
++                    Run.Arch.AArch64]:
+             raise gc3libs.exceptions.InvalidArgument(
+-                "Architecture must be either '%s' or '%s'"
+-                % (Run.Arch.X86_32, Run.Arch.X86_64))
++                "Architecture must be either '%s', '%s' or '%s'"
++                % (Run.Arch.X86_32, Run.Arch.X86_64, Run.Arch.AArch64))
+ 
+         self.environment = dict(
+             (to_str(k), to_str(v, 'terminal'))
+@@ -1814,9 +1815,13 @@ class Run(Struct):
+ 
+         `X86_32`
+           32-bit Intel/AMD/VIA x86 processors in 32-bit mode.
++
++        `AArch64`
++          64-bit ARM processors in 64-bit mode.
+         """
+         X86_64 = "x86_64"
+         X86_32 = "i686"
++        AArch64 = "AArch64"
+ 
+         # the following method makes this class read-only,
+         # thus preventing users accidentally overwriting the
+diff --git a/gc3libs/config.py b/gc3libs/config.py
+index 3db2a0c8..e0ffed9f 100755
+--- a/gc3libs/config.py
++++ b/gc3libs/config.py
+@@ -86,6 +86,9 @@ _architecture_value_map = {
+     # finally, map "32-bit" and "64-bit" to i686 and x86_64
+     re.compile('32[ _-]*bits?', re.I): gc3libs.Run.Arch.X86_32,
+     re.compile('64[ _-]*bits?', re.I): gc3libs.Run.Arch.X86_64,
++    re.compile('ARM[ _-]+64([ _-]*bits?)?', re.I): gc3libs.Run.Arch.AArch64,
++    re.compile('AArch64', re.I): gc3libs.Run.Arch.AArch64,
++    re.compile('ARM64', re.I): gc3libs.Run.Arch.AArch64,
+ }
+ 
+ def _matching_architecture(value):

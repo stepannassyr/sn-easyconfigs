@@ -1,0 +1,29 @@
+easyblock = "Toolchain"
+
+name = 'aompi'
+version = '19.2'
+
+homepage = '(none)'
+description = """ARM compiler for HPC based compiler toolchain,
+ including OpenMPI for MPI support.
+"""
+
+
+toolchain = {'name': 'dummy', 'version': 'dummy'}
+
+armclangver = '19.2'
+
+mpilib = 'OpenMPI'
+mpiver = '4.0.1'
+
+compname = 'armhpc'
+compver = armclangver
+
+comp = (compname, compver)
+
+dependencies = [
+    ('armhpc', armclangver),
+    (mpilib, mpiver, '', comp),
+]
+
+moduleclass = 'toolchain'

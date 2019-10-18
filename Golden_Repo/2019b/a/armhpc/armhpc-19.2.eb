@@ -1,0 +1,18 @@
+# This is a thin wrapper that depends on Modules already being installed and in the MODULEPATH
+import os
+easyblock = 'Bundle'
+name = 'armhpc'
+version = '19.2'
+
+homepage = 'http://www.arm.com'
+description = """
+ARM compiler for HPC (armclang, armclang++, armflang)
+"""
+
+
+toolchain = {'version': 'dummy', 'name': 'dummy'}
+osprefix = os.getenv("ARMOSPREFIX")
+dependencies = [('Generic-AArch64/%s/arm-hpc-compiler/%s' % (osprefix,version),     EXTERNAL_MODULE)]
+
+
+moduleclass = 'compiler'

@@ -1,0 +1,37 @@
+diff -urN /home/jusers/nassyr1/juawei/SourceCode/git/easybuild-framework/easybuild/toolchains/compiler/gcc.py /global/opt-aarch64/ohpc/pub/easybuild/software/EasyBuild/3.9.3/lib/python2.7/site-packages/easybuild_framework-3.9.3-py2.7.egg/easybuild/toolchains/compiler/gcc.py
+--- /home/jusers/nassyr1/juawei/SourceCode/git/easybuild-framework/easybuild/toolchains/compiler/gcc.py	2019-09-11 18:05:59.870921516 +0200
++++ /global/opt-aarch64/ohpc/pub/easybuild/software/EasyBuild/3.9.3/lib/python2.7/site-packages/easybuild_framework-3.9.3-py2.7.egg/easybuild/toolchains/compiler/gcc.py	2019-08-24 02:39:01.410227372 +0200
+@@ -29,6 +29,7 @@
+ :author: Kenneth Hoste (Ghent University)
+ """
+ 
++import os
+ import re
+ from distutils.version import LooseVersion
+ 
+@@ -121,6 +122,16 @@
+                 raise EasyBuildError("Failed to determine software root for GCC")
+ 
+         self.variables.append_subdirs("LDFLAGS", gcc_root, subdirs=["lib64", "lib"])
++        extra_libdirs=os.getenv("EBCUSTOM_EXTRA_LIB_DIRS")
++        if None != extra_libdirs:
++            extra_libdirs=extra_libdirs.split(':')
++            for i in extra_libdirs:
++                self.variables.append_subdirs("LDFLAGS", i)
++        extra_libs=os.getenv("EBCUSTOM_EXTRA_LIBS")
++        if None != extra_libs:
++            extra_libs=extra_libs.split(',')
++            for i in extra_libs:
++                self.variables.append("LIBS", i)
+ 
+     def _set_optimal_architecture(self, default_optarch=None):
+         """
+diff -urN /home/jusers/nassyr1/juawei/SourceCode/git/easybuild-framework/easybuild/toolchains/goolf.py /global/opt-aarch64/ohpc/pub/easybuild/software/EasyBuild/3.9.3/lib/python2.7/site-packages/easybuild_framework-3.9.3-py2.7.egg/easybuild/toolchains/goolf.py
+--- /home/jusers/nassyr1/juawei/SourceCode/git/easybuild-framework/easybuild/toolchains/goolf.py	2019-09-11 18:05:59.872921545 +0200
++++ /global/opt-aarch64/ohpc/pub/easybuild/software/EasyBuild/3.9.3/lib/python2.7/site-packages/easybuild_framework-3.9.3-py2.7.egg/easybuild/toolchains/goolf.py	2019-08-22 10:53:55.332261101 +0200
+@@ -42,4 +42,4 @@
+ 
+     def is_deprecated(self):
+         """Return whether or not this toolchain is deprecated."""
+-        return True
++        return False

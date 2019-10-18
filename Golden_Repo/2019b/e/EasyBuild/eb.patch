@@ -1,0 +1,289 @@
+diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/b/boost.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/b/boost.py
+--- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/b/boost.py	2019-09-11 18:09:02.655613409 +0200
++++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/b/boost.py	2019-08-23 19:22:26.921307833 +0200
+@@ -162,26 +162,35 @@
+                     ])
+                 else:
+                     raise EasyBuildError("Bailing out: only PrgEnv-gnu supported for now")
++            elif self.toolchain.toolchain_family() == toolchain.ARMHPC:
++                txt = '\n'.join([
++                    'using clang : arm64 : armclang ;',
++                    'using mpi ;',
++                    ''
++                    ])
+             else:
+                 txt = "using mpi : %s ;" % os.getenv("MPICXX")
+ 
+             write_file('user-config.jam', txt, append=True)
+ 
+-    def build_boost_variant(self, bjamoptions, paracmd):
+-        """Build Boost library with specified options for bjam."""
++    def build_boost_variant(self, b2options, paracmd):
++        """Build Boost library with specified options for b2."""
+         # build with specified options
+-        cmd = "%s ./bjam %s %s %s" % (self.cfg['prebuildopts'], bjamoptions, paracmd, self.cfg['buildopts'])
++        cmd = "%s ./b2 %s %s %s" % (self.cfg['prebuildopts'], b2options, paracmd, self.cfg['buildopts'])
+         run_cmd(cmd, log_all=True, simple=True)
+         # install built Boost library
+-        cmd = "%s ./bjam %s install %s %s" % (self.cfg['preinstallopts'], bjamoptions, paracmd, self.cfg['installopts'])
++        cmd = "%s ./b2 %s install %s %s" % (self.cfg['preinstallopts'], b2options, paracmd, self.cfg['installopts'])
+         run_cmd(cmd, log_all=True, simple=True)
+         # clean up before proceeding with next build
+-        run_cmd("./bjam --clean-all", log_all=True, simple=True)
++        run_cmd("./b2 --clean-all", log_all=True, simple=True)
+ 
+     def build_step(self):
+-        """Build Boost with bjam tool."""
++        """Build Boost with b2 tool."""
++
++        b2options = " --prefix=%s" % self.objdir
+ 
+-        bjamoptions = " --prefix=%s" % self.objdir
++        if self.toolchain.toolchain_family() == toolchain.ARMHPC:
++            b2options += " toolset=clang --user-config=user-config.jam"
+ 
+         cxxflags = os.getenv('CXXFLAGS')
+         # only disable -D_GLIBCXX_USE_CXX11_ABI if use_glibcxx11_abi was explicitly set to False
+@@ -193,17 +202,17 @@
+             else:
+                 cxxflags += '0'
+         if cxxflags is not None:
+-            bjamoptions += " cxxflags='%s'" % cxxflags
++            b2options += " cxxflags='%s'" % cxxflags
+         ldflags = os.getenv('LDFLAGS')
+         if ldflags is not None:
+-            bjamoptions += " linkflags='%s'" % ldflags
++            b2options += " linkflags='%s'" % ldflags
+ 
+         # specify path for bzip2/zlib if module is loaded
+         for lib in ["bzip2", "zlib"]:
+             libroot = get_software_root(lib)
+             if libroot:
+-                bjamoptions += " -s%s_INCLUDE=%s/include" % (lib.upper(), libroot)
+-                bjamoptions += " -s%s_LIBPATH=%s/lib" % (lib.upper(), libroot)
++                b2options += " -s%s_INCLUDE=%s/include" % (lib.upper(), libroot)
++                b2options += " -s%s_LIBPATH=%s/lib" % (lib.upper(), libroot)
+ 
+         paracmd = ''
+         if self.cfg['parallel']:
+@@ -212,26 +221,26 @@
+         if self.cfg['only_python_bindings']:
+             # magic incantation to only install Boost Python bindings is... --with-python
+             # see http://boostorg.github.io/python/doc/html/building/installing_boost_python_on_your_.html
+-            bjamoptions += " --with-python"
++            b2options += " --with-python"
+ 
+         if self.cfg['boost_mpi']:
+             self.log.info("Building boost_mpi library")
+-            self.build_boost_variant(bjamoptions + " --user-config=user-config.jam --with-mpi", paracmd)
++            self.build_boost_variant(b2options + " --user-config=user-config.jam --with-mpi", paracmd)
+ 
+         if self.cfg['boost_multi_thread']:
+             self.log.info("Building boost with multi threading")
+-            self.build_boost_variant(bjamoptions + " threading=multi --layout=tagged", paracmd)
++            self.build_boost_variant(b2options + " threading=multi --layout=tagged", paracmd)
+ 
+         # if both boost_mpi and boost_multi_thread are enabled, build boost mpi with multi-thread support
+         if self.cfg['boost_multi_thread'] and self.cfg['boost_mpi']:
+             self.log.info("Building boost_mpi with multi threading")
+-            extra_bjamoptions = " --user-config=user-config.jam --with-mpi threading=multi --layout=tagged"
+-            self.build_boost_variant(bjamoptions + extra_bjamoptions, paracmd)
++            extra_b2options = " --user-config=user-config.jam --with-mpi threading=multi --layout=tagged"
++            self.build_boost_variant(b2options + extra_b2options, paracmd)
+ 
+         # install remainder of boost libraries
+         self.log.info("Installing boost libraries")
+ 
+-        cmd = "%s ./bjam %s install %s %s" % (self.cfg['preinstallopts'], bjamoptions, paracmd, self.cfg['installopts'])
++        cmd = "%s ./b2 %s install %s %s" % (self.cfg['preinstallopts'], b2options, paracmd, self.cfg['installopts'])
+         run_cmd(cmd, log_all=True, simple=True)
+ 
+     def install_step(self):
+diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/fortranpythonpackage.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/fortranpythonpackage.py
+--- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/fortranpythonpackage.py	2019-09-11 18:09:02.667613586 +0200
++++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/fortranpythonpackage.py	2019-08-28 14:26:22.214919893 +0200
+@@ -51,7 +51,7 @@
+             self.cfg.update('buildopts', "--compiler=intel --fcompiler=intelem")
+             cmd = "%s %s setup.py build %s" % (self.cfg['prebuildopts'], self.python_cmd, self.cfg['buildopts'])
+ 
+-        elif comp_fam in [toolchain.GCC, toolchain.CLANGGCC]:  # @UndefinedVariable
++        elif comp_fam in [toolchain.GCC, toolchain.CLANGGCC, toolchain.ARMHPC]:  # @UndefinedVariable
+             ldflags = os.getenv('LDFLAGS')
+             if ldflags:
+                 # LDFLAGS should not be set when building numpy/scipy, because it overwrites whatever numpy/scipy sets
+@@ -64,7 +64,10 @@
+                                                                                               cmdprefix))
+                 self.cfg.update('prebuildopts', cmdprefix)
+ 
+-            self.cfg.update('buildopts', "--fcompiler=gnu95")
++            if comp_fam in [toolchain.GCC, toolchain.CLANGGCC]:  # @UndefinedVariable
++                self.cfg.update('buildopts', "--fcompiler=gnu95")
++            else:
++                self.cfg.update('buildopts', "--fcompiler=arm")
+ 
+         else:
+             raise EasyBuildError("Unknown family of compilers being used: %s", comp_fam)
+
+diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/versionindependentpythonpackage.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/versionindependentpythonpackage.py
+--- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/versionindependentpythonpackage.py	2019-09-11 18:09:02.671613645 +0200
++++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/versionindependentpythonpackage.py	2019-08-24 10:22:15.827322289 +0200
+@@ -59,7 +59,7 @@
+         env.setvar('PYTHONPATH', '%s:%s' % (full_pylibdir, os.getenv('PYTHONPATH')))
+ 
+         try:
+-            os.mkdir(full_pylibdir)
++            os.makedirs(full_pylibdir)
+         except OSError as err:
+             # this will raise an error and not return
+             raise EasyBuildError("Failed to install: %s", err)
+diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/o/opencv.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/o/opencv.py
+--- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/o/opencv.py	2019-09-11 18:09:02.680613778 +0200
++++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/o/opencv.py	2019-09-10 14:03:47.204465379 +0200
+@@ -38,7 +38,8 @@
+ from easybuild.tools.config import build_option
+ from easybuild.tools.filetools import compute_checksum, copy
+ from easybuild.tools.modules import get_software_libdir, get_software_root
+-from easybuild.tools.systemtools import get_cpu_features, get_shared_lib_ext
++from easybuild.tools.systemtools import AARCH32, AARCH64, POWER, X86_64
++from easybuild.tools.systemtools import get_cpu_features, get_cpu_architecture, get_shared_lib_ext
+ from easybuild.tools.toolchain.compiler import OPTARCH_GENERIC
+ 
+ 
+@@ -69,7 +70,7 @@
+         self.pylibdir = det_pylibdir()
+ 
+         ippicv_tgz = glob.glob(os.path.join(self.builddir, 'ippicv*.tgz'))
+-        if ippicv_tgz:
++        if ippicv_tgz and (X86_64 == get_cpu_architecture()):
+             if len(ippicv_tgz) == 1:
+                 # copy ippicv tarball in the right place
+                 # expected location is 3rdparty/ippicv/downloads/linux-<md5sum>/
+@@ -147,6 +148,9 @@
+             elif optarch == OPTARCH_GENERIC:
+                 # optimize for generic x86 architecture (lowest supported by OpenCV is SSE3)
+                 self.cfg.update('configopts', '-DCPU_BASELINE=SSE3')
++            elif optarch == {'GCC': 'march=armv8-a+fp+simd+crc -mtune=cortex-a72', 'armhpc': 'march=armv8-a+fp+simd+crc -mcpu=cortex-a72 -mtune=cortex-a72', 'GCCcore': 'march=armv8-a+fp+simd+crc -mtune=cortex-a72'}:
++                # optimize for neon
++                self.cfg.update('configopts', '-DCPU_BASELINE=NEON')
+             else:
+                 raise EasyBuildError("Don't know how to configure OpenCV in accordance with --optarch='%s'", optarch)
+ 
+diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/s/scalapack.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/s/scalapack.py
+--- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/s/scalapack.py	2019-09-11 18:09:02.685613851 +0200
++++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/s/scalapack.py	2019-08-23 18:05:22.079185019 +0200
+@@ -47,6 +47,7 @@
+ from easybuild.toolchains.linalg.lapack import Lapack
+ from easybuild.toolchains.linalg.openblas import OpenBLAS
+ from easybuild.toolchains.linalg.intelmkl import IntelMKL
++from easybuild.toolchains.linalg.armblas import ArmBLAS
+ from easybuild.tools.build_log import EasyBuildError
+ from easybuild.tools.filetools import copy_file, remove_file
+ from easybuild.tools.modules import get_software_root
+@@ -92,10 +93,11 @@
+         # determine build options BLAS and LAPACK libs
+         extra_makeopts = []
+ 
+-        acml = get_software_root(Acml.LAPACK_MODULE_NAME[0])
+-        lapack = get_software_root(Lapack.LAPACK_MODULE_NAME[0])
++        acml     = get_software_root(Acml.LAPACK_MODULE_NAME[0])
++        lapack   = get_software_root(Lapack.LAPACK_MODULE_NAME[0])
+         openblas = get_software_root(OpenBLAS.LAPACK_MODULE_NAME[0])
+         intelmkl = get_software_root(IntelMKL.LAPACK_MODULE_NAME[0])
++        armpl    = get_software_root(ArmBLAS.LAPACK_MODULE_NAME[0])
+ 
+         if lapack:
+             extra_makeopts.append('LAPACKLIB=%s' % os.path.join(lapack, 'lib', 'liblapack.a'))
+@@ -130,6 +132,13 @@
+             extra_makeopts.extend([
+                 'BLASLIB="-L%s %s -lpthread"' % (libdir, blas_libs),
+                 'LAPACKLIB="-L%s %s"' % (libdir, blas_libs),
++            ])
++        elif armpl:
++            libdir = os.path.join(armpl, 'lib')
++            blas_libs = ' '.join(['-l%s' % lib for lib in ArmBLAS.BLAS_LIB])
++            extra_makeopts.extend([
++                'BLASLIB="-L%s %s -lpthread"' % (libdir, blas_libs),
++                'LAPACKLIB="-L%s %s"' % (libdir, blas_libs),
+             ])
+         else:
+             raise EasyBuildError("Unknown LAPACK library used, no idea how to set BLASLIB/LAPACKLIB make options")
+diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/c/clang.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/c/clang.py
+--- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/c/clang.py	2019-09-11 18:09:02.656613424 +0200
++++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/c/clang.py	2019-09-13 10:03:06.080134941 +0200
+@@ -108,16 +108,19 @@
+     def extract_step(self):
+         """
+         Prepare a combined LLVM source tree.  The layout is:
+-        llvm/             Unpack llvm-*.tar.gz here
++        llvm/              Unpack llvm-*.tar.gz here
+           projects/
+-            compiler-rt/  Unpack compiler-rt-*.tar.gz here
+-            openmp/       Unpack openmp-*.tar.xz here
++            compiler-rt/   Unpack compiler-rt-*.tar.gz here
++            openmp/        Unpack openmp-*.tar.xz here
++            libcxx/        Unpack libcxx-*.tar.gz here
++            libcxxabi/     Unpack libcxxabi-*.tar.gz here
++            libunwind/     Unpack libunwind-*.tar.gz here
+           tools/
+-            clang/        Unpack clang-*.tar.gz here
+-            polly/        Unpack polly-*.tar.gz here
+-            libcxx/       Unpack libcxx-*.tar.gz here
+-            libcxxabi/    Unpack libcxxabi-*.tar.gz here
+-            lld/          Unpack lld-*.tar.gz here
++            clang/         Unpack clang-*.tar.gz here
++              tools/extra/ Unpack clang-tools-extra-*.tar.gz here
++            polly/         Unpack polly-*.tar.gz here
++            lld/           Unpack lld-*.tar.gz here
++            lldb/          Unpack lldb-*.tar.gz here
+         """
+ 
+         # Extract everything into separate directories.
+@@ -157,7 +160,11 @@
+             find_source_dir('libcxx-*', os.path.join(self.llvm_src_dir, 'projects', 'libcxx'))
+             find_source_dir('libcxxabi-*', os.path.join(self.llvm_src_dir, 'projects', 'libcxxabi'))
+ 
+-        find_source_dir(['clang-*', 'cfe-*'], os.path.join(self.llvm_src_dir, 'tools', 'clang'))
++        find_source_dir('libunwind-*', os.path.join(self.llvm_src_dir, 'projects', 'libunwind'))
++        find_source_dir('lldb-*', os.path.join(self.llvm_src_dir, 'tools', 'lldb'))
++
++        find_source_dir('cfe-*', os.path.join(self.llvm_src_dir, 'tools', 'clang'))
++        find_source_dir('clang-tools-extra-*', os.path.join(self.llvm_src_dir, 'tools/clang/tools', 'extra'))
+ 
+         if LooseVersion(self.version) >= LooseVersion('3.8'):
+             find_source_dir('openmp-*', os.path.join(self.llvm_src_dir, 'projects', 'openmp'))
+@@ -216,7 +223,7 @@
+         # If that doesn't work, try with GCC
+         if gcc_prefix is None:
+             gcc_prefix = get_software_root('GCC')
+-        
++
+         # If that doesn't work either, print error and exit
+         if gcc_prefix is None:
+             raise EasyBuildError("Can't find GCC or GCCcore to use")
+@@ -236,6 +243,9 @@
+                 '-DCLANG_DEFAULT_OPENMP_RUNTIME=%s' % self.cfg["default_openmp_runtime"]
+             )
+ 
++        self.cfg.update('configopts', '-DCOMPILER_RT_BUILD_BUILTINS=ON')
++        self.cfg.update('configopts', "-DLLDB_RELOCATABLE_PYTHON=ON")
++
+         if self.cfg['assertions']:
+             self.cfg.update('configopts', "-DLLVM_ENABLE_ASSERTIONS=ON")
+         else:
+@@ -324,6 +334,15 @@
+         options = "-DCMAKE_INSTALL_PREFIX=%s " % self.installdir
+         options += "-DCMAKE_C_COMPILER='%s' " % CC
+         options += "-DCMAKE_CXX_COMPILER='%s' " % CXX
++
++        self.cfg.update('configopts', '-DCLANG_DEFAULT_CXX_STDLIB=libc++')
++        self.cfg.update('configopts', '-DCLANG_DEFAULT_RTLIB=compiler-rt')
++        self.cfg.update('configopts', '-DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON')
++        self.cfg.update('configopts', '-DCOMPILER_RT_USE_LIBCXX=ON')
++        self.cfg.update('configopts', '-DLIBCXXABI_USE_COMPILER_RT=ON')
++        self.cfg.update('configopts', '-DLIBCXXABI_USE_LLVM_UNWINDER=ON')
++        self.cfg.update('configopts', '-DLIBCXX_USE_COMPILER_RT=ON')
++        self.cfg.update('configopts', '-DLIBUNWIND_USE_COMPILER_RT=ON')
+         options += self.cfg['configopts']
+ 
+         self.log.info("Configuring")
+

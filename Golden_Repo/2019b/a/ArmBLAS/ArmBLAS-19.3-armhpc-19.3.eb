@@ -1,0 +1,21 @@
+# This is a thin wrapper that depends on Modules already being installed and in the MODULEPATH
+import os
+easyblock = 'Bundle'
+name = 'ArmBLAS'
+version = '19.3'
+
+homepage = 'http://www.arm.com'
+description = """
+ARM performance libraries as BLAS and LAPACK libraries
+"""
+
+toolchain = {'version': version, 'name': 'armhpc'}
+
+altroot = 'armpl'
+
+osprefix  = os.getenv("ARMOSPREFIX")
+optprefix = os.getenv("ARMOPTPREFIX")
+dependencies = [('%s/%s/arm-hpc-compiler-%s/armpl/%s.0' % (optprefix,osprefix,version,version),     EXTERNAL_MODULE)]
+
+
+moduleclass = 'numlib'

@@ -26,7 +26,7 @@ if string.find(stage, "Devel") or string.find(stage, "Stage1")  then
     is_devel = true
 end
 local stage_path = pathJoin(software_root, "Stages", stage)
-local common_eb_path = "/path/to/easybuild/custom/files"
+local common_eb_path = "/opt/ohpc/pub/easybuild/JSC-easybuild/"
 
 local gr_path = pathJoin(common_eb_path, "Golden_Repo", stage)
 local sources_path = pathJoin(common_eb_path, "sources")
@@ -34,7 +34,7 @@ local custom_easyblocks_path = pathJoin(common_eb_path, "Custom_EasyBlocks", sta
 local custom_toolchains_path = pathJoin(common_eb_path, "Custom_Toolchains", stage)
 local custom_mns_path = pathJoin(common_eb_path, "Custom_MNS", stage)
 
-local contact = "some@contact.com"
+local contact = "s.nassyr@fz-juelich.de"
 
 -- Allow members of the software group to install *just* in the Devel stage
 local user = capture("id -u -n")
@@ -42,7 +42,7 @@ local user = capture("id -u -n")
 user = string.gsub(user, "\n", "")
 
 if mode()=="load" then
-    if user ~= "swmanage" and user ~="gorbet1" then
+    if user ~= "swmanage" and user ~="nassyr1" then
         if not userInGroup("software") then
             LmodError(yellow.."Sorry but we only allow installations from users in the software group!\n"..
                       "If you would like to be included in that group please contact: "..
@@ -96,8 +96,8 @@ setenv("EASYBUILD_ROBOT_PATHS", gr_path)
 
 -- Fail if there are EB related modules loaded
 setenv("EASYBUILD_DETECT_LOADED_MODULES", "error")
--- Whitelist GC3Pie and EasyBuild itself
-setenv("EASYBUILD_ALLOW_LOADED_MODULES", "GC3Pie,EasyBuild")
+-- Whitelist GC3Pie (+dependencies) and EasyBuild itself
+setenv("EASYBUILD_ALLOW_LOADED_MODULES", "libyaml,PyYAML,libffi,GC3Pie,EasyBuild")
 
 -- Limit the number of threads
 local nproc = capture("nproc")
@@ -114,13 +114,13 @@ end
 
 -- Read systemname to know if we should prepend an overlay
 local systemname = capture("cat /etc/FZJ/systemname")
---Sanitize systemname
+-- Sanitize systemname
 systemname = string.gsub(systemname, "\n", "")
 
 -- Set optarch options for easybuild
 local architecture = os.getenv("ARCHITECTURE")
 -- Booster
-if architecture == "KNL" or systemname == "jurecabooster" then
+if architecture == "KNL" then
     local opt="GCCcore:march=haswell -mtune=haswell;GCC:march=knl -mtune=knl -ftree-vectorize;Intel:xMIC-AVX512"
     if mode()=="load" then
         LmodMessage(yellow.."  - Setting EASYBUILD_OPTARCH to "..opt..normal)
@@ -140,11 +140,31 @@ elseif architecture == "SandyBridge" then
     pushenv("EASYBUILD_OPTARCH", opt)
 -- Jureca
 elseif architecture == "Haswell" then
-    local opt="GCCcore:march=haswell -mtune=haswell;GCC:march=haswell -mtune=haswell;Intel:xCORE-AVX2"
+    local opt="GCCcore:march=haswell -mtune=haswell;GCC:march=haswell -mtune=haswell;Intel:xCORE-AVX2;Clang:march=haswell -mtune=haswell"
     if mode()=="load" then
         LmodMessage(yellow.."   - Setting EASYBUILD_OPTARCH to "..opt..normal)
     end
     pushenv("EASYBUILD_OPTARCH", opt)
+-- Juawei hi1616
+elseif architecture == "Cortex-A72" then
+    local opt="GCCcore:march=armv8-a+fp+simd+crc -mtune=cortex-a72;GCC:march=armv8-a+fp+simd+crc -mtune=cortex-a72;armhpc:march=armv8-a+fp+simd+crc -mcpu=cortex-a72 -mtune=cortex-a72;Clang:march=armv8-a+fp+simd+crc -mcpu=cortex-a72 -mtune=cortex-a72"
+    if mode()=="load" then
+        LmodMessage(yellow.."   - Setting EASYBUILD_OPTARCH to "..opt..normal)
+    end
+    pushenv("EASYBUILD_OPTARCH", opt)
+    -- Use arm-optimized-routines for everything
+    LmodMessage(yellow.."   - Loading arm-optimized-routines and adding mathlib to LDFLAGS"..normal)
+    load('arm-optimized-routines')
+    if(nil == os.getenv("EBCUSTOM_EXTRA_LIBDIRS")) then
+        setenv("EBCUSTOM_EXTRA_LIBDIRS",pathJoin(os.getenv("MATHLIB_PATH"),"lib"))
+    else
+        setenv("EBCUSTOM_EXTRA_LIBDIRS",pathJoin(os.getenv("MATHLIB_PATH"),"lib") .. os.getenv("EBCUSTOM_EXTRA_LIBDIRS"))
+    end
+    if(nil == os.getenv("EBCUSTOM_EXTRA_LIBS")) then
+        setenv("EBCUSTOM_EXTRA_LIBS","mathlib")
+    else
+        setenv("EBCUSTOM_EXTRA_LIBS","mathlib,".. os.getenv("EBCUSTOM_EXTRA_LIBS"))
+    end
 -- Default
 else
     if mode()=="load" then
@@ -155,18 +175,18 @@ end
 
 -- Add license servers. Done in 3 separate groups to avoid useless servers in the environment
 -- We shuffle the servers too to distribute the load. Not that it matters a lot but....
-prepend_path("INTEL_LICENSE_FILE", "port@license1.server.com:".. -- Intel compilers
-                                   "port@license2.server.com:".. -- Intel compilers
-                                   "port@license3.server.com"   -- Intel compilers
-            )
-prepend_path("PGROUPD_LICENSE_FILE", "port@license2.server.com:".. -- PGI compilers
-                                     "port@license3.server.com:".. -- PGI compilers
-                                     "port@license1.server.com"   -- PGI compilers
-            )
-prepend_path("LM_LICENSE_FILE", "port@license3.server.com:".. -- TotalView debugger
-                                "port@license1.server.com:".. -- TotalView debugger
-                                "port@license2.server.com"    -- TotalView debugger
-            )
+--prepend_path("INTEL_LICENSE_FILE", "port@license1.server.com:".. -- Intel compilers
+--                                   "port@license2.server.com:".. -- Intel compilers
+--                                   "port@license3.server.com"   -- Intel compilers
+--            )
+--prepend_path("PGROUPD_LICENSE_FILE", "port@license2.server.com:".. -- PGI compilers
+--                                     "port@license3.server.com:".. -- PGI compilers
+--                                     "port@license1.server.com"   -- PGI compilers
+--            )
+--prepend_path("LM_LICENSE_FILE", "port@license3.server.com:".. -- TotalView debugger
+--                                "port@license1.server.com:".. -- TotalView debugger
+--                                "port@license2.server.com"    -- TotalView debugger
+--            )
 
 -- Set up exactly where we put our installations
 -- First: where are the sources stored/downloaded 
@@ -179,7 +199,7 @@ setenv("EASYBUILD_INSTALLPATH", stage_path)
 setenv("EASYBUILD_BUILDPATH", pathJoin("/dev/shm", user, architecture))
 
 -- We add our custom Toolchains directory, it must be appended so as not to interfere with the EasyBuild installation
-setenv("EASYBUILD_INCLUDE_TOOLCHAINS", pathJoin(custom_toolchains_path, "\*.py")..','..pathJoin(custom_toolchains_path, "fft", "\*.py")..','..pathJoin(custom_toolchains_path, "compiler", "\*.py"))
+setenv("EASYBUILD_INCLUDE_TOOLCHAINS", pathJoin(custom_toolchains_path, "\*.py")..','..pathJoin(custom_toolchains_path, "fft", "\*.py")..','..pathJoin(custom_toolchains_path, "compiler", "\*.py")..','..pathJoin(custom_toolchains_path, "linalg", "\*.py"))
 
 -- Finally we add our custom EasyBlock directory, it must be appended so as not to interfere with the EasyBuild installation
 setenv("EASYBUILD_INCLUDE_EASYBLOCKS", pathJoin(custom_easyblocks_path, "\*.py")..","..
@@ -248,9 +268,9 @@ setenv("EASYBUILD_MINIMAL_TOOLCHAINS", "1")
 setenv("EASYBUILD_USE_EXISTING_MODULES", "1")
 
 -- Set up the hooks to automatically refresh the cache and stop waiting for the cronjob to do it
-if user == "swmanage" then
-    setenv("EASYBUILD_HOOKS", "/path/to/configuration_or_licenses/FZJ/eb_hooks.py")
-end
+--if user == "swmanage" then
+--    setenv("EASYBUILD_HOOKS", "/path/to/configuration_or_licenses/FZJ/eb_hooks.py")
+--end
 
 -- Filter for test reports
 setenv("EASYBUILD_TEST_REPORT_ENV_FILTER", "\\*PS1\\*|PROMPT\\*|\\*LICENSE\\*")
@@ -273,8 +293,8 @@ if not isloaded("GC3Pie") then
 --    load("GC3Pie")
     setenv("EASYBUILD_JOB_BACKEND", "GC3Pie")
     -- The backend are regular nodes. We have to be careful, some packages might need to be compiled on KNL nodes
-    setenv("EASYBUILD_JOB_BACKEND_CONFIG", "/path/to/gc3pie.cfg")
-    setenv("EASYBUILD_JOB_CORES", "48")
+    setenv("EASYBUILD_JOB_BACKEND_CONFIG", "/opt/ohpc/pub/config/gc3pie.cfg")
+    setenv("EASYBUILD_JOB_CORES", "64")
     setenv("EASYBUILD_JOB_MAX_WALLTIME", "1")
 end
 

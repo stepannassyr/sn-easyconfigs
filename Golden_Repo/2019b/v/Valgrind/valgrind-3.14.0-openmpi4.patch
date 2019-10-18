@@ -1,0 +1,61 @@
+diff -urN valgrind-3.15.0-unpatched/mpi/libmpiwrap.c valgrind-3.15.0/mpi/libmpiwrap.c
+--- valgrind-3.15.0-unpatched/mpi/libmpiwrap.c	2019-09-11 20:45:17.487767286 +0200
++++ valgrind-3.15.0/mpi/libmpiwrap.c	2019-09-11 20:46:30.528086202 +0200
+@@ -458,8 +458,9 @@
+ static long extentOfTy ( MPI_Datatype ty )
+ {
+    int      r;
++   MPI_Aint lb;
+    MPI_Aint n;
+-   r = PMPI_Type_extent(ty, &n);
++   r = PMPI_Type_get_extent(ty, &lb, &n);
+    assert(r == MPI_SUCCESS);
+    return (long)n;
+ }
+diff -urN valgrind-3.15.0-unpatched/mpi/mpiwrap_type_test.c valgrind-3.15.0/mpi/mpiwrap_type_test.c
+--- valgrind-3.15.0-unpatched/mpi/mpiwrap_type_test.c	2019-09-11 20:45:17.487767286 +0200
++++ valgrind-3.15.0/mpi/mpiwrap_type_test.c	2019-09-11 20:47:18.478295660 +0200
+@@ -148,7 +148,7 @@
+    assert(r == MPI_SUCCESS);
+    r = MPI_Type_ub( *tyP, &ub );
+    assert(r == MPI_SUCCESS);
+-   r = MPI_Type_extent( *tyP, &ex );
++   r = MPI_Type_get_extent( *tyP, &lb, &ex );
+    assert(r == MPI_SUCCESS);
+    printf("sendToMyself: ex=%d (%d,%d)\n", (int)ex, (int)lb, (int)ub);
+    assert(lb >= 0);
+diff -urN valgrind-3.15.0-unpatched/mpi/libmpiwrap.c valgrind-3.15.0/mpi/libmpiwrap.c
+--- valgrind-3.15.0-unpatched/mpi/libmpiwrap.c	2019-09-11 21:54:45.696352628 +0200
++++ valgrind-3.15.0/mpi/libmpiwrap.c	2019-09-11 21:57:03.096985582 +0200
+@@ -278,8 +278,6 @@
+    else if (ty == MPI_LONG_INT)       fprintf(f,"LONG_INT");
+    else if (ty == MPI_SHORT_INT)      fprintf(f,"SHORT_INT");
+    else if (ty == MPI_2INT)           fprintf(f,"2INT");
+-   else if (ty == MPI_UB)             fprintf(f,"UB");
+-   else if (ty == MPI_LB)             fprintf(f,"LB");
+ #  if defined(MPI_WCHAR)
+    else if (ty == MPI_WCHAR)          fprintf(f,"WCHAR");
+ #  endif
+@@ -734,8 +732,6 @@
+          f(base + offsetof(Ty,loc), sizeof(int));
+          return;
+       }
+-      if (ty == MPI_LB || ty == MPI_UB)
+-         return; /* have zero size, so nothing needs to be done */
+       goto unhandled;
+       /*NOTREACHED*/
+    }
+diff -urN valgrind-3.15.0-unpatched/mpi/mpiwrap_type_test.c valgrind-3.15.0/mpi/mpiwrap_type_test.c
+--- valgrind-3.15.0-unpatched/mpi/mpiwrap_type_test.c	2019-09-11 21:54:45.696352628 +0200
++++ valgrind-3.15.0/mpi/mpiwrap_type_test.c	2019-09-11 21:57:33.327125410 +0200
+@@ -144,10 +144,6 @@
+       assert(r == MPI_SUCCESS);
+    }
+ 
+-   r = MPI_Type_lb( *tyP, &lb );
+-   assert(r == MPI_SUCCESS);
+-   r = MPI_Type_ub( *tyP, &ub );
+-   assert(r == MPI_SUCCESS);
+    r = MPI_Type_get_extent( *tyP, &lb, &ex );
+    assert(r == MPI_SUCCESS);
+    printf("sendToMyself: ex=%d (%d,%d)\n", (int)ex, (int)lb, (int)ub);
