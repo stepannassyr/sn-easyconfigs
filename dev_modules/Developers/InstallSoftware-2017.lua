@@ -26,7 +26,7 @@ if string.find(stage, "Devel") or string.find(stage, "Stage1")  then
     is_devel = true
 end
 local stage_path = pathJoin(software_root, "Stages", stage)
-local common_eb_path = "/opt/ohpc/pub/easybuild/JSC-easybuild/"
+local common_eb_path = "/opt/ohpc/pub/easybuild/juawei-easyconfigs/"
 
 local gr_path = pathJoin(common_eb_path, "Golden_Repo", stage)
 local sources_path = pathJoin(common_eb_path, "sources")
