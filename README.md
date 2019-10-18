@@ -1,7 +1,13 @@
-# Jülich Supercomputing Centre easyconfig repository
+# Jülich Supercomputing Centre JUAWEI easyconfig repository
 
-* This is the *PUBLIC* easybuild repository of JSC.
-* This repository and its files are based on the upstream EasyBuild repository (https://github.com/easybuilders/easybuild-easyconfigs, https://github.com/easybuilders/easybuild-easyblocks and https://github.com/easybuilders/easybuild-framework), and heavily modified and extended to fit JSC's requirements.
-* This repository is provided as-is. No compatibility with the upstream repository is guaranteed (actually it is almost guaranteed that you'll run into problems if you use it naïvely)
-* To try to ensure that everything is working properly and avoiding collisions with the upstream easyconfigs, it is recommended to use the `--robot` and `--robot-paths` options, as set up in the `Developers/InstallSoftware-2017.lua` module. For more info take a look at http://easybuild.readthedocs.io/en/latest/Using_the_EasyBuild_command_line.html#controlling-the-robot-search-path
-* All credits go to the original authors (and to the maintainers) of each file, be they JSC employees or otherwise.
+* This is an easybuild/easyconfig repository for JSC's JUAWEI cluster.
+* The repository is based on https://github.com/easybuilders/JSC but includes some updates and AArch64-specific modifications
+* The work here is heavily WIP and contains some ugly hacks
+* Also the same disclaimers apply as with the public JSC repository: no compatibility guarantees, provided as-is, etc...
+
+# Available Software
+
+* Not all software that is available in the public JSC repository is available here. Specifically:
+    * There is only 1 Stage: 2019b
+    * Golden\_Repo/2019b-unconfirmed  contains Software that did not compile for the system or which has not been tested to compile.
+    * Fewer available toolchains
