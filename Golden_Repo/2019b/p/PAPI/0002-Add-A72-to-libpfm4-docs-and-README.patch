@@ -1,0 +1,70 @@
+From 35ed9cfca8b09317b36749bb18da7b0afc43ede5 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Thu, 31 Oct 2019 13:54:40 +0100
+Subject: [PATCH 2/2] Add A72 to libpfm4 docs and README
+
+---
+ src/libpfm4/README                      |  2 +-
+ src/libpfm4/docs/man3/libpfm_arm_ac72.3 | 37 +++++++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 src/libpfm4/docs/man3/libpfm_arm_ac72.3
+
+diff --git a/src/libpfm4/README b/src/libpfm4/README
+index 9dea749..78c7968 100644
+--- a/src/libpfm4/README
++++ b/src/libpfm4/README
+@@ -66,7 +66,7 @@ The library supports many PMUs. The current version can handle:
+ 		ARMV7 Cortex A8
+ 		ARMV7 Cortex A9
+ 		ARMV7 Cortex A15
+-		ARMV8 Cortex A57, A53
++		ARMV8 Cortex A72, A57, A53
+ 		Applied Micro X-Gene
+ 		Qualcomm Krait
+ 
+diff --git a/src/libpfm4/docs/man3/libpfm_arm_ac72.3 b/src/libpfm4/docs/man3/libpfm_arm_ac72.3
+new file mode 100644
+index 0000000..17476b3
+--- /dev/null
++++ b/src/libpfm4/docs/man3/libpfm_arm_ac72.3
+@@ -0,0 +1,37 @@
++.TH LIBPFM 3  "October, 2019" "" "Linux Programmer's Manual"
++.SH NAME
++libpfm_arm_ac72 - support for Arm Cortex A72 PMU
++.SH SYNOPSIS
++.nf
++.B #include <perfmon/pfmlib.h>
++.sp
++.B PMU name: arm_ac72
++.B PMU desc: ARM Cortex A72
++.sp
++.SH DESCRIPTION
++The library supports the ARM Cortex A72 core PMU.
++
++This PMU supports 6 counters and privilege levels filtering.
++It can operate in both 32 and 64 bit modes.
++
++.SH MODIFIERS
++The following modifiers are supported on ARM Cortex A72:
++.TP
++.B u
++Measure at the user level. This corresponds to \fBPFM_PLM3\fR.
++This is a boolean modifier.
++.TP
++.B k
++Measure at the kernel level. This corresponds to \fBPFM_PLM0\fR.
++This is a boolean modifier.
++.TP
++.B hv
++Measure at the hypervisor level. This corresponds to \fBPFM_PLMH\fR.
++This is a boolean modifier.
++
++.SH AUTHORS
++.nf
++Stephane Eranian <eranian@gmail.com>
++Stepan Nassyr <s.nassyr@fz-juelich.de>
++.if
++.PP
+-- 
+1.8.3.1
+

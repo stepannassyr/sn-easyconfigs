@@ -31,6 +31,8 @@ configopts  = "--with-components=rapl " # for energy measurements
 
 source_urls = ['http://icl.cs.utk.edu/projects/papi/downloads/']
 sources = [SOURCELOWER_TAR_GZ]
+patches = ['0001-Add-Cortex-A72-support.patch',
+           '0002-Add-A72-to-libpfm4-docs-and-README.patch']
 
 builddependencies = [
     ('binutils', '2.32')
