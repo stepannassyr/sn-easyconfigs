@@ -11,3 +11,8 @@
     * There is only 1 Stage: 2019b
     * Golden\_Repo/2019b-unconfirmed  contains Software that did not compile for the system or which has not been tested to compile.
     * Fewer available toolchains
+
+# Other Caveats
+
+* The armhpc easyconfig relies on ARM HPC Compiler modulefiles already being installed
+    * The modules also need to be modified to remove all "module load $variable" lines as this seems to break dependency resolution in EasyBuild
