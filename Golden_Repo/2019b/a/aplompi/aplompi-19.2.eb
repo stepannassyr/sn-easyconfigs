@@ -25,7 +25,7 @@ comp_mpi_tc = (comp_mpi_tc_name, version)
 
 dependencies = [
     ('armhpc', armclangver),
-    ('OpenMPI', '4.0.1', '', ('armhpc', armclangver)),
+    ('OpenMPI', '4.0.2', '', ('armhpc', armclangver)),
     (blaslib, blasver, '', ('armhpc', armclangver)),
     (fftlib, fftver, '', ('armhpc', armclangver)),
     ('ScaLAPACK', '2.0.2', '-%s' % blas, comp_mpi_tc),

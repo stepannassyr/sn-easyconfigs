@@ -14,7 +14,7 @@ toolchain = {'name': 'dummy', 'version': 'dummy'}
 armclangver = '19.2'
 
 mpilib = 'OpenMPI'
-mpiver = '4.0.1'
+mpiver = '4.0.2'
 
 compname = 'armhpc'
 compver = armclangver
