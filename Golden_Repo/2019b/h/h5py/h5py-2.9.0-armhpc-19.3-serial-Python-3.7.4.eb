@@ -28,7 +28,7 @@ builddependencies = [
 
 dependencies = [
     ('Python', '3.7.4'),
-    ('OpenMPI', '4.0.1', '', ('armhpc', '19.3')), # No SciPy-Stack without MPI
+    ('OpenMPI', '4.0.2', '', ('armhpc', '19.3')), # No SciPy-Stack without MPI
     ('SciPy-Stack', '2019b', pysuffix, ('aplompi', '19.3')), # numpy required
     ('HDF5', '1.10.5', '-serial'),
 ]
