@@ -1,16 +1,16 @@
 easyblock = 'ConfigureMake'
 
 name = 'OpenMPI'
-version = '4.0.1'
+version = '4.0.2'
 
 homepage = 'https://www.open-mpi.org/'
 description = """The Open MPI Project is an open source MPI-3 implementation."""
 
-toolchain = {'name': 'armhpc', 'version': '19.3'}
+toolchain = {'name': 'armhpc', 'version': '19.2'}
 
 source_urls = ['https://www.open-mpi.org/software/ompi/v%(version_major_minor)s/downloads']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['e55e213fe09a214ab9f2c722acfd8bf7b39bbc1800e4b7a464d38df15e707f59']
+checksums = ['662805870e86a1471e59739b0c34c6f9004e0c7a22db068562d5388ec4421904']
 
 # needed for --with-verbs
 osdependencies = [('libibverbs-dev', 'libibverbs-devel', 'rdma-core-devel', 'slurm-devel-ohpc', 'slurm-libpmi-ohpc')]
@@ -18,15 +18,13 @@ osdependencies = [('libibverbs-dev', 'libibverbs-devel', 'rdma-core-devel', 'slu
 dependencies = [
     ('zlib', '1.2.11'),
     ('hwloc', '2.0.4'),
-    ('UCX', '1.6.0'),
+    ('UCX', '1.6.1'),
 ]
 
 # ARM included binutils cause compilation error
 builddependencies = [
     ('binutils', '2.32')
 ]
-
-
 
 set_mpi_wrappers_all = 'True'
 

@@ -28,10 +28,12 @@ builddependencies = [
 
 set_mpi_wrappers_all = 'True'
 
-configopts = '--enable-shared --with-verbs '
+configopts = '--enable-shared --enable-static --with-verbs '
 configopts += '--enable-mpirun-prefix-by-default '  # suppress failure modes in relation to mpirun path
 configopts += '--with-hwloc=$EBROOTHWLOC '          # hwloc support
 configopts += '--with-ucx=$EBROOTUCX '              # ucx support
+# disable uct: https://github.com/openucx/ucx/wiki/OpenMPI-and-OpenSHMEM-installation-with-UCX#openmpi-and-openshmem-installation
+configopts += '--enable-mca-no-build=btl-uct '
 
 # to enable SLURM integration (site-specific)
 configopts += '--with-slurm --with-pmi=/usr --with-pmi-libdir=/usr/lib64'

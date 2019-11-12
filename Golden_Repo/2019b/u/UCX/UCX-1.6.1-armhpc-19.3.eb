@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'UCX'
-version = '1.6.0'
+version = '1.6.1'
 
 homepage = 'http://www.openucx.org'
 
@@ -18,6 +18,10 @@ toolchain = {'name': 'armhpc', 'version': '19.3'}
 source_urls = ['https://github.com/openucx/ucx/releases/download/v%(version)s']
 sources = ['%(namelower)s-%(version)s.tar.gz']
 patches = ['%(namelower)s-%(version)s-sa-namespace-log.patch']
+checksums = [
+    '1425648aa03f5fa40e4bc5c4a5a83fe0292e2fe44f6054352fbebbf6d8f342a1',  # ucx-1.6.1.tar.gz
+    'cdd27af3aa7ed5ed798f42061b5cec251cea2d653295c840cfc796a7d2a5c14e',  # ucx-1.6.1-sa-namespace-log.patch
+]
 
 builddependencies = [
     ('binutils', '2.32'),

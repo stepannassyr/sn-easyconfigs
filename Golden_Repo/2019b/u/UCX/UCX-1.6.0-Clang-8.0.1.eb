@@ -12,7 +12,7 @@ and high-performance applications
 """
 
 
-toolchain = {'name': 'armhpc', 'version': '19.3'}
+toolchain = {'name': 'Clang', 'version': '8.0.1'}
 #toolchainopts = {'pic': True}
 
 source_urls = ['https://github.com/openucx/ucx/releases/download/v%(version)s']

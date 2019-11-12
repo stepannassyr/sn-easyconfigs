@@ -17,6 +17,7 @@ toolchainopts = {'pic': True}
 
 source_urls = ['https://github.com/openucx/ucx/releases/download/v%(version)s']
 sources = ['%(namelower)s-%(version)s.tar.gz']
+patches = ['%(namelower)s-%(version)s-sa-namespace-log.patch']
 
 builddependencies = [
     ('binutils', '2.32'),
