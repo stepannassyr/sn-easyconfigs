@@ -1,0 +1,48 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'CMakeMake'
+
+name = 'f18'
+version = '20191108'
+
+homepage = "https://github.com/flang-compiler/f18"
+description = """
+F18 is a ground-up implementation of a Fortran front end written in modern C++. F18, when combined with LLVM, is intended to replace the Flang compiler.
+"""
+
+
+toolchain = {'name': 'Clang', 'version': '9.0.0'}
+toolchainopts = {'cstd': 'c++17'}
+
+
+sources = [{
+    'filename': 'f18-20191108.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/flang-compiler',
+        'repo_name': 'f18',
+        'commit': 'd8b6e8e4feaa59c4ffe57a56e9535f201f06d6d9',
+        'recursive': True,
+    },
+}]
+
+builddependencies = [
+    ('CMake', '3.15.2'),
+    ('binutils', '2.32'),
+]
+
+#dependencies = [
+#    ('Clang', '9.0.0'),
+#]
+
+configopts = '-DBUILD_WITH_CLANG=$EBROOTCLANG '
+# required to install extra tools in bin/
+configopts += '-DLLVM_DIR=$EBROOTCLANG '
+configopts += '-DCMAKE_BUILD_TYPE=Release '
+
+sanity_check_paths = {
+    'files': ['bin/f18'],
+    'dirs': [],
+}
+
+separate_build_dir = True
+
+moduleclass = 'compiler'

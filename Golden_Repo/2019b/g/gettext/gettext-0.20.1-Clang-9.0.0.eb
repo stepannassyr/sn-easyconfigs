@@ -13,8 +13,9 @@ and documentation
 
 toolchain = {'name': 'Clang', 'version': '9.0.0'}
 
-sources = [SOURCE_TAR_GZ]
 source_urls = [GNU_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['66415634c6e8c3fa8b71362879ec7575e27da43da562c798a8a2f223e6e47f5c']
 
 configopts = '--without-emacs --with-libxml2-prefix=$EBROOTLIBXML2'
 
