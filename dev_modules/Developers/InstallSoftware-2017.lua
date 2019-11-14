@@ -4,10 +4,7 @@ help("This module will load the environment you need to install new software wit
 whatis("Module to set up the environment for development within EasyBuild")
 
 -- Terminal colors
-local red = "\027\[01;31m"
-local yellow = "\027\[01;33m"
-local green = "\027\[01;32m"
-local normal = "\027\[0m"
+local colors = require 'ansicolors'
 
 -- Check first if "Stages" has been loaded. If not print a message and assert it with prereq
 if mode()=="load" then
@@ -26,7 +23,7 @@ if string.find(stage, "Devel") or string.find(stage, "Stage1")  then
     is_devel = true
 end
 local stage_path = pathJoin(software_root, "Stages", stage)
-local common_eb_path = "/opt/ohpc/pub/easybuild/juawei-easyconfigs/"
+local common_eb_path = "/opt/workbench/SourceCode/git/juawei-easyconfigs/"
 
 local gr_path = pathJoin(common_eb_path, "Golden_Repo", stage)
 local sources_path = pathJoin(common_eb_path, "sources")
@@ -59,7 +56,7 @@ end
 
 -- Print header
 if mode()=="load" then
-    LmodMessage(green.."** LOADING DEVELOPER CONFIGURATION **"..normal.."\n"..
+    LmodMessage(colors("%{green}** LOADING DEVELOPER CONFIGURATION **\n")..
                 "Preparing the environment for software installation via EasyBuild into stage "..stage.."\n"..
                 "\n"..
                 "  - Unloading preloaded modules \n"..
@@ -97,7 +94,7 @@ setenv("EASYBUILD_ROBOT_PATHS", gr_path)
 -- Fail if there are EB related modules loaded
 setenv("EASYBUILD_DETECT_LOADED_MODULES", "error")
 -- Whitelist GC3Pie (+dependencies) and EasyBuild itself
-setenv("EASYBUILD_ALLOW_LOADED_MODULES", "libyaml,PyYAML,libffi,GC3Pie,EasyBuild")
+setenv("EASYBUILD_ALLOW_LOADED_MODULES", "ncurses,GC3Pie,EasyBuild,tmux,zsh")
 
 -- Limit the number of threads
 local nproc = capture("nproc")
@@ -108,12 +105,19 @@ if tonumber(nproc) > 64 then
     local maxparallel = "64"
     pushenv("EASYBUILD_PARALLEL", maxparallel)
     if mode()=="load" then
-        LmodMessage(yellow.."   - Setting EASYBUILD_PARALLEL to "..maxparallel..normal)
+        LmodMessage(colors("%{yellow}   - Setting EASYBUILD_PARALLEL to "..maxparallel))
     end
 end
 
 -- Read systemname to know if we should prepend an overlay
-local systemname = capture("cat /etc/FZJ/systemname")
+local f = io.open("/etc/FZJ/systemname")
+local systemname
+if (f) then
+    systemname = f:read()
+    f:close()
+else
+    systemname = 'unknown'
+end
 -- Sanitize systemname
 systemname = string.gsub(systemname, "\n", "")
 
@@ -123,7 +127,7 @@ local architecture = os.getenv("ARCHITECTURE")
 if architecture == "KNL" then
     local opt="GCCcore:march=haswell -mtune=haswell;GCC:march=knl -mtune=knl -ftree-vectorize;Intel:xMIC-AVX512"
     if mode()=="load" then
-        LmodMessage(yellow.."  - Setting EASYBUILD_OPTARCH to "..opt..normal)
+        LmodMessage(colors("%{yellow}  - Setting EASYBUILD_OPTARCH to "..opt))
     end
     pushenv("EASYBUILD_OPTARCH", opt)
 
@@ -135,25 +139,26 @@ if architecture == "KNL" then
 elseif architecture == "SandyBridge" then
     local opt="GCC:march=sandybridge -mtune=sandybridge;Intel:xAVX"
     if mode()=="load" then
-        LmodMessage(yellow.."   - Setting EASYBUILD_OPTARCH to "..opt..normal)
+        LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
     end
     pushenv("EASYBUILD_OPTARCH", opt)
 -- Jureca
 elseif architecture == "Haswell" then
     local opt="GCCcore:march=haswell -mtune=haswell;GCC:march=haswell -mtune=haswell;Intel:xCORE-AVX2;Clang:march=haswell -mtune=haswell"
     if mode()=="load" then
-        LmodMessage(yellow.."   - Setting EASYBUILD_OPTARCH to "..opt..normal)
+        LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
     end
     pushenv("EASYBUILD_OPTARCH", opt)
 -- Juawei hi1616
 elseif architecture == "Cortex-A72" then
     local opt="GCCcore:march=armv8-a+fp+simd+crc -mtune=cortex-a72;GCC:march=armv8-a+fp+simd+crc -mtune=cortex-a72;armhpc:march=armv8-a+fp+simd+crc -mcpu=cortex-a72 -mtune=cortex-a72;Clang:march=armv8-a+fp+simd+crc -mcpu=cortex-a72 -mtune=cortex-a72"
     if mode()=="load" then
-        LmodMessage(yellow.."   - Setting EASYBUILD_OPTARCH to "..opt..normal)
+        LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
     end
+    setenv("ARMOPTPREFIX", "Cortex-A72")
     pushenv("EASYBUILD_OPTARCH", opt)
     -- Use arm-optimized-routines for everything
-    LmodMessage(yellow.."   - Loading arm-optimized-routines and adding mathlib to LDFLAGS"..normal)
+    LmodMessage(colors("%{yellow}   - Loading arm-optimized-routines and adding mathlib to LDFLAGS"))
     load('arm-optimized-routines')
     if(nil == os.getenv("EBCUSTOM_EXTRA_LIBDIRS")) then
         setenv("EBCUSTOM_EXTRA_LIBDIRS",pathJoin(os.getenv("MATHLIB_PATH"),"lib"))
@@ -161,14 +166,35 @@ elseif architecture == "Cortex-A72" then
         setenv("EBCUSTOM_EXTRA_LIBDIRS",pathJoin(os.getenv("MATHLIB_PATH"),"lib") .. os.getenv("EBCUSTOM_EXTRA_LIBDIRS"))
     end
     if(nil == os.getenv("EBCUSTOM_EXTRA_LIBS")) then
-        setenv("EBCUSTOM_EXTRA_LIBS","mathlib")
+        setenv("EBCUSTOM_EXTRA_LIBS","mathlib,stringlib")
     else
-        setenv("EBCUSTOM_EXTRA_LIBS","mathlib,".. os.getenv("EBCUSTOM_EXTRA_LIBS"))
+        setenv("EBCUSTOM_EXTRA_LIBS","mathlib,stringlib,".. os.getenv("EBCUSTOM_EXTRA_LIBS"))
+    end
+-- ThunderX2
+elseif architecture == "ThunderX2" then
+    local opt="GCCcore:march=armv8.1-a+fp+simd+crc -mtune=thunderx2t99;GCC:march=armv8.1-a+fp+simd+crc -mtune=thunderx2t99;armhpc:march=armv8.1-a+fp+simd+crc -mcpu=thunderx2t99 -mtune=thunderx2t99;Clang:march=armv8.1-a+fp+simd+crc -mcpu=thunderx2t99 -mtune=thunderx2t99"
+    if mode()=="load" then
+        LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
+    end
+    setenv("ARMOPTPREFIX", "ThunderX2CN99")
+    pushenv("EASYBUILD_OPTARCH", opt)
+    -- Use arm-optimized-routines for everything
+    LmodMessage(colors("%{yellow}   - Loading arm-optimized-routines and adding mathlib to LDFLAGS"))
+    load('arm-optimized-routines')
+    if(nil == os.getenv("EBCUSTOM_EXTRA_LIBDIRS")) then
+        setenv("EBCUSTOM_EXTRA_LIBDIRS",pathJoin(os.getenv("MATHLIB_PATH"),"lib"))
+    else
+        setenv("EBCUSTOM_EXTRA_LIBDIRS",pathJoin(os.getenv("MATHLIB_PATH"),"lib") .. os.getenv("EBCUSTOM_EXTRA_LIBDIRS"))
+    end
+    if(nil == os.getenv("EBCUSTOM_EXTRA_LIBS")) then
+        setenv("EBCUSTOM_EXTRA_LIBS","mathlib,stringlib")
+    else
+        setenv("EBCUSTOM_EXTRA_LIBS","mathlib,stringlib,".. os.getenv("EBCUSTOM_EXTRA_LIBS"))
     end
 -- Default
 else
     if mode()=="load" then
-        LmodMessage("  - "..yellow.."No particular architecture loaded. Unsetting EASYBUILD_OPTARCH (if set)\n"..normal)
+        LmodMessage(colors("  - %{yellow}No particular architecture loaded. Unsetting EASYBUILD_OPTARCH (if set)\n"))
     end
     unsetenv("EASYBUILD_OPTARCH")
 end
@@ -199,11 +225,11 @@ setenv("EASYBUILD_INSTALLPATH", stage_path)
 setenv("EASYBUILD_BUILDPATH", pathJoin("/dev/shm", user, architecture))
 
 -- We add our custom Toolchains directory, it must be appended so as not to interfere with the EasyBuild installation
-setenv("EASYBUILD_INCLUDE_TOOLCHAINS", pathJoin(custom_toolchains_path, "\*.py")..','..pathJoin(custom_toolchains_path, "fft", "\*.py")..','..pathJoin(custom_toolchains_path, "compiler", "\*.py")..','..pathJoin(custom_toolchains_path, "linalg", "\*.py"))
+setenv("EASYBUILD_INCLUDE_TOOLCHAINS", pathJoin(custom_toolchains_path, "*.py")..','..pathJoin(custom_toolchains_path, "fft", "*.py")..','..pathJoin(custom_toolchains_path, "compiler", "*.py")..','..pathJoin(custom_toolchains_path, "linalg", "*.py"))
 
 -- Finally we add our custom EasyBlock directory, it must be appended so as not to interfere with the EasyBuild installation
-setenv("EASYBUILD_INCLUDE_EASYBLOCKS", pathJoin(custom_easyblocks_path, "\*.py")..","..
-                                       pathJoin(custom_easyblocks_path, "generic", "\*.py"))
+setenv("EASYBUILD_INCLUDE_EASYBLOCKS", pathJoin(custom_easyblocks_path, "*.py")..","..
+                                       pathJoin(custom_easyblocks_path, "generic", "*.py"))
 
 -- Store all installed EasyConfigs in a system-unique repository
 setenv("EASYBUILD_REPOSITORY", "FileRepository")
@@ -226,8 +252,8 @@ setenv("EASYBUILD_SET_GID_BIT", "1")
 if is_devel and (isloaded("Stages/"..stage) or isloaded("Stages/Devel")) then
     if mode()=="load" then
         LmodMessage("  - Installing in Devel stage, therefore expanding dependency searching\n"..
-                    "  - To allow collaboration in the development process, "..red.."all installations are\n"..
-                    "    group-writable!"..normal.." (EASYBUILD_GROUP_WRITABLE_INSTALLDIR)")
+             colors("  - To allow collaboration in the development process, %{red}all installations are\n"..
+                    "    group-writable!").." (EASYBUILD_GROUP_WRITABLE_INSTALLDIR)")
     end
     -- Tell the robot where to search there when looking for missing dependencies
     append_path("EASYBUILD_ROBOT", pathJoin(stage_path, "eb_repo"))
@@ -252,7 +278,7 @@ setenv("EASYBUILD_MODULE_SYNTAX", "Lua")
 setenv("EASYBUILD_PREFIX", stage_path)
 
 -- Finally we tell EasyBuild to build hierarchical modules using our custom scheme
-setenv("EASYBUILD_INCLUDE_MODULE_NAMING_SCHEMES", pathJoin(custom_mns_path, "\*.py"))
+setenv("EASYBUILD_INCLUDE_MODULE_NAMING_SCHEMES", pathJoin(custom_mns_path, "*.py"))
 setenv("EASYBUILD_MODULE_NAMING_SCHEME", "CustomHierarchicalMNS")
 
 -- Used a fixed installation subdir so that we can change naming schemes later if we want
@@ -278,17 +304,17 @@ setenv("EASYBUILD_TEST_REPORT_ENV_FILTER", "\\*PS1\\*|PROMPT\\*|\\*LICENSE\\*")
 -- Let's set things up to use the job submission system to install the software
 if not isloaded("GC3Pie") then
     if mode()=="load" then
-        LmodMessage(green..
-                    "** CONFIGURING DIRECT SUBMISSION TO SLURM **\n"..normal..
+        LmodMessage(colors(
+                    "%{green}** CONFIGURING DIRECT SUBMISSION TO SLURM **%{reset}\n"..
                     "Configuring EasyBuild to allow submission of builds as jobs to the devel\n"..
                     "partition (using GC3Pie).\n"..
-                    "  - "..yellow.."Loading latest GC3Pie module"..normal.."\n"..
+                    "  - %{yellow}Loading latest GC3Pie module%{reset}\n"..
                     "  - Submission configured for SLURM (EASYBUILD_JOB_BACKEND_CONFIG)\n"..
                     "  - Telling EasyBuild to use 32 cores and 1 hour time limit\n"..
                     "    (EASYBUILD_JOB_CORES, EASYBUILD_JOB_MAX_WALLTIME)\n"..
-                    yellow.."To access this feature you must add the argument --job to your eb command.\n"..normal..
+                    "%{yellow}To access this feature you must add the argument --job to your eb command.%{reset}\n"..
                     "Please note that execution nodes are *not* connected to the internet so\n"..
-                    "software that requires internet access will not build on the back-end.")
+                    "software that requires internet access will not build on the back-end."))
     end
 --    load("GC3Pie")
     setenv("EASYBUILD_JOB_BACKEND", "GC3Pie")
@@ -319,8 +345,8 @@ end
 -- Let's repeat where we're installing if they've chosen one of the soft-linked Stages
 if mode()=="load" then
     if not is_devel then
-        LmodMessage("\n"..red.."Warning! You are installing software into a production stage. This\n"..
-                    "should typically only be done (rarely!) for bug fixes and verified builds.\n"..normal)
+        LmodMessage(colors("\n%{red}Warning! You are installing software into a production stage. This\n"..
+                    "should typically only be done (rarely!) for bug fixes and verified builds.\n%{reset}"))
     else
         LmodMessage("You are installing software in the development stage, this is a testing area and\n"..
                     "(group writable) collaboration space to create and verify a build.")
