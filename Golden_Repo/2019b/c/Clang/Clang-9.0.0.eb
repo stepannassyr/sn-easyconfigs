@@ -56,6 +56,7 @@ checksums = [
 dependencies = [
     # since Clang is a compiler, binutils is a runtime dependency too
     ('binutils', '2.32'),
+    ('libedit', '20191025'),
 #    ('GMP', '6.1.2'),
 ]
 
