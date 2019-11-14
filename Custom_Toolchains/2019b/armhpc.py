@@ -30,7 +30,7 @@ EasyBuild support for ARM compiler for HPC toolchain.
 """
 
 from easybuild.toolchains.compiler.armhpc import ArmHPCcompiler
-from easybuild.tools.toolchain import DUMMY_TOOLCHAIN_NAME
+from easybuild.tools.toolchain.toolchain import SYSTEM_TOOLCHAIN_NAME
 
 TC_CONSTANT_ARMHPC = 'ArmHPC'
 
@@ -39,7 +39,7 @@ class ArmHPC(ArmHPCcompiler):
     NAME = 'armhpc'
     TOOLCHAIN_FAMILY = TC_CONSTANT_ARMHPC
     # Replace the default compiler module name with our own
-    SUBTOOLCHAIN = DUMMY_TOOLCHAIN_NAME
+    SUBTOOLCHAIN = SYSTEM_TOOLCHAIN_NAME
     # GCCcore is only guaranteed to be present in recent toolchains
     # for old versions of some toolchains (GCC, intel) it is not part of the hierarchy and hence optional
     OPTIONAL = True
