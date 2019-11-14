@@ -1,7 +1,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'nodejs'
-version = '10.16.3'
+version = '12.11.1'
 local_libversion = '64'
 
 homepage = 'http://%(name)s.org'
@@ -14,7 +14,7 @@ toolchain = {'name': 'GCCcore', 'version': '9.2.0'}
 
 source_urls = ['http://%(name)s.org/dist/v%(version)s/']
 sources = ['node-v%(version)s.tar.gz']
-checksums = ['db5a5e03a815b84a1266a4b48bb6a6d887175705f84fd2472f0d28e5e305a1f8']
+checksums = ['37043ddbe60f18a52ec31e0381b66adebbc0ec24669d72f132a1fdfacdf029ae']
 
 builddependencies = [('binutils', '2.32')]
 
