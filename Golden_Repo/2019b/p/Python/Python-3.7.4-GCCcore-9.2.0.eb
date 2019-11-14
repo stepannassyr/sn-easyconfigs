@@ -399,7 +399,7 @@ exts_list = [
     ('simplejson', '3.16.0', {
         'source_urls': ['https://pypi.python.org/packages/source/s/simplejson'],
     }),
-    ('configparser', '4.0.1', {
+    ('configparser', '4.0.2', {
         'source_urls': ['https://pypi.python.org/packages/source/c/configparser'],
     }),
     ('pydot', '1.4.1', {
