@@ -1,7 +1,7 @@
-diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/b/boost.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/b/boost.py
---- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/b/boost.py	2019-09-11 18:09:02.655613409 +0200
-+++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/b/boost.py	2019-08-23 19:22:26.921307833 +0200
-@@ -162,26 +162,35 @@
+diff -urN a/easybuild-easyblocks-4.0.1/easybuild/easyblocks/b/boost.py b/easybuild-easyblocks-4.0.1/easybuild/easyblocks/b/boost.py
+--- a/easybuild-easyblocks-4.0.1/easybuild/easyblocks/b/boost.py	2019-11-13 18:02:49.219268697 +0100
++++ b/easybuild-easyblocks-4.0.1/easybuild/easyblocks/b/boost.py	2019-11-13 17:11:55.068471260 +0100
+@@ -167,6 +167,12 @@
                      ])
                  else:
                      raise EasyBuildError("Bailing out: only PrgEnv-gnu supported for now")
@@ -14,91 +14,15 @@ diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/b/boost.py b/easybui
              else:
                  txt = "using mpi : %s ;" % os.getenv("MPICXX")
  
-             write_file('user-config.jam', txt, append=True)
+@@ -188,6 +194,8 @@
+         """Build Boost with bjam tool."""
  
--    def build_boost_variant(self, bjamoptions, paracmd):
--        """Build Boost library with specified options for bjam."""
-+    def build_boost_variant(self, b2options, paracmd):
-+        """Build Boost library with specified options for b2."""
-         # build with specified options
--        cmd = "%s ./bjam %s %s %s" % (self.cfg['prebuildopts'], bjamoptions, paracmd, self.cfg['buildopts'])
-+        cmd = "%s ./b2 %s %s %s" % (self.cfg['prebuildopts'], b2options, paracmd, self.cfg['buildopts'])
-         run_cmd(cmd, log_all=True, simple=True)
-         # install built Boost library
--        cmd = "%s ./bjam %s install %s %s" % (self.cfg['preinstallopts'], bjamoptions, paracmd, self.cfg['installopts'])
-+        cmd = "%s ./b2 %s install %s %s" % (self.cfg['preinstallopts'], b2options, paracmd, self.cfg['installopts'])
-         run_cmd(cmd, log_all=True, simple=True)
-         # clean up before proceeding with next build
--        run_cmd("./bjam --clean-all", log_all=True, simple=True)
-+        run_cmd("./b2 --clean-all", log_all=True, simple=True)
- 
-     def build_step(self):
--        """Build Boost with bjam tool."""
-+        """Build Boost with b2 tool."""
-+
-+        b2options = " --prefix=%s" % self.objdir
- 
--        bjamoptions = " --prefix=%s" % self.objdir
+         bjamoptions = " --prefix=%s" % self.objdir
 +        if self.toolchain.toolchain_family() == toolchain.ARMHPC:
-+            b2options += " toolset=clang --user-config=user-config.jam"
++            bjamoptions += " toolset=clang --user-config=user-config.jam"
  
          cxxflags = os.getenv('CXXFLAGS')
          # only disable -D_GLIBCXX_USE_CXX11_ABI if use_glibcxx11_abi was explicitly set to False
-@@ -193,17 +202,17 @@
-             else:
-                 cxxflags += '0'
-         if cxxflags is not None:
--            bjamoptions += " cxxflags='%s'" % cxxflags
-+            b2options += " cxxflags='%s'" % cxxflags
-         ldflags = os.getenv('LDFLAGS')
-         if ldflags is not None:
--            bjamoptions += " linkflags='%s'" % ldflags
-+            b2options += " linkflags='%s'" % ldflags
- 
-         # specify path for bzip2/zlib if module is loaded
-         for lib in ["bzip2", "zlib"]:
-             libroot = get_software_root(lib)
-             if libroot:
--                bjamoptions += " -s%s_INCLUDE=%s/include" % (lib.upper(), libroot)
--                bjamoptions += " -s%s_LIBPATH=%s/lib" % (lib.upper(), libroot)
-+                b2options += " -s%s_INCLUDE=%s/include" % (lib.upper(), libroot)
-+                b2options += " -s%s_LIBPATH=%s/lib" % (lib.upper(), libroot)
- 
-         paracmd = ''
-         if self.cfg['parallel']:
-@@ -212,26 +221,26 @@
-         if self.cfg['only_python_bindings']:
-             # magic incantation to only install Boost Python bindings is... --with-python
-             # see http://boostorg.github.io/python/doc/html/building/installing_boost_python_on_your_.html
--            bjamoptions += " --with-python"
-+            b2options += " --with-python"
- 
-         if self.cfg['boost_mpi']:
-             self.log.info("Building boost_mpi library")
--            self.build_boost_variant(bjamoptions + " --user-config=user-config.jam --with-mpi", paracmd)
-+            self.build_boost_variant(b2options + " --user-config=user-config.jam --with-mpi", paracmd)
- 
-         if self.cfg['boost_multi_thread']:
-             self.log.info("Building boost with multi threading")
--            self.build_boost_variant(bjamoptions + " threading=multi --layout=tagged", paracmd)
-+            self.build_boost_variant(b2options + " threading=multi --layout=tagged", paracmd)
- 
-         # if both boost_mpi and boost_multi_thread are enabled, build boost mpi with multi-thread support
-         if self.cfg['boost_multi_thread'] and self.cfg['boost_mpi']:
-             self.log.info("Building boost_mpi with multi threading")
--            extra_bjamoptions = " --user-config=user-config.jam --with-mpi threading=multi --layout=tagged"
--            self.build_boost_variant(bjamoptions + extra_bjamoptions, paracmd)
-+            extra_b2options = " --user-config=user-config.jam --with-mpi threading=multi --layout=tagged"
-+            self.build_boost_variant(b2options + extra_b2options, paracmd)
- 
-         # install remainder of boost libraries
-         self.log.info("Installing boost libraries")
- 
--        cmd = "%s ./bjam %s install %s %s" % (self.cfg['preinstallopts'], bjamoptions, paracmd, self.cfg['installopts'])
-+        cmd = "%s ./b2 %s install %s %s" % (self.cfg['preinstallopts'], b2options, paracmd, self.cfg['installopts'])
-         run_cmd(cmd, log_all=True, simple=True)
- 
-     def install_step(self):
 diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/fortranpythonpackage.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/fortranpythonpackage.py
 --- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/fortranpythonpackage.py	2019-09-11 18:09:02.667613586 +0200
 +++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/fortranpythonpackage.py	2019-08-28 14:26:22.214919893 +0200
