@@ -23,7 +23,7 @@ if string.find(stage, "Devel") or string.find(stage, "Stage1")  then
     is_devel = true
 end
 local stage_path = pathJoin(software_root, "Stages", stage)
-local common_eb_path = "/opt/workbench/SourceCode/git/juawei-easyconfigs/"
+local common_eb_path = os.getenv("EASYCONFIGREPO")
 
 local gr_path = pathJoin(common_eb_path, "Golden_Repo", stage)
 local sources_path = pathJoin(common_eb_path, "sources")
@@ -319,7 +319,7 @@ if not isloaded("GC3Pie") then
 --    load("GC3Pie")
     setenv("EASYBUILD_JOB_BACKEND", "GC3Pie")
     -- The backend are regular nodes. We have to be careful, some packages might need to be compiled on KNL nodes
-    setenv("EASYBUILD_JOB_BACKEND_CONFIG", "/opt/ohpc/pub/config/gc3pie.cfg")
+    setenv("EASYBUILD_JOB_BACKEND_CONFIG", pathJoin(os.getenv("SOFTWAREROOT"),"config/gc3pie.cfg")
     setenv("EASYBUILD_JOB_CORES", "64")
     setenv("EASYBUILD_JOB_MAX_WALLTIME", "1")
 end
