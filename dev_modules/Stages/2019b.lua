@@ -8,7 +8,9 @@ end
 -- Get software root
 local softwareroot = os.getenv("SOFTWAREROOT")
 if softwareroot == nil then
-    LmodError("SOFTWAREROOT not set, can't continue")
+    LmodWarning("SOFTWAREROOT not set, assuming /opt/software/unknown")
+    softwareroot="/opt/software/unknown"
+    --LmodError("SOFTWAREROOT not set, can't continue")
     --local systemname = capture("cat /etc/FZJ/systemname")
     --Sanitize systemname
     --systemname = string.gsub(systemname, "\n", "")
