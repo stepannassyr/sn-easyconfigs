@@ -319,7 +319,7 @@ if not isloaded("GC3Pie") then
 --    load("GC3Pie")
     setenv("EASYBUILD_JOB_BACKEND", "GC3Pie")
     -- The backend are regular nodes. We have to be careful, some packages might need to be compiled on KNL nodes
-    setenv("EASYBUILD_JOB_BACKEND_CONFIG", pathJoin(os.getenv("SOFTWAREROOT"),"config/gc3pie.cfg")
+    setenv("EASYBUILD_JOB_BACKEND_CONFIG", pathJoin(os.getenv("SOFTWAREROOT"),"config/gc3pie.cfg"))
     setenv("EASYBUILD_JOB_CORES", "64")
     setenv("EASYBUILD_JOB_MAX_WALLTIME", "1")
 end
