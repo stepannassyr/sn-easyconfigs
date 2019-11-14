@@ -10,7 +10,7 @@ Zsh is a shell designed for interactive use, although it is also a powerful scri
 """
 
 
-toolchain = {'name': 'armhpc', 'version': '19.2'}
+toolchain = SYSTEM
 
 sources = [SOURCELOWER_TAR_XZ]
 source_urls = ['http://prdownloads.sourceforge.net/%(namelower)s']

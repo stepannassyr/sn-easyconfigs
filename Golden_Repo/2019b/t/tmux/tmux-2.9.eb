@@ -10,15 +10,16 @@ detach them (they keep running in the background) and reattach them to a differe
 """
 
 
-toolchain = {'name': 'Clang', 'version': '9.0.0'}
+toolchain = SYSTEM
 
 sources = [SOURCE_TAR_GZ]
 #source_urls = [SOURCEFORGE_SOURCE]
 source_urls = ['https://github.com/%(name)s/%(name)s/releases/download/%(version)s/']
 
+osdependencies = [('libevent-devel')]
+
 dependencies = [
     ('ncurses', '6.1'),
-    ('libevent', '2.1.8'),
 ]
 
 builddependencies = [
