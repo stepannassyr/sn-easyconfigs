@@ -38,7 +38,10 @@ configopts += '--with-ucx=$EBROOTUCX '              # ucx support
 configopts += '--enable-mca-no-build=btl-uct '
 
 # to enable SLURM integration (site-specific)
-configopts += '--with-slurm --with-pmi=/usr --with-pmi-libdir=/usr/lib64'
+configopts += '--with-slurm --with-pmi=/usr --with-pmi-libdir=/usr/lib64 '
+
+# need to use the same libevent that was used to build pmix
+configopts += '--with-libevent=/usr --with-libevent-libdir=/usr/lib64 '
 
 libs = ["mpi_mpifh", "mpi", "ompitrace", "open-pal", "open-rte"]
 sanity_check_paths = {
