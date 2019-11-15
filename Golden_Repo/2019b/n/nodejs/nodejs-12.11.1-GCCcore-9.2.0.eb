@@ -2,7 +2,7 @@ easyblock = 'ConfigureMake'
 
 name = 'nodejs'
 version = '12.11.1'
-local_libversion = '64'
+local_libversion = '72'
 
 homepage = 'http://%(name)s.org'
 description = """Node.js is a platform built on Chrome's JavaScript runtime
