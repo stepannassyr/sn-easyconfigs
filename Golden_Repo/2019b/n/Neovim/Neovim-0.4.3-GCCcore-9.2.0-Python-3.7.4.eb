@@ -3,7 +3,7 @@
 easyblock = 'CMakeMake'
 
 name = 'Neovim'
-version = '0.4.2'
+version = '0.4.3'
 versionsuffix = "-Python-%(pyver)s"
 
 homepage = 'https://neovim.io'
@@ -16,6 +16,8 @@ toolchainopts = {'pic': True}
 
 source_urls = ["https://github.com/neovim/neovim/archive/"]
 sources = ["v%(version)s.tar.gz"]
+
+patches = ['neovim-0.1.7-bitop.patch']
 
 builddependencies = [
     ('CMake',      '3.15.2'),
@@ -46,7 +48,7 @@ configopts += " -DDEPS_CMAKE_FLAGS=\"-DUSE_BUNDLED_UNIBILIUM=OFF -DUSE_BUNDLED_L
 # Standard
 #osdependencies = ['unibilium-devel', 'lua-devel', 'msgpack-devel', 'libtermkey-devel','libvterm-devel', 'lua-lpeg', 'lua-mpack', 'lua-bitop', 'libuv-devel']
 # OpenHPC
-osdependencies = ['unibilium-devel', 'lua-devel', 'msgpack-devel', 'libtermkey-devel', 'lua-lpeg', 'lua-mpack', 'lua-bit-ohpc', 'libuv-devel']
+osdependencies = ['unibilium-devel', 'msgpack-devel', 'libtermkey-devel', 'libuv-devel']
 
 
 sanity_check_paths = {
