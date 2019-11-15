@@ -23,7 +23,7 @@ toolchain = {'name': 'armhpc', 'version': '19.3'}
 # -xHost, this always gets overwritten and will fail.
 #toolchainopts = {'optarch': False}
 
-patches = ['mesa-19.1.6-armhpc-whole_archive.patch']
+patches = ['mesa-19.2.4-armhpc-dependencies.patch']
 
 sources = [SOURCELOWER_TAR_XZ]
 source_urls = [
@@ -76,9 +76,9 @@ configopts += ' -Dplatforms=x11' # '', 'auto', 'x11', 'wayland', 'drm', 'surface
 
 sanity_check_paths = {
     'files': ['lib/libGL.%s' % SHLIB_EXT, 'lib/libOSMesa.%s' % SHLIB_EXT, 'lib/libGLESv1_CM.%s' % SHLIB_EXT,
-              'lib/libGLESv2.%s' % SHLIB_EXT, 'include/GL/glext.h', 'include/GL/gl_mangle.h', 'include/GL/glx.h',
+              'lib/libGLESv2.%s' % SHLIB_EXT, 'include/GL/glext.h', 'include/GL/glx.h',
               'include/GL/osmesa.h', 'include/GL/gl.h', 'include/GL/glxext.h',
-              'include/GL/glx_mangle.h', 'include/GLES/gl.h', 'include/GLES2/gl2.h', 'include/GLES3/gl3.h'],
+              'include/GLES/gl.h', 'include/GLES2/gl2.h', 'include/GLES3/gl3.h'],
     'dirs': []
 }
 

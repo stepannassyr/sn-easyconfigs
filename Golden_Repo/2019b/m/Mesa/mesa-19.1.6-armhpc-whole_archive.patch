@@ -37,7 +37,7 @@ diff -urN mesa-19.1.6/src/gbm/meson.build mesa-19.1.6-patched/src/gbm/meson.buil
 -  link_with : [libloader, libmesa_util, libxmlconfig],
 +  link_whole : libmesa_util,
 +  link_with : [libloader, libxmlconfig],
-   dependencies : [deps_gbm, dep_dl, dep_thread],
+   dependencies : [deps_gbm, dep_dl, dep_thread, idep_mesautil, idep_xmlconfig],
    version : '1.0.0',
    install : true,
 diff -urN mesa-19.1.6/src/glx/meson.build mesa-19.1.6-patched/src/glx/meson.build
