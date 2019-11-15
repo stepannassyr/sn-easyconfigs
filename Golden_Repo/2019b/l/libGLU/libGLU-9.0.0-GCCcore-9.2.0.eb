@@ -19,7 +19,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('Mesa', '19.1.6'),
+    ('Mesa', '19.2.4'),
 ]
 
 sanity_check_paths = {
