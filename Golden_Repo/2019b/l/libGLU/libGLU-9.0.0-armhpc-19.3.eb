@@ -14,6 +14,10 @@ toolchainopts = {'pic': True}
 source_urls = ['ftp://ftp.freedesktop.org/pub/mesa/glu/']
 sources = ['glu-%(version)s.tar.bz2']
 
+patches = [
+'libGLU-9.0.0-use-0-NULL.patch'
+]
+
 builddependencies = [
     ('binutils', '2.32'),
 ]
