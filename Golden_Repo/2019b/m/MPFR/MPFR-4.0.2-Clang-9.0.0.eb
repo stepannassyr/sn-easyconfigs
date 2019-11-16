@@ -25,7 +25,7 @@ dependencies = [
     ('GMP', '6.1.2'),
 ]
 
-runtest = 'check'
+#runtest = 'check'
 
 sanity_check_paths = {
     'files': ['lib/libmpfr.so', 'include/%(namelower)s.h'],
