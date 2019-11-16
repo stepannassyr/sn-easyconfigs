@@ -74,12 +74,16 @@ configopts  = " -DPYTHON_EXECUTABLE=$EBROOTPYTHON/bin/python%s" % pysuff
 configopts += " -DPYTHON_INCLUDE_DIR=$EBROOTPYTHON/include/python%s" % pysuff
 configopts += " -DPYTHON_LIBRARY=$EBROOTPYTHON/lib/libpython%s.so" % pysuff
 
+# need libLLVM.so for Mesa (and probably other sw as well)
+configopts += " -DBUILD_SHARED_LIBS=ON -DLLVM_BUILD_LLVM_DYLIB=ON"
+
 default_openmp_runtime = 'libomp'
-assertions  = True
-usepolly    = True
-build_lld   = True
-libcxx      = True
-enable_rtti = True
+assertions      = True
+usepolly        = True
+build_lld       = True
+libcxx          = True
+enable_rtti     = True
+static_analyzer = True
 
 skip_all_tests = True
 

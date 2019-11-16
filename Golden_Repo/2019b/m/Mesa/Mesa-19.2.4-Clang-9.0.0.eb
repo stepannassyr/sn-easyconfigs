@@ -55,7 +55,7 @@ dependencies = [
     ('libdrm', '2.4.99'),
 #    ('LLVM', '9.0.0'),
     ('X11', '20190311'),
-    ('libunwind', '1.3.1'),
+#    ('libunwind', '1.3.1'),
 ]
 
 configopts  = '-Dgbm=true'
