@@ -75,7 +75,10 @@ configopts += " -DPYTHON_INCLUDE_DIR=$EBROOTPYTHON/include/python%s" % pysuff
 configopts += " -DPYTHON_LIBRARY=$EBROOTPYTHON/lib/libpython%s.so" % pysuff
 
 # need libLLVM.so for Mesa (and probably other sw as well)
-configopts += " -DBUILD_SHARED_LIBS=ON -DLLVM_BUILD_LLVM_DYLIB=ON"
+configopts += " -DBUILD_SHARED_LIBS=ON -DLLVM_BUILD_LLVM_DYLIB=ON "
+
+# FileCheck needed for Rust
+configopts += " -DLLVM_INCLUDE_UTILS=ON -DLLVM_INSTALL_UTILS=ONE "
 
 default_openmp_runtime = 'libomp'
 assertions      = True
