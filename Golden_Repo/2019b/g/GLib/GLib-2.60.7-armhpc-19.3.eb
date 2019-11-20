@@ -14,12 +14,12 @@ toolchainopts = { 'pic': True}
 source_urls = [FTPGNOME_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
 
-pyver = '3.7.4'
+pyver = '3.8.0'
 
 builddependencies = [
     ('binutils', '2.32'),
     ('Python', pyver),
-    ('Meson', '0.51.2', '-Python-%s' % '3.7.4'),
+    ('Meson', '0.51.2', '-Python-%s' % '3.8.0'),
     ('Ninja', '1.9.0'),
 ]
 

@@ -22,7 +22,7 @@ sources = ["llvm-%(version)s.src.tar.xz"]
 builddependencies = [
     ('CMake', '3.15.2'),
     ('binutils', '2.32'),
-    ('Python', '3.7.4'),
+    ('Python', '3.8.0'),
 ]
 
 dependencies = [

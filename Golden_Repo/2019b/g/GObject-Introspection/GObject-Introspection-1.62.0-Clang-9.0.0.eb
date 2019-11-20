@@ -20,8 +20,8 @@ sources = [SOURCELOWER_TAR_XZ]
 
 builddependencies = [
     ('binutils', '2.32'),
-    ('Python', '3.7.4'),
-    ('Meson', '0.51.2','-Python-3.7.4'),
+    ('Python', '3.8.0'),
+    ('Meson', '0.51.2','-Python-3.8.0'),
     ('Ninja', '1.9.0'),
 ]
 
@@ -31,7 +31,7 @@ dependencies = [
     ('Bison', '3.4.1'),
     ('cairo', '1.17.2'),
     ('libffi', '3.2.1'),
-    ('Python', '3.7.4'),
+    ('Python', '3.8.0'),
 ]
 
 preconfigopts = "GI_SCANNER_DISABLE_CACHE=true "

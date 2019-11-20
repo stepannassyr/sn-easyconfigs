@@ -2,7 +2,7 @@
 easyblock = "PythonPackage"
 
 name = 'h5py'
-version = '2.9.0'
+version = '2.10.0'
 pysuffix = '-Python-%(pyver)s'
 versionsuffix = '-serial%s' % pysuffix
 
@@ -27,7 +27,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('Python', '3.7.4'),
+    ('Python', '3.8.0'),
     ('OpenMPI', '4.0.2', '', ('armhpc', '19.3')), # No SciPy-Stack without MPI
     ('SciPy-Stack', '2019b', pysuffix, ('aplompi', '19.3')), # numpy required
     ('HDF5', '1.10.5', '-serial'),

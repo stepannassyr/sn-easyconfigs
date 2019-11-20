@@ -12,6 +12,7 @@ description = """
 """
 
 toolchain = {'name': 'Clang', 'version': '9.0.0'}
+toolchainopts = {'pic': True}
 
 source_urls = [
     'http://ftp.videolan.org/pub/videolan/x265/',

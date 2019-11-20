@@ -23,7 +23,7 @@ patches = ['gdk-pixbuf_postinstall.patch']
 builddependencies = [
     ('binutils', '2.32'),
     ('GObject-Introspection', '1.62.0'),
-    ('Meson', '0.51.2', '-Python-3.7.4'),
+    ('Meson', '0.51.2', '-Python-3.8.0'),
     ('Ninja', '1.9.0'),
     ('pkg-config', '0.29.2'),
 ]

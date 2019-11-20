@@ -2,8 +2,9 @@
 easyblock = "PythonPackage"
 
 name = 'h5py'
-version = '2.9.0'
-versionsuffix = '-Python-%(pyver)s'
+version = '2.10.0'
+pysuffix = '-Python-%(pyver)s'
+versionsuffix = '-serial%s' % pysuffix
 
 homepage = 'http://www.h5py.org/'
 description = """HDF5 for Python (h5py) is a general-purpose Python interface to the Hierarchical Data Format library,
@@ -12,8 +13,7 @@ description = """HDF5 for Python (h5py) is a general-purpose Python interface to
 """
 
 
-toolchain = {'name': 'goolf', 'version': '2019b'}
-toolchainopts = {'usempi': True}
+toolchain = {'name': 'armhpc', 'version': '19.3'}
 
 source_urls = [PYPI_SOURCE]
 sources = [SOURCE_TAR_GZ]
@@ -21,18 +21,16 @@ sources = [SOURCE_TAR_GZ]
 req_py_majver = 3
 req_py_minver = 0
 
-# to really use mpi enabled hdf5 we now seem to need a configure step
-prebuildopts = 'export LDSHARED="$CC -shared" &&  python setup.py configure --mpi --hdf5=$EBROOTHDF5 && '
-
 builddependencies = [
-    ('pkgconfig', '1.5.1', versionsuffix),
+    ('pkgconfig', '1.5.1', pysuffix),
+    ('binutils', '2.32'),
 ]
 
 dependencies = [
     ('Python', '3.7.4'),
-    ('SciPy-Stack', '2019b', versionsuffix, ('goolf', '2019b')), # numpy required
-    ('mpi4py', '3.0.2', versionsuffix),  # required for MPI support
-    ('HDF5', '1.10.5'),
+    ('OpenMPI', '4.0.2', '', ('armhpc', '19.3')), # No SciPy-Stack without MPI
+    ('SciPy-Stack', '2019b', pysuffix, ('aplompi', '19.3')), # numpy required
+    ('HDF5', '1.10.5', '-serial'),
 ]
 
 sanity_check_paths = {

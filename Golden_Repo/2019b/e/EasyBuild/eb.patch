@@ -211,3 +211,18 @@ diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/c/clang.py b/easybui
  
          self.log.info("Configuring")
 
+diff -urN a/easybuild-easyblocks-4.0.1/easybuild/easyblocks/p/python.py b/easybuild-easyblocks-4.0.1/easybuild/easyblocks/p/python.py
+--- a/easybuild-easyblocks-4.0.1/easybuild/easyblocks/p/python.py	2019-11-16 13:34:54.205781583 +0100
++++ b/easybuild-easyblocks-4.0.1/easybuild/easyblocks/p/python.py	2019-11-16 13:36:07.113403186 +0100
+@@ -151,7 +151,10 @@
+         else:
+             raise EasyBuildError("Unknown maxunicode value for your python: %d" % sys.maxunicode)
+ 
+-        modules_setup_dist = os.path.join(self.cfg['start_dir'], 'Modules', 'Setup.dist')
++        if  LooseVersion(self.version) >= LooseVersion("3.8"):
++	    modules_setup_dist = os.path.join(self.cfg['start_dir'], 'Modules', 'Setup')
++        else:
++	    modules_setup_dist = os.path.join(self.cfg['start_dir'], 'Modules', 'Setup.dist')
+ 
+         libreadline = get_software_root('libreadline')
+         if libreadline:

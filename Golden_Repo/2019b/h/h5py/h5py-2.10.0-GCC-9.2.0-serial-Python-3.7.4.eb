@@ -2,7 +2,7 @@
 easyblock = "PythonPackage"
 
 name = 'h5py'
-version = '2.9.0'
+version = '2.10.0'
 pysuffix = '-Python-%(pyver)s'
 versionsuffix = '-serial%s' % pysuffix
 
