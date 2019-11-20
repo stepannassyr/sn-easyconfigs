@@ -69,7 +69,7 @@ A proper fix may be possible by more tightly integrating the ARM HPC compiler (f
 * install 'ansicolors' lua package
 * Download and install arm hpc compiler (/opt/software/arm)
 * Set ARMOSPREFIX='RHEL/7' somewhere in /etc/profile.d (or SUSE/12 or whatever the OS is, this is used to load arm modules)
-* Create Architecture Module in /opt/software/modulefiles/system (use system\_modules/Architecture/default.lua as template)
+* Create Architecture Module in /opt/software/modulefiles/system (use templates/Architecture/somearch.lua as template)
   * change local prefix = "/opt/software" to the path where software will be installed to
   * change common\_eb\_path  = "/opt/juawei-easyconfigs" to where this repository is
   * change setenv("EASYBUILD\_JOB\_BACKEND\_CONFIG", "/opt/config/gc3pie.cfg") to where the gc3pie config resides
