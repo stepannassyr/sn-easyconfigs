@@ -103,6 +103,10 @@ A proper fix may be possible by more tightly integrating the ARM HPC compiler (f
 
 # Notable Bugs
 
+## PAPI-Clang and gfortran ##
+
+PAPI for Clang will not compile if the system gfortran is detected, I have not found the configure option to disable fortran support, so the default gfortran shouldn't be installed when compiling PAPI for Clang
+
 ## libunwind asm ##
 asm statements in include/libunwind-aarch64.h should be changed to \_\_asm
 
