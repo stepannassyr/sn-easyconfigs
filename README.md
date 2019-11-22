@@ -56,6 +56,7 @@ A proper fix may be possible by more tightly integrating the ARM HPC compiler (f
 
 ### lua ###
 
+* bit32 (for lua < 5.2)
 * lpeg
 * mpack
 
