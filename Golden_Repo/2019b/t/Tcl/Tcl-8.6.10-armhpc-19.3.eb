@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'Tcl'
-version = '8.6.9'
+version = '8.6.10'
 
 homepage = 'http://www.tcl.tk/'
 description = """Tcl (Tool Command Language) is a very powerful but easy to learn dynamic programming language,
@@ -10,7 +10,7 @@ suitable for a very wide range of uses, including web and desktop applications, 
 """
 
 
-toolchain = {'name': 'Clang', 'version': '9.0.0'}
+toolchain = {'name': 'armhpc', 'version': '19.3'}
 
 source_urls = ["http://prdownloads.sourceforge.net/tcl"]
 sources = ['%(namelower)s%(version)s-src.tar.gz']
