@@ -1,0 +1,100 @@
+
+WARNING: Deprecated functionality, will no longer work in v5.0: Use of 'dummy' toolchain is deprecated, use 'system' toolchain instead; see http://easybuild.readthedocs.org/en/latest/Deprecated-functionality.html for more information
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in binutils-2.32.eb: binlist
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in GCCcore-7.5.0.eb: mpfr_version
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in binutils-2.32.eb: binlist
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in GCCcore-7.5.0.eb: mpfr_version
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in GCCcore-7.5.0.eb: mpfr_version
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in GCCcore-7.5.0.eb: mpfr_version
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in binutils-2.32-GCCcore-7.5.0.eb: binlist
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in ncurses-6.1-GCCcore-7.5.0.eb: libs
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in SQLite-3.27.2-GCCcore-7.5.0.eb: version_str
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in ncurses-6.1.eb: libs
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Deprecated functionality, will no longer work in v5.0: Use of 'dummy' toolchain is deprecated, use 'system' toolchain instead; see http://easybuild.readthedocs.org/en/latest/Deprecated-functionality.html for more information
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in intltool-0.51.0-GCCcore-7.5.0-Perl-5.28.1.eb: perlversion
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in libpng-1.6.36-GCCcore-7.5.0.eb: majminver
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 2 unknown easyconfig parameters detected in Java-11.0.4.eb: arch_suf, platform
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 2 unknown easyconfig parameters detected in Python-3.7.4-GCCcore-7.5.0.eb: grakover, platform
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 2 unknown easyconfig parameters detected in Python-3.8.0-GCCcore-7.5.0.eb: grakover, platform
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in Mesa-19.2.4-GCCcore-7.5.0.eb: pyver
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+ERROR: Build of /opt/ohpc/pub/easybuild/juawei-easyconfigs/Golden_Repo/2019b/m/Mesa/Mesa-19.2.4-GCCcore-7.5.0.eb failed (err: 'build failed (first 300 chars): cmd " meson --prefix /opt/ohpc/pub/easybuild/software/juaweihi1616/Stages/2019b/software/Mesa/19.2.4-GCCcore-7.5.0 -Dgbm=true -Dglx=auto -Dosmesa=gallium -Dllvm=true -Dshared-llvm=true -Ddri-drivers="" -Dgallium-drivers="swrast" -Dvulkan-drivers="" -Dplatforms=x11 -Dlibdir=lib  /dev/shm/nassyr1/Cort')
+== temporary log file in case of crash /tmp/eb-ivl138/eb-r5ZsgK/easybuild-bbZek3.log
+== resolving dependencies ...
+== processing EasyBuild easyconfig /opt/ohpc/pub/easybuild/juawei-easyconfigs/Golden_Repo/2019b/m/Mesa/Mesa-19.2.4-GCCcore-7.5.0.eb
+== building and installing Compiler/GCCcore/7.5.0/Mesa/19.2.4...
+== fetching files...
+== creating build dir, resetting environment...
+== unpacking...
+== patching...
+== preparing...
+== configuring...
+== FAILED: Installation ended unsuccessfully (build directory: /dev/shm/nassyr1/Cortex-A72/Mesa/19.2.4/GCCcore-7.5.0): build failed (first 300 chars): cmd " meson --prefix /opt/ohpc/pub/easybuild/software/juaweihi1616/Stages/2019b/software/Mesa/19.2.4-GCCcore-7.5.0 -Dgbm=true -Dglx=auto -Dosmesa=gallium -Dllvm=true -Dshared-llvm=true -Ddri-drivers="" -Dgallium-drivers="swrast" -Dvulkan-drivers="" -Dplatforms=x11 -Dlibdir=lib  /dev/shm/nassyr1/Cort (took 34 sec)
+== Results of the build can be found in the log file(s) /tmp/eb-ivl138/eb-r5ZsgK/easybuild-Mesa-19.2.4-20191206.135839.UgxZH.log
+srun: error: juawei-a17: task 0: Exited with exit code 1

@@ -1,0 +1,163 @@
+
+WARNING: Deprecated functionality, will no longer work in v5.0: Use of 'dummy' toolchain is deprecated, use 'system' toolchain instead; see http://easybuild.readthedocs.org/en/latest/Deprecated-functionality.html for more information
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in binutils-2.32.eb: binlist
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in GCCcore-7.5.0.eb: mpfr_version
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in GCCcore-7.5.0.eb: mpfr_version
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in binutils-2.32.eb: binlist
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in GCCcore-7.5.0.eb: mpfr_version
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in GCCcore-7.5.0.eb: mpfr_version
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in binutils-2.32-GCCcore-7.5.0.eb: binlist
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in binutils-2.32-GCCcore-7.5.0.eb: binlist
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in ncurses-6.1.eb: libs
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Deprecated functionality, will no longer work in v5.0: Use of 'dummy' toolchain is deprecated, use 'system' toolchain instead; see http://easybuild.readthedocs.org/en/latest/Deprecated-functionality.html for more information
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in ncurses-6.1-GCCcore-7.5.0.eb: libs
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in intltool-0.51.0-GCCcore-7.5.0-Perl-5.28.1.eb: perlversion
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in libpng-1.6.36-GCCcore-7.5.0.eb: majminver
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 4 unknown easyconfig parameters detected in OpenMPI-4.0.2-GCC-7.5.0.eb: binfile, libfile, libs, set_mpi_wrappers_all
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in FFTW-3.3.8-gompi-2019b.7.eb: common_configopts
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 5 unknown easyconfig parameters detected in gompi-2019b.7.eb: comp, compname, compver, mpilib, mpiver
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 5 unknown easyconfig parameters detected in gompi-2019b.7.eb: comp, compname, compver, mpilib, mpiver
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 5 unknown easyconfig parameters detected in gompi-2019b.7.eb: comp, compname, compver, mpilib, mpiver
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 4 unknown easyconfig parameters detected in OpenMPI-4.0.2-GCC-7.5.0.eb: binfile, libfile, libs, set_mpi_wrappers_all
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 2 unknown easyconfig parameters detected in ScaLAPACK-2.0.2-gompi-2019b.7-OpenBLAS-0.3.7.eb: blaslib, blasver
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 6 unknown easyconfig parameters detected in goolf-2019b.7.eb: blas, blaslib, blasver, comp_mpi_tc, comp_mpi_tc_name, gccver
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in FFTW-3.3.8-gompi-2019b.7.eb: common_configopts
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 2 unknown easyconfig parameters detected in ScaLAPACK-2.0.2-gompi-2019b.7-OpenBLAS-0.3.7.eb: blaslib, blasver
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in SQLite-3.27.2-GCCcore-7.5.0.eb: version_str
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 2 unknown easyconfig parameters detected in Java-11.0.4.eb: arch_suf, platform
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 2 unknown easyconfig parameters detected in Python-3.7.4-GCCcore-7.5.0.eb: grakover, platform
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 2 unknown easyconfig parameters detected in SciPy-Stack-2019b.7-goolf-2019b.7-Python-3.7.4.eb: common_opts, numpyversion
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 6 unknown easyconfig parameters detected in goolf-2019b.7.eb: blas, blaslib, blasver, comp_mpi_tc, comp_mpi_tc_name, gccver
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 6 unknown easyconfig parameters detected in goolf-2019b.7.eb: blas, blaslib, blasver, comp_mpi_tc, comp_mpi_tc_name, gccver
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+ERROR: Build of /opt/ohpc/pub/easybuild/juawei-easyconfigs/Golden_Repo/2019b/h/h5py/h5py-2.10.0-goolf-2019b.7-Python-3.7.4.eb failed (err: 'build failed (first 300 chars): cmd "export LDSHARED="$CC -shared" &&  python setup.py configure --mpi --hdf5=$EBROOTHDF5 &&  /opt/ohpc/pub/easybuild/software/juaweihi1616/Stages/2019b/software/Python/3.7.4-GCCcore-7.5.0/bin/python setup.py build " exited with exit code 1 and output:\nrunning configure\n/opt/ohpc/pub/easybuild/softw')
+== temporary log file in case of crash /tmp/eb-ivl138/eb-WtKkig/easybuild-z7xe0F.log
+== resolving dependencies ...
+== processing EasyBuild easyconfig /opt/ohpc/pub/easybuild/juawei-easyconfigs/Golden_Repo/2019b/h/h5py/h5py-2.10.0-goolf-2019b.7-Python-3.7.4.eb
+== building and installing MPI/GCC/7.5.0/OpenMPI/4.0.2/h5py/2.10.0-Python-3.7.4...
+== fetching files...
+== creating build dir, resetting environment...
+== unpacking...
+== patching...
+== preparing...
+== configuring...
+== building...
+== FAILED: Installation ended unsuccessfully (build directory: /dev/shm/nassyr1/Cortex-A72/h5py/2.10.0/goolf-2019b.7-Python-3.7.4): build failed (first 300 chars): cmd "export LDSHARED="$CC -shared" &&  python setup.py configure --mpi --hdf5=$EBROOTHDF5 &&  /opt/ohpc/pub/easybuild/software/juaweihi1616/Stages/2019b/software/Python/3.7.4-GCCcore-7.5.0/bin/python setup.py build " exited with exit code 1 and output:
+running configure
+/opt/ohpc/pub/easybuild/softw (took 21 sec)
+== Results of the build can be found in the log file(s) /tmp/eb-ivl138/eb-WtKkig/easybuild-h5py-2.10.0-20191206.135840.uGKjr.log
+srun: error: juawei-a21: task 0: Exited with exit code 1

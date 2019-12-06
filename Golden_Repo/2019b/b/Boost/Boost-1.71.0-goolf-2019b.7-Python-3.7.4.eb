@@ -1,0 +1,30 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+name = 'Boost'
+version = '1.71.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://www.boost.org/'
+description = """Boost provides free peer-reviewed portable C++ source libraries."""
+
+
+toolchain = {'name': 'goolf', 'version': '2019b.7'}
+toolchainopts = {'pic': True, 'usempi': True}
+
+source_urls = ["https://dl.bintray.com/boostorg/release/%(version)s/source/"]
+sources = ['%%(namelower)s_%s.tar.gz' % '_'.join(version.split('.'))]
+
+patches = [
+    'Boost-1.65.1_fix-Python3.patch'
+]
+
+dependencies = [
+    ('bzip2', '1.0.6'),
+    ('zlib', '1.2.11'),
+    ('Python', '3.7.4'),
+    ('ICU', '64.2'),
+]
+
+# also build boost_mpi
+boost_mpi = True
+
+moduleclass = 'devel'

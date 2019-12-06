@@ -91,7 +91,6 @@ libdwarf
 libelf
 libepoxy
 libevent
-libffi
 libfontenc
 libgd
 libgeotiff
@@ -139,7 +138,6 @@ libXrender
 libxslt
 libXt
 libXtst
-libyaml
 libyuv
 LittleCMS
 LMDB

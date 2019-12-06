@@ -1,0 +1,64 @@
+
+WARNING: Deprecated functionality, will no longer work in v5.0: Use of 'dummy' toolchain is deprecated, use 'system' toolchain instead; see http://easybuild.readthedocs.org/en/latest/Deprecated-functionality.html for more information
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in binutils-2.32.eb: binlist
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in GCCcore-7.5.0.eb: mpfr_version
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in binutils-2.32.eb: binlist
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in GCCcore-7.5.0.eb: mpfr_version
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in GCCcore-7.5.0.eb: mpfr_version
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in binutils-2.32-GCCcore-7.5.0.eb: binlist
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+
+WARNING: Use of 1 unknown easyconfig parameters detected in ncurses-6.1-GCCcore-7.5.0.eb: libs
+If these are just local variables please rename them to start with 'local_', or try using --fix-deprecated-easyconfigs to do this automatically.
+For more information, see https://easybuild.readthedocs.io/en/latest/Easyconfig-files-local-variables.html .
+
+== temporary log file in case of crash /tmp/eb-F7mzEZ/eb-H7JuPd/easybuild-F61UhA.log
+== resolving dependencies ...
+== processing EasyBuild easyconfig /opt/ohpc/pub/easybuild/juawei-easyconfigs/Golden_Repo/2019b/f/FFmpeg/FFmpeg-4.2.1-GCCcore-7.5.0.eb
+== building and installing Compiler/GCCcore/7.5.0/FFmpeg/.4.2.1...
+== fetching files...
+== creating build dir, resetting environment...
+== unpacking...
+== patching...
+== preparing...
+== configuring...
+== building...
+== testing...
+== installing...
+== taking care of extensions...
+== restore after iterating...
+== postprocessing...
+== sanity checking...
+== cleaning up...
+== creating module...
+== permissions...
+== packaging...
+== COMPLETED: Installation ended successfully (took 1 min 57 sec)
+== Results of the build can be found in the log file(s) /opt/ohpc/pub/easybuild/software/juaweihi1616/Stages/2019b/software/FFmpeg/4.2.1-GCCcore-7.5.0/easybuild/easybuild-FFmpeg-4.2.1-20191204.143427.log
+== Build succeeded for 1 out of 1
+== Temporary log file(s) /tmp/eb-F7mzEZ/eb-H7JuPd/easybuild-F61UhA.log* have been removed.
+== Temporary directory /tmp/eb-F7mzEZ/eb-H7JuPd has been removed.
