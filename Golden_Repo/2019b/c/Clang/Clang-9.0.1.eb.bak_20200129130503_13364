@@ -1,0 +1,94 @@
+##
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+#
+# Copyright:: Copyright 2013-2015 Dmitri Gribenko, Ward Poelmans
+# Authors:: Dmitri Gribenko <gribozavr@gmail.com>
+# Authors:: Ward Poelmans <wpoely86@gmail.com>
+# License:: GPLv2 or later, MIT, three-clause BSD.
+# $Id$
+##
+
+name = 'Clang'
+version = '9.0.1'
+
+homepage = 'http://clang.llvm.org/'
+description = """C, C++, Objective-C compiler, based on LLVM."""
+
+toolchain = {'name': 'dummy', 'version': ''}
+# Do not set optarch to True: it will cause the build to fail
+# toolchainopts = {'optarch': False}
+
+#source_urls = ["http://releases.llvm.org/%(version)s/"]
+source_urls = ["http://github.com/llvm/llvm-project/releases/download/llvmorg-%(version)s/"]
+sources = [
+    'llvm-%(version)s.src.tar.xz',
+    'clang-%(version)s.src.tar.xz',
+    'compiler-rt-%(version)s.src.tar.xz',
+    'polly-%(version)s.src.tar.xz',
+    'openmp-%(version)s.src.tar.xz',
+    # Also include the LLVM linker
+    'lld-%(version)s.src.tar.xz',
+    'libcxx-%(version)s.src.tar.xz',
+    'libcxxabi-%(version)s.src.tar.xz',
+    'libunwind-%(version)s.src.tar.xz',
+    'lldb-%(version)s.src.tar.xz',
+    'clang-tools-extra-%(version)s.src.tar.xz',
+]
+patches = [
+    'Clang-9.0.0-omp-libm.patch'
+]
+checksums = [
+    'd6a0565cf21f22e9b4353b2eb92622e8365000a9e90a16b09b56f8157eabfe84',  # llvm-9.0.0.src.tar.xz
+    '7ba81eef7c22ca5da688fdf9d88c20934d2d6b40bfe150ffd338900890aa4610',  # cfe-9.0.0.src.tar.xz
+    '56e4cd96dd1d8c346b07b4d6b255f976570c6f2389697347a6c3dcb9e820d10e',  # compiler-rt-9.0.0.src.tar.xz
+    'a4fa92283de725399323d07f18995911158c1c5838703f37862db815f513d433',  # polly-9.0.0.src.tar.xz
+    '9979eb1133066376cc0be29d1682bc0b0e7fb541075b391061679111ae4d3b5b',  # openmp-9.0.0.src.tar.xz
+    '31c6748b235d09723fb73fea0c816ed5a3fab0f96b66f8fbc546a0fcc8688f91',  # lld-9.0.0.src.tar.xz
+    '3c4162972b5d3204ba47ac384aa456855a17b5e97422723d4758251acf1ed28c',  # libcxx-9.0.0.src.tar.xz
+    '675041783565c906ac2f7f8b2bc5c40f14d871ecfa8ade34855aa18de95530e9',  # libcxxabi-9.0.0.src.tar.xz
+    '976a8d09e1424fb843210eecec00a506b956e6c31adda3b0d199e945be0d0db2',  # libunwind-9.0.0.src.tar.xz
+    '1e4c2f6a1f153f4b8afa2470d2e99dab493034c1ba8b7ffbbd7600de016d0794',  # lldb-9.0.0.src.tar.xz
+    'ea1c86ce352992d7b6f6649bc622f6a2707b9f8b7153e9f9181a35c76aa3ac10',  # clang-tools-extra-9.0.0.src.tar.xz
+    '318af5c651e9e785475415f0077cd9cbdffc8aabd9de50c20c24bc548eec1470',  # Clang-9.0.0-omp-libm.patch
+]
+
+#source_urls = ["https://github.com/llvm/llvm-project/releases/download/llvmorg-%(version)s/"]
+#source_urls = ["http://llvm.org/releases/%(version)s"]
+dependencies = [
+    # since Clang is a compiler, binutils is a runtime dependency too
+    ('binutils', '2.33.1'),
+    ('libedit', '20191025'),
+#    ('GMP', '6.1.2'),
+]
+
+pyver = '3.7.4'
+pysuff = '3.7m'
+
+builddependencies = [
+    ('GCC', '9.2.0'),
+    ('CMake', '3.16.1','',('GCCcore','9.2.0')),
+    ('Python', pyver,'',('GCCcore','9.2.0')),
+    ('libxml2', '2.9.9','',('GCCcore','9.2.0')),
+]
+
+configopts  = " -DPYTHON_EXECUTABLE=$EBROOTPYTHON/bin/python%s" % pysuff
+configopts += " -DPYTHON_INCLUDE_DIR=$EBROOTPYTHON/include/python%s" % pysuff
+configopts += " -DPYTHON_LIBRARY=$EBROOTPYTHON/lib/libpython%s.so" % pysuff
+
+# need libLLVM.so for Mesa (and probably other sw as well)
+configopts += " -DBUILD_SHARED_LIBS=ON -DLLVM_BUILD_LLVM_DYLIB=ON "
+
+# FileCheck needed for Rust
+configopts += " -DLLVM_INCLUDE_UTILS=ON -DLLVM_INSTALL_UTILS=ONE "
+
+default_openmp_runtime = 'libomp'
+assertions      = True
+usepolly        = True
+build_lld       = True
+libcxx          = True
+enable_rtti     = True
+static_analyzer = True
+
+skip_all_tests = True
+
+moduleclass = 'compiler'

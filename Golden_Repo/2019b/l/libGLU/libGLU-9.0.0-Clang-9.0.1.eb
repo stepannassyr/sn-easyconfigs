@@ -1,0 +1,34 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'ConfigureMake'
+
+name = 'libGLU'
+version = '9.0.1'
+
+homepage = 'ftp://ftp.freedesktop.org/pub/mesa/glu/'
+description = """The OpenGL Utility Library (GLU) is a computer graphics library for OpenGL."""
+
+
+toolchain = {'name': 'Clang', 'version': '9.0.1'}
+toolchainopts = {'pic': True}
+
+source_urls = ['ftp://ftp.freedesktop.org/pub/mesa/glu/']
+sources = ['glu-%(version)s.tar.bz2']
+
+patches = [
+'libGLU-9.0.0-use-0-NULL.patch'
+]
+
+builddependencies = [
+    ('binutils', '2.33.1'),
+]
+
+dependencies = [
+    ('Mesa', '19.2.4'),
+]
+
+sanity_check_paths = {
+    'files': ['lib/libGLU.so.1'],
+    'dirs': [],
+}
+
+moduleclass = 'vis'
