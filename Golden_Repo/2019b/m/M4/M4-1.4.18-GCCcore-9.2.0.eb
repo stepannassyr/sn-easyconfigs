@@ -17,7 +17,7 @@ sources = [SOURCELOWER_TAR_GZ]
 source_urls = [GNU_SOURCE]
 
 # use same binutils version that was used when building GCC toolchain
-builddependencies = [('binutils', '2.32', '', True)]
+builddependencies = [('binutils', '2.33.1', '', True)]
 
 configopts = "--enable-c++"
 

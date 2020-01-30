@@ -18,7 +18,7 @@ source_urls = ['http://ftp.gnu.org/gnu/gmp']
 
 builddependencies = [
     ('Autotools', '20180311'),
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
 ]
 
 # enable C++ interface

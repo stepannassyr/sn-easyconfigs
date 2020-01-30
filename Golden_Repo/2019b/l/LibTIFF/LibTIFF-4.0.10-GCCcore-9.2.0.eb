@@ -28,7 +28,7 @@ source_urls = [
 ]
 sources = ['tiff-%(version)s.tar.gz']
 
-builddependencies = [('binutils', '2.32')]
+builddependencies = [('binutils', '2.33.1')]
 
 configopts = '--enable-ld-version-script'
 

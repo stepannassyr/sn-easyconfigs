@@ -15,8 +15,8 @@ source_urls = ['https://archive.apache.org/dist/%(namelower)s']
 sources = [SOURCELOWER_TAR_BZ2]
 
 builddependencies = [
-    ('SCons', '3.0.5'),
-    ('binutils', '2.32'),
+    ('SCons', '3.1.1'),
+    ('binutils', '2.33.1'),
 ]
 
 dependencies = [

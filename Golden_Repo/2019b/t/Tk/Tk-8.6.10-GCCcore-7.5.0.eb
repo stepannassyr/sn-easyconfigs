@@ -19,12 +19,12 @@ sources = ['%(namelower)s%(version)s-src.tar.gz']
 #patches = ['Tk-8.6.8_different-prefix-with-tcl.patch']
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
 ]
 
 dependencies = [
     ('Tcl', version),
-    ('X11', '20190311'),
+    ('X11', '20190717'),
 ]
 
 configopts = '--disable-xss --enable-threads --with-tcl=$EBROOTTCL/lib CFLAGS="-I$EBROOTTCL/include"'

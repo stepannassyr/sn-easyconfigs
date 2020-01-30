@@ -15,7 +15,7 @@ sources = [SOURCE_TGZ]
 
 # python needs bzip2 to build the bz2 package
 dependencies = [
-    ('bzip2', '1.0.6'),
+    ('bzip2', '1.0.8'),
     ('zlib', '1.2.11'),
     ('libreadline', '8.0'),
     ('ncurses', '6.1'),
@@ -31,11 +31,11 @@ dependencies = [
     ('protobuf', '3.9.1'),
     ('gflags', '2.2.2'),
     ('libspatialindex', '1.9.0'), # Needed for rtree
-    ('libjpeg-turbo', '2.0.2'),
+    ('libjpeg-turbo', '2.0.3'),
 ]
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
     # Needed just for unzipping zip files in systems without unzip
     ('unzip', '6.0'),
 ]

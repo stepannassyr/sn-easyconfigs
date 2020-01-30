@@ -21,7 +21,7 @@ sources = [SOURCELOWER_TAR_XZ]
 patches = ['gdk-pixbuf_postinstall.patch']
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
     ('GObject-Introspection', '1.62.0'),
     ('Meson', '0.51.2', '-Python-3.8.0'),
     ('Ninja', '1.9.0'),
@@ -29,9 +29,9 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('GLib', '2.60.7'),
-    ('libjpeg-turbo', '2.0.2'),
-    ('libpng', '1.6.36'),
+    ('GLib', '2.62.0'),
+    ('libjpeg-turbo', '2.0.3'),
+    ('libpng', '1.6.37'),
     ('LibTIFF', '4.0.10'),
 ]
 

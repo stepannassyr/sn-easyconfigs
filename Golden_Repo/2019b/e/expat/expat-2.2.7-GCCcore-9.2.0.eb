@@ -17,7 +17,7 @@ sources = [SOURCELOWER_TAR_BZ2]
 source_urls = [SOURCEFORGE_SOURCE]
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
 ]
 
 moduleclass = 'tools'

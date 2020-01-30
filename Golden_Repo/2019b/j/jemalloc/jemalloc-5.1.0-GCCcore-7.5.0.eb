@@ -16,7 +16,7 @@ sources = ['%(version)s.tar.gz']
 
 builddependencies = [
     ('Autotools', '20180311'),
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
 ]
 
 # should not run 'make install', since that includes installing documentation which requires XLS (docbook)

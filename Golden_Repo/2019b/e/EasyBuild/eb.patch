@@ -31,7 +31,7 @@ diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/fortranpytho
              cmd = "%s %s setup.py build %s" % (self.cfg['prebuildopts'], self.python_cmd, self.cfg['buildopts'])
  
 -        elif comp_fam in [toolchain.GCC, toolchain.CLANGGCC]:  # @UndefinedVariable
-+        elif comp_fam in [toolchain.GCC, toolchain.CLANGGCC, toolchain.ARMHPC]:  # @UndefinedVariable
++        elif comp_fam in [toolchain.GCC, toolchain.CLANGGCC, toolchain.ARMHPC, toolchain.ARMLINUX]:  # @UndefinedVariable
              ldflags = os.getenv('LDFLAGS')
              if ldflags:
                  # LDFLAGS should not be set when building numpy/scipy, because it overwrites whatever numpy/scipy sets
@@ -170,7 +170,7 @@ diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/c/clang.py b/easybui
 +        find_source_dir('libunwind-*', os.path.join(self.llvm_src_dir, 'projects', 'libunwind'))
 +        find_source_dir('lldb-*', os.path.join(self.llvm_src_dir, 'tools', 'lldb'))
 +
-+        find_source_dir('cfe-*', os.path.join(self.llvm_src_dir, 'tools', 'clang'))
++        find_source_dir(['cfe-*','clang-%s*' % self.version], os.path.join(self.llvm_src_dir, 'tools', 'clang'))
 +        find_source_dir('clang-tools-extra-*', os.path.join(self.llvm_src_dir, 'tools/clang/tools', 'extra'))
  
          if LooseVersion(self.version) >= LooseVersion('3.8'):

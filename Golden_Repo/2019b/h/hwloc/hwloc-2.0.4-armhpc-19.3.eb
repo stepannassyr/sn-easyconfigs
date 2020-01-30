@@ -27,17 +27,18 @@ source_urls = ['https://www.open-mpi.org/software/hwloc/v%(version_major_minor)s
 sources = [SOURCE_TAR_GZ]
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
 ]
 
 dependencies = [
     ('numactl', '2.0.12'),
     ('libxml2', '2.9.9'),
-    ('X11', '20190311'), # For libpciaccess
+    ('X11', '20190717'), # For libpciaccess
 ]
 
 configopts = "--enable-libnuma=$EBROOTNUMACTL "
 configopts += "--disable-cairo --disable-opencl --disable-cuda --disable-nvml --disable-gl --disable-libudev "
+configopts += "--enable-static "
 
 sanity_check_paths = {
     'files': ['bin/lstopo', 'include/hwloc/linux.h',

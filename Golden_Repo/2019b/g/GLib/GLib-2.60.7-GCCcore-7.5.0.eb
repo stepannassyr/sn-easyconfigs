@@ -17,7 +17,7 @@ sources = [SOURCELOWER_TAR_XZ]
 pyver = '3.8.0'
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
     ('Python', pyver),
     ('Meson', '0.51.2', '-Python-%s' % '3.8.0'),
     ('Ninja', '1.9.0'),

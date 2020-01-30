@@ -14,8 +14,8 @@ source_urls = ['http://bitbucket.org/%(namelower)s/%(namelower)s/get']
 sources = ['%(version)s.tar.bz2']
 
 builddependencies = [
-    ('binutils', '2.32'),
-    ('CMake', '3.15.2'),
+    ('binutils', '2.33.1'),
+    ('CMake', '3.16.1'),
 ]
 
 moduleclass = 'math'

@@ -13,7 +13,7 @@ source_urls = ['http://www.cpan.org/src/%(version_major)s.0']
 sources = [SOURCELOWER_TAR_GZ]
 checksums = ['3ebf85fe65df2ee165b22596540b7d5d42f84d4b72d84834f74e2e0b8956c347']
 
-builddependencies = [('binutils', '2.32')]
+builddependencies = [('binutils', '2.33.1')]
 
 dependencies = [
     ('zlib', '1.2.11'),  # for Net::SSLeay

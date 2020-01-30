@@ -24,7 +24,7 @@ sources = ['yaml-%(version)s.tar.gz']
 source_urls = ['http://pyyaml.org/download/libyaml/']
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
     ('Autotools', '20180311'),
 ]
 

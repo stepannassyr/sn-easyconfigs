@@ -15,12 +15,12 @@ source_urls = [GNU_SAVANNAH_SOURCE]
 sources = [SOURCE_TAR_GZ]
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
 ]
 
 dependencies = [
-    ('bzip2', '1.0.6'),
-    ('libpng', '1.6.36'),
+    ('bzip2', '1.0.8'),
+    ('libpng', '1.6.37'),
     ('zlib', '1.2.11'),
 ]
 

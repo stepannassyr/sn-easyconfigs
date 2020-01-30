@@ -21,8 +21,8 @@ source_urls = ["http://releases.llvm.org/%(version)s/"]
 sources = ["llvm-%(version)s.src.tar.xz"]
 
 builddependencies = [
-    ('CMake', '3.15.2'),
-    ('binutils', '2.32'),
+    ('CMake', '3.16.1'),
+    ('binutils', '2.33.1'),
     ('Python', '3.8.0'),
 ]
 

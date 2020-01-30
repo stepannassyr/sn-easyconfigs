@@ -23,7 +23,7 @@ req_py_minver = 0
 
 builddependencies = [
     ('pkgconfig', '1.5.1', pysuffix),
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
 ]
 
 dependencies = [

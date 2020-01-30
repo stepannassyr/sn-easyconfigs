@@ -13,21 +13,24 @@ description = """The JasPer Project is an open-source initiative to provide a fr
 toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
 toolchainopts = {'pic': True}
 
-sources = ['version-%(version)s.tar.gz']
 source_urls = ['https://github.com/mdadams/jasper/archive/']
+sources = ['version-%(version)s.tar.gz']
+patches = ['CVE-2018-19539.patch']
+checksums = [
+    'f1d8b90f231184d99968f361884e2054a1714fdbbd9944ba1ae4ebdcc9bbfdb1',  # version-2.0.16.tar.gz
+    '5f809b63ab049ef4dca677ca18d9ff811a96743406eabf982a29db7c53b9b6f8',  # CVE-2018-19539.patch
+]
 
 builddependencies = [
-    ('binutils', '2.32'),
-    ('CMake', '3.15.2')
+    ('binutils', '2.33.1'),
+    ('CMake', '3.16.1')
 ]
 
 dependencies = [
     ('Mesa', '19.2.4'),
     ('freeglut','3.0.0'),
-    ('libjpeg-turbo','2.0.2'),
+    ('libjpeg-turbo', '2.0.3'),
 ]
-
-patches = ['CVE-2018-19539.patch']
 
 separate_build_dir = True
 

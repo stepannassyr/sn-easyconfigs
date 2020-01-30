@@ -23,7 +23,7 @@ patches = ['subversion-1.12.0-apr-1.7.0.patch']
 preconfigopts = 'autoreconf -vif && '
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
     # Needed just to recreate the configure script after patching
     ('Autotools', '20180311'),
 ]

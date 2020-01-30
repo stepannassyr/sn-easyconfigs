@@ -14,10 +14,10 @@ toolchainopts = {'pic': True}
 sources = [SOURCELOWER_TAR_GZ]
 source_urls = ['https://github.com/westes/flex/releases/download/v%(version)s/']
 
-dependencies = [('Bison', '3.4.1')]
+dependencies = [('Bison', '3.4.2')]
 
 # use same binutils version that was used when building GCC toolchain
-builddependencies = [('binutils', '2.32', '', True)]
+builddependencies = [('binutils', '2.33.1', '', True)]
 
 parallel = 1
 

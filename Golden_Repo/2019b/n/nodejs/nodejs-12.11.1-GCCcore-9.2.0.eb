@@ -16,7 +16,7 @@ source_urls = ['http://%(name)s.org/dist/v%(version)s/']
 sources = ['node-v%(version)s.tar.gz']
 checksums = ['37043ddbe60f18a52ec31e0381b66adebbc0ec24669d72f132a1fdfacdf029ae']
 
-builddependencies = [('binutils', '2.32')]
+builddependencies = [('binutils', '2.33.1')]
 
 # Python is required (only) as build dependency
 allow_system_deps = [('Python', SYS_PYTHON_VERSION)]

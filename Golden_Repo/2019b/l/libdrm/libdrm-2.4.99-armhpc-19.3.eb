@@ -15,11 +15,11 @@ sources = [SOURCELOWER_TAR_GZ]
 toolchain = {'name': 'armhpc', 'version': '19.3'}
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
 ]
 
 dependencies = [
-    ('X11', '20190311'),
+    ('X11', '20190717'),
 ]
 
 sanity_check_paths = {

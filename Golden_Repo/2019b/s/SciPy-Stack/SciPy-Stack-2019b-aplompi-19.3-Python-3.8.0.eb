@@ -27,7 +27,7 @@ dependencies = [
     ('ArmBLAS', '19.3'),
     ('ArmFFT', '19.3'),
     ('freetype', '2.10.1'),
-    ('libpng', '1.6.36'),
+    ('libpng', '1.6.37'),
     ('libreadline', '8.0'),
     ('SQLite', '3.27.2'),
 ]

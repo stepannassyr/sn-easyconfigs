@@ -18,7 +18,7 @@ patches = [
 ]
 
 dependencies = [
-    ('bzip2', '1.0.6'),
+    ('bzip2', '1.0.8'),
     ('zlib', '1.2.11'),
     ('Python', '3.7.4'),
     ('ICU', '64.2'),

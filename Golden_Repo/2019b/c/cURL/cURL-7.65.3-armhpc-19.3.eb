@@ -21,7 +21,7 @@ source_urls = ['http://%(namelower)s.haxx.se/download/']
 
 #dependencies = [('OpenSSL', '1.0.1p')]
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
 ]
 
 osdependencies = [('openssl-devel', 'libssl-dev', 'libopenssl-devel')]

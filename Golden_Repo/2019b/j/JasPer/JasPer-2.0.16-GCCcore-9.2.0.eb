@@ -17,14 +17,14 @@ sources = ['version-%(version)s.tar.gz']
 source_urls = ['https://github.com/mdadams/jasper/archive/']
 
 builddependencies = [
-    ('binutils', '2.32'),
-    ('CMake', '3.15.2')
+    ('binutils', '2.33.1'),
+    ('CMake', '3.16.1')
 ]
 
 dependencies = [
     ('Mesa', '19.2.4'),
     ('freeglut','3.0.0'),
-    ('libjpeg-turbo','2.0.2'),
+    ('libjpeg-turbo', '2.0.3'),
 ]
 
 patches = ['CVE-2018-19539.patch']

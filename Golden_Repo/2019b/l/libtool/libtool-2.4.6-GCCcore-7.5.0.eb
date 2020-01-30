@@ -16,7 +16,7 @@ sources = [SOURCELOWER_TAR_GZ]
 source_urls = [GNU_SOURCE]
 
 builddependencies = [
-    ('binutils', '2.32')
+    ('binutils', '2.33.1')
 ]
 
 dependencies = [

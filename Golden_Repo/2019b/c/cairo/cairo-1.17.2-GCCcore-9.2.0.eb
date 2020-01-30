@@ -18,19 +18,19 @@ source_urls = ['http://cairographics.org/snapshots/']
 sources = [SOURCE_TAR_XZ]
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
     ('Coreutils', '8.31'),
     ('pkg-config', '0.29.2'),
 ]
 
 dependencies = [
-    ('X11', '20190311'),
+    ('X11', '20190717'),
     ('freetype', '2.10.1'),
-    ('bzip2', '1.0.6'),
+    ('bzip2', '1.0.8'),
     ('zlib', '1.2.11'),
-    ('libpng', '1.6.36'),
+    ('libpng', '1.6.37'),
     ('expat', '2.2.7'),
-    ('GLib', '2.60.7'),
+    ('GLib', '2.62.0'),
     ('pixman', '0.38.4'),
 ]
 

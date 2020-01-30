@@ -17,7 +17,7 @@ toolchainopts = { 'pic': True}
 source_urls = [SOURCEFORGE_SOURCE]
 sources = [SOURCELOWER_TAR_GZ]
 
-builddependencies = [('binutils', '2.32')]
+builddependencies = [('binutils', '2.33.1')]
 
 configopts = "--with-pic --disable-cpp --enable-utf --enable-unicode-properties"
 

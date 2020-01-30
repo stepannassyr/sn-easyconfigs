@@ -18,7 +18,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('Bison', '3.4.1'),
+    ('Bison', '3.4.2'),
 ]
 
 hidden = True

@@ -27,7 +27,7 @@
 # along with EasyBuild.  If not, see <http://www.gnu.org/licenses/>.
 ##
 """
-EasyBuild support for aompi compiler toolchain (includes ARM compiler for HPC and OpenMPI).
+EasyBuild support for aompi compiler toolchain (includes ARM Compiler for HPC and OpenMPI).
 
 """
 
@@ -36,6 +36,6 @@ from easybuild.toolchains.mpi.openmpi import OpenMPI
 
 
 class Aompi(ArmHPC, OpenMPI):
-    """Compiler toolchain with ARM compiler for HPC and OpenMPI."""
+    """Compiler toolchain with ARM Compiler for HPC and OpenMPI."""
     NAME = 'aompi'
     SUBTOOLCHAIN = ArmHPC.NAME

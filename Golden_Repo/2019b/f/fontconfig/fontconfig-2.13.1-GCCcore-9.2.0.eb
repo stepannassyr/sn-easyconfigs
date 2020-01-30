@@ -16,7 +16,7 @@ source_urls = ['http://www.freedesktop.org/software/fontconfig/release/']
 sources = [SOURCE_TAR_GZ]
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
 ]
 
 dependencies = [

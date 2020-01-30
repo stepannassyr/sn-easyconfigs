@@ -18,7 +18,7 @@ sources = [SOURCELOWER_TAR_GZ]
 source_urls = [('http://sourceforge.net/projects/libpng/files/zlib/%(version)s', 'download')]
 
 # use same binutils version that was used when building GCC toolchain
-builddependencies = [('binutils', '2.32', '', True)]
+builddependencies = [('binutils', '2.33.1', '', True)]
 
 sanity_check_paths = {
     'files': ['include/zconf.h', 'include/zlib.h', 'lib/libz.a', 'lib/libz.%s' % SHLIB_EXT],

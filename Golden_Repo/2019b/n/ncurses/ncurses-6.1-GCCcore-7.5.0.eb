@@ -17,7 +17,7 @@ toolchainopts = { 'pic': True}
 source_urls = [GNU_SOURCE]
 sources = [SOURCE_TAR_GZ]
 
-builddependencies = [('binutils', '2.32')]
+builddependencies = [('binutils', '2.33.1')]
 
 configopts = [
     # default build

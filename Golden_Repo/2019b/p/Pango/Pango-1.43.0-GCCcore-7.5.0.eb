@@ -17,7 +17,7 @@ source_urls = [FTPGNOME_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
     ('Coreutils', '8.31'),
     ('GObject-Introspection', '1.62.0'),
     ('Meson', '0.51.2', '-Python-3.8.0'),
@@ -26,8 +26,8 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('X11', '20190311'),
-    ('GLib', '2.60.7'),
+    ('X11', '20190717'),
+    ('GLib', '2.62.0'),
     ('cairo', '1.17.2'),
     ('HarfBuzz', '2.4.0'),
 ]

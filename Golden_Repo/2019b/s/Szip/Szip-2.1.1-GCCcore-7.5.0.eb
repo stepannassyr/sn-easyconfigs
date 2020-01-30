@@ -16,7 +16,7 @@ source_urls = ['http://www.hdfgroup.org/ftp/lib-external/szip/%(version)s/src']
 sources = [SOURCELOWER_TAR_GZ]
 
 builddependencies = [
-    ('binutils', '2.32')
+    ('binutils', '2.33.1')
 ]
 
 configopts = "--with-pic"

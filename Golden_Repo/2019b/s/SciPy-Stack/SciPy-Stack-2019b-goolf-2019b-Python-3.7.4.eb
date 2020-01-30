@@ -27,7 +27,7 @@ dependencies = [
     ('OpenBLAS', '0.3.7'),
     ('FFTW', '3.3.8', '', ('gompi','2019b')),
     ('freetype', '2.10.1'),
-    ('libpng', '1.6.36'),
+    ('libpng', '1.6.37'),
     ('libreadline', '8.0'),
     ('SQLite', '3.27.2'),
 ]

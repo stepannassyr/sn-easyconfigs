@@ -11,18 +11,19 @@ description = """freeglut is a completely OpenSourced alternative to the OpenGL 
 
 toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
 
-sources = [SOURCE_TAR_GZ]
 source_urls = ['http://prdownloads.sourceforge.net/%(name)s']
+sources = [SOURCE_TAR_GZ]
+checksums = ['2a43be8515b01ea82bcfa17d29ae0d40bd128342f0930cd1f375f1ff999f76a2']
 
 builddependencies = [
-    ('binutils', '2.32'),
-    ('CMake', '3.15.2'),
+    ('binutils', '2.33.1'),
+    ('CMake', '3.16.1'),
 ]
 
 
 dependencies = [
-    ('X11', '20190311'),
-    ('libGLU', '9.0.0'),
+    ('X11', '20190717'),
+    ('libGLU', '9.0.1'),
     ('Mesa', '19.2.4'),
 ]
 

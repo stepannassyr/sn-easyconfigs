@@ -14,7 +14,7 @@ sources = [SOURCELOWER_TAR_GZ]
 source_urls = ['http://prdownloads.sourceforge.net/%(namelower)s']
 
 builddependencies = [
-    ('binutils', '2.32'),
+    ('binutils', '2.33.1'),
 ]
 
 sanity_check_paths = {

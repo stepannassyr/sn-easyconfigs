@@ -15,14 +15,14 @@ sources = [SOURCE_TAR_GZ]
 source_urls = ['http://prdownloads.sourceforge.net/%(name)s']
 
 builddependencies = [
-    ('binutils', '2.32'),
-    ('CMake', '3.15.2'),
+    ('binutils', '2.33.1'),
+    ('CMake', '3.16.1'),
 ]
 
 
 dependencies = [
-    ('X11', '20190311'),
-    ('libGLU', '9.0.0'),
+    ('X11', '20190717'),
+    ('libGLU', '9.0.1'),
     ('Mesa', '19.2.4'),
 ]
 

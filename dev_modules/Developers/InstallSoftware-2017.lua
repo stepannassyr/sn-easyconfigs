@@ -151,7 +151,7 @@ elseif architecture == "Haswell" then
     pushenv("EASYBUILD_OPTARCH", opt)
 -- Juawei hi1616
 elseif architecture == "Cortex-A72" then
-    local opt="GCCcore:march=armv8-a+fp+simd+crc -mtune=cortex-a72;GCC:march=armv8-a+fp+simd+crc -mtune=cortex-a72;armhpc:march=armv8-a+fp+simd+crc -mcpu=cortex-a72 -mtune=cortex-a72;Clang:march=armv8-a+fp+simd+crc -mcpu=cortex-a72 -mtune=cortex-a72"
+    local opt="GCCcore:march=armv8-a+fp+simd+crc -mtune=cortex-a72;GCC:march=armv8-a+fp+simd+crc -mtune=cortex-a72;armhpc:march=armv8-a+fp+simd+crc -mcpu=cortex-a72 -mtune=cortex-a72;Clang:march=armv8-a+fp+simd+crc -mcpu=cortex-a72 -mtune=cortex-a72;armlinux:march=armv8-a+fp+simd+crc -mcpu=cortex-a72 -mtune=cortex-a72"
     if mode()=="load" then
         LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
     end
@@ -172,7 +172,7 @@ elseif architecture == "Cortex-A72" then
     end
 -- ThunderX2
 elseif architecture == "ThunderX2" then
-    local opt="GCCcore:march=armv8.1-a+fp+simd+crc -mtune=thunderx2t99;GCC:march=armv8.1-a+fp+simd+crc -mtune=thunderx2t99;armhpc:march=armv8.1-a+fp+simd+crc -mcpu=thunderx2t99 -mtune=thunderx2t99;Clang:march=armv8.1-a+fp+simd+crc -mcpu=thunderx2t99 -mtune=thunderx2t99"
+    local opt="GCCcore:march=armv8.1-a+fp+simd+crc -mtune=thunderx2t99;GCC:march=armv8.1-a+fp+simd+crc -mtune=thunderx2t99;armhpc:march=armv8.1-a+fp+simd+crc -mcpu=thunderx2t99 -mtune=thunderx2t99;Clang:march=armv8.1-a+fp+simd+crc -mcpu=thunderx2t99 -mtune=thunderx2t99;armlinux:march=armv8.1-a+fp+simd+crc -mcpu=thunderx2t99 -mtune=thunderx2t99"
     if mode()=="load" then
         LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
     end
