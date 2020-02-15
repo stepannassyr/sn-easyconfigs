@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 sanity_check_paths = {

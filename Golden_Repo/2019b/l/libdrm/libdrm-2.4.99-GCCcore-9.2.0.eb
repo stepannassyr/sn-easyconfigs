@@ -15,7 +15,7 @@ sources = [SOURCELOWER_TAR_GZ]
 toolchain = {'name': 'GCCcore', 'version': '9.2.0'}
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 dependencies = [

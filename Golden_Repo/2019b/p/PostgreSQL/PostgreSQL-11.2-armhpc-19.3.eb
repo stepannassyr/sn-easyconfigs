@@ -31,7 +31,7 @@ dependencies = [
 ]
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
     ('Bison', '3.4.2'),
     ('flex', '2.6.4'),
     ('Perl', '5.28.1'),

@@ -16,7 +16,7 @@ sources = ['%(version)s.tar.gz']
 
 builddependencies = [
     ('CMake', '3.16.1'),
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 

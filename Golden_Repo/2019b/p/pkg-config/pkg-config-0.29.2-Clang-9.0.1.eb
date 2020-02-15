@@ -17,7 +17,7 @@ toolchain = {'name': 'Clang', 'version': '9.0.1'}
 sources = [SOURCELOWER_TAR_GZ]
 source_urls = ['http://pkgconfig.freedesktop.org/releases/']
 
-builddependencies = [('binutils', '2.33.1')]
+builddependencies = [('binutils', '2.34')]
 
 # don't use PAX, it might break.
 tar_config_opts = True

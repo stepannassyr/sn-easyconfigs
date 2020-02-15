@@ -18,7 +18,7 @@ checksums = ['6c257205a0a343b662c9961a58bb4ba1f1e31c82f5c6b909ec741194abc3da10']
 pyver = '3.8.0'
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
     ('Python', pyver),
     ('Meson', '0.51.2', '-Python-%s' % '3.8.0'),
     ('Ninja', '1.9.0'),

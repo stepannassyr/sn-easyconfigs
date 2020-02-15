@@ -15,7 +15,7 @@ toolchainopts = {'pic': True}
 source_urls = ['http://download.icu-project.org/files/icu4c/%(version)s']
 sources = ['icu4c-%(version_major)s_%(version_minor)s-src.tgz']
 
-builddependencies = [('binutils', '2.33.1')]
+builddependencies = [('binutils', '2.34')]
 
 start_dir = 'source'
 

@@ -15,7 +15,7 @@ toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
 source_urls = ['ftp://ftp.videolan.org/pub/videolan/x264/snapshots/']
 sources = ['x264-snapshot-%(version)s-2245-stable.tar.bz2']
 
-builddependencies = [('binutils', '2.33.1')]
+builddependencies = [('binutils', '2.34')]
 
 dependencies = [('NASM', '2.14.02')]
 

@@ -18,7 +18,7 @@ sources = [SOURCELOWER_TAR_GZ]
 configopts = '-- -DCMAKE_USE_OPENSSL=1 -DCMAKE_PREFIX_PATH=$EBROOTNCURSES'
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 dependencies = [

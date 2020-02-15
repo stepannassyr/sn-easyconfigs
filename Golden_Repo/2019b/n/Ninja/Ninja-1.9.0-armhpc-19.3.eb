@@ -15,7 +15,7 @@ sources = ['v%(version)s.tar.gz']
 
 builddependencies = [
     ('Python', '3.8.0'),
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 

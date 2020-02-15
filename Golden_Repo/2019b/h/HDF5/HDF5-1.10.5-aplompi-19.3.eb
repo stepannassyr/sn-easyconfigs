@@ -15,7 +15,7 @@ source_urls = ['https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-%(version_ma
 sources = [SOURCELOWER_TAR_GZ]
 
 builddependencies = [
-    ('binutils', '2.33.1')
+    ('binutils', '2.34')
 ]
 
 dependencies = [

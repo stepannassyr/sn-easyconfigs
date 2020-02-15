@@ -15,7 +15,7 @@ toolchain = {'name': 'dummy', 'version': ''}
 dependencies = [
     ('GCCcore', version),
     # binutils built on top of GCCcore, which was built on top of (dummy-built) binutils
-    ('binutils', '2.33.1', '', ('GCCcore', version)),
+    ('binutils', '2.34', '', ('GCCcore', version)),
 ]
 
 altroot = 'GCCcore'

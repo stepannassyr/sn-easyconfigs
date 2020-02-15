@@ -37,7 +37,7 @@ checksums = ['09000a0f7dbbd82e193b81a8f1bf0c118eab7ca975c0329181968596e548e30f']
 pyver = '3.7.4'
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
     ('flex', '2.6.4'),
     ('Bison', '3.4.2'),
     ('Autotools', '20180311'),

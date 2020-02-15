@@ -36,7 +36,7 @@ source_urls = [
 pyver = '3.7.4'
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
     ('flex', '2.6.4'),
     ('Bison', '3.4.2'),
     ('Autotools', '20180311'),

@@ -28,7 +28,7 @@ configopts += "--with-bashcompletiondir='${prefix}/share/bash-completion/complet
 configopts += "--without-python "
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 dependencies = [

@@ -23,7 +23,7 @@ sources = [SOURCELOWER_TAR_GZ]
 configopts = 'CC="$CC" CXX="$CXX" --with-pic --without-python --with-zlib=$EBROOTZLIB'
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 dependencies = [

@@ -24,7 +24,7 @@ dependencies = [
 ]
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 moduleclass = 'vis'

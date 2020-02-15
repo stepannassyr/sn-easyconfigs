@@ -35,7 +35,7 @@ dependencies = [
 ]
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
     # Needed just for unzipping zip files in systems without unzip
     ('unzip', '6.0'),
 ]

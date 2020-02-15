@@ -17,7 +17,7 @@ sources = [SOURCELOWER_TAR_GZ]
 patches = ['meson-0.51.2-armhpc.patch']
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 dependencies = [

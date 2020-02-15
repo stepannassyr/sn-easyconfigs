@@ -21,6 +21,6 @@ checksums = [
     '5a823e820b332eca3684416894f58edc125ac3dace9f46e62f98e45362aa8a6d',  # bzip2-1.0.6-pkgconfig.patch
 ]
 
-builddependencies = [('binutils', '2.33.1')]
+builddependencies = [('binutils', '2.34')]
 
 moduleclass = 'tools'

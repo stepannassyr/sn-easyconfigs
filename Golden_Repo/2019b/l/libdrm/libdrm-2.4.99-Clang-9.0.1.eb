@@ -15,7 +15,7 @@ sources = [SOURCELOWER_TAR_GZ]
 toolchain = {'name': 'Clang', 'version': '9.0.1'}
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 dependencies = [

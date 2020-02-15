@@ -29,7 +29,7 @@ sources = ['v%(version)s.tar.gz']
 source_urls = ['https://github.com/git/git/archive']
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
     ('Autotools', '20180311'),
 ]
 

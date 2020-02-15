@@ -19,7 +19,7 @@ sources = ['%(namelower)s%(version)s-src.tar.gz']
 #patches = ['Tk-8.6.8_different-prefix-with-tcl.patch']
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 dependencies = [

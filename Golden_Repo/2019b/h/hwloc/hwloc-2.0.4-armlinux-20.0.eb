@@ -27,7 +27,7 @@ source_urls = ['https://www.open-mpi.org/software/hwloc/v%(version_major_minor)s
 sources = [SOURCE_TAR_GZ]
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 dependencies = [

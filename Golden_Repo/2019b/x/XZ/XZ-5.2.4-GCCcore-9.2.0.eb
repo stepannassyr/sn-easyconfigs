@@ -16,7 +16,7 @@ source_urls = ['http://tukaani.org/xz/']
 builddependencies = [
     ('Autotools', '20180311'),
     ('gettext', '0.20.1', '', True),
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 patches = [

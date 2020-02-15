@@ -15,7 +15,7 @@ sources = [SOURCELOWER_TAR_GZ]
 toolchain = {'name': 'armlinux', 'version': '20.0'}
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 dependencies = [

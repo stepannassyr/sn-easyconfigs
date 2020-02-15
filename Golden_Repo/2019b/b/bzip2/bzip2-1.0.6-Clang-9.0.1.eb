@@ -16,6 +16,6 @@ source_urls = [SOURCEFORGE_SOURCE]
 sources = [SOURCE_TAR_GZ]
 checksums = ['a2848f34fcd5d6cf47def00461fcb528a0484d8edef8208d6d2e2909dc61d9cd']
 
-builddependencies = [('binutils', '2.33.1')]
+builddependencies = [('binutils', '2.34')]
 
 moduleclass = 'tools'

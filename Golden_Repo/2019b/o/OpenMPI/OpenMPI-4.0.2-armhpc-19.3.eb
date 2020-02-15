@@ -23,7 +23,7 @@ dependencies = [
 
 # ARM included binutils cause compilation error
 builddependencies = [
-    ('binutils', '2.33.1')
+    ('binutils', '2.34')
 ]
 
 

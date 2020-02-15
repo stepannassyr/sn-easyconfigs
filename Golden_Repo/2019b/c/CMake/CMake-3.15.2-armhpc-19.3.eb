@@ -20,7 +20,7 @@ patches = ['CMake-3.15.2-armhpc-19.2-prevent-crash-on-ParseCacheWrite.patch']
 configopts = '-- -DCMAKE_USE_OPENSSL=1 -DCMAKE_PREFIX_PATH=$EBROOTNCURSES'
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 dependencies = [

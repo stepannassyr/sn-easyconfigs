@@ -13,7 +13,7 @@ source_urls = ['ftp://ftp.freedesktop.org/pub/mesa/glu/']
 sources = ['glu-%(version)s.tar.gz']
 checksums = ['f6f484cfcd51e489afe88031afdea1e173aa652697e4c19ddbcb8260579a10f7']
 
-builddependencies = [('binutils', '2.33.1')]
+builddependencies = [('binutils', '2.34')]
 
 dependencies = [
     ('Mesa', '19.2.4'),

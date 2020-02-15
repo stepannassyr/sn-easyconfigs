@@ -27,7 +27,7 @@ toolchain = {'name': 'armhpc', 'version': '19.3'}
 source_urls = [GNU_SOURCE]
 sources = [SOURCELOWER_TAR_GZ]
 
-builddependencies = [('binutils', '2.33.1')]
+builddependencies = [('binutils', '2.34')]
 dependencies = [('Autoconf', '2.69')]
 
 sanity_check_paths = {

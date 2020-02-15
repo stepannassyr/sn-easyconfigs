@@ -19,7 +19,7 @@ sources = ['v%(version)s.tar.gz']
 source_urls = ['https://github.com/gflags/gflags/archive/']
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
     ('CMake', '3.16.1'),
 ]
 

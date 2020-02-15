@@ -36,7 +36,7 @@ checksums = [
 
 builddependencies = [
     # use same binutils version that was used when building GCCcore
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
     ('pkg-config', '0.29.2'),
 ]
 

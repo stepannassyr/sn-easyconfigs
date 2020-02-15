@@ -24,7 +24,7 @@ checksums = ['94fb70890143e3c6549f265cee93ec064c80a84c42ad0f23e85ee1fd6540a871']
 configopts = 'CC="$CC" CXX="$CXX" --with-pic --without-python --with-zlib=$EBROOTZLIB'
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
 ]
 
 dependencies = [

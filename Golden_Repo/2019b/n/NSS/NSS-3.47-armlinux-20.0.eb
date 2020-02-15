@@ -17,7 +17,7 @@ checksums = [
     '5c4b55842e5afd1e8e67b90635f6474510b89242963c4ac2622d3e3da9062774',  # NSS-3.39_pkgconfig.patch
 ]
 
-builddependencies = [('binutils', '2.33.1')]
+builddependencies = [('binutils', '2.34')]
 dependencies = [
     ('NSPR', '4.24'),
     ('zlib', '1.2.11'),

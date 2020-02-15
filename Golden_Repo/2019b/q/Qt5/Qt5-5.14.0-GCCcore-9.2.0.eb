@@ -28,7 +28,7 @@ checksums = [
 osdependencies = [('libevent-devel')]
 
 builddependencies = [
-    ('binutils', '2.33.1'),
+    ('binutils', '2.34'),
     ('pkg-config', '0.29.2'),
     # deps for QtWebEngine
     ('Bison', '3.4.2'),

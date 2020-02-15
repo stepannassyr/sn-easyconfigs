@@ -18,7 +18,7 @@ sources = ['%(name)s%(version_major)s%(version_minor)s.tgz']
 skipsteps = ['configure']
 
 builddependencies = [
-    ('binutils', '2.33.1')
+    ('binutils', '2.34')
 ]
 
 prebuildopts = 'ln -s unix/Makefile && '
