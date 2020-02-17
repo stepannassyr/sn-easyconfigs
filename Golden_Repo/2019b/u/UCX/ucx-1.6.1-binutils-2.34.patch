@@ -1,0 +1,24 @@
+diff -urN ucx-1.6.1-unpatched/src/ucs/debug/debug.c ucx-1.6.1/src/ucs/debug/debug.c
+--- ucx-1.6.1-unpatched/src/ucs/debug/debug.c	2020-02-17 03:49:14.351522377 +0100
++++ ucx-1.6.1/src/ucs/debug/debug.c	2020-02-17 04:07:18.700734223 +0100
+@@ -240,17 +240,17 @@
+     int found;
+ 
+     if ((search->count > 0) || (search->max_lines == 0) ||
+-        ((bfd_get_section_flags(abfd, section) & SEC_ALLOC) == 0)) {
++        ((bfd_section_flags(section) & SEC_ALLOC) == 0)) {
+         return;
+     }
+ 
+     address = search->file->dl.address - search->file->dl.base;
+-    vma = bfd_get_section_vma(abfd, section);
++    vma = bfd_section_vma(section);
+     if (address < vma) {
+         return;
+     }
+ 
+-    size = bfd_section_size(abfd, section);
++    size = bfd_section_size(section);
+     if (address >= vma + size) {
+         return;
+     }
