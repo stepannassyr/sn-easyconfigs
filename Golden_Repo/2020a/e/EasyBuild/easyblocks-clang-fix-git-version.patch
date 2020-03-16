@@ -1,6 +1,6 @@
 diff -urN a/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py b/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py
---- a/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py	2020-03-14 12:58:51.744425498 +0100
-+++ b/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py	2020-03-14 12:59:11.646424118 +0100
+--- a/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py	2020-03-16 16:54:12.119300150 +0100
++++ b/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py	2020-03-16 16:54:40.865298156 +0100
 @@ -37,6 +37,7 @@
  import glob
  import os
@@ -128,7 +128,7 @@ diff -urN a/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py b/easybui
  
      def configure_step(self):
          """Run CMake for stage 1 Clang."""
-@@ -308,7 +335,7 @@
+@@ -308,10 +335,10 @@
              regex_subs = [('.*add_subdirectory\(tests\).*', '')]
              apply_regex_substitutions(cmakelists, regex_subs)
  
@@ -136,7 +136,11 @@ diff -urN a/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py b/easybui
 +        elif LooseVersion(self.version) < LooseVersion('10.0'):
              # In Clang 3.6, the sanitizer tests are grouped together in one CMakeLists
              # We patch out adding the subdirectories with the sanitizer tests
-             cmakelists_tests = os.path.join(self.llvm_src_dir, 'projects', 'compiler-rt', 'test', 'CMakeLists.txt')
+-            cmakelists_tests = os.path.join(self.llvm_src_dir, 'projects', 'compiler-rt', 'test', 'CMakeLists.txt')
++            cmakelists_tests = os.path.join(self.llvm_src_dir, 'runtimes', 'compiler-rt', 'test', 'CMakeLists.txt')
+             regex_subs = []
+             if LooseVersion(self.version) >= LooseVersion('5.0'):
+                 regex_subs.append((r'compiler_rt_test_runtime.*san.*', ''))
 @@ -327,16 +354,43 @@
          mkdir(next_obj)
          change_dir(next_obj)
@@ -181,11 +185,13 @@ diff -urN a/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py b/easybui
          self.cfg.update('configopts', '-DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON')
          self.cfg.update('configopts', '-DCOMPILER_RT_USE_LIBCXX=ON')
          self.cfg.update('configopts', '-DLIBCXXABI_USE_COMPILER_RT=ON')
-@@ -415,16 +469,33 @@
+@@ -415,16 +469,35 @@
              except OSError as err:
                  raise EasyBuildError("Failed to copy static analyzer dirs to install dir: %s", err)
  
-+        if self.version[-4:] == "-git":
++        # apparently also required for 9.0.1
++        #if self.version[-4:] == "-git":
++        if LooseVersion(self.version) >= LooseVersion('9.0')
 +            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++.so'),
 +                       os.path.join(self.installdir, 'lib', 'libc++.so'))
 +            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++.so.1'),
@@ -217,7 +223,7 @@ diff -urN a/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py b/easybui
          }
          if self.cfg['static_analyzer']:
              custom_paths['files'].extend(["bin/scan-build", "bin/scan-view"])
-@@ -440,8 +511,8 @@
+@@ -440,8 +513,8 @@
              custom_paths['files'].extend(["lib/libc++.%s" % shlib_ext])
              custom_paths['files'].extend(["lib/libc++abi.%s" % shlib_ext])
  
