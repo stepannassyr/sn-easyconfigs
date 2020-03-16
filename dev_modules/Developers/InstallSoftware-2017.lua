@@ -9,7 +9,7 @@ local colors = require 'ansicolors'
 -- Check first if "Stages" has been loaded. If not print a message and assert it with prereq
 if mode()=="load" then
     if not isloaded("Stages") then
-        LmodMessage(yellow.."You must have a stage loaded to set the build variables... "..normal)
+        LmodMessage(colors("%{yellow}You must have a stage loaded to set the build variables...%{reset}"))
     end
 end
 
@@ -41,14 +41,14 @@ user = string.gsub(user, "\n", "")
 if mode()=="load" then
     if user ~= "swmanage" and user ~="nassyr1" then
         if not userInGroup("software") then
-            LmodError(yellow.."Sorry but we only allow installations from users in the software group!\n"..
+            LmodError(colors("%{yellow}Sorry but we only allow installations from users in the software group!\n"..
                       "If you would like to be included in that group please contact: "..
-                      contact..normal)
+                      contact.."%{reset}"))
         else
             if not (is_devel and (isloaded("Stages/"..stage) or isloaded("Stages/Devel"))) then
-                LmodError(yellow.."Sorry but we only allow installations into Devel stages!\n"..
+                LmodError(colors("%{yellow}Sorry but we only allow installations into Devel stages!\n"..
                           "If you would like a working installation moved to production please contact: "..
-                          contact..normal)
+                          contact.."%{reset}"))
             end
         end
     end
