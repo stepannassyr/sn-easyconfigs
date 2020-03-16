@@ -1,0 +1,26 @@
+name = 'ScaLAPACK'
+version = '2.1.0'
+
+homepage = 'http://www.netlib.org/scalapack/'
+description = """The ScaLAPACK (or Scalable LAPACK) library includes a subset of LAPACK routines
+ redesigned for distributed memory MIMD parallel computers."""
+
+toolchain = {'name': 'gompi', 'version': '2020a.8'}
+toolchainopts = {'pic': True}
+
+source_urls = [homepage]
+sources = [SOURCELOWER_TGZ]
+#patches = ["ScaLAPACK-OpenMPI-4.0.0.patch"]
+checksums = [
+    '61d9216cf81d246944720cfce96255878a3f85dec13b9351f1fa0fd6768220a6',  # scalapack-2.1.0.tgz
+    '9c8da36ba90a63ba38bc6866e063da3791e504ed43bce3fa3d5e7cd6504ebe61',  # ScaLAPACK-OpenMPI-4.0.0.patch
+]
+
+local_blaslib = 'OpenBLAS'
+local_blasver = '0.3.9'
+
+versionsuffix = "-%s-%s" % (local_blaslib, local_blasver)
+
+dependencies = [(local_blaslib, local_blasver)]
+
+moduleclass = 'numlib'
