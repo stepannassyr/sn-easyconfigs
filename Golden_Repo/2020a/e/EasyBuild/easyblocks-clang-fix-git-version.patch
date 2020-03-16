@@ -191,7 +191,7 @@ diff -urN a/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py b/easybui
  
 +        # apparently also required for 9.0.1
 +        #if self.version[-4:] == "-git":
-+        if LooseVersion(self.version) >= LooseVersion('9.0')
++        if LooseVersion(self.version) >= LooseVersion('9.0'):
 +            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++.so'),
 +                       os.path.join(self.installdir, 'lib', 'libc++.so'))
 +            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++.so.1'),
