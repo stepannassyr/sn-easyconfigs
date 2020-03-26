@@ -23,7 +23,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('XZ', '5.2.4')
+    ('XZ', '5.2.5')
 ]
 
 configopts = 'LDFLAGS="$LDFLAGS -Wl,-fuse-ld=bfd"'
