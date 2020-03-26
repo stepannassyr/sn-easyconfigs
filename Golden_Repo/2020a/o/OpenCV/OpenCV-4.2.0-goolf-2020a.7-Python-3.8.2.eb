@@ -33,7 +33,7 @@ dependencies = [
     ('Python', '3.8.2'),
     ('zlib', '1.2.11'),
     ('Eigen','3.3.7'),
-    ('FFmpeg', '4.2.1'),
+    ('FFmpeg', '4.2.2'),
     ('libjpeg-turbo', '2.0.4'),
     ('libpng', '1.6.37'),
     ('LibTIFF', '4.0.10'),
