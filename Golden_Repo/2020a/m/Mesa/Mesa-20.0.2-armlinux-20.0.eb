@@ -9,7 +9,7 @@
 easyblock = 'MesonNinja'
 
 name = 'Mesa'
-version = '20.0.1'
+version = '20.0.2'
 
 homepage = 'http://www.mesa3d.org/'
 description = """
@@ -18,10 +18,12 @@ Mesa is an open-source implementation of the OpenGL specification -
 """
 
 
-toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
+toolchain = {'name': 'armlinux', 'version': '20.0'}
 # swr detects and builds parts specific for AVX and AVX2. If we use
 # -xHost, this always gets overwritten and will fail.
 #toolchainopts = {'optarch': False}
+
+patches = ['mesa-19.2.4-armhpc-dependencies.patch']
 
 sources = [SOURCELOWER_TAR_XZ]
 source_urls = [

@@ -9,7 +9,7 @@
 easyblock = 'MesonNinja'
 
 name = 'Mesa'
-version = '20.0.1'
+version = '20.0.2'
 
 homepage = 'http://www.mesa3d.org/'
 description = """
@@ -18,18 +18,19 @@ Mesa is an open-source implementation of the OpenGL specification -
 """
 
 
-toolchain = {'name': 'Clang', 'version': '9.0.1'}
+toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
 # swr detects and builds parts specific for AVX and AVX2. If we use
 # -xHost, this always gets overwritten and will fail.
 #toolchainopts = {'optarch': False}
 
-sources = [SOURCELOWER_TAR_XZ]
 source_urls = [
     'https://mesa.freedesktop.org/archive/%(version)s',
     'ftp://ftp.freedesktop.org/pub/mesa/%(version)s',
     'ftp://ftp.freedesktop.org/pub/mesa/older-versions/%(version_major)s.x/%(version)s',
     'ftp://ftp.freedesktop.org/pub/mesa/',
 ]
+sources = [SOURCELOWER_TAR_XZ]
+checksums = ['09000a0f7dbbd82e193b81a8f1bf0c118eab7ca975c0329181968596e548e30f']
 
 #patches = ['Mesa-19.1.6-LLVM-8.patch']
 
@@ -53,9 +54,9 @@ dependencies = [
     ('zlib', '1.2.11'),
     ('nettle', '3.4'),
     ('libdrm', '2.4.99'),
-#    ('LLVM', '9.0.1'),
+    ('LLVM', '9.0.1'),
     ('X11', '20200326'),
-#    ('libunwind', '1.3.1'),
+    ('libunwind', '1.3.1'),
 ]
 
 configopts  = '-Dgbm=true'
