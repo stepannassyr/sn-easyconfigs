@@ -2,17 +2,19 @@
 easyblock = 'PythonPackage'
 
 name = 'Meson'
-version = '0.51.2'
+version = '0.53.2'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'https://mesonbuild.com'
 description = "Meson is a cross-platform build system designed to be both as fast and as user friendly as possible."
 
 
-toolchain = {'name': 'Clang', 'version': '9.0.1'}
+toolchain = {'name': 'armlinux', 'version': '20.0'}
 
 source_urls = [PYPI_LOWER_SOURCE]
 sources = [SOURCELOWER_TAR_GZ]
+
+patches = ['meson-0.51.2-armhpc.patch']
 
 builddependencies = [
     ('binutils', '2.34'),

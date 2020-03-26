@@ -2,7 +2,7 @@
 easyblock = 'PythonPackage'
 
 name = 'Meson'
-version = '0.51.2'
+version = '0.53.2'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'https://mesonbuild.com'
