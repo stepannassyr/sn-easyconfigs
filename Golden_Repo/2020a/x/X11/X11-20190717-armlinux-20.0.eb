@@ -83,7 +83,7 @@ builddependencies = [
     ('Bison', '3.5.2'),
     ('gettext', '0.20.1'),
     ('pkg-config', '0.29.2'),
-    ('intltool', '0.51.0', '-Perl-5.28.1'),
+    ('intltool', '0.51.0', '-Perl-5.30.2'),
 ]
 
 default_easyblock = 'ConfigureMake'

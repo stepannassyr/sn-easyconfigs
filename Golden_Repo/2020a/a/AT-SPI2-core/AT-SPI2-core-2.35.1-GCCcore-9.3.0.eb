@@ -23,14 +23,14 @@ sources = [SOURCELOWER_TAR_XZ]
 builddependencies = [
     ('binutils', '2.34'),
     ('GObject-Introspection', '1.64.0'),
-    ('Meson', '0.51.2', '-Python-3.8.2'),
+    ('Meson', '0.53.2', '-Python-3.8.2'),
     ('Ninja', '1.10.0'),
     ('pkg-config', '0.29.2'),
 ]
 
 dependencies = [
     ('DBus', '1.13.12'),
-    ('intltool', '0.51.0', '-Perl-5.28.1'),
+    ('intltool', '0.51.0', '-Perl-5.30.2'),
     ('X11', '20190717'),
 ]
 

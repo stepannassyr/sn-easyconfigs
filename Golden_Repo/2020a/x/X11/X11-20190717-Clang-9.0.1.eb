@@ -18,7 +18,7 @@ source_urls = [
     XORG_DATA_SOURCE,
 ]
 checksums = [
-    '5d6e62803c9f20830b28ad8a9800c97a9987635089229e3e380ef3848c84d2a6',  # util-macros-1.19.2.tar.gz
+    '9225c45c3de60faf971979a55a5536f3562baa4b6f02246c23e98ac0c09a75b7',  # util-macros-1.19.2.tar.gz
     '50d5686b79019ccea08bcbd7b02fe5a40634abcfd4146b6e75c6420cc170e9d9',  # libpthread-stubs-0.4.tar.gz
     '38ad1d8316515785d53c5162b4b7022918e03c11d72a5bd9df0a176607f42bca',  # xorgproto-2019.1.tar.gz
     '1f123d8304b082ad63a9e89376400a3b1d4c29e67e3ea07b3f659cccca690eea',  # libXau-1.0.9.tar.gz
@@ -83,7 +83,7 @@ builddependencies = [
     ('Bison', '3.5.2'),
     ('gettext', '0.20.1'),
     ('pkg-config', '0.29.2'),
-    ('intltool', '0.51.0', '-Perl-5.28.1'),
+    ('intltool', '0.51.0', '-Perl-5.30.2'),
 ]
 
 default_easyblock = 'ConfigureMake'
