@@ -2,14 +2,14 @@
 easyblock = 'ConfigureMake'
 
 name = 'Rust'
-version = '1.39.0'
+version = '1.41.0'
 
 homepage = 'https://www.rust-lang.org'
 description = """Rust is a systems programming language that runs blazingly fast, prevents segfaults,
  and guarantees thread safety."""
 
 
-toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
+toolchain = {'name': 'Clang', 'version': '9.0.1'}
 
 source_urls = ['https://static.rust-lang.org/dist/']
 sources = ['rustc-%(version)s-src.tar.gz']
@@ -19,9 +19,11 @@ builddependencies = [
     ('CMake', '3.16.5'),
 ]
 
-configopts = "--enable-extended --sysconfdir=%(installdir)s/etc"
+configopts = "--enable-extended --sysconfdir=%(installdir)s/etc "
 # Rust downloads precompiled packages that otherwise require the 'armar' binary
 configopts += "--set=target.aarch64-unknown-linux-gnu.ar=`which ar` "
+# Use llvm from clang installation
+configopts += "--llvm-config=$EBROOTCLANG/bin/llvm-config --enable-llvm-link-shared "
 
 sanity_check_paths = {
     'files': ['bin/cargo', 'bin/rustc', 'bin/rustdoc'],
