@@ -1,7 +1,7 @@
 easyblock = 'MakeCp'
 
 name = 'git-lfs'
-version = '2.9.0'
+version = '2.10.0'
 
 homepage = 'https://git-lfs.github.com'
 description = """Git Large File Storage (LFS) replaces large files such as audio
@@ -12,9 +12,9 @@ toolchain = SYSTEM
 
 source_urls = ['https://github.com/git-lfs/git-lfs/archive/']
 sources = ['v%(version)s.tar.gz']
-checksums = ['f1963ad88747577ffeeb854649aeacaa741c59be74683da4d46b129a72d111b7']
+checksums = ['07fd5c57a1039d5717dc192affbe3268ec2fd03accdca462cb504c0b4194cd23']
 
-dependencies = [('Go', '1.13.4')]
+dependencies = [('Go', '1.14')]
 
 files_to_copy = [(['bin/%(name)s'], 'bin')]
 
