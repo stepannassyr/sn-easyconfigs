@@ -19,7 +19,7 @@ description = """
  applications.
 """
 
-toolchain = {'name': 'gompi', 'version': '2020a'}
+toolchain = {'name': 'alompi', 'version': 'alompi'}
 
 source_urls = ['https://www.vi-hps.org/cms/upload/packages/scorep/']
 sources = ['scorep-%(version)s.tar.gz']
