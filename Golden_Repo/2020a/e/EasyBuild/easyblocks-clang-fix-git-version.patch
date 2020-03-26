@@ -92,7 +92,7 @@ diff -urN a/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py b/easybui
          if LooseVersion(self.version) >= LooseVersion('3.8'):
 -            find_source_dir('openmp-*', os.path.join(self.llvm_src_dir, 'projects', 'openmp'))
 +            find_source_dir('openmp%s' % globsuff, os.path.join(self.llvm_src_dir, 'projects', 'openmp'))
-+        if LooseVersion(self.version) >= LooseVersion('10.0'):
++        if LooseVersion(self.version) >= LooseVersion('11.0'):
 +            find_source_dir('parallel-libs%s' % globsuff, os.path.join(self.llvm_src_dir, 'projects', 'parallel-libs'))
 +#            find_source_dir('mlir%s' % globsuff, os.path.join(self.llvm_src_dir, 'projects', 'mlir'))
 +            find_source_dir('pstl%s' % globsuff, os.path.join(self.llvm_src_dir, 'projects', 'pstl'))
