@@ -45,7 +45,7 @@ dependencies = [
     ('PCRE2', '10.34'),
     ('libpng', '1.6.37'),
     # deps for QtWebEngine
-    ('X11', '20190717'),
+    ('X11', '20200326'),
     ('DBus', '1.13.12'),
     ('libGLU', '9.0.1'),
     ('libvpx', '1.8.2'),

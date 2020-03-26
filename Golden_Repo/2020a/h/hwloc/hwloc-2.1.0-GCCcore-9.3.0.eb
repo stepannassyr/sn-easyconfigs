@@ -34,7 +34,7 @@ builddependencies = [
 dependencies = [
     ('numactl', '2.0.13'),
     ('libxml2', '2.9.9'),
-    ('X11', '20190717'), # For libpciaccess
+    ('X11', '20200326'), # For libpciaccess
 ]
 
 configopts = "--enable-libnuma=$EBROOTNUMACTL "

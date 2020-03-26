@@ -25,7 +25,7 @@ builddependencies = [
 
 dependencies = [
     ('Tcl', version),
-    ('X11', '20190717'),
+    ('X11', '20200326'),
     # Wrong zlib getting linked without this
     ('zlib', '1.2.11'),
 ]

@@ -1,0 +1,21 @@
+diff -urN libXfont2-2.0.4-unpatched/src/util/replace.h libXfont2-2.0.4/src/util/replace.h
+--- libXfont2-2.0.4-unpatched/src/util/replace.h	2020-03-26 15:49:34.562011415 +0100
++++ libXfont2-2.0.4/src/util/replace.h	2020-03-26 15:50:06.183037518 +0100
+@@ -32,7 +32,7 @@
+ #include <X11/Xfuncproto.h>
+ 
+ #include <stdlib.h>
+-#if defined(HAVE_LIBBSD) && defined(HAVE_REALLOCARRAY)
++#if defined(HAVE_REALLOCARRAY)
+ #include <bsd/stdlib.h>       /* for reallocarray */
+ #endif
+ 
+@@ -46,7 +46,7 @@
+ #endif
+ 
+ #include <string.h>
+-#if defined(HAVE_LIBBSD) && defined(HAVE_STRLCPY)
++#if defined(HAVE_STRLCPY)
+ #include <bsd/string.h>       /* for strlcpy, strlcat */
+ #endif
+ 

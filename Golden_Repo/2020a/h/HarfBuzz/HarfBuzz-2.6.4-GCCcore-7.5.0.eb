@@ -22,7 +22,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('X11', '20190717'),
+    ('X11', '20200326'),
     ('GLib', '2.62.0'),
     ('cairo', '1.17.2'),
     ('freetype', '2.10.1'),
