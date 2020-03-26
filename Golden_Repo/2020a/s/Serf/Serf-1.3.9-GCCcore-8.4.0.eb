@@ -28,6 +28,9 @@ dependencies = [
 
 osdependencies = [('openssl-devel', 'libssl-dev', 'libopenssl-devel')]
 
+# Python 3
+prebuildopts = "sed -i \"/  print/{s/print/print(/; s/$/)/}\" SConstruct && sed -i \"/get_contents()/s/,/.decode()&/\"    SConstruct && "
+
 buildopts = "APR=$EBROOTAPR/bin/apr-1-config APU=$EBROOTAPRMINUTIL/bin/apu-1-config"
 
 sanity_check_paths = {
