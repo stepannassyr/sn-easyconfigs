@@ -3,7 +3,7 @@ easyblock = 'ConfigureMake'
 
 name = 'intltool'
 version = '0.51.0'
-local_perlversion = '5.28.1'
+local_perlversion = '5.30.2'
 versionsuffix = '-Perl-%s' % local_perlversion
 
 homepage = 'http://freedesktop.org/wiki/Software/intltool/'
@@ -12,7 +12,7 @@ description = """intltool is a set of tools to centralize translation of
 """
 
 
-toolchain = {'name': 'armlinux', 'version': '20.0'}
+toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
 
 source_urls = ['http://launchpad.net/intltool/trunk/%(version)s/+download/']
 sources = [SOURCE_TAR_GZ]
