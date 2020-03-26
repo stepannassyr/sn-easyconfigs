@@ -3,7 +3,7 @@
 easyblock = 'CMakeMake'
 
 name = 'Neovim'
-version = '0.4.3'
+version = '0.5.0'
 versionsuffix = "-Python-%(pyver)s"
 
 homepage = 'https://neovim.io'
@@ -11,7 +11,7 @@ description = """hyperextensible Vim-based text editor
 """
 
 
-toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
+toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
 toolchainopts = {'pic': True}
 
 source_urls = ["https://github.com/neovim/neovim/archive/"]
