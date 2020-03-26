@@ -28,7 +28,7 @@ builddependencies = [
 
 dependencies = [
     ('Mesa', '20.0.1'),
-    ('freeglut','3.0.0'),
+    ('freeglut', '3.2.1'),
     ('libjpeg-turbo', '2.0.4'),
 ]
 
