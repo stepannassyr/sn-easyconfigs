@@ -15,8 +15,9 @@ and the ability to define flags in the source file in which they are used.
 toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
 toolchainopts = {'pic': True}
 
-sources = ['v%(version)s.tar.gz']
 source_urls = ['https://github.com/gflags/gflags/archive/']
+sources = ['v%(version)s.tar.gz']
+checksums = ['34af2f15cf7367513b352bdcd2493ab14ce43692d2dcd9dfc499492966c64dcf']
 
 builddependencies = [
     ('binutils', '2.34'),
