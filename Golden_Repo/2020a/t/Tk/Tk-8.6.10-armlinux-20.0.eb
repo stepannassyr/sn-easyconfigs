@@ -15,6 +15,7 @@ toolchain = {'name': 'armlinux', 'version': '20.0'}
 
 source_urls = ["http://prdownloads.sourceforge.net/tcl"]
 sources = ['%(namelower)s%(version)s-src.tar.gz']
+checksums = ['63df418a859d0a463347f95ded5cd88a3dd3aaa1ceecaeee362194bc30f3e386']
 
 #patches = ['Tk-8.6.8_different-prefix-with-tcl.patch']
 
