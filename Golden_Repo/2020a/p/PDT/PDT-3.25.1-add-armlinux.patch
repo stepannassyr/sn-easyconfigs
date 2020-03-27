@@ -1,0 +1,55 @@
+diff -urN pdtoolkit-3.25.1-unpatched/configure pdtoolkit-3.25.1/configure
+--- pdtoolkit-3.25.1-unpatched/configure	2020-03-27 16:05:49.264091155 +0100
++++ pdtoolkit-3.25.1/configure	2020-03-27 16:09:04.535046534 +0100
+@@ -239,6 +239,12 @@
+     #echo "    Using $dir/clang"
+     path_clangXX=$dir/clang++
+   fi
++  if [ -x $dir/armclang++ -a -z "$path_armclangXX" ]
++  then
++    $echo ".${nnl}"
++    #echo "    Using $dir/armclang"
++    path_armclangXX=$dir/armclang++
++  fi
+   if [ -x $dir/c++ -a -z "$path_cpp" ]
+   then
+     $echo ".${nnl}"
+@@ -414,6 +420,22 @@
+     shift
+     ;;
+ 
++  -armclang|-ARMCLANG|--armclang|--ARMCLANG|--armclang++|-armclang++|--armlinux|-armlinux)
++    gnu_given=yes
++    cxx_compiler=ARMCLANG
++    if [ -z "$path_armclangXX" ]
++    then
++      echo "ERROR: armclang++ not found"
++      exit
++    else
++      echo "==> Using $path_armclangXX"
++      path_cxx=$path_armclangXX
++    fi
++    shift
++    ;;
++
++
++
+   -kai|-kcc|-KAI|-KCC|--kai|--kcc|--KAI|--KCC)
+     cxx_compiler=KCC
+     if [ -z "$path_KCC" ]
+Binary files pdtoolkit-3.25.1-unpatched/.configure.swp and pdtoolkit-3.25.1/.configure.swp differ
+diff -urN pdtoolkit-3.25.1-unpatched/ductape/Makefile pdtoolkit-3.25.1/ductape/Makefile
+--- pdtoolkit-3.25.1-unpatched/ductape/Makefile	2020-03-27 16:05:49.154090617 +0100
++++ pdtoolkit-3.25.1/ductape/Makefile	2020-03-27 16:29:11.350994320 +0100
+@@ -122,6 +122,11 @@
+ #CRAYXMT#CXXAR = /usr/bin/ar $(PLATFORM_AR_OPTS) cr #EOC#
+ #DARWIN#PDT_RANLIB=ranlib libpdb.a#EOC#
+ 
++# -- ARMCLANG
++#ARMCLANG#PDT_GXX=armclang++ #EOC#
++#ARMCLANG#CXX = $(PDT_GXX) $(USEROPT) -w -Wall -ansi $(EXTRAOPT) $(PLATFORM_CXX_OPTS) #EOC#
++#ARMCLANG#CXXAR = ar $(PLATFORM_AR_OPTS) cr #EOC#
++
+ 
+ # -- SUN CC
+ #SOLCC#CXX = CC $(USEROPT) $(PLATFORM_CXX_OPTS) #EOC#

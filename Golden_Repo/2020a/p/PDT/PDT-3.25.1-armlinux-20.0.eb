@@ -29,6 +29,7 @@ toolchain = {'name': 'armlinux', 'version': '20.0'}
 
 source_urls = ['http://tau.uoregon.edu/pdt_releases/']
 sources = ['pdtoolkit-%(version)s.tar.gz']
+patches = ['PDT-3.25.1-add-armlinux.patch']
 checksums = ['0b6f8a6b8769c181b2ae6cae7298f04b8e3e3d68066f598ed24574e19500bc97']
 
 builddependencies = [
