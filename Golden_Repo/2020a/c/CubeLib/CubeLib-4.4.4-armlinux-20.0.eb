@@ -31,6 +31,8 @@ toolchain = {'name': 'armlinux', 'version': '20.0'}
 
 source_urls = ['https://apps.fz-juelich.de/scalasca/releases/cube/%(version_major_minor)s/dist']
 sources = [SOURCELOWER_TAR_GZ]
+patches = ['CubeLib-4.4.4-add-armclang.patch']
+
 checksums = [
     'adb8216ee3b7701383884417374e7ff946edb30e56640307c65465187dca7512',  # cubelib-4.4.4.tar.gz
 ]

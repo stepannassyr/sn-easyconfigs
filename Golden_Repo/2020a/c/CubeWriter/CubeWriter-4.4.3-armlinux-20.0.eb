@@ -30,6 +30,8 @@ toolchain = {'name': 'armlinux', 'version': '20.0'}
 
 source_urls = ['https://apps.fz-juelich.de/scalasca/releases/cube/%(version_major_minor)s/dist']
 sources = ['cubew-%(version)s.tar.gz']
+patches = ['CubeWriter-4.4.3-add-armclang.patch']
+
 checksums = [
     '93fff6cc1e8b0780f0171ef5302a2e1a257f99b6383fbfc1b9b82f925ceff501',  # cubew-4.4.3.tar.gz
 ]

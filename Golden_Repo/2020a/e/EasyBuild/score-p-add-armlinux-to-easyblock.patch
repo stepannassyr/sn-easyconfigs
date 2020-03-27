@@ -1,0 +1,11 @@
+diff -urN easybuild-unpatched/easyblocks/s/score_p.py easybuild/easyblocks/s/score_p.py
+--- easybuild-unpatched/easyblocks/s/score_p.py	2020-03-27 12:51:41.281227714 +0100
++++ easybuild/easyblocks/s/score_p.py	2020-03-27 12:52:56.050082912 +0100
+@@ -63,6 +63,7 @@
+                 toolchain.IBMCOMP: 'ibm',
+                 toolchain.INTELCOMP: 'intel',
+                 toolchain.PGI: 'pgi',
++                toolchain.ARMLINUX: 'armlinux',
+             }
+             comp_fam = self.toolchain.comp_family()
+             if comp_fam in comp_opts:
