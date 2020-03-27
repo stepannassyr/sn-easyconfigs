@@ -115,7 +115,7 @@ diff -urN a/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py b/easybui
 +                    raise EasyBuildError("Failed to move %s to %s: %s", old_path, new_path, err)
 +        else:
 +            for src in self.src:
-+                self.log.info(f"Working on {src}")
++                self.log.info("Working on %s" % src)
 +                for (dirname, new_path) in src_dirs.items():
 +                    if src['name'].startswith(dirname):
 +                        old_path = os.path.join(src['finalpath'], dirname)
