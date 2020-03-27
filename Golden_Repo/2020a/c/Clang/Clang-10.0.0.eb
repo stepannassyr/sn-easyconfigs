@@ -51,7 +51,6 @@ checksums = [
     'dd1ffcb42ed033f5167089ec4c6ebe84fbca1db4a9eaebf5c614af09d89eb135',  # lldb-10.0.0.src.tar.xz
     'acdf8cf6574b40e6b1dabc93e76debb84a9feb6f22970126b04d4ba18b92911c',  # clang-tools-extra-10.0.0.src.tar.xz
     'a7056ad40a810cc15d82a29dbfcec76c45b11925eb8fe94c1d35946eccf1ad6d',  # Clang-11.0.0-omp-libm.patch
-#    'd7d2d79cf859f8349e59f38bcec7fbc493835b143e397fda8f51faf30de83dd4',  # clang-9.0.1-glibc-2.31.patch
 ]
 
 #source_urls = ["https://github.com/llvm/llvm-project/releases/download/llvmorg-%(version)s/"]
