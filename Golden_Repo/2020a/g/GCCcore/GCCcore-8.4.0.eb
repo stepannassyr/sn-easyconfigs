@@ -49,6 +49,9 @@ languages = ['c', 'c++', 'fortran', 'ada']
 
 withisl = True
 
+# GMP 6.2.0 has some initial declarations in for loops
+configopts = " CFLAGS=\"-std=gnu99\" "
+
 # Make sure we replace the system cc with gcc
 modaliases = {'cc': 'gcc'}
 
