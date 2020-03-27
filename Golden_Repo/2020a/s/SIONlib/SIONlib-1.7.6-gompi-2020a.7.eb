@@ -15,7 +15,7 @@ post-processing utilities.
  """
 
 
-toolchain = {'name': 'gompi', 'version': '2020a'}
+toolchain = {'name': 'gompi', 'version': '2020a.7'}
 
 configopts = '--disable-mic --compiler=gnu --mpi=ompi CFLAGS="$CFLAGS -fPIC" '
 
