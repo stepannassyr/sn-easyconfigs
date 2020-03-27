@@ -28,6 +28,7 @@ toolchain = {'name': 'armlinux', 'version': '20.0'}
 
 source_urls = ['https://www.vi-hps.org/cms/upload/packages/otf2/']
 sources = [SOURCELOWER_TAR_GZ]
+patches = ['OTF2-2.2-add-armlinux.patch']
 checksums = [
     'cfedf583bf000e98ce0c86e663e5ded0',  # otf2-2.2.tar.gz
 ]
