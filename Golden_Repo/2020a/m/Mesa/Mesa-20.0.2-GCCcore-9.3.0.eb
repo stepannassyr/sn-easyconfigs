@@ -46,7 +46,7 @@ builddependencies = [
     ('libxml2', '2.9.9', '-Python-%s' % pyver),
     ('Meson', '0.53.2', '-Python-%s' % pyver),
     ('Ninja', '1.10.0'),
-    ('CMake', '3.16.5'),
+    ('CMake', '3.17.0'),
 ]
 
 dependencies = [

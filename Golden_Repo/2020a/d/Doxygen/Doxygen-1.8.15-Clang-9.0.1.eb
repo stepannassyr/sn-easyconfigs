@@ -15,7 +15,7 @@ source_urls = ['http://doxygen.nl/files/']
 
 builddependencies = [
     ('binutils', '2.34'),
-    ('CMake', '3.16.5'),
+    ('CMake', '3.17.0'),
     ('flex', '2.6.4'),
     ('Bison', '3.5.2'),
 ]

@@ -20,7 +20,7 @@ sources = ["v%(version)s.tar.gz"]
 patches = ['neovim-0.1.7-bitop.patch']
 
 builddependencies = [
-    ('CMake', '3.16.5'),
+    ('CMake', '3.17.0'),
     ('Ninja', '1.10.0'),
     ('binutils', '2.34'),
     ('Autoconf',   '2.69'),

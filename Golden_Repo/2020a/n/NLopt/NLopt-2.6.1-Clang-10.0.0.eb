@@ -23,7 +23,7 @@ sources = ['v%(version)s.tar.gz']
 
 builddependencies = [
     ('binutils', '2.34'),
-    ('CMake', '3.16.5')
+    ('CMake', '3.17.0')
 ]
 
 sanity_check_paths = {

@@ -68,7 +68,7 @@ local_pysuff = '3.8'
 
 builddependencies = [
     ('GCC', '9.3.0'),
-    ('CMake', '3.16.5','',('GCCcore','9.3.0')),
+    ('CMake', '3.17.0','',('GCCcore','9.3.0')),
     ('Python', local_pyver,'',('GCCcore','9.3.0')),
     ('libxml2', '2.9.9','',('GCCcore','9.3.0')),
 ]

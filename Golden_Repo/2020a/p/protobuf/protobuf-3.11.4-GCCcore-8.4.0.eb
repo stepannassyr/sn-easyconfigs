@@ -18,7 +18,7 @@ checksums = ['a79d19dcdf9139fa4b81206e318e33d245c4c9da1ffed21c87288ed4380426f9']
 # This tarball contains gmock and gtest, which are otherwise downloaded by autogen.sh
 builddependencies = [
     ('binutils', '2.34'),
-    ('CMake', '3.16.5'),
+    ('CMake', '3.17.0'),
 ]
 
 dependencies = [

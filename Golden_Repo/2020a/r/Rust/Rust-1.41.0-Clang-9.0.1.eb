@@ -16,7 +16,7 @@ sources = ['rustc-%(version)s-src.tar.gz']
 
 builddependencies = [
     ('binutils', '2.34'),
-    ('CMake', '3.16.5'),
+    ('CMake', '3.17.0'),
 ]
 
 configopts = "--enable-extended --sysconfdir=%(installdir)s/etc "

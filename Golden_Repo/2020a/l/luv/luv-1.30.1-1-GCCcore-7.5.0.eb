@@ -20,7 +20,7 @@ patches = [("compat-5.3.h","deps/lua-compat-5.3/"),
 	   ("compat-5.3.c","deps/lua-compat-5.3/")]
 
 builddependencies = [
-    ('CMake', '3.16.5'),
+    ('CMake', '3.17.0'),
     ('binutils', '2.34'),
 ]
 

@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'CMake'
-version = '3.16.5'
+version = '3.17.0'
 
 homepage = 'http://www.cmake.org'
 description = """CMake, the cross-platform, open-source build system.
@@ -10,11 +10,13 @@ description = """CMake, the cross-platform, open-source build system.
 """
 
 
-toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
+toolchain = {'name': 'armlinux', 'version': '20.0'}
 
 source_urls = ['http://www.cmake.org/files/v%(version_major_minor)s']
 sources = [SOURCELOWER_TAR_GZ]
 checksums = ['5f760b50b8ecc9c0c37135fae5fbf00a2fef617059aa9d61c1bb91653e5a8bfc']
+
+#patches = ['CMake-3.16.1-armhpc-19.3-prevent-crash-on-ParseCacheWrite.patch']
 
 configopts = '-- -DCMAKE_USE_OPENSSL=1 -DCMAKE_PREFIX_PATH=$EBROOTNCURSES'
 

@@ -23,7 +23,7 @@ checksums = ['f26e148ed1f4dfb33fd1eb3ff5e60e08078d1b2017e88bcbb045b3fb58300b9c']
 
 builddependencies = [
     ('binutils', '2.34'),
-    ('CMake', '3.16.5'),
+    ('CMake', '3.17.0'),
 ]
 
 start_dir = 'source'
