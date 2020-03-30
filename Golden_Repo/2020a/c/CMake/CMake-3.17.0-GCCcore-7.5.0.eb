@@ -14,7 +14,7 @@ toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
 
 source_urls = ['http://www.cmake.org/files/v%(version_major_minor)s']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['5f760b50b8ecc9c0c37135fae5fbf00a2fef617059aa9d61c1bb91653e5a8bfc']
+checksums = ['b74c05b55115eacc4fa2b77a814981dbda05cdc95a53e279fe16b7b272f00847']
 
 configopts = '-- -DCMAKE_USE_OPENSSL=1 -DCMAKE_PREFIX_PATH=$EBROOTNCURSES'
 
