@@ -18,13 +18,13 @@ elif 'aarch64' == local_arch_suf:
 
 source_urls = ['https://storage.googleapis.com/golang/']
 sources = ['%%(namelower)s%%(version)s.linux-%s.tar.gz' % local_arch_suf]
-checksums = ['08df79b46b0adf498ea9f320a0f23d6ec59e9003660b4c9c1ce8e5e2c6f823ca']
 
 local_arch_csums = {
-  'arm64' : '8b8d99eb07206f082468fb4d0ec962a819ae45d54065fc1ed6e2c502e774aaf0',
-  'amd64' : '692d17071736f74be04a72a06dab9cac1cd759377bd85316e52b2227604c004c'
+  'arm64' : 'cd813387f770c07819912f8ff4b9796a4e317dee92548b7226a19e60ac79eb27',
+  'amd64' : '08df79b46b0adf498ea9f320a0f23d6ec59e9003660b4c9c1ce8e5e2c6f823ca'
 }
 
+checksums = [local_arch_csums[local_arch_suf]]
 
 sanity_check_paths = {
     'files': ['bin/go', 'bin/gofmt'],
