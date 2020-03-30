@@ -36,6 +36,7 @@ sources = [
 ]
 patches = [
     'Clang-11.0.0-omp-libm.patch',
+    'Clang-10.0.0-symlinks-are-not-bins.patch',
 #    'clang-9.0.1-glibc-2.31.patch'
 ]
 checksums = [

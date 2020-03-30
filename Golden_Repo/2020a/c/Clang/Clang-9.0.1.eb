@@ -36,7 +36,8 @@ sources = [
 ]
 patches = [
     'Clang-9.0.0-omp-libm.patch',
-    'clang-9.0.1-glibc-2.31.patch'
+    'clang-9.0.1-glibc-2.31.patch',
+    'Clang-10.0.0-symlinks-are-not-bins.patch',
 ]
 checksums = [
     '00a1ee1f389f81e9979f3a640a01c431b3021de0d42278f6508391a2f0b81c9a',  # llvm-9.0.1.src.tar.xz
