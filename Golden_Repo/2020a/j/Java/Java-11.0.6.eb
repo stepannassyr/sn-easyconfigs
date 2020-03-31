@@ -14,7 +14,7 @@ if 'x86_64' == local_arch_suf:
     local_arch_suf = 'x64'
 
 source_urls = ['https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-%(version)s%2B10/']
-sources = ['OpenJDK11U-jdk_%s_linux_hotspot_%%(version)s_11.tar.gz' % local_arch_suf]
+sources = ['OpenJDK11U-jdk_%s_linux_hotspot_%%(version)s_10.tar.gz' % local_arch_suf]
 
 local_arch_sums = {
     'x64'     : '330d19a2eaa07ed02757d7a785a77bab49f5ee710ea03b4ee2fa220ddd0feffc',
