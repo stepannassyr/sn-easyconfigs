@@ -38,7 +38,7 @@ dependencies = [
     ('libpng', '1.6.37'),
     ('LibTIFF', '4.0.10'),
     ('JasPer', '2.0.16'),
-    ('Java', '11.0.4', '', True),
+    ('Java', '11.0.6', '', True),
     ('ant', '1.10.7', '-Java-%(javaver)s', True),
     ('GLib', '2.62.0'),
     ('GTK+', '3.24.14'),

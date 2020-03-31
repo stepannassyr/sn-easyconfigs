@@ -1,5 +1,5 @@
 name = 'Java'
-version = '11.0.4'
+version = '11.0.6'
 
 homepage = 'http://openjdk.java.net'
 description = """Java Platform, Standard Edition (Java SE) lets you develop and deploy
@@ -13,12 +13,12 @@ local_arch_suf = platform.machine()
 if 'x86_64' == local_arch_suf:
     local_arch_suf = 'x64'
 
-source_urls = ['https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-%(version)s%2B11/']
+source_urls = ['https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-%(version)s%2B10/']
 sources = ['OpenJDK11U-jdk_%s_linux_hotspot_%%(version)s_11.tar.gz' % local_arch_suf]
 
 local_arch_sums = {
-    'x64'     : '90c33cf3f2ed0bd773f648815de7347e69cfbb3416ef3bf41616ab1c4aa0f5a8',
-    'aarch64' : '10e33e1862638e11a9158947b3d7b461727d8e396e378b171be1eb4dfe12f1ed',
+    'x64'     : '330d19a2eaa07ed02757d7a785a77bab49f5ee710ea03b4ee2fa220ddd0feffc',
+    'aarch64' : '04b77f6754aed68528f39750c5cfd6a439190206aff216aa081d62a0e1a794fa',
 }
 
 checksums = [local_arch_sums[local_arch_suf]]
