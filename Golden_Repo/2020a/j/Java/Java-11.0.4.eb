@@ -15,6 +15,12 @@ if 'x86_64' == local_arch_suf:
 
 source_urls = ['https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-%(version)s%2B11/']
 sources = ['OpenJDK11U-jdk_%s_linux_hotspot_%%(version)s_11.tar.gz' % local_arch_suf]
-checksums = ['10e33e1862638e11a9158947b3d7b461727d8e396e378b171be1eb4dfe12f1ed']
+
+local_arch_sums = {
+    'x64'     : '90c33cf3f2ed0bd773f648815de7347e69cfbb3416ef3bf41616ab1c4aa0f5a8',
+    'aarch64' : '10e33e1862638e11a9158947b3d7b461727d8e396e378b171be1eb4dfe12f1ed',
+}
+
+checksums = [local_arch_sums[local_arch_suf]]
 
 moduleclass = 'lang'
