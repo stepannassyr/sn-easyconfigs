@@ -1,0 +1,12 @@
+diff -urN libunwind-1.3.1-unpatched/include/libunwind-aarch64.h libunwind-1.3.1/include/libunwind-aarch64.h
+--- libunwind-1.3.1-unpatched/include/libunwind-aarch64.h	2020-03-30 21:04:10.714117226 +0200
++++ libunwind-1.3.1/include/libunwind-aarch64.h	2020-03-30 21:04:48.924279604 +0200
+@@ -177,7 +177,7 @@
+ 
+ #define unw_tdep_getcontext(uc) (({					\
+   unw_tdep_context_t *unw_ctx = (uc);					\
+-  register uint64_t *unw_base asm ("x0") = (uint64_t*) unw_ctx->uc_mcontext.regs;		\
++  register uint64_t *unw_base __asm__ ("x0") = (uint64_t*) unw_ctx->uc_mcontext.regs;		\
+   __asm__ __volatile__ (						\
+      "stp x0, x1, [%[base], #0]\n" \
+      "stp x2, x3, [%[base], #16]\n" \
