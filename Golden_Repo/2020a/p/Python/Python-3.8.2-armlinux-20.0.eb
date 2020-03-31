@@ -39,6 +39,8 @@ builddependencies = [
     ('binutils', '2.34'),
     # Needed just for unzipping zip files in systems without unzip
     ('unzip', '6.0'),
+    # Needs llvm-profdata and llvm-ar, so use Clang here
+    ('Clang', '9.0.1', '', True),
 ]
 
 osdependencies = [('openssl-devel', 'libssl-dev', 'libopenssl-devel')]
