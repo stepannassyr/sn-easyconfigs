@@ -2,14 +2,14 @@
 easyblock = 'PythonPackage'
 
 name = 'Meson'
-version = '0.53.2'
+version = '0.54.0'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'https://mesonbuild.com'
 description = "Meson is a cross-platform build system designed to be both as fast and as user friendly as possible."
 
 
-toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
+toolchain = {'name': 'Clang', 'version': '10.0.0'}
 
 source_urls = [PYPI_LOWER_SOURCE]
 sources = [SOURCELOWER_TAR_GZ]

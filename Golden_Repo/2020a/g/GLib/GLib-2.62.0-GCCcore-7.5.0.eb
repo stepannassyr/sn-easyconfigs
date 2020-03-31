@@ -20,7 +20,7 @@ local_pyver = '3.8.2'
 builddependencies = [
     ('binutils', '2.34'),
     ('Python', local_pyver),
-    ('Meson', '0.53.2', '-Python-%s' % '3.8.2'),
+    ('Meson', '0.54.0', '-Python-%s' % '3.8.2'),
     ('Ninja', '1.10.0'),
 ]
 
