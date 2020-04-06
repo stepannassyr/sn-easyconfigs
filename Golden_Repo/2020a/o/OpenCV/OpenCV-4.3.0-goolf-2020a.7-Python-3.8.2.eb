@@ -1,6 +1,6 @@
 # From the JSC-armlab easyconfig repository
 name = 'OpenCV'
-version = '4.2.0'
+version = '4.3.0'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'http://opencv.org/'
@@ -9,7 +9,7 @@ description = """OpenCV (Open Source Computer Vision Library) is an open source 
  a common infrastructure for computer vision applications and to accelerate
  the use of machine perception in the commercial products."""
 
-toolchain = {'name': 'alplompi', 'version': '20.0'}
+toolchain = {'name': 'goolf', 'version': '2020a.7'}
 
 source_urls = [
     'https://github.com/opencv/opencv/archive/',
@@ -19,10 +19,6 @@ source_urls = [
 sources = [
     '%(version)s.zip',
     {'filename': 'ippicv_2019_lnx_intel64_general_20180723.tgz', 'extract_cmd': "cp %s %(builddir)s"},
-]
-checksums = [
-    '55bd939079d141a50fca74bde5b61b339dd0f0ece6320ec76859aaff03c90d9f',  # 4.2.0.zip
-    'fc167cb60deb8924339a7050f3da168bb02e221b2d6b8c00139d1fa7eace0c7d',  # ippicv_2019_lnx_intel64_general_20180723.tgz
 ]
 
 builddependencies = [
@@ -43,25 +39,24 @@ dependencies = [
     ('GLib', '2.62.0'),
     ('GTK+', '3.24.14'),
     ('protobuf', '3.11.4'),
-    ('SciPy-Stack', '2020a', versionsuffix, ('alplompi', '20.0'))
+    ('SciPy-Stack', '2020a.7', versionsuffix, ('goolf', '2020a.7'))
 ]
 
 configopts = "-DBUILD_PROTOBUF=OFF -DPROTOBUF_UPDATE_FILES=ON -DOpenBLAS_INCLUDE_DIR=$EBROOTOPENBLAS/include -DOpenBLAS_LIB=$EBROOTOPENBLAS/lib/libopenblas.so -DCPU_BASELINE=DETECT "
 
 # Use protobuf from module, avoid system protobuf
-configopts += " -DPROTOBUF_ROOT=$EBROOTPROTOBUF "
 configopts += " -DPROTOBUF_INCLUDE_DIR=$EBROOTPROTOBUF/include "
 configopts += " -DPROTOBUF_INCLUDE_DIRS=$EBROOTPROTOBUF/include "
-configopts += " -DPROTOBUF_LIBRARIES='$EBROOTPROTOBUF/lib/libprotobuf.so;-lpthread' "
-configopts += " -DPROTOBUF_LIBRARY=$EBROOTPROTOBUF/lib/libprotobuf.so "
-configopts += " -Dprotobuf::libprotobuf=$EBROOTPROTOBUF/lib/libprotobuf.so "
-configopts += " -DPROTOBUF_LIBRARY_DEBUG=$EBROOTPROTOBUF/lib/libprotobuf.so "
-configopts += " -DPROTOBUF_LITE_LIBRARIES=$EBROOTPROTOBUF/lib/libprotobuf-lite.so "
-configopts += " -DPROTOBUF_LITE_LIBRARY=$EBROOTPROTOBUF/lib/libprotobuf-lite.so "
-configopts += " -DPROTOBUF_LITE_LIBRARY_DEBUG=$EBROOTPROTOBUF/lib/libprotobuf-lite.so "
+configopts += " -DPROTOBUF_LIBRARIES='$EBROOTPROTOBUF/lib64/libprotobuf.so;-lpthread' "
+configopts += " -DPROTOBUF_LIBRARY=$EBROOTPROTOBUF/lib64/libprotobuf.so "
+configopts += " -Dprotobuf::libprotobuf=$EBROOTPROTOBUF/lib64/libprotobuf.so "
+configopts += " -DPROTOBUF_LIBRARY_DEBUG=$EBROOTPROTOBUF/lib64/libprotobuf.so "
+configopts += " -DPROTOBUF_LITE_LIBRARIES=$EBROOTPROTOBUF/lib64/libprotobuf-lite.so "
+configopts += " -DPROTOBUF_LITE_LIBRARY=$EBROOTPROTOBUF/lib64/libprotobuf-lite.so "
+configopts += " -DPROTOBUF_LITE_LIBRARY_DEBUG=$EBROOTPROTOBUF/lib64/libprotobuf-lite.so "
 configopts += " -DPROTOBUF_PROTOC_EXECUTABLE=$EBROOTPROTOBUF/bin/protoc "
-configopts += " -DPROTOBUF_PROTOC_LIBRARIES=$EBROOTPROTOBUF/lib/libprotoc.so "
-configopts += " -DPROTOBUF_PROTOC_LIBRARY=$EBROOTPROTOBUF/lib/libprotoc.so "
-configopts += " -DPROTOBUF_PROTOC_LIBRARY_DEBUG=$EBROOTPROTOBUF/lib/libprotoc.so "
+configopts += " -DPROTOBUF_PROTOC_LIBRARIES=$EBROOTPROTOBUF/lib64/libprotoc.so "
+configopts += " -DPROTOBUF_PROTOC_LIBRARY=$EBROOTPROTOBUF/lib64/libprotoc.so "
+configopts += " -DPROTOBUF_PROTOC_LIBRARY_DEBUG=$EBROOTPROTOBUF/lib64/libprotoc.so "
 
 moduleclass = 'vis'
