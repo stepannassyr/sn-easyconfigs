@@ -170,7 +170,7 @@ exts_list = [
     }),
     ('cryptography', '2.8', {
         'prebuildopts': "LDFLAGS=-pthread ",
-        'prenstallopts': "LDFLAGS=-pthread ",
+        'preinstallopts': "LDFLAGS=-pthread ",
         'source_urls': ['https://pypi.python.org/packages/source/c/cryptography/'],
         'checksums': ['3cda1f0ed8747339bbdf71b9f38ca74c7b592f24f65cdb3ab3765e4b02871651'],
     }),
