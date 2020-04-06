@@ -22,7 +22,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('Mesa', '20.0.2'),
+    ('Mesa', '20.0.4'),
 ]
 
 preconfigopts = "NOCONFIGURE=1 ./autogen.sh && "

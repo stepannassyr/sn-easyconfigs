@@ -16,7 +16,7 @@ checksums = ['f6f484cfcd51e489afe88031afdea1e173aa652697e4c19ddbcb8260579a10f7']
 builddependencies = [('binutils', '2.34')]
 
 dependencies = [
-    ('Mesa', '20.0.2'),
+    ('Mesa', '20.0.4'),
 ]
 
 sanity_check_paths = {

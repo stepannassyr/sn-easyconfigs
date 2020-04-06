@@ -9,7 +9,7 @@
 easyblock = 'MesonNinja'
 
 name = 'Mesa'
-version = '20.0.2'
+version = '20.0.4'
 
 homepage = 'http://www.mesa3d.org/'
 description = """
@@ -30,9 +30,6 @@ source_urls = [
     'ftp://ftp.freedesktop.org/pub/mesa/',
 ]
 sources = [SOURCELOWER_TAR_XZ]
-checksums = ['6153ba3f8cb0524bbfc08e4db76b408126b2d1be8f789dffe28d1a0461eedde4']
-
-#patches = ['Mesa-19.1.6-LLVM-8.patch']
 
 pyver = '3.8.2'
 
@@ -53,7 +50,7 @@ builddependencies = [
 dependencies = [
     ('zlib', '1.2.11'),
     ('nettle', '3.4'),
-    ('libdrm', '2.4.99'),
+    ('libdrm', '2.4.101'),
     ('LLVM', '9.0.1'),
     ('X11', '20200326'),
     ('libunwind', '1.3.1'),

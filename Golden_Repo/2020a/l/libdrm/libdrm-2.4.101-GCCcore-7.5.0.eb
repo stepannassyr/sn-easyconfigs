@@ -1,8 +1,8 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
-easyblock = 'ConfigureMake'
+easyblock = 'MesonNinja'
 
 name = 'libdrm'
-version = '2.4.99'
+version = '2.4.101'
 
 homepage = 'http://dri.freedesktop.org'
 description = """Direct Rendering Manager runtime library.
@@ -10,13 +10,14 @@ description = """Direct Rendering Manager runtime library.
 
 
 source_urls = ['http://dri.freedesktop.org/libdrm/']
-sources = [SOURCELOWER_TAR_GZ]
-checksums = ['597fb879e2f45193431a0d352d10cd79ef61a24ab31f44320168583e10cb6302']
+sources = [SOURCELOWER_TAR_XZ]
 
-toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
+toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
 
 builddependencies = [
     ('binutils', '2.34'),
+    ('Meson', '0.54.0', '-Python-3.8.2'),
+    ('Ninja', '1.10.0')
 ]
 
 dependencies = [

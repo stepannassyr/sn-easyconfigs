@@ -9,7 +9,7 @@
 easyblock = 'MesonNinja'
 
 name = 'Mesa'
-version = '20.0.2'
+version = '20.0.4'
 
 homepage = 'http://www.mesa3d.org/'
 description = """
@@ -18,7 +18,7 @@ Mesa is an open-source implementation of the OpenGL specification -
 """
 
 
-toolchain = {'name': 'Clang', 'version': '10.0.0'}
+toolchain = {'name': 'Clang', 'version': '9.0.1'}
 # swr detects and builds parts specific for AVX and AVX2. If we use
 # -xHost, this always gets overwritten and will fail.
 #toolchainopts = {'optarch': False}
@@ -52,7 +52,7 @@ builddependencies = [
 dependencies = [
     ('zlib', '1.2.11'),
     ('nettle', '3.4'),
-    ('libdrm', '2.4.99'),
+    ('libdrm', '2.4.101'),
 #    ('LLVM', '9.0.1'),
     ('X11', '20200326'),
 #    ('libunwind', '1.3.1'),
