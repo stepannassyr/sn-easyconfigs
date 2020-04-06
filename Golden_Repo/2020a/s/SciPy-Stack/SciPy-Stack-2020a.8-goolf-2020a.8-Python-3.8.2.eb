@@ -4,8 +4,6 @@ name = 'SciPy-Stack'
 version = '2020a.8'
 versionsuffix = '-Python-%(pyver)s'
 
-numpyversion = '1.18.1'
-
 homepage = 'http://www.scipy.org'
 description = """SciPy Stack is a collection of open source software for scientific computing in Python."""
 
@@ -24,6 +22,7 @@ builddependencies = [
 
 dependencies = [
     ('Python', '3.8.2'),
+    ('pybind11', '2.4.3', versionsuffix),
     ('OpenBLAS', '0.3.9'),
     ('FFTW', '3.3.8', '', ('gompi', '2020a.8')),
     ('freetype', '2.10.1'),
@@ -54,32 +53,36 @@ exts_list = [
         '1.1.0',
         {'source_urls': ['https://pypi.python.org/packages/source/m/mpmath']}),
     (   'numpy',
-        '1.18.1',
-        {   'source_urls': [   'https://github.com/numpy/numpy/releases/download/v1.18.1/'],
+        '1.18.2',
+        {   'source_urls': [   'https://github.com/numpy/numpy/releases/download/v1.18.2/'],
             'source_tmpl': 'numpy-%(version)s.zip',
-            'patches': [   'numpy-1.14.2-mkl.patch',
-                           'numpy-1.14.2-xhost.patch',
-                           'numpy-1.18.1-armlinux-armpl-20.0.patch']}),
-    (   'pybind11',
-        '2.4.3',
-        {'source_urls': ['https://pypi.python.org/packages/source/p/pybind11']}),
-    (   'scipy',
-        '1.4.1',
-        {'source_urls': ['https://pypi.python.org/packages/source/s/scipy']}),
+            'patches': ['numpy-1.14.2-xhost.patch']}),
+    (   'scipy', '1.4.1',
+        {
+            'prebuildopts': "LDFLAGS=-pthread ",
+            'preinstallopts': "LDFLAGS=-pthread ",
+            'source_urls': ['https://pypi.python.org/packages/source/s/scipy'],
+            'patches': [
+                         # https://github.com/scipy/scipy/pull/11324/commits
+                         'https://github.com/scipy/scipy/commit/1a52f2b258fa3809509f86eb135ffbc65735d4ce.patch',
+                         'https://github.com/scipy/scipy/commit/5011b72020d3bb086d973f4eb507563c6f74e2cb.patch',
+                         'https://github.com/scipy/scipy/commit/4105c6e5ad6283015c269fe3bd619fde299ea3eb.patch',
+                       ]
+        }),
     (   'sympy',
         '1.5.1',
         {'source_urls': ['https://pypi.python.org/packages/source/s/sympy']}),
     (   'pandas',
-        '1.0.1',
+        '1.0.3',
         {'source_urls': ['https://pypi.python.org/packages/source/p/pandas']}),
     (   'kiwisolver',
-        '1.1.0',
+        '1.2.0',
         {   'source_urls': [   'https://pypi.python.org/packages/source/k/kiwisolver']}),
     (   'matplotlib',
-        '3.2.0',
+        '3.2.1',
         {   'source_urls': [   'https://pypi.python.org/packages/source/m/matplotlib']}),
     (   'xarray',
-        '0.15.0',
+        '0.15.1',
         {'source_urls': ['https://pypi.python.org/packages/source/x/xarray']}),
     (   'seaborn',
         '0.10.0',
