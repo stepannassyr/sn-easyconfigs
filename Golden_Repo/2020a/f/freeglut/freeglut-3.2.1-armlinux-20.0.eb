@@ -11,8 +11,9 @@ description = """freeglut is a completely OpenSourced alternative to the OpenGL 
 
 toolchain = {'name': 'armlinux', 'version': '20.0'}
 
-sources = [SOURCE_TAR_GZ]
 source_urls = ['http://prdownloads.sourceforge.net/%(name)s']
+sources = [SOURCE_TAR_GZ]
+checksums = ['d4000e02102acaf259998c870e25214739d1f16f67f99cb35e4f46841399da68']
 
 builddependencies = [
     ('binutils', '2.34'),
@@ -23,7 +24,7 @@ builddependencies = [
 dependencies = [
     ('X11', '20200326'),
     ('libGLU', '9.0.1'),
-    ('Mesa', '20.0.2'),
+    ('Mesa', '20.0.4'),
 ]
 
 sanity_check_paths = {
