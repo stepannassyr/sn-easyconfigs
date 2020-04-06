@@ -12,6 +12,7 @@ toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
 
 source_urls = ['https://github.com/ninja-build/ninja/archive/']
 sources = ['v%(version)s.tar.gz']
+checksums = ['3810318b08489435f8efc19c05525e80a993af5a55baa0dfeae0465a9d45f99f']
 
 builddependencies = [
     ('Python', '3.8.2'),
