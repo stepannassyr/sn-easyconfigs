@@ -14,7 +14,7 @@ toolchain = {'name': 'armlinux', 'version': '20.0'}
 source_urls = [PYPI_LOWER_SOURCE]
 sources = [SOURCELOWER_TAR_GZ]
 
-patches = ['meson-0.51.2-armhpc.patch']
+patches = ['meson-0.54.0-armlinux.patch']
 
 builddependencies = [
     ('binutils', '2.34'),
