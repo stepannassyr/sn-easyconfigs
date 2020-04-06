@@ -10,7 +10,8 @@ toolchainopts = {'pic': True}
 
 source_urls = [homepage]
 sources = [SOURCELOWER_TGZ]
-checksums = ['0c74aeae690fe5ee4db7926f49c5d0bb69ce09eea75beb915e00bba07530395c']
+checksums = ['61d9216cf81d246944720cfce96255878a3f85dec13b9351f1fa0fd6768220a6']
+
 #patches = ["ScaLAPACK-OpenMPI-4.0.0.patch"]
 
 blaslib = 'ArmBLAS'
