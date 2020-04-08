@@ -21,7 +21,7 @@ dependencies = [
     ('SciPy-Stack', '2020a', versionsuffix, ('goolf', '2020a')),
     ('HDF5', '1.12.0'),
     ('netCDF', '4.7.1'),
-    ('cURL', '7.65.3'),
+    ('cURL', '7.69.1'),
 ]
 
 common_opts = {

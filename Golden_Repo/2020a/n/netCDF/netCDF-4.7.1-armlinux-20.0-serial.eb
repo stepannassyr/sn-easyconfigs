@@ -22,13 +22,13 @@ source_urls = ['https://github.com/Unidata/netcdf-c/archive/']
 
 dependencies = [
     ('HDF5', '1.12.0', '-serial'),
-    ('cURL', '7.65.3'),
+    ('cURL', '7.69.1'),
     ('Szip', '2.1.1'),
 ]
 
 builddependencies = [
     ('CMake', '3.17.0'),
-    ('Doxygen', '1.8.15'),
+    ('Doxygen', '1.8.17'),
 ]
 
 # make sure both static and shared libs are built

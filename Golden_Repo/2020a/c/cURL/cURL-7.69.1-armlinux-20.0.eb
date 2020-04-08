@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'cURL'
-version = '7.65.3'
+version = '7.69.1'
 
 homepage = 'http://curl.haxx.se'
 description = """libcurl is a free and easy-to-use client-side URL transfer library,
@@ -14,7 +14,7 @@ description = """libcurl is a free and easy-to-use client-side URL transfer libr
 """
 
 
-toolchain = {'name': 'Clang', 'version': '10.0.0'}
+toolchain = {'name': 'armlinux', 'version': '20.0'}
 
 sources = [SOURCELOWER_TAR_GZ]
 source_urls = ['http://%(namelower)s.haxx.se/download/']

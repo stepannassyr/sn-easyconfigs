@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'cURL'
-version = '7.65.3'
+version = '7.69.1'
 
 homepage = 'http://curl.haxx.se'
 description = """libcurl is a free and easy-to-use client-side URL transfer library,
