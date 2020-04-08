@@ -13,14 +13,14 @@
 easyblock = 'ConfigureMake'
 
 name = 'LibTIFF'
-version = '4.0.10'
+version = '4.1.0'
 
 homepage = 'http://www.remotesensing.org/libtiff/'
 description = """tiff: Library and tools for reading and writing TIFF data files
 """
 
 
-toolchain = {'name': 'Clang', 'version': '10.0.0'}
+toolchain = {'name': 'Clang', 'version': '9.0.1'}
 
 source_urls = [
     'http://download.osgeo.org/libtiff/',
