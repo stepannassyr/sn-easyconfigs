@@ -1,0 +1,1012 @@
+diff -urN scorep-6.0-unpatched/build-backend/configure scorep-6.0/build-backend/configure
+--- scorep-6.0-unpatched/build-backend/configure	2020-03-28 10:48:07.399231256 +0100
++++ scorep-6.0/build-backend/configure	2020-03-29 11:52:51.646547479 +0200
+@@ -664,6 +664,9 @@
+ SCOREP_COMPILER_CLANG_TRUE='#'
+ SCOREP_COMPILER_CLANG_FALSE=
+ 
++SCOREP_COMPILER_ARMLINUX_TRUE='#'
++SCOREP_COMPILER_ARMLINUX_FALSE=
++
+ SCOREP_COMPILER_CRAY_TRUE='#'
+ SCOREP_COMPILER_CRAY_FALSE=
+ 
+@@ -942,6 +945,7 @@
+ SCOREP_COMPILER_FUJITSU
+ SCOREP_COMPILER_CRAY
+ SCOREP_COMPILER_CLANG
++SCOREP_COMPILER_ARMLINUX
+ SCOREP_COMPILER_GNU
+ SCOREP_COMPILER_PGI
+ SCOREP_COMPILER_IBM
+@@ -953,6 +957,8 @@
+ SCOREP_COMPILER_CRAY_TRUE
+ SCOREP_COMPILER_CLANG_FALSE
+ SCOREP_COMPILER_CLANG_TRUE
++SCOREP_COMPILER_ARMLINUX_FALSE
++SCOREP_COMPILER_ARMLINUX_TRUE
+ SCOREP_COMPILER_GNU_FALSE
+ SCOREP_COMPILER_GNU_TRUE
+ SCOREP_COMPILER_PGI_FALSE
+@@ -14123,6 +14129,11 @@
+ 	lt_prog_compiler_pic='-qpic'
+ 	lt_prog_compiler_static='-qstaticlink'
+ 	;;
++      armclang* | armflang*)
++	lt_prog_compiler_wl='-Wl,'
++	lt_prog_compiler_pic='-fPIC'
++	lt_prog_compiler_static='-static'
++        ;;
+       *)
+ 	case `$CC -V 2>&1` in
+ 	*Sun\ Ceres\ Fortran* | *Sun*Fortran*\ [1-7].* | *Sun*Fortran*\ 8.[0-3]*)
+@@ -19729,6 +19740,11 @@
+ 	    lt_prog_compiler_pic_CXX='-qpic'
+ 	    lt_prog_compiler_static_CXX='-qstaticlink'
+ 	    ;;
++	  armclang* )
++	    lt_prog_compiler_wl_CXX='-Wl,'
++	    lt_prog_compiler_pic_CXX='-fPIC'
++	    lt_prog_compiler_static_CXX='-static'
++	    ;;
+ 	  *)
+ 	    case `$CC -V 2>&1` in
+ 	    *Sun\ C*)
+@@ -21556,6 +21572,11 @@
+ 	lt_prog_compiler_pic_F77='-qpic'
+ 	lt_prog_compiler_static_F77='-qstaticlink'
+ 	;;
++      armclang* | armflang*)
++	lt_prog_compiler_wl_F77='-Wl,'
++	lt_prog_compiler_pic_F77='-fPIC'
++	lt_prog_compiler_static_F77='-static'
++        ;;
+       *)
+ 	case `$CC -V 2>&1` in
+ 	*Sun\ Ceres\ Fortran* | *Sun*Fortran*\ [1-7].* | *Sun*Fortran*\ 8.[0-3]*)
+@@ -24684,6 +24705,11 @@
+ 	lt_prog_compiler_pic_FC='-qpic'
+ 	lt_prog_compiler_static_FC='-qstaticlink'
+ 	;;
++      armclang* | armflang*)
++	lt_prog_compiler_wl_FC='-Wl,'
++	lt_prog_compiler_pic_FC='-fPIC'
++	lt_prog_compiler_static_FC='-static'
++        ;;
+       *)
+ 	case `$CC -V 2>&1` in
+ 	*Sun\ Ceres\ Fortran* | *Sun*Fortran*\ [1-7].* | *Sun*Fortran*\ 8.[0-3]*)
+@@ -31493,6 +31519,7 @@
+ else
+     # note: don't check for gcc first since some other compilers define __GNUC__
+   vendors="intel:     __ICC,__ECC,__INTEL_COMPILER
++           armlinux:  __ARM_HPC_COMPILER_VERSION__
+            ibm:       __xlc__,__xlC__,__IBMC__,__IBMCPP__,__ibmxl__clang__,__ibmxl__
+            pathscale: __PATHCC__,__PATHSCALE__
+            clang:     __clang__
+@@ -33554,6 +33581,27 @@
+ 
+   ax_cv_c_compiler_version="$_ax_c_compiler_version_major.$_ax_c_compiler_version_minor.$_ax_c_compiler_version_patch"
+    ;; #(
++  armlinux) :
++
++  if ac_fn_c_compute_int "$LINENO" "(unsigned long)(__ARM_HPC_COMPILER_VERSION__)" "_ax_c_compiler_version_major"        ""; then :
++
++else
++  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
++$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
++as_fn_error $? "_AX_COMPILER_VERSION_ARMLINUX unknown clang major
++See \`config.log' for more details" "$LINENO" 5; }
++fi
++
++  if ac_fn_c_compute_int "$LINENO" "(unsigned long)10*(__ARM_HPC_COMPILER_VERSION__ - (unsigned long)(__ARM_HPC_COMPILER_VERSION__))" "_ax_c_compiler_version_minor"        ""; then :
++
++else
++  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
++$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
++as_fn_error $? "_AX_COMPILER_VERSION_ARMLINUX unknown clang minor
++See \`config.log' for more details" "$LINENO" 5; }
++fi
++  ax_cv_c_compiler_version="$_ax_c_compiler_version_major.$_ax_c_compiler_version_minor"
++   ;;
+   clang) :
+ 
+   if ac_fn_c_compute_int "$LINENO" "__clang_major__" "_ax_c_compiler_version_major"        ""; then :
+@@ -34440,6 +34488,15 @@
+   SCOREP_COMPILER_CLANG_FALSE=
+ fi
+  ;; #(
++  armlinux) :
++     if test 1 -eq 1; then
++  SCOREP_COMPILER_ARMLINUX_TRUE=
++  SCOREP_COMPILER_ARMLINUX_FALSE='#'
++else
++  SCOREP_COMPILER_ARMLINUX_TRUE='#'
++  SCOREP_COMPILER_ARMLINUX_FALSE=
++fi
++ ;; #(
+   cray) :
+      if test 1 -eq 1; then
+   SCOREP_COMPILER_CRAY_TRUE=
+@@ -34471,6 +34528,7 @@
+ afs_compiler_portland=0
+ afs_compiler_gnu=0
+ afs_compiler_clang=0
++afs_compiler_armlinux=0
+ afs_compiler_cray=0
+ afs_compiler_fujitsu=0
+ case ${ax_cv_c_compiler_vendor%/*} in #(
+@@ -34486,6 +34544,8 @@
+     afs_compiler_gnu=1 ;; #(
+   clang) :
+     afs_compiler_clang=1 ;; #(
++  armlinux) :
++    afs_compiler_armlinux=1 ;; #(
+   cray) :
+     afs_compiler_cray=1 ;; #(
+   fujitsu) :
+@@ -34499,6 +34559,7 @@
+ SCOREP_COMPILER_PGI=${afs_compiler_portland}
+ SCOREP_COMPILER_GNU=${afs_compiler_gnu}
+ SCOREP_COMPILER_CLANG=${afs_compiler_clang}
++SCOREP_COMPILER_ARMLINUX=${afs_compiler_armlinux}
+ SCOREP_COMPILER_CRAY=${afs_compiler_cray}
+ SCOREP_COMPILER_FUJITSU=${afs_compiler_fujitsu}
+ 
+@@ -49124,6 +49185,10 @@
+   as_fn_error $? "conditional \"SCOREP_COMPILER_CLANG\" was never defined.
+ Usually this means the macro was only invoked conditionally." "$LINENO" 5
+ fi
++if test -z "${SCOREP_COMPILER_ARMLINUX_TRUE}" && test -z "${SCOREP_COMPILER_ARMLINUX_FALSE}"; then
++  as_fn_error $? "conditional \"SCOREP_COMPILER_ARMLINUX\" was never defined.
++Usually this means the macro was only invoked conditionally." "$LINENO" 5
++fi
+ if test -z "${SCOREP_COMPILER_CRAY_TRUE}" && test -z "${SCOREP_COMPILER_CRAY_FALSE}"; then
+   as_fn_error $? "conditional \"SCOREP_COMPILER_CRAY\" was never defined.
+ Usually this means the macro was only invoked conditionally." "$LINENO" 5
+diff -urN scorep-6.0-unpatched/build-frontend/configure scorep-6.0/build-frontend/configure
+--- scorep-6.0-unpatched/build-frontend/configure	2020-03-28 10:48:07.169230178 +0100
++++ scorep-6.0/build-frontend/configure	2020-03-28 12:17:09.964228471 +0100
+@@ -649,6 +649,9 @@
+ SCOREP_COMPILER_CLANG_TRUE='#'
+ SCOREP_COMPILER_CLANG_FALSE=
+ 
++SCOREP_COMPILER_ARMLINUX_TRUE='#'
++SCOREP_COMPILER_ARMLINUX_FALSE=
++
+ SCOREP_COMPILER_CRAY_TRUE='#'
+ SCOREP_COMPILER_CRAY_FALSE=
+ 
+@@ -726,6 +729,7 @@
+ SCOREP_COMPILER_FUJITSU
+ SCOREP_COMPILER_CRAY
+ SCOREP_COMPILER_CLANG
++SCOREP_COMPILER_ARMLINUX
+ SCOREP_COMPILER_GNU
+ SCOREP_COMPILER_PGI
+ SCOREP_COMPILER_IBM
+@@ -737,6 +741,8 @@
+ SCOREP_COMPILER_CRAY_TRUE
+ SCOREP_COMPILER_CLANG_FALSE
+ SCOREP_COMPILER_CLANG_TRUE
++SCOREP_COMPILER_ARMLINUX_FALSE
++SCOREP_COMPILER_ARMLINUX_TRUE
+ SCOREP_COMPILER_GNU_FALSE
+ SCOREP_COMPILER_GNU_TRUE
+ SCOREP_COMPILER_PGI_FALSE
+@@ -10954,6 +10960,11 @@
+ 	lt_prog_compiler_pic='-qpic'
+ 	lt_prog_compiler_static='-qstaticlink'
+ 	;;
++      armclang* | armflang*)
++	lt_prog_compiler_wl='-Wl,'
++	lt_prog_compiler_pic='-fPIC'
++	lt_prog_compiler_static='-static'
++        ;;
+       *)
+ 	case `$CC -V 2>&1` in
+ 	*Sun\ Ceres\ Fortran* | *Sun*Fortran*\ [1-7].* | *Sun*Fortran*\ 8.[0-3]*)
+@@ -16400,6 +16411,11 @@
+ 	    lt_prog_compiler_pic_CXX='-qpic'
+ 	    lt_prog_compiler_static_CXX='-qstaticlink'
+ 	    ;;
++	  armclang* )
++	    lt_prog_compiler_wl_CXX='-Wl,'
++	    lt_prog_compiler_pic_CXX='-fPIC'
++	    lt_prog_compiler_static_CXX='-static'
++	    ;;
+ 	  *)
+ 	    case `$CC -V 2>&1` in
+ 	    *Sun\ C*)
+@@ -18495,6 +18511,7 @@
+ else
+     # note: don't check for gcc first since some other compilers define __GNUC__
+   vendors="intel:     __ICC,__ECC,__INTEL_COMPILER
++           armlinux:  __ARM_HPC_COMPILER_VERSION__
+            ibm:       __xlc__,__xlC__,__IBMC__,__IBMCPP__,__ibmxl__clang__,__ibmxl__
+            pathscale: __PATHCC__,__PATHSCALE__
+            clang:     __clang__
+@@ -18786,6 +18803,27 @@
+ 
+   ax_cv_c_compiler_version="$_ax_c_compiler_version_major.$_ax_c_compiler_version_minor.$_ax_c_compiler_version_patch"
+    ;; #(
++  armlinux) :
++
++  if ac_fn_c_compute_int "$LINENO" "(unsigned long)(__ARM_HPC_COMPILER_VERSION__)" "_ax_c_compiler_version_major"        ""; then :
++
++else
++  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
++$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
++as_fn_error $? "_AX_COMPILER_VERSION_ARMLINUX unknown clang major
++See \`config.log' for more details" "$LINENO" 5; }
++fi
++
++  if ac_fn_c_compute_int "$LINENO" "(unsigned long)10*(__ARM_HPC_COMPILER_VERSION__ - (unsigned long)(__ARM_HPC_COMPILER_VERSION__))" "_ax_c_compiler_version_minor"        ""; then :
++
++else
++  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
++$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
++as_fn_error $? "_AX_COMPILER_VERSION_ARMLINUX unknown clang minor
++See \`config.log' for more details" "$LINENO" 5; }
++fi
++  ax_cv_c_compiler_version="$_ax_c_compiler_version_major.$_ax_c_compiler_version_minor"
++   ;;
+   clang) :
+ 
+   if ac_fn_c_compute_int "$LINENO" "__clang_major__" "_ax_c_compiler_version_major"        ""; then :
+@@ -19647,6 +19685,15 @@
+   SCOREP_COMPILER_GNU_FALSE=
+ fi
+  ;; #(
++  armlinux) :
++     if test 1 -eq 1; then
++  SCOREP_COMPILER_ARMLINUX_TRUE=
++  SCOREP_COMPILER_ARMLINUX_FALSE='#'
++else
++  SCOREP_COMPILER_ARMLINUX_TRUE='#'
++  SCOREP_COMPILER_ARMLINUX_FALSE=
++fi
++ ;; #(
+   clang) :
+      if test 1 -eq 1; then
+   SCOREP_COMPILER_CLANG_TRUE=
+@@ -19687,6 +19734,7 @@
+ afs_compiler_portland=0
+ afs_compiler_gnu=0
+ afs_compiler_clang=0
++afs_compiler_armlinux=0
+ afs_compiler_cray=0
+ afs_compiler_fujitsu=0
+ case ${ax_cv_c_compiler_vendor%/*} in #(
+@@ -19702,6 +19750,8 @@
+     afs_compiler_gnu=1 ;; #(
+   clang) :
+     afs_compiler_clang=1 ;; #(
++  armlinux) :
++    afs_compiler_armlinux=1 ;; #(
+   cray) :
+     afs_compiler_cray=1 ;; #(
+   fujitsu) :
+@@ -19715,6 +19765,7 @@
+ SCOREP_COMPILER_PGI=${afs_compiler_portland}
+ SCOREP_COMPILER_GNU=${afs_compiler_gnu}
+ SCOREP_COMPILER_CLANG=${afs_compiler_clang}
++SCOREP_COMPILER_ARMLINUX=${afs_compiler_armlinux}
+ SCOREP_COMPILER_CRAY=${afs_compiler_cray}
+ SCOREP_COMPILER_FUJITSU=${afs_compiler_fujitsu}
+ 
+@@ -22208,6 +22259,10 @@
+   as_fn_error $? "conditional \"SCOREP_COMPILER_CLANG\" was never defined.
+ Usually this means the macro was only invoked conditionally." "$LINENO" 5
+ fi
++if test -z "${SCOREP_COMPILER_ARMLINUX_TRUE}" && test -z "${SCOREP_COMPILER_ARMLINUX_FALSE}"; then
++  as_fn_error $? "conditional \"SCOREP_COMPILER_ARMLINUX\" was never defined.
++Usually this means the macro was only invoked conditionally." "$LINENO" 5
++fi
+ if test -z "${SCOREP_COMPILER_CRAY_TRUE}" && test -z "${SCOREP_COMPILER_CRAY_FALSE}"; then
+   as_fn_error $? "conditional \"SCOREP_COMPILER_CRAY\" was never defined.
+ Usually this means the macro was only invoked conditionally." "$LINENO" 5
+diff -urN scorep-6.0-unpatched/build-mpi/configure scorep-6.0/build-mpi/configure
+--- scorep-6.0-unpatched/build-mpi/configure	2020-03-28 10:48:07.399231256 +0100
++++ scorep-6.0/build-mpi/configure	2020-03-28 11:37:23.482912745 +0100
+@@ -652,6 +652,9 @@
+ SCOREP_COMPILER_CLANG_TRUE='#'
+ SCOREP_COMPILER_CLANG_FALSE=
+ 
++SCOREP_COMPILER_ARMLINUX_TRUE='#'
++SCOREP_COMPILER_ARMLINUX_FALSE=
++
+ SCOREP_COMPILER_CRAY_TRUE='#'
+ SCOREP_COMPILER_CRAY_FALSE=
+ 
+@@ -913,6 +916,7 @@
+ SCOREP_COMPILER_FUJITSU
+ SCOREP_COMPILER_CRAY
+ SCOREP_COMPILER_CLANG
++SCOREP_COMPILER_ARMLINUX
+ SCOREP_COMPILER_GNU
+ SCOREP_COMPILER_PGI
+ SCOREP_COMPILER_IBM
+@@ -924,6 +928,8 @@
+ SCOREP_COMPILER_CRAY_TRUE
+ SCOREP_COMPILER_CLANG_FALSE
+ SCOREP_COMPILER_CLANG_TRUE
++SCOREP_COMPILER_ARMLINUX_FALSE
++SCOREP_COMPILER_ARMLINUX_TRUE
+ SCOREP_COMPILER_GNU_FALSE
+ SCOREP_COMPILER_GNU_TRUE
+ SCOREP_COMPILER_PGI_FALSE
+@@ -14406,6 +14412,11 @@
+ 	lt_prog_compiler_pic='-qpic'
+ 	lt_prog_compiler_static='-qstaticlink'
+ 	;;
++      armclang* | armflang*)
++	lt_prog_compiler_wl='-Wl,'
++	lt_prog_compiler_pic='-fPIC'
++	lt_prog_compiler_static='-static'
++        ;;
+       *)
+ 	case `$CC -V 2>&1` in
+ 	*Sun\ Ceres\ Fortran* | *Sun*Fortran*\ [1-7].* | *Sun*Fortran*\ 8.[0-3]*)
+@@ -14445,6 +14456,11 @@
+ 	  lt_prog_compiler_pic='-Kpic'
+ 	  lt_prog_compiler_static='-Bstatic'
+ 	  ;;
++        *Arm*\ *Compiler*)
++	  lt_prog_compiler_wl='-Wl,'
++	  lt_prog_compiler_pic='-fPIC'
++	  lt_prog_compiler_static='-static'
++	  ;;
+ 	esac
+ 	;;
+       esac
+@@ -20012,6 +20028,11 @@
+ 	    lt_prog_compiler_pic_CXX='-qpic'
+ 	    lt_prog_compiler_static_CXX='-qstaticlink'
+ 	    ;;
++	  armclang* )
++	    lt_prog_compiler_wl_CXX='-Wl,'
++	    lt_prog_compiler_pic_CXX='-fPIC'
++	    lt_prog_compiler_static_CXX='-static'
++	    ;;
+ 	  *)
+ 	    case `$CC -V 2>&1` in
+ 	    *Sun\ C*)
+@@ -20038,6 +20059,12 @@
+ 	      lt_prog_compiler_static_CXX='-Bstatic'
+ 	      lt_prog_compiler_wl_CXX='-Wl,'
+ 	      ;;
++	    *Arm*)
++	      # Fujitsu C/C++ Compiler Driver
++	      lt_prog_compiler_pic_CXX='-fPIC'
++	      lt_prog_compiler_static_CXX='-static'
++	      lt_prog_compiler_wl_CXX='-Wl,'
++	      ;;
+ 	    esac
+ 	    ;;
+ 	esac
+@@ -21839,6 +21866,11 @@
+ 	lt_prog_compiler_pic_F77='-qpic'
+ 	lt_prog_compiler_static_F77='-qstaticlink'
+ 	;;
++      armflang*)
++	lt_prog_compiler_wl_F77='-Wl,'
++	lt_prog_compiler_pic_F77='-fPIC'
++	lt_prog_compiler_static_F77='-static'
++        ;;
+       *)
+ 	case `$CC -V 2>&1` in
+ 	*Sun\ Ceres\ Fortran* | *Sun*Fortran*\ [1-7].* | *Sun*Fortran*\ 8.[0-3]*)
+@@ -21878,6 +21910,11 @@
+ 	  lt_prog_compiler_pic_F77='-Kpic'
+ 	  lt_prog_compiler_static_F77='-Bstatic'
+ 	  ;;
++	*Arm*)
++	  lt_prog_compiler_wl_F77='-Wl,'
++	  lt_prog_compiler_pic_F77='-fPIC'
++	  lt_prog_compiler_static_F77='-static'
++	  ;;
+ 	esac
+ 	;;
+       esac
+@@ -24967,6 +25004,11 @@
+ 	lt_prog_compiler_pic_FC='-qpic'
+ 	lt_prog_compiler_static_FC='-qstaticlink'
+ 	;;
++      armflang*)
++	lt_prog_compiler_wl_FC='-Wl,'
++	lt_prog_compiler_pic_FC='-fPIC'
++	lt_prog_compiler_static_FC='-static'
++        ;;
+       *)
+ 	case `$CC -V 2>&1` in
+ 	*Sun\ Ceres\ Fortran* | *Sun*Fortran*\ [1-7].* | *Sun*Fortran*\ 8.[0-3]*)
+@@ -25006,6 +25048,11 @@
+ 	  lt_prog_compiler_pic_FC='-Kpic'
+ 	  lt_prog_compiler_static_FC='-Bstatic'
+ 	  ;;
++        *Arm*\ *Compiler*)
++	  lt_prog_compiler_wl_FC='-Wl,'
++	  lt_prog_compiler_pic_FC='-fPIC'
++	  lt_prog_compiler_static_FC='-static'
++	  ;;
+ 	esac
+ 	;;
+       esac
+@@ -27822,6 +27869,7 @@
+ else
+     # note: don't check for gcc first since some other compilers define __GNUC__
+   vendors="intel:     __ICC,__ECC,__INTEL_COMPILER
++           armlinux:  __ARM_HPC_COMPILER_VERSION__
+            ibm:       __xlc__,__xlC__,__IBMC__,__IBMCPP__,__ibmxl__clang__,__ibmxl__
+            pathscale: __PATHCC__,__PATHSCALE__
+            clang:     __clang__
+@@ -28240,6 +28288,8 @@
+   fujitsu) :
+     scorep_compiler_instrumentation_cppflags="-g -Ntl_vtrc -Ntl_notrt"
+                  scorep_compiler_instrumentation_needs_symbol_table="yes" ;; #(
++  armlinux) :
++    ;&
+   clang) :
+ 
+     ac_ext=c
+@@ -28443,6 +28493,8 @@
+     scorep_instrumentation_ldflags="-Ntl_notrt" ;; #(
+   clang) :
+      ;; #(
++  armlinux) :
++     ;; #(
+   *) :
+      ;;
+ esac
+@@ -30007,6 +30059,27 @@
+ 
+   ax_cv_c_compiler_version="$_ax_c_compiler_version_major.$_ax_c_compiler_version_minor.$_ax_c_compiler_version_patch"
+    ;; #(
++  armlinux) :
++
++  if ac_fn_c_compute_int "$LINENO" "(unsigned long)(__ARM_HPC_COMPILER_VERSION__)" "_ax_c_compiler_version_major"        ""; then :
++
++else
++  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
++$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
++as_fn_error $? "_AX_COMPILER_VERSION_ARMLINUX unknown clang major
++See \`config.log' for more details" "$LINENO" 5; }
++fi
++
++  if ac_fn_c_compute_int "$LINENO" "(unsigned long)10*(__ARM_HPC_COMPILER_VERSION__ - (unsigned long)(__ARM_HPC_COMPILER_VERSION__))" "_ax_c_compiler_version_minor"        ""; then :
++
++else
++  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
++$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
++as_fn_error $? "_AX_COMPILER_VERSION_ARMLINUX unknown clang minor
++See \`config.log' for more details" "$LINENO" 5; }
++fi
++  ax_cv_c_compiler_version="$_ax_c_compiler_version_major.$_ax_c_compiler_version_minor"
++   ;;
+   clang) :
+ 
+   if ac_fn_c_compute_int "$LINENO" "__clang_major__" "_ax_c_compiler_version_major"        ""; then :
+@@ -30893,6 +30966,15 @@
+   SCOREP_COMPILER_CLANG_FALSE=
+ fi
+  ;; #(
++  armlinux) :
++     if test 1 -eq 1; then
++  SCOREP_COMPILER_ARMLINUX_TRUE=
++  SCOREP_COMPILER_ARMLINUX_FALSE='#'
++else
++  SCOREP_COMPILER_ARMLINUX_TRUE='#'
++  SCOREP_COMPILER_ARMLINUX_FALSE=
++fi
++ ;; #(
+   cray) :
+      if test 1 -eq 1; then
+   SCOREP_COMPILER_CRAY_TRUE=
+@@ -30924,6 +31006,7 @@
+ afs_compiler_portland=0
+ afs_compiler_gnu=0
+ afs_compiler_clang=0
++afs_compiler_armlinux=0
+ afs_compiler_cray=0
+ afs_compiler_fujitsu=0
+ case ${ax_cv_c_compiler_vendor%/*} in #(
+@@ -30939,6 +31022,8 @@
+     afs_compiler_gnu=1 ;; #(
+   clang) :
+     afs_compiler_clang=1 ;; #(
++  armlinux) :
++    afs_compiler_armlinux=1 ;; #(
+   cray) :
+     afs_compiler_cray=1 ;; #(
+   fujitsu) :
+@@ -30952,6 +31037,7 @@
+ SCOREP_COMPILER_PGI=${afs_compiler_portland}
+ SCOREP_COMPILER_GNU=${afs_compiler_gnu}
+ SCOREP_COMPILER_CLANG=${afs_compiler_clang}
++SCOREP_COMPILER_ARMLINUX=${afs_compiler_armlinux}
+ SCOREP_COMPILER_CRAY=${afs_compiler_cray}
+ SCOREP_COMPILER_FUJITSU=${afs_compiler_fujitsu}
+ 
+@@ -52303,6 +52389,8 @@
+      ;; #(
+   fujitsu) :
+      ;; #(
++  armlinux) :
++     ;; #(
+   clang) :
+      ;; #(
+   *) :
+@@ -53486,6 +53574,10 @@
+   as_fn_error $? "conditional \"SCOREP_COMPILER_CLANG\" was never defined.
+ Usually this means the macro was only invoked conditionally." "$LINENO" 5
+ fi
++if test -z "${SCOREP_COMPILER_ARMLINUX_TRUE}" && test -z "${SCOREP_COMPILER_ARMLINUX_FALSE}"; then
++  as_fn_error $? "conditional \"SCOREP_COMPILER_ARMLINUX\" was never defined.
++Usually this means the macro was only invoked conditionally." "$LINENO" 5
++fi
+ if test -z "${SCOREP_COMPILER_CRAY_TRUE}" && test -z "${SCOREP_COMPILER_CRAY_FALSE}"; then
+   as_fn_error $? "conditional \"SCOREP_COMPILER_CRAY\" was never defined.
+ Usually this means the macro was only invoked conditionally." "$LINENO" 5
+diff -urN scorep-6.0-unpatched/build-score/configure scorep-6.0/build-score/configure
+--- scorep-6.0-unpatched/build-score/configure	2020-03-28 10:48:07.379231162 +0100
++++ scorep-6.0/build-score/configure	2020-03-29 11:55:26.357338319 +0200
+@@ -3162,6 +3162,7 @@
+ else
+     # note: don't check for gcc first since some other compilers define __GNUC__
+   vendors="intel:     __ICC,__ECC,__INTEL_COMPILER
++           armlinux:  __ARM_HPC_COMPILER_VERSION__
+            ibm:       __xlc__,__xlC__,__IBMC__,__IBMCPP__,__ibmxl__clang__,__ibmxl__
+            pathscale: __PATHCC__,__PATHSCALE__
+            clang:     __clang__
+@@ -3259,6 +3260,8 @@
+     CC=cc ;; #(
+   portland) :
+     CC=pgcc ;; #(
++  armlinux) :
++    CC=armclang ;; #(
+   # TODO: that may have been 'pgc++ -Mllvm' from the default target, thus 'pgcc' may not be the LLVM variant
+     clang) :
+     CC=clang ;; #(
+@@ -10373,6 +10376,11 @@
+ 	lt_prog_compiler_pic='-qpic'
+ 	lt_prog_compiler_static='-qstaticlink'
+ 	;;
++      armclang* | armflang*)
++	lt_prog_compiler_wl='-Wl,'
++	lt_prog_compiler_pic='-fPIC'
++	lt_prog_compiler_static='-static'
++        ;;
+       *)
+ 	case `$CC -V 2>&1` in
+ 	*Sun\ Ceres\ Fortran* | *Sun*Fortran*\ [1-7].* | *Sun*Fortran*\ 8.[0-3]*)
+@@ -15819,6 +15827,11 @@
+ 	    lt_prog_compiler_pic_CXX='-qpic'
+ 	    lt_prog_compiler_static_CXX='-qstaticlink'
+ 	    ;;
++	  armclang* )
++	    lt_prog_compiler_wl_CXX='-Wl,'
++	    lt_prog_compiler_pic_CXX='-fPIC'
++	    lt_prog_compiler_static_CXX='-static'
++	    ;;
+ 	  *)
+ 	    case `$CC -V 2>&1` in
+ 	    *Sun\ C*)
+diff -urN scorep-6.0-unpatched/build-score/configure.ac scorep-6.0/build-score/configure.ac
+--- scorep-6.0-unpatched/build-score/configure.ac	2020-03-28 10:48:07.379231162 +0100
++++ scorep-6.0/build-score/configure.ac	2020-03-28 10:48:55.239455506 +0100
+@@ -89,6 +89,7 @@
+     [sun],      [CC=cc],
+     [portland], [CC=pgcc], # TODO: that may have been 'pgc++ -Mllvm' from the default target, thus 'pgcc' may not be the LLVM variant
+     [clang],    [CC=clang],
++    [armlinux], [CC=armclang],
+     [AC_MSG_WARN([invalid value of CXX vendor (${ax_cv_cxx_compiler_vendor}), cannot determine corresponding CC. Using gcc as fall-back.])
+      CC=gcc
+      fallback=" (fall-back)"])
+diff -urN scorep-6.0-unpatched/build-shmem/configure scorep-6.0/build-shmem/configure
+--- scorep-6.0-unpatched/build-shmem/configure	2020-03-28 10:48:07.399231256 +0100
++++ scorep-6.0/build-shmem/configure	2020-03-29 11:57:47.408058470 +0200
+@@ -652,6 +652,9 @@
+ SCOREP_COMPILER_CLANG_TRUE='#'
+ SCOREP_COMPILER_CLANG_FALSE=
+ 
++SCOREP_COMPILER_ARMLINUX_TRUE='#'
++SCOREP_COMPILER_ARMLINUX_FALSE=
++
+ SCOREP_COMPILER_CRAY_TRUE='#'
+ SCOREP_COMPILER_CRAY_FALSE=
+ 
+@@ -894,6 +897,7 @@
+ SCOREP_COMPILER_FUJITSU
+ SCOREP_COMPILER_CRAY
+ SCOREP_COMPILER_CLANG
++SCOREP_COMPILER_ARMLINUX
+ SCOREP_COMPILER_GNU
+ SCOREP_COMPILER_PGI
+ SCOREP_COMPILER_IBM
+@@ -905,6 +909,8 @@
+ SCOREP_COMPILER_CRAY_TRUE
+ SCOREP_COMPILER_CLANG_FALSE
+ SCOREP_COMPILER_CLANG_TRUE
++SCOREP_COMPILER_ARMLINUX_FALSE
++SCOREP_COMPILER_ARMLINUX_TRUE
+ SCOREP_COMPILER_GNU_FALSE
+ SCOREP_COMPILER_GNU_TRUE
+ SCOREP_COMPILER_PGI_FALSE
+@@ -14289,6 +14295,11 @@
+ 	lt_prog_compiler_pic='-qpic'
+ 	lt_prog_compiler_static='-qstaticlink'
+ 	;;
++      armclang* | armflang*)
++	lt_prog_compiler_wl='-Wl,'
++	lt_prog_compiler_pic='-fPIC'
++	lt_prog_compiler_static='-static'
++        ;;
+       *)
+ 	case `$CC -V 2>&1` in
+ 	*Sun\ Ceres\ Fortran* | *Sun*Fortran*\ [1-7].* | *Sun*Fortran*\ 8.[0-3]*)
+@@ -19895,6 +19906,11 @@
+ 	    lt_prog_compiler_pic_CXX='-qpic'
+ 	    lt_prog_compiler_static_CXX='-qstaticlink'
+ 	    ;;
++	  armclang* )
++	    lt_prog_compiler_wl_CXX='-Wl,'
++	    lt_prog_compiler_pic_CXX='-fPIC'
++	    lt_prog_compiler_static_CXX='-static'
++	    ;;
+ 	  *)
+ 	    case `$CC -V 2>&1` in
+ 	    *Sun\ C*)
+@@ -21722,6 +21738,11 @@
+ 	lt_prog_compiler_pic_F77='-qpic'
+ 	lt_prog_compiler_static_F77='-qstaticlink'
+ 	;;
++      armclang* | armflang*)
++	lt_prog_compiler_wl_F77='-Wl,'
++	lt_prog_compiler_pic_F77='-fPIC'
++	lt_prog_compiler_static_F77='-static'
++        ;;
+       *)
+ 	case `$CC -V 2>&1` in
+ 	*Sun\ Ceres\ Fortran* | *Sun*Fortran*\ [1-7].* | *Sun*Fortran*\ 8.[0-3]*)
+@@ -24850,6 +24871,11 @@
+ 	lt_prog_compiler_pic_FC='-qpic'
+ 	lt_prog_compiler_static_FC='-qstaticlink'
+ 	;;
++      armclang* | armflang*)
++	lt_prog_compiler_wl_FC='-Wl,'
++	lt_prog_compiler_pic_FC='-fPIC'
++	lt_prog_compiler_static_FC='-static'
++        ;;
+       *)
+ 	case `$CC -V 2>&1` in
+ 	*Sun\ Ceres\ Fortran* | *Sun*Fortran*\ [1-7].* | *Sun*Fortran*\ 8.[0-3]*)
+@@ -27711,6 +27737,7 @@
+ else
+     # note: don't check for gcc first since some other compilers define __GNUC__
+   vendors="intel:     __ICC,__ECC,__INTEL_COMPILER
++           armlinux:  __ARM_HPC_COMPILER_VERSION__
+            ibm:       __xlc__,__xlC__,__IBMC__,__IBMCPP__,__ibmxl__clang__,__ibmxl__
+            pathscale: __PATHCC__,__PATHSCALE__
+            clang:     __clang__
+@@ -29752,6 +29779,27 @@
+ 
+   ax_cv_c_compiler_version="$_ax_c_compiler_version_major.$_ax_c_compiler_version_minor.$_ax_c_compiler_version_patch"
+    ;; #(
++  armlinux) :
++
++  if ac_fn_c_compute_int "$LINENO" "(unsigned long)(__ARM_HPC_COMPILER_VERSION__)" "_ax_c_compiler_version_major"        ""; then :
++
++else
++  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
++$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
++as_fn_error $? "_AX_COMPILER_VERSION_ARMLINUX unknown clang major
++See \`config.log' for more details" "$LINENO" 5; }
++fi
++
++  if ac_fn_c_compute_int "$LINENO" "(unsigned long)10*(__ARM_HPC_COMPILER_VERSION__ - (unsigned long)(__ARM_HPC_COMPILER_VERSION__))" "_ax_c_compiler_version_minor"        ""; then :
++
++else
++  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
++$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
++as_fn_error $? "_AX_COMPILER_VERSION_ARMLINUX unknown clang minor
++See \`config.log' for more details" "$LINENO" 5; }
++fi
++  ax_cv_c_compiler_version="$_ax_c_compiler_version_major.$_ax_c_compiler_version_minor"
++   ;;
+   clang) :
+ 
+   if ac_fn_c_compute_int "$LINENO" "__clang_major__" "_ax_c_compiler_version_major"        ""; then :
+@@ -30638,6 +30686,15 @@
+   SCOREP_COMPILER_CLANG_FALSE=
+ fi
+  ;; #(
++  armlinux) :
++     if test 1 -eq 1; then
++  SCOREP_COMPILER_ARMLINUX_TRUE=
++  SCOREP_COMPILER_ARMLINUX_FALSE='#'
++else
++  SCOREP_COMPILER_ARMLINUX_TRUE='#'
++  SCOREP_COMPILER_ARMLINUX_FALSE=
++fi
++ ;; #(
+   cray) :
+      if test 1 -eq 1; then
+   SCOREP_COMPILER_CRAY_TRUE=
+@@ -30669,6 +30726,7 @@
+ afs_compiler_portland=0
+ afs_compiler_gnu=0
+ afs_compiler_clang=0
++afs_compiler_armlinux=0
+ afs_compiler_cray=0
+ afs_compiler_fujitsu=0
+ case ${ax_cv_c_compiler_vendor%/*} in #(
+@@ -30684,6 +30742,8 @@
+     afs_compiler_gnu=1 ;; #(
+   clang) :
+     afs_compiler_clang=1 ;; #(
++  armlinux) :
++    afs_compiler_armlinux=1 ;; #(
+   cray) :
+     afs_compiler_cray=1 ;; #(
+   fujitsu) :
+@@ -30697,6 +30757,7 @@
+ SCOREP_COMPILER_PGI=${afs_compiler_portland}
+ SCOREP_COMPILER_GNU=${afs_compiler_gnu}
+ SCOREP_COMPILER_CLANG=${afs_compiler_clang}
++SCOREP_COMPILER_ARMLINUX=${afs_compiler_armlinux}
+ SCOREP_COMPILER_CRAY=${afs_compiler_cray}
+ SCOREP_COMPILER_FUJITSU=${afs_compiler_fujitsu}
+ 
+@@ -57668,6 +57729,10 @@
+   as_fn_error $? "conditional \"SCOREP_COMPILER_CLANG\" was never defined.
+ Usually this means the macro was only invoked conditionally." "$LINENO" 5
+ fi
++if test -z "${SCOREP_COMPILER_ARMLINUX_TRUE}" && test -z "${SCOREP_COMPILER_ARMLINUX_FALSE}"; then
++  as_fn_error $? "conditional \"SCOREP_COMPILER_ARMLINUX\" was never defined.
++Usually this means the macro was only invoked conditionally." "$LINENO" 5
++fi
+ if test -z "${SCOREP_COMPILER_CRAY_TRUE}" && test -z "${SCOREP_COMPILER_CRAY_FALSE}"; then
+   as_fn_error $? "conditional \"SCOREP_COMPILER_CRAY\" was never defined.
+ Usually this means the macro was only invoked conditionally." "$LINENO" 5
+diff -urN scorep-6.0-unpatched/configure scorep-6.0/configure
+--- scorep-6.0-unpatched/configure	2020-03-28 10:48:07.369231115 +0100
++++ scorep-6.0/configure	2020-03-28 10:48:55.249455553 +0100
+@@ -1599,11 +1599,11 @@
+                           precedence. You are entering unsupported terrain.
+                           Namaste, and good luck!
+ 
+-  --with-nocross-compiler-suite=(gcc|ibm|intel|pgi|studio|clang)
++  --with-nocross-compiler-suite=(gcc|ibm|intel|pgi|studio|clang|armlinux)
+                           The compiler suite used to build this package in non
+                           cross-compiling environments. Needs to be in $PATH
+                           [gcc].
+-  --with-frontend-compiler-suite=(gcc|ibm|intel|pgi|studio|clang)
++  --with-frontend-compiler-suite=(gcc|ibm|intel|pgi|studio|clang|armlinux)
+                           The compiler suite used to build the frontend parts
+                           of this package in cross-compiling environments.
+                           Needs to be in $PATH [gcc].
+@@ -3779,6 +3779,8 @@
+     ac_scorep_compilers_backend="compiler-nocross-studio" ;; #(
+   "clang") :
+     ac_scorep_compilers_backend="compiler-nocross-clang" ;; #(
++  "armlinux") :
++    ac_scorep_compilers_backend="compiler-nocross-armlinux" ;; #(
+   "no") :
+     as_fn_error $? "option --without-nocross-compiler-suite makes no sense." "$LINENO" 5 ;; #(
+   *) :
+@@ -3815,6 +3817,8 @@
+     ac_scorep_compilers_frontend="compiler-frontend-studio" ;; #(
+   "clang") :
+     ac_scorep_compilers_frontend="compiler-frontend-clang" ;; #(
++  "armlinux") :
++    ac_scorep_compilers_frontend="compiler-frontend-armlinux" ;; #(
+   "no") :
+     as_fn_error $? "option --without-frontend-compiler-suite makes no sense." "$LINENO" 5 ;; #(
+   *) :
+diff -urN scorep-6.0-unpatched/INSTALL scorep-6.0/INSTALL
+--- scorep-6.0-unpatched/INSTALL	2020-03-28 10:48:07.379231162 +0100
++++ scorep-6.0/INSTALL	2020-03-28 10:48:55.249455553 +0100
+@@ -13,7 +13,7 @@
+  * Copyright (c) 2009-2013,
+  * University of Oregon, Eugene, USA
+  *
+- * Copyright (c) 2009-2017, 2019,
++ * Copyright (c) 2009-2017, 2019-2020,
+  * Forschungszentrum Juelich GmbH, Germany
+  *
+  * Copyright (c) 2009-2013,
+@@ -87,7 +87,7 @@
+ clusters it is currently recommended to use this option to select a
+ compiler suite other than GCC.
+ 
+-  --with-nocross-compiler-suite=(gcc|ibm|intel|pgi|studio|clang)
++  --with-nocross-compiler-suite=(gcc|ibm|intel|pgi|studio|clang|armlinux)
+                The compiler suite used to build this package in
+                non-cross-compiling environments. Needs to be in $PATH.
+                [Default: gcc]
+@@ -101,7 +101,7 @@
+ In cross-compiling environments, the compiler suite used to build the
+ frontend parts can be specified explicitly if desired.
+ 
+-  --with-frontend-compiler-suite=(gcc|ibm|intel|pgi|studio|clang)
++  --with-frontend-compiler-suite=(gcc|ibm|intel|pgi|studio|clang|armlinux)
+                The compiler suite used to build the frontend parts of
+                this package in cross-compiling environments.  Needs to
+                be in $PATH.
+diff -urN scorep-6.0-unpatched/Makefile.in scorep-6.0/Makefile.in
+--- scorep-6.0-unpatched/Makefile.in	2020-03-28 10:48:07.369231115 +0100
++++ scorep-6.0/Makefile.in	2020-03-28 10:48:55.249455553 +0100
+@@ -419,6 +419,7 @@
+ 	$(srcdir)/vendor/common/build-config/platforms/compiler-frontend-pgi \
+ 	$(srcdir)/vendor/common/build-config/platforms/compiler-frontend-studio \
+ 	$(srcdir)/vendor/common/build-config/platforms/compiler-frontend-clang \
++	$(srcdir)/vendor/common/build-config/platforms/compiler-frontend-armlinux \
+ 	$(srcdir)/vendor/common/build-config/platforms/compiler-mpi-bullxmpi \
+ 	$(srcdir)/vendor/common/build-config/platforms/compiler-mpi-hp \
+ 	$(srcdir)/vendor/common/build-config/platforms/compiler-mpi-ibmpoe \
+@@ -453,6 +454,7 @@
+ 	$(srcdir)/vendor/common/build-config/platforms/compiler-nocross-pgi \
+ 	$(srcdir)/vendor/common/build-config/platforms/compiler-nocross-studio \
+ 	$(srcdir)/vendor/common/build-config/platforms/compiler-nocross-clang \
++	$(srcdir)/vendor/common/build-config/platforms/compiler-nocross-armlinux \
+ 	$(srcdir)/vendor/common/build-config/platforms/platform-backend-altix \
+ 	$(srcdir)/vendor/common/build-config/platforms/platform-backend-arm \
+ 	$(srcdir)/vendor/common/build-config/platforms/platform-backend-bgl \
+diff -urN scorep-6.0-unpatched/vendor/common/build-config/m4/ac_scorep_compiler_and_flags.m4 scorep-6.0/vendor/common/build-config/m4/ac_scorep_compiler_and_flags.m4
+--- scorep-6.0-unpatched/vendor/common/build-config/m4/ac_scorep_compiler_and_flags.m4	2020-03-28 10:48:07.209230365 +0100
++++ scorep-6.0/vendor/common/build-config/m4/ac_scorep_compiler_and_flags.m4	2020-03-28 10:48:55.249455553 +0100
+@@ -15,7 +15,7 @@
+ ## Copyright (c) 2009-2011,
+ ## University of Oregon, Eugene, USA
+ ##
+-## Copyright (c) 2009-2014, 2017,
++## Copyright (c) 2009-2014, 2017, 2020,
+ ## Forschungszentrum Juelich GmbH, Germany
+ ##
+ ## Copyright (c) 2009-2011,
+@@ -99,7 +99,7 @@
+     [ac_scorep_compiler_suite_called="yes"])
+ 
+ AC_ARG_WITH([nocross-compiler-suite],
+-            [AS_HELP_STRING([--with-nocross-compiler-suite=(gcc|ibm|intel|pgi|studio|clang)],
++            [AS_HELP_STRING([--with-nocross-compiler-suite=(gcc|ibm|intel|pgi|studio|clang|armlinux)],
+                             [The compiler suite used to build this package in non cross-compiling environments. Needs to be in $PATH [gcc].])],
+             [AS_IF([test "x${ac_scorep_cross_compiling}" = "xno"],
+                    [ac_scorep_compilers_backend="compiler-nocross-gcc" # default
+@@ -110,6 +110,7 @@
+                             ["pgi"],       [ac_scorep_compilers_backend="compiler-nocross-pgi"],
+                             ["studio"],    [ac_scorep_compilers_backend="compiler-nocross-studio"],
+                             ["clang"],     [ac_scorep_compilers_backend="compiler-nocross-clang"],
++                            ["armlinux"],  [ac_scorep_compilers_backend="compiler-nocross-armlinux"],
+                             ["no"],        [AC_MSG_ERROR([option --without-nocross-compiler-suite makes no sense.])],
+                             [AC_MSG_ERROR([compiler suite "${withval}" not supported by --with-nocross-compiler-suite.])])],
+                    [AC_MSG_WARN([option --with-nocross-compiler-suite ignored in cross-compiling mode. You may use --with-frontend-compiler-suite to customize the frontend compiler.])])])
+@@ -119,7 +120,7 @@
+ 
+ 
+ AC_ARG_WITH([frontend-compiler-suite],
+-            [AS_HELP_STRING([--with-frontend-compiler-suite=(gcc|ibm|intel|pgi|studio|clang)],
++            [AS_HELP_STRING([--with-frontend-compiler-suite=(gcc|ibm|intel|pgi|studio|clang|armlinux)],
+                             [The compiler suite used to build the frontend parts of this package in cross-compiling environments. Needs to be in $PATH [gcc].])],
+             [AS_IF([test "x${ac_scorep_cross_compiling}" = "xyes"],
+                    [ac_scorep_compilers_frontend="compiler-frontend-gcc"
+@@ -130,6 +131,7 @@
+                             ["pgi"],       [ac_scorep_compilers_frontend="compiler-frontend-pgi"],
+                             ["studio"],    [ac_scorep_compilers_frontend="compiler-frontend-studio"],
+                             ["clang"],     [ac_scorep_compilers_frontend="compiler-frontend-clang"],
++                            ["armlinux"],  [ac_scorep_compilers_frontend="compiler-frontend-armlinux"],
+                             ["no"],        [AC_MSG_ERROR([option --without-frontend-compiler-suite makes no sense.])],
+                             [AC_MSG_ERROR([compiler suite "${withval}" not supported by --with-frontend-compiler-suite.])])],
+                    [AC_MSG_ERROR([Option --with-frontend-compiler-suite not supported in non cross-compiling mode. Please use --with-nocross-compiler-suite instead.])])])
+diff -urN scorep-6.0-unpatched/vendor/common/build-config/m4/afs_compiler_backend.m4 scorep-6.0/vendor/common/build-config/m4/afs_compiler_backend.m4
+--- scorep-6.0-unpatched/vendor/common/build-config/m4/afs_compiler_backend.m4	2020-03-28 10:48:07.209230365 +0100
++++ scorep-6.0/vendor/common/build-config/m4/afs_compiler_backend.m4	2020-03-28 10:48:55.249455553 +0100
+@@ -74,7 +74,7 @@
+ 
+ # handle --with-compiler-suite= configure option, overrides platform defaults
+ AC_ARG_WITH([compiler-suite],
+-    [AS_HELP_STRING([--with-compiler-suite=(gcc|ibm|intel|pgi|studio|clang)],
++    [AS_HELP_STRING([--with-compiler-suite=(gcc|ibm|intel|pgi|studio|clang|armlinux)],
+          [The compiler suite used to build this package. Applies currently only to non-cross-compile systems. Compilers need to be in $PATH [gcc].])],
+     [# action if given
+      AS_IF([test "x${ac_scorep_cross_compiling}" = "xno"],
+@@ -91,6 +91,7 @@
+               ["pgi"],    [],
+               ["studio"], [],
+               ["clang"],  [],
++              ["armlinux"],  [],
+               [AC_MSG_ERROR([compiler suite "${withval}" not supported by --with-compiler-suite.])])
+ 
+           # read relevant variables from compiler vendor file, provides at least CC, CXX, etc.
+diff -urN scorep-6.0-unpatched/vendor/common/build-config/m4/ax_compiler_vendor.m4 scorep-6.0/vendor/common/build-config/m4/ax_compiler_vendor.m4
+--- scorep-6.0-unpatched/vendor/common/build-config/m4/ax_compiler_vendor.m4	2020-03-28 10:48:07.209230365 +0100
++++ scorep-6.0/vendor/common/build-config/m4/ax_compiler_vendor.m4	2020-03-28 10:48:55.249455553 +0100
+@@ -54,6 +54,7 @@
+   dnl Please add if possible support to ax_compiler_version.m4
+   [# note: don't check for gcc first since some other compilers define __GNUC__
+   vendors="intel:     __ICC,__ECC,__INTEL_COMPILER
++           armlinux:  __ARM_HPC_COMPILER_VERSION__
+            ibm:       __xlc__,__xlC__,__IBMC__,__IBMCPP__,__ibmxl__clang__,__ibmxl__
+            pathscale: __PATHCC__,__PATHSCALE__
+            clang:     __clang__
+diff -urN scorep-6.0-unpatched/vendor/common/build-config/m4/ax_compiler_version.m4 scorep-6.0/vendor/common/build-config/m4/ax_compiler_version.m4
+--- scorep-6.0-unpatched/vendor/common/build-config/m4/ax_compiler_version.m4	2020-03-28 10:48:07.209230365 +0100
++++ scorep-6.0/vendor/common/build-config/m4/ax_compiler_version.m4	2020-03-28 10:48:55.249455553 +0100
+@@ -142,6 +142,17 @@
+   ax_cv_[]_AC_LANG_ABBREV[]_compiler_version="$_ax_[]_AC_LANG_ABBREV[]_compiler_version_major.$_ax_[]_AC_LANG_ABBREV[]_compiler_version_minor.$_ax_[]_AC_LANG_ABBREV[]_compiler_version_patch"
+   ])
+ 
++# for armlinux
++AC_DEFUN([_AX_COMPILER_VERSION_ARMLINUX],[
++  AC_COMPUTE_INT(_ax_[]_AC_LANG_ABBREV[]_compiler_version_major,
++    (unsigned long)(__ARM_HPC_COMPILER_VERSION__),,
++    AC_MSG_FAILURE([[[$0]] unknown armclang major]))
++  AC_COMPUTE_INT(_ax_[]_AC_LANG_ABBREV[]_compiler_version_minor,
++    (unsigned long)10*(__ARM_HPC_COMPILER_VERSION__ - (unsigned long)(__ARM_HPC_COMPILER_VERSION__)),,
++    AC_MSG_FAILURE([[[$0]] unknown armclang minor]))
++  ax_cv_[]_AC_LANG_ABBREV[]_compiler_version="$_ax_[]_AC_LANG_ABBREV[]_compiler_version_major.$_ax_[]_AC_LANG_ABBREV[]_compiler_version_minor"
++  ])
++
+ # for crayc
+ AC_DEFUN([_AX_COMPILER_VERSION_CRAY],[
+   AC_COMPUTE_INT(_ax_[]_AC_LANG_ABBREV[]_compiler_version_major,
+@@ -531,6 +542,7 @@
+         [ibm],       [_AX_COMPILER_VERSION_IBM],
+         [pathscale], [_AX_COMPILER_VERSION_PATHSCALE],
+         [clang],     [_AX_COMPILER_VERSION_CLANG],
++        [armlinux]   [_AX_COMPILER_VERSION_ARMLINUX],
+         [cray],      [_AX_COMPILER_VERSION_CRAY],
+         [fujitsu],   [_AX_COMPILER_VERSION_FUJITSU],
+         [gnu],       [_AX_COMPILER_VERSION_GNU],
+diff -urN scorep-6.0-unpatched/vendor/common/build-config/platforms/compiler-frontend-armlinux scorep-6.0/vendor/common/build-config/platforms/compiler-frontend-armlinux
+--- scorep-6.0-unpatched/vendor/common/build-config/platforms/compiler-frontend-armlinux	1970-01-01 01:00:00.000000000 +0100
++++ scorep-6.0/vendor/common/build-config/platforms/compiler-frontend-armlinux	2020-03-28 10:48:55.249455553 +0100
+@@ -0,0 +1,12 @@
++CC_FOR_BUILD=armclang
++CXX_FOR_BUILD=armclang++
++F77_FOR_BUILD=armflang
++FC_FOR_BUILD=armflang
++
++#CPPFLAGS_FOR_BUILD=
++#CFLAGS_FOR_BUILD=
++#CXXFLAGS_FOR_BUILD=
++#FFLAGS_FOR_BUILD=
++#FCFLAGS_FOR_BUILD=
++#LDFLAGS_FOR_BUILD=
++#LIBS_FOR_BUILD=
+diff -urN scorep-6.0-unpatched/vendor/common/build-config/platforms/compiler-nocross-armlinux scorep-6.0/vendor/common/build-config/platforms/compiler-nocross-armlinux
+--- scorep-6.0-unpatched/vendor/common/build-config/platforms/compiler-nocross-armlinux	1970-01-01 01:00:00.000000000 +0100
++++ scorep-6.0/vendor/common/build-config/platforms/compiler-nocross-armlinux	2020-03-28 10:48:55.249455553 +0100
+@@ -0,0 +1,12 @@
++CC=armclang
++CXX=armclang++
++F77=armflang
++FC=armflang
++
++#CPPFLAGS=
++#CFLAGS=
++#CXXFLAGS=
++#FFLAGS=
++#FCFLAGS=
++#LDFLAGS=
++#LIBS=
+diff -urN scorep-6.0-unpatched/vendor/common/build-config/platforms.am scorep-6.0/vendor/common/build-config/platforms.am
+--- scorep-6.0-unpatched/vendor/common/build-config/platforms.am	2020-03-28 10:48:07.209230365 +0100
++++ scorep-6.0/vendor/common/build-config/platforms.am	2020-03-28 10:48:55.249455553 +0100
+@@ -42,6 +42,7 @@
+               $(srcdir)/vendor/common/build-config/platforms/compiler-frontend-pgi  \
+               $(srcdir)/vendor/common/build-config/platforms/compiler-frontend-studio  \
+               $(srcdir)/vendor/common/build-config/platforms/compiler-frontend-clang \
++              $(srcdir)/vendor/common/build-config/platforms/compiler-frontend-armlinux \
+               $(srcdir)/vendor/common/build-config/platforms/compiler-mpi-bullxmpi \
+               $(srcdir)/vendor/common/build-config/platforms/compiler-mpi-hp \
+               $(srcdir)/vendor/common/build-config/platforms/compiler-mpi-ibmpoe \
+@@ -76,6 +77,7 @@
+               $(srcdir)/vendor/common/build-config/platforms/compiler-nocross-pgi  \
+               $(srcdir)/vendor/common/build-config/platforms/compiler-nocross-studio  \
+               $(srcdir)/vendor/common/build-config/platforms/compiler-nocross-clang  \
++              $(srcdir)/vendor/common/build-config/platforms/compiler-nocross-armlinux  \
+               $(srcdir)/vendor/common/build-config/platforms/platform-backend-altix  \
+               $(srcdir)/vendor/common/build-config/platforms/platform-backend-arm  \
+               $(srcdir)/vendor/common/build-config/platforms/platform-backend-bgl  \
