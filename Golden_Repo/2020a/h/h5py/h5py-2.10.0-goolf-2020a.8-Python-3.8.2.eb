@@ -30,7 +30,7 @@ builddependencies = [
 
 dependencies = [
     ('Python', '3.8.2'),
-    ('SciPy-Stack', '2020a.7', versionsuffix, ('goolf', '2020a.7')), # numpy required
+    ('SciPy-Stack', '2020a.8', versionsuffix, ('goolf', '2020a.8')), # numpy required
     ('mpi4py', '3.0.3', versionsuffix),  # required for MPI support
     ('HDF5', '1.12.0'),
 ]
