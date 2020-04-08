@@ -14,7 +14,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'PAPI'
-version = '5.7.0'
+version = '6.0.0.1'
 
 homepage = 'http://icl.cs.utk.edu/projects/papi/'
 description = """PAPI provides the tool designer and application engineer with a consistent interface and
@@ -25,7 +25,7 @@ description = """PAPI provides the tool designer and application engineer with a
 """
 
 
-toolchain = {'name': 'armlinux', 'version': '20.0'}
+toolchain = {'name': 'Clang', 'version': '9.0.1'}
 
 configopts  = "--with-components=rapl " # for energy measurements
 
