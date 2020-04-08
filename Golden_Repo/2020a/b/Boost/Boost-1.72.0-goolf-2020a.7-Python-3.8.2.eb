@@ -1,13 +1,13 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 name = 'Boost'
-version = '1.71.0'
+version = '1.72.0'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'http://www.boost.org/'
 description = """Boost provides free peer-reviewed portable C++ source libraries."""
 
 
-toolchain = {'name': 'goolf', 'version': '2020a'}
+toolchain = {'name': 'goolf', 'version': '2020a.7'}
 toolchainopts = {'pic': True, 'usempi': True}
 
 source_urls = ["https://dl.bintray.com/boostorg/release/%(version)s/source/"]
@@ -22,7 +22,7 @@ dependencies = [
     ('bzip2', '1.0.8'),
     ('zlib', '1.2.11'),
     ('Python', '3.8.2'),
-    ('ICU', '64.2'),
+    ('ICU', '66.1'),
 ]
 
 # also build boost_mpi
