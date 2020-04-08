@@ -1,6 +1,6 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 name = 'Doxygen'
-version = '1.8.15'
+version = '1.8.17'
 
 homepage = 'http://www.doxygen.org'
 description = """Doxygen is a documentation system for C++, C, Java, Objective-C, Python, 
@@ -8,7 +8,7 @@ description = """Doxygen is a documentation system for C++, C, Java, Objective-C
 """
 
 
-toolchain = {'name': 'armlinux', 'version': '20.0'}
+toolchain = {'name': 'GCCcore', 'version': '7.5.0'}
 
 sources = ['%(namelower)s-%(version)s.src.tar.gz']
 source_urls = ['http://doxygen.nl/files/']
