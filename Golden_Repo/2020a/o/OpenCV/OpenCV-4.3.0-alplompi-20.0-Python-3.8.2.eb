@@ -32,7 +32,7 @@ dependencies = [
     ('FFmpeg', '4.2.2'),
     ('libjpeg-turbo', '2.0.4'),
     ('libpng', '1.6.37'),
-    ('LibTIFF', '4.0.10'),
+    ('LibTIFF', '4.1.0'),
     ('JasPer', '2.0.16'),
     ('Java', '11.0.6', '', True),
     ('ant', '1.10.7', '-Java-%(javaver)s', True),
