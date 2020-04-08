@@ -15,6 +15,7 @@ toolchainopts = {'pic': True}
 
 source_urls = ["https://github.com/MaskRay/ccls/archive/"]
 sources = ["%(version)s.tar.gz"]
+patches = ['ccls-0.20190823.5-Clang-10.0.0-handleDeclOccurrence.patch']
 
 osdependencies=[('rapidjson-devel')]
 builddependencies = [
