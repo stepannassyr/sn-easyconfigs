@@ -1,12 +1,12 @@
 easyblock = 'EB_Qt'
 
 name = 'Qt5'
-version = '5.14.1'
+version = '5.14.2'
 
 homepage = 'https://qt.io/'
 description = "Qt is a comprehensive cross-platform C++ application framework."
 
-toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
+toolchain = {'name': 'armlinux', 'version': '20.0'}
 # disabling use of -ftree-vectorize is required to avoid compilation failures on some systems (e.g. Intel Skylake X)
 toolchainopts = {'vectorize': False}
 

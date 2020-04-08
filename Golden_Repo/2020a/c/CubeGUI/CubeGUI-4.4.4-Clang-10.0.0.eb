@@ -26,7 +26,7 @@ description = """
  This module provides the Cube graphical report explorer.
 """
 
-toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
+toolchain = {'name': 'Clang', 'version': '10.0.0'}
 
 source_urls = ['https://apps.fz-juelich.de/scalasca/releases/cube/%(version_major_minor)s/dist']
 sources = [SOURCELOWER_TAR_GZ]

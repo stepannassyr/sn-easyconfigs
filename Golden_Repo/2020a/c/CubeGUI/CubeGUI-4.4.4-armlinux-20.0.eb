@@ -41,7 +41,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('Qt5', '5.14.1'),
+    ('Qt5', '5.14.2'),
 ]
 
 sanity_check_paths = {
