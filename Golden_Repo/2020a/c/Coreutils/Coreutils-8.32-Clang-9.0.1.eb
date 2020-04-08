@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = "Coreutils"
-version = "8.31"
+version = "8.32"
 
 homepage = 'http://www.gnu.org/software/coreutils/'
 description = """The GNU Core Utilities are the basic file, shell and text manipulation utilities of the
@@ -15,6 +15,7 @@ toolchainopts = { 'pic': True}
 
 source_urls = [GNU_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
+patches = ['Coreutils-8.32-getdents64.patch']
 
 builddependencies = [('binutils', '2.34')]
 
