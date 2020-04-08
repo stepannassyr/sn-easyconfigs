@@ -13,8 +13,10 @@ local_arch_suf = platform.machine()
 if 'x86_64' == local_arch_suf:
     local_arch_suf = 'x64'
 
-# https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u242-b08/OpenJDK8U-jdk_x64_linux_hotspot_8u242b08.tar.gz
-source_urls = ['https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk%s/' %(version.replace('.','u',1).replace('.','-b',1))]
-sources = ['OpenJDK8U-jdk_%s_linux_hotspot_%s.tar.gz' % (local_arch_suf,version.replace('.','u',1).replace('.','b',1))]
+# https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u242-b08/OpenJDK8U-jdk_aarch64_linux_hotspot_jdk8u242-b08.tar.gz
+# 8.242.08 -> 8u242-b08
+local_dl_version = version.replace('.','u',1).replace('.','-b',1)
+source_urls = ['https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk%s/' %(local_dl_version)]
+sources = ['OpenJDK8U-jdk_%s_linux_hotspot_jdk%s.tar.gz' % (local_arch_suf,local_dl_version)]
 
 moduleclass = 'lang'
