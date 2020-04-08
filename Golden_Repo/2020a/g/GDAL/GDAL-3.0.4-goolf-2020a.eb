@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'GDAL'
-version = '3.0.1'
+version = '3.0.4'
 
 homepage = 'http://www.gdal.org/'
 description = """GDAL is a translator library for raster geospatial data formats that is released under an X/MIT style
@@ -12,7 +12,7 @@ description = """GDAL is a translator library for raster geospatial data formats
 """
 
 
-toolchain = {'name': 'goolf', 'version': '2020a.8'}
+toolchain = {'name': 'goolf', 'version': '2020a'}
 toolchainopts = {'usempi': True}
 
 source_urls = ['http://download.osgeo.org/gdal/%(version)s/']

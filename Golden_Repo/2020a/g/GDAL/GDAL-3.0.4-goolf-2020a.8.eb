@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'GDAL'
-version = '3.0.1'
+version = '3.0.4'
 
 homepage = 'http://www.gdal.org/'
 description = """GDAL is a translator library for raster geospatial data formats that is released under an X/MIT style
@@ -12,7 +12,7 @@ description = """GDAL is a translator library for raster geospatial data formats
 """
 
 
-toolchain = {'name': 'alplompi', 'version': '20.0'}
+toolchain = {'name': 'goolf', 'version': '2020a.8'}
 toolchainopts = {'usempi': True}
 
 source_urls = ['http://download.osgeo.org/gdal/%(version)s/']
@@ -26,9 +26,6 @@ dependencies = [
     ('zlib', '1.2.11'),
     ('SQLite', '3.31.1'),
 ]
-
-prebuildopts= "sed -i -e 's#wl=\"\"#wl=\"-Wl,\"#g' libtool &&"
-prebuildopts+= "sed -i -e 's#pic_flag=\"\"#pic_flag=\" -fPIC -DPIC\"#g' libtool &&"
 
 sanity_check_paths = {
     'files': ['lib/libgdal.%s' % SHLIB_EXT, 'lib/libgdal.a'],
