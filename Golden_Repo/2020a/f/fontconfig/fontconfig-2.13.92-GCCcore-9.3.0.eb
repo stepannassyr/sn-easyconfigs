@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'fontconfig'
-version = '2.13.1'
+version = '2.13.92'
 
 homepage = 'http://www.freedesktop.org/software/fontconfig'
 description = """Fontconfig is a library designed to provide system-wide font configuration, customization and
@@ -10,11 +10,11 @@ application access.
 """
 
 
-toolchain = {'name': 'armlinux', 'version': '20.0'}
+toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
 
 source_urls = ['http://www.freedesktop.org/software/fontconfig/release/']
 sources = [SOURCE_TAR_GZ]
-checksums = ['9f0d852b39d75fc655f9f53850eb32555394f36104a044bb2b2fc9e66dbbfa7f']
+checksums = ['3406a05b83a42231e3df68d02bc0a0cf47b3f2e8f11c8ede62267daf5f130016']
 
 builddependencies = [
     ('binutils', '2.34'),
