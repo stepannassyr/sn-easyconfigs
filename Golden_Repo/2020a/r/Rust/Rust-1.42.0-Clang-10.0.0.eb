@@ -2,14 +2,14 @@
 easyblock = 'ConfigureMake'
 
 name = 'Rust'
-version = '1.41.0'
+version = '1.42.0'
 
 homepage = 'https://www.rust-lang.org'
 description = """Rust is a systems programming language that runs blazingly fast, prevents segfaults,
  and guarantees thread safety."""
 
 
-toolchain = {'name': 'Clang', 'version': '9.0.1'}
+toolchain = {'name': 'Clang', 'version': '10.0.0'}
 
 source_urls = ['https://static.rust-lang.org/dist/']
 sources = ['rustc-%(version)s-src.tar.gz']
