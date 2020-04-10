@@ -16,6 +16,7 @@ patches = [
     ('easyblocks-clang-fix-git-version.patch', '../easybuild-easyblocks-%(version)s'),
     ('fix-pdt-for-aarch64.patch', '../easybuild-easyblocks-%(version)s'),
     ('score-p-add-armlinux-to-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
+    ('score-p-add-clang-to-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
     ('pdt-add-armlinux-to-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
     ]
 
