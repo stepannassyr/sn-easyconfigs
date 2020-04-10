@@ -1,26 +1,48 @@
-From 7eadf6137da648f291525938cdeeb2f618a28380 Mon Sep 17 00:00:00 2001
-From: Stepan Nassyr <s.nassyr@fz-juelich.de>
-Date: Mon, 28 Oct 2019 17:58:04 +0100
-Subject: [PATCH 1/2] Add Cortex-A72 support
-
----
- src/libpfm4/include/perfmon/pfmlib.h           |   1 +
- src/libpfm4/lib/Makefile                       |   4 +-
- src/libpfm4/lib/events/arm_cortex_a72_events.h | 443 +++++++++++++++++++++++++
- src/libpfm4/lib/pfmlib_arm_armv8.c             |  42 +++
- src/libpfm4/lib/pfmlib_common.c                |   2 +
- src/libpfm4/lib/pfmlib_priv.h                  |   1 +
- src/libpfm4/tests/validate_arm.c               |  28 ++
- src/libpfm4/tests/validate_arm64.c             |  28 ++
- src/papi_events.csv                            |  23 ++
- 9 files changed, 571 insertions(+), 1 deletion(-)
- create mode 100644 src/libpfm4/lib/events/arm_cortex_a72_events.h
-
-diff --git a/src/libpfm4/include/perfmon/pfmlib.h b/src/libpfm4/include/perfmon/pfmlib.h
-index bd6f935..ebb99f3 100644
---- a/src/libpfm4/include/perfmon/pfmlib.h
-+++ b/src/libpfm4/include/perfmon/pfmlib.h
-@@ -239,6 +239,7 @@ typedef enum {
+diff -urN papi-6.0.0.1-unpatched/src/libpfm4/docs/man3/libpfm_arm_ac72.3 papi-6.0.0.1/src/libpfm4/docs/man3/libpfm_arm_ac72.3
+--- papi-6.0.0.1-unpatched/src/libpfm4/docs/man3/libpfm_arm_ac72.3	1970-01-01 01:00:00.000000000 +0100
++++ papi-6.0.0.1/src/libpfm4/docs/man3/libpfm_arm_ac72.3	2020-04-10 15:30:30.093597931 +0200
+@@ -0,0 +1,37 @@
++.TH LIBPFM 3  "October, 2019" "" "Linux Programmer's Manual"
++.SH NAME
++libpfm_arm_ac72 - support for Arm Cortex A72 PMU
++.SH SYNOPSIS
++.nf
++.B #include <perfmon/pfmlib.h>
++.sp
++.B PMU name: arm_ac72
++.B PMU desc: ARM Cortex A72
++.sp
++.SH DESCRIPTION
++The library supports the ARM Cortex A72 core PMU.
++
++This PMU supports 6 counters and privilege levels filtering.
++It can operate in both 32 and 64 bit modes.
++
++.SH MODIFIERS
++The following modifiers are supported on ARM Cortex A72:
++.TP
++.B u
++Measure at the user level. This corresponds to \fBPFM_PLM3\fR.
++This is a boolean modifier.
++.TP
++.B k
++Measure at the kernel level. This corresponds to \fBPFM_PLM0\fR.
++This is a boolean modifier.
++.TP
++.B hv
++Measure at the hypervisor level. This corresponds to \fBPFM_PLMH\fR.
++This is a boolean modifier.
++
++.SH AUTHORS
++.nf
++Stephane Eranian <eranian@gmail.com>
++Stepan Nassyr <s.nassyr@fz-juelich.de>
++.if
++.PP
+diff -urN papi-6.0.0.1-unpatched/src/libpfm4/include/perfmon/pfmlib.h papi-6.0.0.1/src/libpfm4/include/perfmon/pfmlib.h
+--- papi-6.0.0.1-unpatched/src/libpfm4/include/perfmon/pfmlib.h	2020-04-10 15:20:27.260855332 +0200
++++ papi-6.0.0.1/src/libpfm4/include/perfmon/pfmlib.h	2020-04-10 15:24:07.891860067 +0200
+@@ -239,6 +239,7 @@
  
  	PFM_PMU_S390X_CPUM_SF,		/* s390x: CPU-M sampling facility */
  
@@ -28,30 +50,9 @@ index bd6f935..ebb99f3 100644
  	PFM_PMU_ARM_CORTEX_A57,		/* ARM Cortex A57 (ARMv8) */
  	PFM_PMU_ARM_CORTEX_A53,		/* ARM Cortex A53 (ARMv8) */
  
-diff --git a/src/libpfm4/lib/Makefile b/src/libpfm4/lib/Makefile
-index 2eb3ebb..7bae870 100644
---- a/src/libpfm4/lib/Makefile
-+++ b/src/libpfm4/lib/Makefile
-@@ -358,11 +358,13 @@ INC_ARM=pfmlib_arm_priv.h			\
- 	events/arm_cortex_a8_events.h		\
- 	events/arm_cortex_a9_events.h		\
- 	events/arm_cortex_a15_events.h		\
-+	events/arm_cortex_a72_events.h		\
- 	events/arm_cortex_a57_events.h		\
- 	events/arm_cortex_a53_events.h		\
- 	events/arm_cavium_tx2_events.h
- 
--INC_ARM64=events/arm_cortex_a57_events.h	\
-+INC_ARM64=events/arm_cortex_a72_events.h	\
-+	  events/arm_cortex_a57_events.h	\
- 	  events/arm_cortex_a53_events.h	\
- 	  events/arm_cavium_tx2_events.h
- 
-diff --git a/src/libpfm4/lib/events/arm_cortex_a72_events.h b/src/libpfm4/lib/events/arm_cortex_a72_events.h
-new file mode 100644
-index 0000000..4b0f4e8
---- /dev/null
-+++ b/src/libpfm4/lib/events/arm_cortex_a72_events.h
+diff -urN papi-6.0.0.1-unpatched/src/libpfm4/lib/events/arm_cortex_a72_events.h papi-6.0.0.1/src/libpfm4/lib/events/arm_cortex_a72_events.h
+--- papi-6.0.0.1-unpatched/src/libpfm4/lib/events/arm_cortex_a72_events.h	1970-01-01 01:00:00.000000000 +0100
++++ papi-6.0.0.1/src/libpfm4/lib/events/arm_cortex_a72_events.h	2020-04-10 15:25:55.492350577 +0200
 @@ -0,0 +1,443 @@
 +/*
 + * Copyright (c) 2014 Google Inc. All rights reserved
@@ -496,11 +497,27 @@ index 0000000..4b0f4e8
 +	},
 +	/* END Cortex A47 specific events */
 +};
-diff --git a/src/libpfm4/lib/pfmlib_arm_armv8.c b/src/libpfm4/lib/pfmlib_arm_armv8.c
-index 0a3313f..a782521 100644
---- a/src/libpfm4/lib/pfmlib_arm_armv8.c
-+++ b/src/libpfm4/lib/pfmlib_arm_armv8.c
-@@ -30,12 +30,29 @@
+diff -urN papi-6.0.0.1-unpatched/src/libpfm4/lib/Makefile papi-6.0.0.1/src/libpfm4/lib/Makefile
+--- papi-6.0.0.1-unpatched/src/libpfm4/lib/Makefile	2020-04-10 15:20:27.250855286 +0200
++++ papi-6.0.0.1/src/libpfm4/lib/Makefile	2020-04-10 15:22:53.701522052 +0200
+@@ -365,11 +365,13 @@
+ 	events/arm_cortex_a15_events.h		\
+ 	events/arm_cortex_a57_events.h		\
+ 	events/arm_cortex_a53_events.h		\
++	events/arm_cortex_a72_events.h		\
+ 	events/arm_cavium_tx2_events.h		\
+ 	events/arm_marvell_tx2_unc_events.h
+ 
+ INC_ARM64=events/arm_cortex_a57_events.h	\
+ 	events/arm_cortex_a53_events.h	\
++	events/arm_cortex_a72_events.h	\
+ 	events/arm_cavium_tx2_events.h	\
+ 	events/arm_marvell_tx2_unc_events.h
+ 
+diff -urN papi-6.0.0.1-unpatched/src/libpfm4/lib/pfmlib_arm_armv8.c papi-6.0.0.1/src/libpfm4/lib/pfmlib_arm_armv8.c
+--- papi-6.0.0.1-unpatched/src/libpfm4/lib/pfmlib_arm_armv8.c	2020-04-10 15:20:27.250855286 +0200
++++ papi-6.0.0.1/src/libpfm4/lib/pfmlib_arm_armv8.c	2020-04-10 15:28:51.113151852 +0200
+@@ -30,6 +30,7 @@
  #include "pfmlib_priv.h"			/* library private */
  #include "pfmlib_arm_priv.h"
  
@@ -508,7 +525,8 @@ index 0a3313f..a782521 100644
  #include "events/arm_cortex_a57_events.h"    /* A57 event tables */
  #include "events/arm_cortex_a53_events.h"    /* A53 event tables */
  #include "events/arm_xgene_events.h"         /* Applied Micro X-Gene tables */
- #include "events/arm_cavium_tx2_events.h"    /* Cavium ThunderX2 tables */
+@@ -37,6 +38,22 @@
+ #include "events/arm_marvell_tx2_unc_events.h" 	/* Marvell ThunderX2 PMU tables */
  
  static int
 +pfm_arm_detect_cortex_a72(void *this)
@@ -530,7 +548,7 @@ index 0a3313f..a782521 100644
  pfm_arm_detect_cortex_a57(void *this)
  {
  	int ret;
-@@ -103,6 +120,31 @@ pfm_arm_detect_thunderx2(void *this)
+@@ -104,6 +121,31 @@
  	return PFM_ERR_NOTSUPP;
  }
  
@@ -562,11 +580,10 @@ index 0a3313f..a782521 100644
  /* ARM Cortex A57 support */
  pfmlib_pmu_t arm_cortex_a57_support={
  	.desc			= "ARM Cortex A57",
-diff --git a/src/libpfm4/lib/pfmlib_common.c b/src/libpfm4/lib/pfmlib_common.c
-index 688edb6..482218e 100644
---- a/src/libpfm4/lib/pfmlib_common.c
-+++ b/src/libpfm4/lib/pfmlib_common.c
-@@ -480,12 +480,14 @@ static pfmlib_pmu_t *pfmlib_pmus[]=
+diff -urN papi-6.0.0.1-unpatched/src/libpfm4/lib/pfmlib_common.c papi-6.0.0.1/src/libpfm4/lib/pfmlib_common.c
+--- papi-6.0.0.1-unpatched/src/libpfm4/lib/pfmlib_common.c	2020-04-10 15:20:27.250855286 +0200
++++ papi-6.0.0.1/src/libpfm4/lib/pfmlib_common.c	2020-04-10 15:27:27.872771961 +0200
+@@ -484,6 +484,7 @@
  	&arm_cortex_a15_support,
  	&arm_1176_support,
  	&arm_qcom_krait_support,
@@ -574,18 +591,18 @@ index 688edb6..482218e 100644
  	&arm_cortex_a57_support,
  	&arm_cortex_a53_support,
  	&arm_xgene_support,
- 	&arm_thunderx2_support,
+@@ -496,6 +497,7 @@
+ 	&arm_thunderx2_ccpi1_support,
  #endif
  #ifdef CONFIG_PFMLIB_ARCH_ARM64
 +	&arm_cortex_a72_support,
  	&arm_cortex_a57_support,
  	&arm_cortex_a53_support,
  	&arm_xgene_support,
-diff --git a/src/libpfm4/lib/pfmlib_priv.h b/src/libpfm4/lib/pfmlib_priv.h
-index fe13351..47dd70c 100644
---- a/src/libpfm4/lib/pfmlib_priv.h
-+++ b/src/libpfm4/lib/pfmlib_priv.h
-@@ -640,6 +640,7 @@ extern pfmlib_pmu_t arm_cortex_a9_support;
+diff -urN papi-6.0.0.1-unpatched/src/libpfm4/lib/pfmlib_priv.h papi-6.0.0.1/src/libpfm4/lib/pfmlib_priv.h
+--- papi-6.0.0.1-unpatched/src/libpfm4/lib/pfmlib_priv.h	2020-04-10 15:20:27.250855286 +0200
++++ papi-6.0.0.1/src/libpfm4/lib/pfmlib_priv.h	2020-04-10 15:25:55.492350577 +0200
+@@ -650,6 +650,7 @@
  extern pfmlib_pmu_t arm_cortex_a15_support;
  extern pfmlib_pmu_t arm_1176_support;
  extern pfmlib_pmu_t arm_qcom_krait_support;
@@ -593,50 +610,22 @@ index fe13351..47dd70c 100644
  extern pfmlib_pmu_t arm_cortex_a57_support;
  extern pfmlib_pmu_t arm_cortex_a53_support;
  extern pfmlib_pmu_t arm_xgene_support;
-diff --git a/src/libpfm4/tests/validate_arm.c b/src/libpfm4/tests/validate_arm.c
-index db0439f..5b7e840 100644
---- a/src/libpfm4/tests/validate_arm.c
-+++ b/src/libpfm4/tests/validate_arm.c
-@@ -189,6 +189,34 @@ static const test_event_t arm_test_events[]={
- 	  .fstr = "qcom_krait::CPU_CYCLES:k=0:u=1:hv=0",
- 	},
- 	{ SRC_LINE,
-+	  .name = "arm_ac72::CPU_CYCLES",
-+	  .ret  = PFM_SUCCESS,
-+	  .count = 1,
-+	  .codes[0] = 0x8000011,
-+	  .fstr = "arm_ac72::CPU_CYCLES:k=1:u=1:hv=0",
-+	},
-+	{ SRC_LINE,
-+	  .name = "arm_ac72::CPU_CYCLES:k",
-+	  .ret  = PFM_SUCCESS,
-+	  .count = 1,
-+	  .codes[0] = 0x88000011,
-+	  .fstr = "arm_ac72::CPU_CYCLES:k=1:u=0:hv=0",
-+	},
-+	{ SRC_LINE,
-+	  .name = "arm_ac72::CPU_CYCLES:k:u",
-+	  .ret  = PFM_SUCCESS,
-+	  .count = 1,
-+	  .codes[0] = 0x8000011,
-+	  .fstr = "arm_ac72::CPU_CYCLES:k=1:u=1:hv=0",
-+	},
-+	{ SRC_LINE,
-+	  .name = "arm_ac72::INST_RETIRED",
-+	  .ret  = PFM_SUCCESS,
-+	  .count = 1,
-+	  .codes[0] = 0x8000008,
-+	  .fstr = "arm_ac72::INST_RETIRED:k=1:u=1:hv=0",
-+	},
-+	{ SRC_LINE,
- 	  .name = "arm_ac57::CPU_CYCLES",
- 	  .ret  = PFM_SUCCESS,
- 	  .count = 1,
-diff --git a/src/libpfm4/tests/validate_arm64.c b/src/libpfm4/tests/validate_arm64.c
-index f7f021a..3a2a2c3 100644
---- a/src/libpfm4/tests/validate_arm64.c
-+++ b/src/libpfm4/tests/validate_arm64.c
-@@ -45,6 +45,34 @@ typedef struct {
+diff -urN papi-6.0.0.1-unpatched/src/libpfm4/README papi-6.0.0.1/src/libpfm4/README
+--- papi-6.0.0.1-unpatched/src/libpfm4/README	2020-04-10 15:20:27.250855286 +0200
++++ papi-6.0.0.1/src/libpfm4/README	2020-04-10 15:30:30.093597931 +0200
+@@ -69,7 +69,7 @@
+ 		ARMV7 Cortex A8
+ 		ARMV7 Cortex A9
+ 		ARMV7 Cortex A15
+-		ARMV8 Cortex A57, A53
++		ARMV8 Cortex A72, A57, A53
+ 		Applied Micro X-Gene
+ 		Qualcomm Krait
+ 
+diff -urN papi-6.0.0.1-unpatched/src/libpfm4/tests/validate_arm64.c papi-6.0.0.1/src/libpfm4/tests/validate_arm64.c
+--- papi-6.0.0.1-unpatched/src/libpfm4/tests/validate_arm64.c	2020-04-10 15:20:27.260855332 +0200
++++ papi-6.0.0.1/src/libpfm4/tests/validate_arm64.c	2020-04-10 15:25:55.492350577 +0200
+@@ -45,6 +45,34 @@
  
  static const test_event_t arm64_test_events[]={
  	{ SRC_LINE,
@@ -671,11 +660,48 @@ index f7f021a..3a2a2c3 100644
  	  .name = "arm_ac57::CPU_CYCLES",
  	  .ret  = PFM_SUCCESS,
  	  .count = 1,
-diff --git a/src/papi_events.csv b/src/papi_events.csv
-index 8df7486..0f01cb9 100644
---- a/src/papi_events.csv
-+++ b/src/papi_events.csv
-@@ -1769,6 +1769,29 @@ PRESET,PAPI_L1_DCM,NOT_DERIVED,DCACHE_REFILL
+diff -urN papi-6.0.0.1-unpatched/src/libpfm4/tests/validate_arm.c papi-6.0.0.1/src/libpfm4/tests/validate_arm.c
+--- papi-6.0.0.1-unpatched/src/libpfm4/tests/validate_arm.c	2020-04-10 15:20:27.260855332 +0200
++++ papi-6.0.0.1/src/libpfm4/tests/validate_arm.c	2020-04-10 15:25:55.492350577 +0200
+@@ -189,6 +189,34 @@
+ 	  .fstr = "qcom_krait::CPU_CYCLES:k=0:u=1:hv=0",
+ 	},
+ 	{ SRC_LINE,
++	  .name = "arm_ac72::CPU_CYCLES",
++	  .ret  = PFM_SUCCESS,
++	  .count = 1,
++	  .codes[0] = 0x8000011,
++	  .fstr = "arm_ac72::CPU_CYCLES:k=1:u=1:hv=0",
++	},
++	{ SRC_LINE,
++	  .name = "arm_ac72::CPU_CYCLES:k",
++	  .ret  = PFM_SUCCESS,
++	  .count = 1,
++	  .codes[0] = 0x88000011,
++	  .fstr = "arm_ac72::CPU_CYCLES:k=1:u=0:hv=0",
++	},
++	{ SRC_LINE,
++	  .name = "arm_ac72::CPU_CYCLES:k:u",
++	  .ret  = PFM_SUCCESS,
++	  .count = 1,
++	  .codes[0] = 0x8000011,
++	  .fstr = "arm_ac72::CPU_CYCLES:k=1:u=1:hv=0",
++	},
++	{ SRC_LINE,
++	  .name = "arm_ac72::INST_RETIRED",
++	  .ret  = PFM_SUCCESS,
++	  .count = 1,
++	  .codes[0] = 0x8000008,
++	  .fstr = "arm_ac72::INST_RETIRED:k=1:u=1:hv=0",
++	},
++	{ SRC_LINE,
+ 	  .name = "arm_ac57::CPU_CYCLES",
+ 	  .ret  = PFM_SUCCESS,
+ 	  .count = 1,
+diff -urN papi-6.0.0.1-unpatched/src/papi_events.csv papi-6.0.0.1/src/papi_events.csv
+--- papi-6.0.0.1-unpatched/src/papi_events.csv	2020-04-10 15:20:27.240855241 +0200
++++ papi-6.0.0.1/src/papi_events.csv	2020-04-10 15:25:55.492350577 +0200
+@@ -1771,6 +1771,29 @@
  PRESET,PAPI_L1_ICM,NOT_DERIVED,IFETCH_MISS
  #
  CPU,arm_ac15
@@ -705,6 +731,3 @@ index 8df7486..0f01cb9 100644
  CPU,arm_ac57
  #
  PRESET,PAPI_TOT_INS,NOT_DERIVED,INST_RETIRED
--- 
-1.8.3.1
-
