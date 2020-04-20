@@ -20,7 +20,7 @@ sources = [SOURCELOWER_TAR_XZ]
 
 dependencies = [
     ('PROJ', '7.0.0'),
-    ('netCDF', '4.7.1'),
+    ('netCDF', '4.7.4'),
     ('expat', '2.2.9'),
     ('libxml2', '2.9.9'),
     ('zlib', '1.2.11'),
