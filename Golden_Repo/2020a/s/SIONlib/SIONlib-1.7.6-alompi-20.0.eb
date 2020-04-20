@@ -17,7 +17,7 @@ post-processing utilities.
 
 toolchain = {'name': 'alompi', 'version': '20.0'}
 
-configopts = '--disable-mic --compiler=armlinux --mpi=ompi CFLAGS="$CFLAGS -fPIC" '
+configopts = '--disable-mic --compiler=armlinux --mpi=openmpi CFLAGS="$CFLAGS -fPIC" '
 
 source_urls = ['http://apps.fz-juelich.de/jsc/sionlib/download.php?version=%(version)s']
 sources = ['sionlib-%(version)s.tar.gz']
@@ -28,8 +28,8 @@ patches = ['SIONlib-1.7.6-m64-only-on-x86.patch',
 configopts = " --compiler=armlinux --mpi=openmpi"
 
 sanity_check_paths = {
-    'files': ["bin/sionconfig", ("lib64/libsioncom_64.a",
-    "lib/libsionmpi_64.a", "lib64/libsionmpi_64.a")],
+    'files': ["bin/sionconfig", ("lib/liblsioncom_64.a",
+    "lib/liblsionmpi_64.a")],
     'dirs': []
 }
 

@@ -1,6 +1,46 @@
+diff -urN sionlib-unpatched/config/determine-compiler-version.sh sionlib/config/determine-compiler-version.sh
+--- sionlib-unpatched/config/determine-compiler-version.sh	2020-04-11 01:25:12.732395810 +0200
++++ sionlib/config/determine-compiler-version.sh	2020-04-11 01:25:39.992510411 +0200
+@@ -18,6 +18,8 @@
+        ;;
+   cce) COMPVER=`craycc -V 2>&1 | grep ^Cray | cut -d\  -f 5`
+        ;;
++  armlinux) COMPVER=`armclang -v 2>&1 | grep ^Arm | cut -d\  -f 5`
++       ;;
+   sun) CVER=`suncc  -V 2>&1 | grep 'Sun' | sed -e 's/^.*Sun C //' \
+          | cut -d\  -f 1`
+        FVER=`sunf90 -V 2>&1 | grep 'Sun' | sed -e 's/^.*Sun Fortran 95 //' \
+diff -urN sionlib-unpatched/config/select-compiler.sh sionlib/config/select-compiler.sh
+--- sionlib-unpatched/config/select-compiler.sh	2020-04-11 01:25:12.732395810 +0200
++++ sionlib/config/select-compiler.sh	2020-04-11 01:29:19.743435646 +0200
+@@ -18,6 +18,15 @@
+   CFGecho "INFO: Found ${GNU}"
+ fi
+ 
++ARMLINUX=`which armclang 2> /dev/null`
++if [ -n "${AR<:OMIX}" ]
++then
++  NCPS=`expr ${NCPS} + 1`
++  COMP=armlinux
++  if [ -z "${CPS}" ]; then CPS="${COMP}"; else CPS="${CPS}|${COMP}"; fi
++  CFGecho "INFO: Found ${ARMLINUX}"
++fi
++
+ INTEL=`which icc 2> /dev/null`
+ if [ -n "${INTEL}" ]
+ then
 diff -urN sionlib-unpatched/configure sionlib/configure
---- sionlib-unpatched/configure	2020-03-27 15:36:53.505626745 +0100
-+++ sionlib/configure	2020-03-27 15:37:24.815775447 +0100
+--- sionlib-unpatched/configure	2020-04-11 01:25:12.732395810 +0200
++++ sionlib/configure	2020-04-11 01:27:22.752942746 +0200
+@@ -15,7 +15,7 @@
+   cat > /dev/tty <<[[EOT]]
+ usage  : $0 [options]
+ options: [--prefix=DIR]                                  # Installation directory (default: ./install/<platform>)
+-         [--compiler=(gnu|pgi|intel|path|ibm|sun)]       # Compiler (Linux only)
++         [--compiler=(armlinux|gnu|pgi|intel|path|ibm|sun)]       # Compiler (Linux only)
+          [--mpi=(mpich|mpich2|lam|openmpi|intel|intel2|  # MPI-Lib  (Linux/Solaris only)
+ 	         hp|scali|mpibull2|sun)]
+          [--force-(basic|32|64|32-64|cross)]             # Force basic, 32-bit, 64-bit,
 @@ -452,6 +452,9 @@
               sun) CFGMSG="${CMSG} Sun compilers and ${MPI} MPI"
                    MD=Makefile.defs.linux-sun
@@ -13,8 +53,8 @@ diff -urN sionlib-unpatched/configure sionlib/configure
                    GFORTRAN=`which gfortran 2> /dev/null`
 diff -urN sionlib-unpatched/mf/Makefile.defs.linux-alompi sionlib/mf/Makefile.defs.linux-alompi
 --- sionlib-unpatched/mf/Makefile.defs.linux-alompi	1970-01-01 01:00:00.000000000 +0100
-+++ sionlib/mf/Makefile.defs.linux-alompi	2020-03-27 15:41:55.117059490 +0100
-@@ -0,0 +1,188 @@
++++ sionlib/mf/Makefile.defs.linux-alompi	2020-04-11 01:51:16.219130592 +0200
+@@ -0,0 +1,189 @@
 +#------------------------------------------------------------------------------
 +# SIONlib Makefile Definitions (Makefile.defs.linux-alompi)
 +#------------------------------------------------------------------------------
@@ -57,9 +97,10 @@ diff -urN sionlib-unpatched/mf/Makefile.defs.linux-alompi sionlib/mf/Makefile.de
 +FFLAGS   = $(PFLAG) $(OPTFLAGS)
 +
 +F90      = $(F77)
-+F90FLAGS = $(PFLAG) $(OPTFLAGS) -ffree-form
++F90FLAGS = $(PFLAG) $(OPTFLAGS)
 +
-+FPP      =
++CPP      = gcc
++FPP      = -cpp
 +FDOPT    = -D
 +
 +LDFLAGS  = $(PFLAG) $(OPTFLAGS) $(HINTSLIB)
@@ -203,15 +244,3 @@ diff -urN sionlib-unpatched/mf/Makefile.defs.linux-alompi sionlib/mf/Makefile.de
 +SION_SIONFWD =
 +SIONFWD_CFLAGS =
 +SIONFWD_LIBS =
-diff -urN sionlib-unpatched/config/determine-compiler-version.sh sionlib/config/determine-compiler-version.sh
---- sionlib-unpatched/config/determine-compiler-version.sh	2020-03-27 15:44:14.597739730 +0100
-+++ sionlib/config/determine-compiler-version.sh	2020-03-27 15:56:56.121479473 +0100
-@@ -18,6 +18,8 @@
-        ;;
-   cce) COMPVER=`craycc -V 2>&1 | grep ^Cray | cut -d\  -f 5`
-        ;;
-+  armlinux) COMPVER=`armclang -v 2>&1 | grep ^Arm | cut -d\  -f 5`
-+       ;;
-   sun) CVER=`suncc  -V 2>&1 | grep 'Sun' | sed -e 's/^.*Sun C //' \
-          | cut -d\  -f 1`
-        FVER=`sunf90 -V 2>&1 | grep 'Sun' | sed -e 's/^.*Sun Fortran 95 //' \

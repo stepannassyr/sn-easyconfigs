@@ -17,7 +17,7 @@ post-processing utilities.
 
 toolchain = {'name': 'gompi', 'version': '2020a'}
 
-configopts = '--disable-mic --compiler=gnu --mpi=ompi CFLAGS="$CFLAGS -fPIC" '
+configopts = '--disable-mic --compiler=gnu --mpi=openmpi CFLAGS="$CFLAGS -fPIC" '
 
 source_urls = ['http://apps.fz-juelich.de/jsc/sionlib/download.php?version=%(version)s']
 sources = ['sionlib-%(version)s.tar.gz']
