@@ -7,6 +7,7 @@ homepage = 'https://github.com/google/double-conversion'
 description = "Efficient binary-decimal and decimal-binary conversion routines for IEEE doubles."
 
 toolchain = {'name': 'armlinux', 'version': '20.0'}
+toolchainopts = {'pic': True}
 
 source_urls = ['https://github.com/google/%(name)s/archive']
 sources = ['v%(version)s.tar.gz']
