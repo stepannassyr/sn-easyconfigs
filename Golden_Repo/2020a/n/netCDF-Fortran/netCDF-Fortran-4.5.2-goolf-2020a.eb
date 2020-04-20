@@ -1,6 +1,6 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 name = 'netCDF-Fortran'
-version = '4.5.1'
+version = '4.5.2'
 
 homepage = 'http://www.unidata.ucar.edu/software/netcdf/'
 description = """NetCDF (network Common Data Form) is a set of software libraries 
@@ -9,10 +9,8 @@ description = """NetCDF (network Common Data Form) is a set of software librarie
 """
 
 
-toolchain = {'name': 'alplompi', 'version': '20.0'}
+toolchain = {'name': 'goolf', 'version': '2020a'}
 toolchainopts = {'pic': True,'usempi': True}
-
-maxparallel=1
 
 sources = [SOURCELOWER_TAR_GZ]
 source_urls = [
@@ -20,9 +18,6 @@ source_urls = [
     'ftp://ftp.unidata.ucar.edu/pub/netcdf/old',
 ]
 
-prebuildopts= "sed -i -e 's#wl=\"\"#wl=\"-Wl,\"#g' libtool &&"
-prebuildopts+= "sed -i -e 's#pic_flag=\"\"#pic_flag=\" -fPIC -DPIC\"#g' libtool &&"
-
-dependencies = [('netCDF', '4.7.1')]
+dependencies = [('netCDF', '4.7.4')]
 
 moduleclass = 'data'

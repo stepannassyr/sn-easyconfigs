@@ -1,7 +1,6 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 name = 'netCDF'
-version = '4.7.1'
-versionsuffix = '-serial'
+version = '4.7.4'
 
 homepage = 'http://www.unidata.ucar.edu/software/netcdf/'
 description = """NetCDF (network Common Data Form) is a set of software libraries 
@@ -10,8 +9,8 @@ description = """NetCDF (network Common Data Form) is a set of software librarie
 """
 
 
-toolchain = {'name': 'GCC', 'version': '9.3.0'}
-toolchainopts = {'pic': True}
+toolchain = {'name': 'goolf', 'version': '2020a'}
+toolchainopts = {'pic': True, 'usempi': True}
 
 sources = ['v%s.tar.gz' % (version)]
 #source_urls = [
@@ -21,7 +20,7 @@ sources = ['v%s.tar.gz' % (version)]
 source_urls = ['https://github.com/Unidata/netcdf-c/archive/']
 
 dependencies = [
-    ('HDF5', '1.12.0', '-serial'),
+    ('HDF5', '1.12.0'),
     ('cURL', '7.69.1'),
     ('Szip', '2.1.1'),
 ]
@@ -37,8 +36,13 @@ configopts = [
     "-DCURL_LIBRARY=$EBROOTCURL/lib/libcurl.so -DCURL_INCLUDE_DIR=$EBROOTCURL/include -DBUILD_SHARED_LIBS=OFF",
 ]
 
+## This file is not copied in CMake setups.
+#postinstallcmds = [ 
+#    'cp %(builddir)s/netcdf-c-4.4.1/include/netcdf_par.h %(installdir)s/include/',
+#]
+
 sanity_check_paths = {
-    'files': ["include/netcdf_mem.h", "include/netcdf.h"],
+    'files': ["include/netcdf_mem.h", "include/netcdf_par.h"],
     'dirs': [],
 }
 

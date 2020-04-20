@@ -1,8 +1,7 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
-easyblock = 'ConfigureMake'
-
-name = 'netCDF-C++4'
-version = '4.3.0'
+name = 'netCDF-Fortran'
+version = '4.5.2'
+versionsuffix = '-serial'
 
 homepage = 'http://www.unidata.ucar.edu/software/netcdf/'
 description = """NetCDF (network Common Data Form) is a set of software libraries 
@@ -11,17 +10,15 @@ description = """NetCDF (network Common Data Form) is a set of software librarie
 """
 
 
-toolchain = {'name': 'goolf', 'version': '2020a.7'}
+toolchain = {'name': 'GCC', 'version': '8.4.0'}
 toolchainopts = {'pic': True}
 
-sources = ['v%(version)s.tar.gz']
-source_urls = ['https://github.com/Unidata/netcdf-cxx4/archive/']
+sources = [SOURCELOWER_TAR_GZ]
+source_urls = [
+    'ftp://ftp.unidata.ucar.edu/pub/netcdf/',
+    'ftp://ftp.unidata.ucar.edu/pub/netcdf/old',
+]
 
-dependencies = [('netCDF', '4.7.1')]
-
-sanity_check_paths = {
-    'files': ['include/netcdf', 'lib/libnetcdf_c++4.a', 'lib/libnetcdf_c++4.%s' % SHLIB_EXT],
-    'dirs': [],
-}
+dependencies = [('netCDF', '4.7.4', '-serial')]
 
 moduleclass = 'data'

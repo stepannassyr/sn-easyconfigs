@@ -1,6 +1,6 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 name = 'netCDF'
-version = '4.7.1'
+version = '4.7.4'
 
 homepage = 'http://www.unidata.ucar.edu/software/netcdf/'
 description = """NetCDF (network Common Data Form) is a set of software libraries 
@@ -9,7 +9,7 @@ description = """NetCDF (network Common Data Form) is a set of software librarie
 """
 
 
-toolchain = {'name': 'goolf', 'version': '2020a.7'}
+toolchain = {'name': 'goolf', 'version': '2020a.8'}
 toolchainopts = {'pic': True, 'usempi': True}
 
 sources = ['v%s.tar.gz' % (version)]
