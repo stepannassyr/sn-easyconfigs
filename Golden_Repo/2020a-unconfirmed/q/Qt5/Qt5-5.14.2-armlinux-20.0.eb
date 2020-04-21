@@ -8,7 +8,7 @@ description = "Qt is a comprehensive cross-platform C++ application framework."
 
 toolchain = {'name': 'armlinux', 'version': '20.0'}
 # disabling use of -ftree-vectorize is required to avoid compilation failures on some systems (e.g. Intel Skylake X)
-toolchainopts = {'vectorize': False, 'pic': True}
+toolchainopts = {'vectorize': False}
 
 source_urls = [
     'https://download.qt.io/official_releases/qt/%(version_major_minor)s/%(version)s/single/',
