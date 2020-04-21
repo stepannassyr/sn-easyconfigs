@@ -18,7 +18,7 @@ builddependencies = [
 			('protobuf', '3.11.4')
                     ]
 
-dependencies = [('Java', '8.242.08', '', True)]
+dependencies = [('Java', '8.252.09', '', True)]
 
 #prebuildopts = "BAZEL_LINKOPTS=\"-static-libstdc++ -static-libgcc\" BAZEL_LINKLIBS=\"-l%:libstdc++.a\" "
 
