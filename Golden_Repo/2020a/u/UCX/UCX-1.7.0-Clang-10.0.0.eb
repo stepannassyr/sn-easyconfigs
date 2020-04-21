@@ -18,7 +18,8 @@ toolchain = {'name': 'Clang', 'version': '10.0.0'}
 source_urls = ['https://github.com/openucx/ucx/releases/download/v%(version)s']
 sources = ['%(namelower)s-%(version)s.tar.gz']
 patches = ['%(namelower)s-%(version)s-sa-namespace-log.patch',
-           '%(namelower)s-%(version)s-binutils-2.34.patch']
+           '%(namelower)s-%(version)s-binutils-2.34.patch',
+           '%(namelower)s-%(version)s-clang-implicit-conversion.patch']
 checksums = [
     '6ab81ee187bfd554fe7e549da93a11bfac420df87d99ee61ffab7bb19bdd3371',  # ucx-1.7.0.tar.gz
     'cdd27af3aa7ed5ed798f42061b5cec251cea2d653295c840cfc796a7d2a5c14e',  # ucx-1.7.0-sa-namespace-log.patch
