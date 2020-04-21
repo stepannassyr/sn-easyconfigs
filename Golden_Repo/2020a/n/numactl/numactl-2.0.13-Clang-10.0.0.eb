@@ -15,7 +15,7 @@ toolchain = {'name': 'Clang', 'version': '10.0.0'}
 
 source_urls = ['https://github.com/numactl/numactl/archive/']
 sources = ['v%(version)s.tar.gz']
-checksums = ['7c3e819c2bdeb883de68bafe88776a01356f7ef565e75ba866c4b49a087c6bdf']
+checksums = ['97ee012b2f294903530424b4ff7f28bcaad6a356897ce8777383f87e5c2e325d']
 
 builddependencies = [
     ('binutils', '2.34'),
