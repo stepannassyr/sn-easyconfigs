@@ -49,6 +49,7 @@ def main(argv):
     exec(open(args.filename[0]).read(), globals(), globals())
 
     remove_list = []
+    update_list = []
     for i,package in enumerate(exts_list):
         if tuple != type(package):
             continue
@@ -68,10 +69,14 @@ def main(argv):
             print(f"{name} seems up to date")
         else:
             exts_list[i] = (name, latest_version, package[2])
+            update_list.append((name,latest_version))
             print(f"{name} has a newer version: {latest_version}")
     new_list = [exts_list[i] for i in range(len(exts_list)) if i not in remove_list]
 
     pprint.pprint(new_list,indent=4,sort_dicts=False)
+
+    print("Only updates:")
+    pprint.pprint(update_list,indent=4,sort_dicts=False)
 
 if __name__ == "__main__":
     main(sys.argv)
