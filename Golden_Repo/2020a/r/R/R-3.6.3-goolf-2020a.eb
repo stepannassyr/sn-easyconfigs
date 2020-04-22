@@ -717,9 +717,6 @@ exts_list = [
     ('htmlTable', '1.13.3', {
         'checksums': ['d459c43675f6ee0a1ae8232ea8819b2a842e795a833b28127081fa344d09393d'],
     }),
-    ('Hmisc', '4.4-0', {
-        'checksums': ['f16ecf4c5ee2202d51f426282a54f8000ffa8b9747c3e910205f34f878556ec7'],
-    }),
     ('fastcluster', '1.1.25', {
         'checksums': ['f3661def975802f3dd3cec5b2a1379f3707eacff945cf448e33aec0da1ed4205'],
     }),
@@ -740,9 +737,6 @@ exts_list = [
     }),
     ('gridBase', '0.4-7', {
         'checksums': ['be8718d24cd10f6e323dce91b15fc40ed88bccaa26acf3192d5e38fe33e15f26'],
-    }),
-    ('NMF', '0.22.0', {
-        'checksums': ['989d024bdf5379130406d7f679f690fd5b228cf6f729584855364f1bfad0542c'],
     }),
     ('irlba', '2.3.3', {
         'checksums': ['6ee233697bcd579813bd0af5e1f4e6dd1eea971e8919c748408130d970fef5c0'],
@@ -1409,6 +1403,15 @@ exts_list = [
     }),
     ('ggplot2', '3.3.0', {
         'checksums': ['320e3c76fe0d0397e29f4782bf85af3647518154b3900a39fd18cf024c554148'],
+    }),
+    ('BiocManager', '1.30.10', {
+        'checksums': ['f3b7a412b42be0ab8df5fcd9bf981876ba9e5c55bc5faaca7af7ede3b6d0c90e'],
+    }),
+    ('NMF', '0.22.0', {
+        'checksums': ['989d024bdf5379130406d7f679f690fd5b228cf6f729584855364f1bfad0542c'],
+    }),
+    ('Hmisc', '4.4-0', {
+        'checksums': ['f16ecf4c5ee2202d51f426282a54f8000ffa8b9747c3e910205f34f878556ec7'],
     }),
     ('viridis', '0.5.1', {
         'checksums': ['ddf267515838c6eb092938133035cee62ab6a78760413bfc28b8256165701918'],
