@@ -777,9 +777,6 @@ exts_list = [
     ('sourcetools', '0.1.7', {
         'checksums': ['47984406efb3b3face133979ccbae9fefb7360b9a6ca1a1c11473681418ed2ca'],
     }),
-    ('shiny', '1.4.0.2', {
-        'checksums': ['dca6ac83d03266a3d930273e7b821afa4a574f02ef89f963672972c2a2f5e064'],
-    }),
     ('seqinr', '3.6-1', {
         'checksums': ['c44fc8922ef410da3c3b5ca117cdbec55ccb546c9e6d96c01ede44398dfa6048'],
     }),
@@ -1385,6 +1382,12 @@ exts_list = [
     }),
     ('testthat', '2.3.2', {
         'checksums': ['1a268d8df07f7cd8d282d03bb96ac2d96a24a95c9aa52f4cca5138a09dd8e06c'],
+    }),
+    ('fastmap', '1.0.1', {
+        'checksums': ['4778b05dfebd356f8df980dfeff3b973a72bca14898f870e5c40c1d84db9faec'],
+    }),
+    ('shiny', '1.4.0.2', {
+        'checksums': ['dca6ac83d03266a3d930273e7b821afa4a574f02ef89f963672972c2a2f5e064'],
     }),
     ('inline', '0.3.15', {
         'checksums': ['ff043fe13c1991a3b285bed256ff4a9c0ba10bee764225a34b285875b7d69c68'],
