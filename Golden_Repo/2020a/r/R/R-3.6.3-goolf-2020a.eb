@@ -31,6 +31,7 @@ dependencies = [
     ('libpng', '1.6.37'),  # for plotting in R
     ('libjpeg-turbo', '2.0.4'),  # for plottting in R
     ('LibTIFF', '4.1.0'),
+    ('GraphicsMagick', '1.3.35'),
     ('Java', '11.0.6', '', True),  # Java bindings are built if Java is found, might as well provide it
     ('Tk', '8.6.10'),  # for tcltk
     ('cURL', '7.69.1'),  # for RCurl
@@ -813,6 +814,9 @@ exts_list = [
     ('gclus', '1.3.2', {
         'checksums': ['9cc61cdff206c11213e73afca3d570a7234250cf6044a9202c2589932278e0b3'],
     }),
+    ('sys', '3.3', {
+        'checksums': ['a6217c2a7240ed68614006f392c6d062247dab8b9b0d498f95e947110df19b93'],
+    }),
     ('askpass', '1.1', {
         'checksums': ['db40827d1bdbb90c0aa2846a2961d3bf9d76ad1b392302f9dd84cc2fd18c001f'],
     }),
@@ -876,20 +880,14 @@ exts_list = [
     ('wikitaxa', '0.3.0', {
         'checksums': ['10dbabac6c56c1d0f33a66ff9b4f48b0bcb470711808a86863b48dc1140ec86c'],
     }),
-    ('taxize', '0.9.94', {
-        'checksums': ['55c7ea16ceb1192aee5aab281dcec4706a459225354f38fa99922b37efe8e845'],
-    }),
     ('uuid', '0.1-4', {
         'checksums': ['98e0249dda17434bfa209c2058e9911e576963d4599be9f7ea946e664f8ca93e'],
     }),
     ('RNeXML', '2.4.3', {
         'checksums': ['bf801c93da4d5a59c92d17c15c04072e1ba4f72c50461a1e1eda2d446109a925'],
     }),
-    ('phylobase', '0.8.10', {
-        'checksums': ['5a44380ff49bab333a56f6f96157324ade8afb4af0730e013194c4badb0bf94b'],
-    }),
-    ('adephylo', '1.1-11', {
-        'checksums': ['154bf2645eac4493b85877933b9445442524ca4891aefe4e80c294c398cff61a'],
+    ('magick', '2.3', {
+        'checksums': ['a8412512a132a74ed88fbe64a0a415e9ba5437a1b8a664990638e10915274ba0'],
     }),
     ('animation', '2.6', {
         'checksums': ['90293638920ac436e7e4de76ebfd92e1643ccdb0259b62128f16dd0b13245b0a'],
@@ -1477,6 +1475,12 @@ exts_list = [
     ('ade4', '1.7-15', {
         'checksums': ['3286fa7d8c372a5596e82c970c058e4cca1139a09935f14b238ba38aa9fdfdf6'],
     }),
+    ('phylobase', '0.8.10', {
+        'checksums': ['5a44380ff49bab333a56f6f96157324ade8afb4af0730e013194c4badb0bf94b'],
+    }),
+    ('adephylo', '1.1-11', {
+        'checksums': ['154bf2645eac4493b85877933b9445442524ca4891aefe4e80c294c398cff61a'],
+    }),
     ('seqinr', '3.6-1', {
         'checksums': ['c44fc8922ef410da3c3b5ca117cdbec55ccb546c9e6d96c01ede44398dfa6048'],
     }),
@@ -1605,6 +1609,9 @@ exts_list = [
     }),
     ('phangorn', '2.5.5', {
         'checksums': ['c58dc1ace26cb4358619a15da3ea4765dbdde1557acccc5103c85589a7571346'],
+    }),
+    ('taxize', '0.9.94', {
+        'checksums': ['55c7ea16ceb1192aee5aab281dcec4706a459225354f38fa99922b37efe8e845'],
     }),
     ('geepack', '1.3-1', {
         'checksums': ['823153ca28e1a8bd8a45de778279480c1c35e063d62c8955b6cea1602f28d6df'],
