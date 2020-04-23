@@ -15,7 +15,13 @@ sources = [SOURCELOWER_TAR_BZ2]
 checksums = ['25a545566cbacaa37ae6222e58f1c48ea4570f53ba991886e2f5ce96e22a23a2']
 
 builddependencies = [('binutils', '2.34')]
-dependencies = [('cURL', '7.69.1')]
+dependencies = [
+    ('cURL', '7.69.1'),
+    ('libmicrohttpd', '0.9.70'),
+    ('libarchive', '3.4.2'),
+    ('pkg-config', '0.29.2'),
+    ('SQLite', '3.31.1'),
+]
 
 sanity_check_paths = {
     'files': ['include/libelf.h', 'include/gelf.h', 'include/nlist.h'] +
