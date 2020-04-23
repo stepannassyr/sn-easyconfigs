@@ -26,7 +26,8 @@ sources = [SOURCELOWER_TAR_GZ]
 
 dependencies = [
     ('SQLite', '3.31.1'),
-    ('LibTIFF', '4.1.0')
+    ('LibTIFF', '4.1.0'),
+    ('cURL', '7.69.1'),
 ]
 
 builddependencies = [

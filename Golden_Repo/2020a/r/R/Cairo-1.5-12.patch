@@ -1,0 +1,12 @@
+diff -urN Cairo-unpatched/configure Cairo/configure
+--- Cairo-unpatched/configure	2020-04-23 15:29:16.174945496 +0200
++++ Cairo/configure	2020-04-23 15:31:22.864949045 +0200
+@@ -3497,7 +3497,7 @@
+ 	 { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${modlist}" >&5
+ $as_echo "${modlist}" >&6; }
+ 	 CAIRO_CFLAGS=`"${PKGCONF}" --cflags ${modlist}`
+-	 CAIRO_LIBS=`"${PKGCONF}" --libs ${modlist}`
++	 CAIRO_LIBS="-L$EBROOTZLIB/lib `"${PKGCONF}" --libs ${modlist}`"
+ 	 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether --static is needed" >&5
+ $as_echo_n "checking whether --static is needed... " >&6; }
+ 	 saveLIBS="$LIBS"
