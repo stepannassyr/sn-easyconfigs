@@ -71,7 +71,7 @@ dependencies = [
 # configopts = '-skip qtgamepad'
 
 configopts = " -nomake examples -nomake tests -system-ffmpeg -system-doubleconversion"
-platform = "linux-clang"
+platform = "linux-clang-libc++"
 
 # make sure QtWebEngine component is being built & installed
 check_qtwebengine = True
