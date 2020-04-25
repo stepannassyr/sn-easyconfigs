@@ -25,7 +25,7 @@ toolchainopts = {'vectorize': False}
 
 source_urls = ['https://www.open-mpi.org/software/hwloc/v%(version_major_minor)s/downloads/']
 sources = [SOURCE_TAR_GZ]
-checksums = ['efadca880f5a59c6d5d6f7bc354546aa6f780d77cc2e139634c3de9564e7ce1f']
+checksums = ['1fb8cc1438de548e16ec3bb9e4b2abb9f7ce5656f71c0906583819fcfa8c2031']
 
 builddependencies = [
     ('binutils', '2.34'),
