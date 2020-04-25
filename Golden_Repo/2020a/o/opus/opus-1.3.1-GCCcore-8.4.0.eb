@@ -7,6 +7,7 @@ homepage = 'https://opus-codec.org'
 description = "A totally open, royalty-free, highly versatile audio codec."
 
 toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
+toolchainopts = {'pic': True}
 
 source_urls = ['https://archive.mozilla.org/pub/%(name)s/']
 sources = ['%(name)s-%(version)s.tar.gz']
