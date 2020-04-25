@@ -44,6 +44,8 @@ builddependencies = [
 osdependencies = [('openssl-devel', 'libssl-dev', 'libopenssl-devel')]
 
 exts_download_dep_fail = True
+# Fails with Clang
+optimized = False
 
 grakover = '3.99.9'
 
