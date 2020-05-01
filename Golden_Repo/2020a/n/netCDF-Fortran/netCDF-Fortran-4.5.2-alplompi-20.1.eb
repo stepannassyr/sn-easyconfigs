@@ -1,0 +1,28 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+name = 'netCDF-Fortran'
+version = '4.5.2'
+
+homepage = 'http://www.unidata.ucar.edu/software/netcdf/'
+description = """NetCDF (network Common Data Form) is a set of software libraries 
+ and machine-independent data formats that support the creation, access, and sharing of array-oriented 
+ scientific data.
+"""
+
+
+toolchain = {'name': 'alplompi', 'version': '20.1'}
+toolchainopts = {'pic': True,'usempi': True}
+
+maxparallel=1
+
+sources = [SOURCELOWER_TAR_GZ]
+source_urls = [
+    'ftp://ftp.unidata.ucar.edu/pub/netcdf/',
+    'ftp://ftp.unidata.ucar.edu/pub/netcdf/old',
+]
+
+prebuildopts= "sed -i -e 's#wl=\"\"#wl=\"-Wl,\"#g' libtool &&"
+prebuildopts+= "sed -i -e 's#pic_flag=\"\"#pic_flag=\" -fPIC -DPIC\"#g' libtool &&"
+
+dependencies = [('netCDF', '4.7.4')]
+
+moduleclass = 'data'
