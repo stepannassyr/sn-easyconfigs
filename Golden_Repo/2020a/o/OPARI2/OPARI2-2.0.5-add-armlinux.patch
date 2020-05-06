@@ -1297,7 +1297,7 @@ diff -urN opari2-2.0.5-unpatched/build-frontend/configure opari2-2.0.5/build-fro
 +See \`config.log' for more details" "$LINENO" 5; }
 +fi
 +
-+  if ac_fn_c_compute_int "$LINENO" "(unsigned long)10*(__ARM_HPC_COMPILER_VERSION__ - (unsigned long)(__ARM_HPC_COMPILER_VERSION__))" "_ax_c_compiler_version_minor"        ""; then :
++  if ac_fn_c_compute_int "$LINENO" "(unsigned long)(10*(__ARM_HPC_COMPILER_VERSION__ - (unsigned long)(__ARM_HPC_COMPILER_VERSION__)))" "_ax_c_compiler_version_minor"        ""; then :
 +
 +else
 +  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
@@ -2981,7 +2981,7 @@ diff -urN opari2-2.0.5-unpatched/vendor/common/build-config/m4/ax_compiler_versi
 +    (unsigned long)(__ARM_HPC_COMPILER_VERSION__),,
 +    AC_MSG_FAILURE([[[$0]] unknown armclang major]))
 +  AC_COMPUTE_INT(_ax_[]_AC_LANG_ABBREV[]_compiler_version_minor,
-+    (unsigned long)10*(__ARM_HPC_COMPILER_VERSION__ - (unsigned long)(__ARM_HPC_COMPILER_VERSION__)),,
++    (unsigned long)(10*(__ARM_HPC_COMPILER_VERSION__ - (unsigned long)(__ARM_HPC_COMPILER_VERSION__))),,
 +    AC_MSG_FAILURE([[[$0]] unknown armclang minor]))
 +  ax_cv_[]_AC_LANG_ABBREV[]_compiler_version="$_ax_[]_AC_LANG_ABBREV[]_compiler_version_major.$_ax_[]_AC_LANG_ABBREV[]_compiler_version_minor"
 +  ])

@@ -39,7 +39,7 @@ dependencies = [
     ('GLib', '2.62.0'),
     ('GTK+', '3.24.14'),
     ('protobuf', '3.11.4'),
-    ('SciPy-Stack', '2020a', versionsuffix, ('alplompi', '20.0'))
+    ('SciPy-Stack', '2020a', versionsuffix, ('alplompi', '20.1'))
 ]
 
 configopts = "-DBUILD_PROTOBUF=OFF -DPROTOBUF_UPDATE_FILES=ON -DOpenBLAS_INCLUDE_DIR=$EBROOTOPENBLAS/include -DOpenBLAS_LIB=$EBROOTOPENBLAS/lib/libopenblas.so -DCPU_BASELINE=DETECT "
