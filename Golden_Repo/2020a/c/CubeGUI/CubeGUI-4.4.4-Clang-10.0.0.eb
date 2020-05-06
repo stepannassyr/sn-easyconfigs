@@ -44,6 +44,9 @@ dependencies = [
     ('Qt5', '5.14.2'),
 ]
 
+# Fails with ld, something about libpng missing some zlib function
+preconfigopts="export LDFLAGS=-fuse-ld=lld && "
+
 sanity_check_paths = {
     'files': ['bin/cube', 'bin/cubegui-config',
               'lib/libcube4gui.a', 'lib/libcube4gui.%s' % SHLIB_EXT],
