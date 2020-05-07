@@ -59,7 +59,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/s/six/'],
         'checksums': ['236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a'],
     }),
-    ('setuptools', '46.0.0', {
+    ('setuptools', '46.1.3', {
         'source_tmpl': '%(name)s-%(version)s.zip',
         'source_urls': ['https://pypi.python.org/packages/source/s/setuptools/'],
         'checksums': ['2f00f25b780fbfd0787e46891dcccd805b08d007621f24629025f48afef444b5'],
@@ -68,7 +68,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/z/zipp'],
         'checksums': ['c599e4d75c98f6798c509911d08a22e6c021d074469042177c8c86fb92eefd96'],
     }),
-    ('pyparsing', '2.4.6', {
+    ('pyparsing', '3.0.0a1', {
         'source_urls': ['https://pypi.python.org/packages/source/p/pyparsing/'],
         'checksums': ['4c830582a84fb022400b85429791bc551f1f4871c33f23e44f353119e92f969f'],
     }),
@@ -80,11 +80,11 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/a/appdirs'],
         'checksums': ['9e5896d1372858f8dd3344faf4e5014d21849c756c8d5701f78f8a103b372d92'],
     }),
-    ('certifi', '2019.11.28', {
+    ('certifi', '2020.4.5.1', {
         'source_urls': ['https://pypi.io/packages/source/c/certifi'],
         'checksums': ['25b64c7da4cd7479594d035c08c2d809eb4aab3a26e5a990ea98cc450c320f1f'],
     }),
-    ('pip', '20.0.2', {
+    ('pip', '20.1', {
         'source_urls': ['https://pypi.python.org/packages/source/p/pip/'],
         'checksums': ['7db0c8ea4c7ea51c8049640e8e6e7fde949de672bfa4949920675563a5a6967f'],
     }),
@@ -109,7 +109,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/a/argparse/'],
         'checksums': ['62b089a55be1d8949cd2bc7e0df0bddb9e028faefc8c32038cc84862aefdd6e4'],
     }),
-    ('pbr', '5.4.4', {
+    ('pbr', '5.4.5', {
         'source_urls': ['https://pypi.python.org/packages/source/p/pbr/'],
         'checksums': ['139d2625547dbfa5fb0b81daebb39601c478c21956dc57e2e07b74450a8c506b'],
     }),
@@ -117,7 +117,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/l/lockfile/'],
         'checksums': ['6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799'],
     }),
-    ('Cython', '0.29.15', {
+    ('Cython', '3.0a4', {
         'source_urls': ['https://pypi.python.org/packages/source/c/Cython/'],
         'checksums': ['60d859e1efa5cc80436d58aecd3718ff2e74b987db0518376046adedba97ac30'],
     }),
@@ -168,7 +168,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/i/idna/'],
         'checksums': ['7588d1c14ae4c77d74036e8c22ff447b26d0fde8f007354fd48a7814db15b7cb'],
     }),
-    ('cryptography', '2.8', {
+    ('cryptography', '2.9.2', {
         'prebuildopts': "LDFLAGS=-pthread ",
         'preinstallopts': "LDFLAGS=-pthread ",
         'source_urls': ['https://pypi.python.org/packages/source/c/cryptography/'],
@@ -199,16 +199,16 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/f/funcsigs'],
         'checksums': ['a7bb0f2cf3a3fd1ab2732cb49eba4252c2af4240442415b4abce3b87022a8f50'],
     }),
-    ('mock', '4.0.1', {
+    ('mock', '4.0.2', {
         'source_urls': ['https://pypi.python.org/packages/source/m/mock'],
         'checksums': ['2a572b715f09dd2f0a583d8aeb5bb67d7ed7a8fd31d193cf1227a99c16a67bc3'],
     }),
-    ('pytz', '2019.3', {
+    ('pytz', '2020.1', {
         'source_tmpl': '%(name)s-%(version)s.tar.gz',
         'source_urls': ['https://pypi.python.org/packages/source/p/pytz'],
         'checksums': ['b02c06db6cf09c12dd25137e563b31700d3b80fcc4ad23abb7a315f2789819be'],
     }),
-    ('bitstring', '3.1.6', {
+    ('bitstring', '3.1.7', {
         'source_tmpl': '%(name)s-%(version)s.tar.gz',
         'source_urls': ['https://pypi.python.org/packages/source/b/bitstring'],
         'checksums': ['c97a8e2a136e99b523b27da420736ae5cb68f83519d633794a6a11192f69f8bf'],
@@ -231,20 +231,20 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/b/backports.shutil_get_terminal_size/'],
         'checksums': ['713e7a8228ae80341c70586d1cc0a8caa5207346927e23d09dcbcaf18eadec80'],
     }),
-    ('wcwidth', '0.1.8', {
+    ('wcwidth', '0.1.9', {
         'source_urls': ['https://pypi.python.org/packages/source/w/wcwidth/'],
         'checksums': ['f28b3e8a6483e5d49e7f8949ac1a78314e740333ae305b4ba5defd3e74fb37a8'],
     }),
-    ('prompt_toolkit', '3.0.4', {
+    ('prompt_toolkit', '3.0.5', {
         'source_urls': ['https://pypi.python.org/packages/source/p/prompt_toolkit/'],
         'checksums': ['ebe6b1b08c888b84c50d7f93dee21a09af39860144ff6130aadbd61ae8d29783'],
     }),
-    ('PyYAML', '5.3', {
+    ('PyYAML', '5.3.1', {
         'modulename': 'yaml',
         'source_urls': ['https://pypi.python.org/packages/source/p/PyYAML/'],
         'checksums': ['e9f45bd5b92c7974e59bcd2dcc8631a6b6cc380a904725fce7bc08872e691615'],
     }),
-    ('psycopg2', '2.8.4', {
+    ('psycopg2', '2.8.5', {
         'source_urls': ['https://pypi.python.org/packages/source/p/psycopg2/'],
         'checksums': ['f898e5cc0a662a9e12bde6f931263a1bbd350cfb18e1d5336a12927851825bb6'],
     }),
@@ -258,7 +258,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/p/python-gflags/'],
         'checksums': ['40ae131e899ef68e9e14aa53ca063839c34f6a168afe622217b5b875492a1ee2'],
     }),
-    ('Click', '7.0', {
+    ('Click', '7.1.2', {
         'modulename': 'click',
         'source_urls': ['https://pypi.python.org/packages/source/c/click'],
         'checksums': ['5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7'],
@@ -267,12 +267,12 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/i/itsdangerous'],
         'checksums': ['321b033d07f2a4136d3ec762eac9f16a10ccd60f53c0c91af90217ace7ba1f19'],
     }),
-    ('Werkzeug', '1.0.0', {
+    ('Werkzeug', '1.0.1', {
         'modulename': 'werkzeug',
         'source_urls': ['https://pypi.python.org/packages/source/w/werkzeug'],
         'checksums': ['169ba8a33788476292d04186ab33b01d6add475033dfc07215e6d219cc077096'],
     }),
-    ('MarkupSafe', '1.1.1', {
+    ('MarkupSafe', '2.0.0a1', {
         'modulename': 'markupsafe',
         'source_urls': ['https://pypi.python.org/packages/source/m/markupsafe'],
         'checksums': ['29872e92839765e546828bb7754a68c418d927cd064fd4708fab9fe9c8bb116b'],
@@ -282,7 +282,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/j/jinja2'],
         'checksums': ['c922560ac46888d47384de1dbdc3daaa2ea993af4b26a436dec31fa2c19ec668'],
     }),
-    ('Flask', '1.1.1', {
+    ('Flask', '1.1.2', {
         'modulename': 'flask',
         'source_urls': ['https://pypi.python.org/packages/source/f/flask'],
         'checksums': ['13f9f196f330c7c2c5d7a5cf91af894110ca0215ac051b5844701f2bfd934d52'],
@@ -309,7 +309,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/p/pluggy'],
         'checksums': ['15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0'],
     }),
-    ('atomicwrites', '1.3.0', {
+    ('atomicwrites', '1.4.0', {
         'source_urls': ['https://pypi.python.org/packages/source/a/atomicwrites'],
         'checksums': ['75a9445bac02d8d058d5e1fe689654ba5a6556a1dfd8ce6ec55a0ed79866cfa6'],
     }),
@@ -321,7 +321,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/p/pathlib2'],
         'checksums': ['6cd9a47b597b37cc57de1c05e56fb1a1c9cc9fab04fe78c29acd090418529868'],
     }),
-    ('pytest', '5.3.5', {
+    ('pytest', '5.4.1', {
         'source_urls': ['https://pypi.python.org/packages/source/p/pytest'],
         'checksums': ['0d5fe9189a148acc3c3eb2ac8e1ac0742cb7618c084f3d228baaec0c254b318d'],
     }),
@@ -359,11 +359,11 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/s/simplegeneric'],
         'checksums': ['dc972e06094b9af5b855b3df4a646395e43d1c9d0d39ed345b7393560d0b9173'],
     }),
-    ('parso', '0.6.2', {
+    ('parso', '0.7.0', {
         'source_urls': ['https://pypi.python.org/packages/source/p/parso'],
         'checksums': ['0c5659e0c6eba20636f99a04f469798dca8da279645ce5c387315b2c23912157'],
     }),
-    ('jedi', '0.16.0', {
+    ('jedi', '0.17.0', {
         'source_urls': ['https://pypi.python.org/packages/source/j/jedi'],
         'checksums': ['d5c871cb9360b414f981e7072c52c33258d598305280fef91c6cae34739d65d5'],
     }),
@@ -375,12 +375,12 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/b/backcall'],
         'checksums': ['38ecd85be2c1e78f77fd91700c76e14667dc21e2713b63876c0eb901196e01e4'],
     }),
-    ('ipython', '7.13.0', {
+    ('ipython', '7.14.0', {
         'modulename': 'IPython',
         'source_urls': ['https://pypi.python.org/packages/source/i/ipython'],
         'checksums': ['ca478e52ae1f88da0102360e57e528b92f3ae4316aabac80a2cd7f7ab2efb48a'],
     }),
-    ('urllib3', '1.25.8', {
+    ('urllib3', '1.25.9', {
         'source_urls': ['https://pypi.python.org/packages/source/u/urllib3'],
         'checksums': ['87716c2d2a7121198ebcb7ce7cccf6ce5e9ba539041cfbaeecfb641dc0bf6acc'],
     }),
@@ -392,7 +392,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/r/requests'],
         'checksums': ['b3f43d496c6daba4493e7c431722aeb7dbc6288f52a6e04e7b6023b0247817e6'],
     }),
-    ('SQLAlchemy', '1.3.13', {
+    ('SQLAlchemy', '1.3.16', {
         'modulename': 'sqlalchemy',
         'source_urls': ['https://pypi.python.org/packages/source/s/SQLAlchemy'],
         'checksums': ['64a7b71846db6423807e96820993fa12a03b89127d278290ca25c0b11ed7b4fb'],
@@ -402,7 +402,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/p/python-editor'],
         'checksums': ['51fda6bcc5ddbbb7063b2af7509e43bd84bfc32a4ff71349ec7847713882327b'],
     }),
-    ('alembic', '1.4.1', {
+    ('alembic', '1.4.2', {
         'source_urls': ['https://pypi.python.org/packages/source/a/alembic'],
         'checksums': ['791a5686953c4b366d3228c5377196db2f534475bb38d26f70eb69668efd9028'],
     }),
@@ -410,7 +410,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/v/vcversioner'],
         'checksums': ['dae60c17a479781f44a4010701833f1829140b1eeccd258762a74974aa06e19b'],
     }),
-    ('pyrsistent', '0.15.7', {
+    ('pyrsistent', '0.16.0', {
         'source_urls': ['https://pypi.io/packages/source/p/pyrsistent'],
         'checksums': ['cdc7b5e3ed77bed61270a47d35434a30617b9becdf2478af76ad2c6ade307280'],
     }),
@@ -436,11 +436,11 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/c/ClusterShell'],
         'checksums': ['0ebc1925c1aed94f99d74cbc0230215127ade80a25240133204094faa74bc41b'],
     }),
-    ('cloudpickle', '1.3.0', {
+    ('cloudpickle', '1.4.1', {
         'source_urls': ['https://pypi.python.org/packages/source/c/cloudpickle'],
         'checksums': ['38af54d0e7705d87a287bdefe1df00f936aadb1f629dca383e825cca927fa753'],
     }),
-    ('Pillow', '7.0.0', {
+    ('Pillow', '7.1.2', {
         'modulename': 'PIL',
         'source_urls': ['https://pypi.python.org/packages/source/p/Pillow'],
         'checksums': ['4d9ed9a64095e031435af120d3c910148067087541131e82b3e8db302f4c8946'],
@@ -469,7 +469,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/i/isodate'],
         'checksums': ['2e364a3d5759479cdb2d37cce6b9376ea504db2ff90252a2e5b7cc89cc9ff2d8'],
     }),
-    ('rdflib', '4.2.2', {
+    ('rdflib', '5.0.0', {
         'source_urls': ['https://pypi.python.org/packages/source/r/rdflib'],
         'checksums': ['da1df14552555c5c7715d8ce71c08f404c988c58a1ecd38552d0da4fc261280d'],
     }),
@@ -490,7 +490,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/s/simplejson'],
         'checksums': ['2b4b2b738b3b99819a17feaf118265d0753d5536049ea570b3c43b51c4701e81'],
     }),
-    ('configparser', '4.0.2', {
+    ('configparser', '5.0.0', {
         'source_urls': ['https://pypi.python.org/packages/source/c/configparser'],
         'checksums': ['c7d282687a5308319bf3d2e7706e575c635b0a470342641c93bea0ea3b5331df'],
     }),
@@ -529,7 +529,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/e/execnet'],
         'checksums': ['cacb9df31c9680ec5f95553976c4da484d407e85e41c83cb812aa014f0eddc50'],
     }),
-    ('pytest-xdist', '1.31.0', {
+    ('pytest-xdist', '1.32.0', {
         'modulename': 'xdist',
         'source_urls': ['https://pypi.python.org/packages/source/p/pytest-xdist'],
         'checksums': ['7dc0d027d258cd0defc618fb97055fbd1002735ca7a6d17037018cf870e24011'],
