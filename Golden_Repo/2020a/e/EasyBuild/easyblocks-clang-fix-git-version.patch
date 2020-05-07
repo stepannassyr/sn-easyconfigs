@@ -17,9 +17,9 @@ diff -urN a/easybuild-easyblocks-4.1.1/easybuild/easyblocks/c/clang.py b/easybui
  from easybuild.tools.systemtools import AARCH32, AARCH64, POWER, X86_64
 -from easybuild.tools.systemtools import get_cpu_architecture, get_os_name, get_os_version, get_shared_lib_ext
 +from easybuild.tools.systemtools import get_cpu_architecture, get_os_name, get_os_version, get_shared_lib_ext, get_platform_name
+ from easybuild.tools.environment import setvar
  
  # List of all possible build targets for Clang
- CLANG_TARGETS = ["all", "AArch64", "ARM", "CppBackend", "Hexagon", "Mips",
 @@ -109,12 +111,13 @@
          """
          Prepare a combined LLVM source tree.  The layout is:
