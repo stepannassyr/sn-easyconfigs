@@ -21,7 +21,15 @@
 
 ## ARM HPC compiler and libtool ##
 
-There are some hardcoded paths pointing to /opt/arm/xyz in the ARM HPC compiler installation. Fortunately version 19.3 installs into $PREFIX instead of $PREFIX/opt/arm (like previous versions), so you can just:
+There are some hardcoded paths pointing to /opt/arm/xyz in the ARM HPC compiler installation, specifically some .la files. You will see errors like
+```
+libtool: warning: library '/opt/ohpc/pub/ARM/opt/arm/gcc-9.2.0_Generic-AArch64_RHEL-7_aarch64-linux/lib64/libstdc++.la' was moved.
+clang-9: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]
+/usr/bin/sed: can't read /opt/arm/gcc-9.2.0_Generic-AArch64_RHEL-7_aarch64-linux/lib/../lib64/libstdc++.la: No such file or directory
+libtool:   error: '/opt/arm/gcc-9.2.0_Generic-AArch64_RHEL-7_aarch64-linux/lib/../lib64/libstdc++.la' is not a valid libtool archive 
+```
+
+. Fortunately version 19.3 installs into $PREFIX instead of $PREFIX/opt/arm (like previous versions), so you can just:
 
 
 ```
