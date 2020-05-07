@@ -2,7 +2,7 @@
 easyblock = "Toolchain"
 
 name = 'gompi'
-version = '2020a'
+version = '2020a.9'
 
 homepage = '(none)'
 description = """gcc and GFortran based compiler toolchain,
@@ -16,7 +16,7 @@ local_mpilib = 'OpenMPI'
 local_mpiver = '4.0.3'
 
 local_compname = 'GCC'
-local_compver = '10.1.0'
+local_compver = '9.3.0'
 
 local_comp = (local_compname, local_compver)
 
