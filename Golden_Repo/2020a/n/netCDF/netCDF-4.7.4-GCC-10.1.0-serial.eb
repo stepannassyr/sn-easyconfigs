@@ -32,7 +32,7 @@ builddependencies = [
 ]
 
 preconfigopts = [
-    ' CFLANGS="$CFLAGS -fcommon" '
+    ' CFLAGS="$CFLAGS -fcommon" '
 ]
 
 # make sure both static and shared libs are built
