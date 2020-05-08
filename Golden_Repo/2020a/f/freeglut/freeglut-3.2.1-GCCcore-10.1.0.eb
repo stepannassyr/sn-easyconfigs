@@ -13,6 +13,9 @@ toolchain = {'name': 'GCCcore', 'version': '10.1.0'}
 
 sources = [SOURCE_TAR_GZ]
 source_urls = ['http://prdownloads.sourceforge.net/%(name)s']
+patches = [
+    'freeglut-3.2.1-gcc10-fno-common.patch'
+]
 
 builddependencies = [
     ('binutils', '2.34'),
