@@ -31,10 +31,6 @@ builddependencies = [
     ('Doxygen', '1.8.17'),
 ]
 
-preconfigopts = [
-    ' CFLAGS="$CFLAGS -fcommon" '
-]
-
 # make sure both static and shared libs are built
 configopts = [
     "-DCURL_LIBRARY=$EBROOTCURL/lib/libcurl.so -DCURL_INCLUDE_DIR=$EBROOTCURL/include -DBUILD_SHARED_LIBS=ON",

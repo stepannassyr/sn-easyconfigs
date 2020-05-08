@@ -1,0 +1,14 @@
+diff -urN easybuild-unpatched/easyblocks/n/netcdf.py easybuild/easyblocks/n/netcdf.py
+--- easybuild-unpatched/easyblocks/n/netcdf.py	2020-05-08 20:49:12.079183575 +0200
++++ easybuild/easyblocks/n/netcdf.py	2020-05-08 21:17:37.557612454 +0200
+@@ -74,6 +74,10 @@
+             ConfigureMake.configure_step(self)
+ 
+         else:
++        
++            if self.toolchain.comp_family() == toolchain.GCC:
++                if LooseVersion(get_software_version("GCC")) >= LooseVersion("10"):
++                    self.cfg.update('configopts', '-DCMAKE_C_FLAGS="%s -fcommon"' % os.getenv('CFLAGS'))
+             for (dep, libname) in [('cURL', 'curl'), ('HDF5', 'hdf5'), ('Szip', 'sz'), ('zlib', 'z'),
+                                    ('PnetCDF', 'pnetcdf')]:
+                 dep_root = get_software_root(dep)
