@@ -1,7 +1,7 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 easyblock = 'PythonBundle'
 name = 'SciPy-Stack'
-version = '2020a.8'
+version = '2020a.9'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'http://www.scipy.org'
@@ -24,7 +24,7 @@ dependencies = [
     ('Python', '3.8.2'),
     ('pybind11', '2.4.3', versionsuffix),
     ('OpenBLAS', '0.3.9'),
-    ('FFTW', '3.3.8', '', ('gompi', '2020a.8')),
+    ('FFTW', '3.3.8', '', ('gompi', '2020a.9')),
     ('freetype', '2.10.1'),
     ('libpng', '1.6.37'),
     ('libreadline', '8.0'),
