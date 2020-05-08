@@ -119,9 +119,9 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/l/lockfile/'],
         'checksums': ['6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799'],
     }),
-    ('Cython', '3.0a4', {
+    ('Cython', '0.29.17', {
         'source_urls': ['https://pypi.python.org/packages/source/c/Cython/'],
-        'checksums': ['60d859e1efa5cc80436d58aecd3718ff2e74b987db0518376046adedba97ac30'],
+        'checksums': ['6361588cb1d82875bcfbad83d7dd66c442099759f895cf547995f00601f9caf2'],
     }),
     ('python-dateutil', '2.8.1', {
         'modulename': 'dateutil',
