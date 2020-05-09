@@ -1,0 +1,56 @@
+diff -urN sionlib-unpatched/mf/Makefile.defs.linux-gomp sionlib/mf/Makefile.defs.linux-gomp
+--- sionlib-unpatched/mf/Makefile.defs.linux-gomp	2020-05-09 03:22:02.447303125 +0200
++++ sionlib/mf/Makefile.defs.linux-gomp	2020-05-09 03:30:24.059807049 +0200
+@@ -42,6 +42,15 @@
+ F90      = $(F77)
+ F90FLAGS = $(PFLAG) $(OPTFLAGS) -ffree-form
+ 
++GCCVERSIONGTEQ10 := $(shell expr `gcc -dumpversion | cut -f1 -d.` \>= 10)
++
++ifeq "$(GCCVERSIONGTEQ10)" "1"
++    FFLAGS += -fallow-argument-mismatch
++    F90FLAGS += -fallow-argument-mismatch
++    FCFLAGS = -fallow-argument-mismatch
++    F77FLAGS = -fallow-argument-mismatch
++endif
++
+ FPP      =
+ FDOPT    = -D
+ 
+diff -urN sionlib-unpatched/src/fortraninterface/Makefile sionlib/src/fortraninterface/Makefile
+--- sionlib-unpatched/src/fortraninterface/Makefile	2020-05-09 03:45:49.524431629 +0200
++++ sionlib/src/fortraninterface/Makefile	2020-05-09 03:46:38.384676367 +0200
+@@ -109,7 +109,7 @@
+ 	$(CPP) $(F90FLAGS) $(F90FLAGS_CPP) -P -E -I ../lib sion_f90.F90 > sion_f90.f90
+ sion_f90.mod : sion_f90.o
+ sion_f90.o : sion_f90.f90 sion_f77.h $(SION_HDRS)
+-	$(F90) -c sion_f90.f90
++	$(F90) $(F90FLAGS) -c sion_f90.f90
+ 
+ sion_f90_omp.o: sion_f90.o
+ sion_f90_mpi.o: sion_f90.o
+@@ -121,21 +121,21 @@
+ 	$(CPP) $(F90FLAGS) $(F90FLAGS_CPP) $(F90MPIFLAGS) -P -E -I ../lib sion_f90_mpi.F90 > sion_f90_mpi.f90
+ sion_f90_mpi.mod : sion_f90_mpi.o
+ sion_f90_mpi.o : sion_f90_mpi.f90 sion_f90.mod $(SION_HDRS)
+-	$(MPIF90) -c sion_f90_mpi.f90
++	$(MPIF90) $(F90FLAGS) -c sion_f90_mpi.f90
+ 
+ # F90 Interface (OMP)
+ sion_f90_omp.f90: sion_f90_omp.F90
+ 	$(CPP) $(F90OMPFLAGS) $(F90FLAGS) $(F90FLAGS_CPP) -P -E -I ../lib sion_f90_omp.F90 > sion_f90_omp.f90
+ sion_f90_omp.mod : sion_f90_omp.o 
+ sion_f90_omp.o : sion_f90_omp.f90 sion_f90.mod $(SION_HDRS)
+-	$(OMPF90) -c sion_f90_omp.f90
++	$(OMPF90) $(F90FLAGS) -c sion_f90_omp.f90
+ 
+ # F90 Interface (OMPI)
+ sion_f90_ompi.f90: sion_f90_ompi.F90 $(SION_HDRS)
+ 	$(CPP) $(F90MPIFLAGS) $(F90OMPFLAGS) $(F90FLAGS) $(F90FLAGS_CPP) -P -E -I ../lib sion_f90_ompi.F90 > sion_f90_ompi.f90
+ sion_f90_ompi.mod : sion_f90_ompi.o
+ sion_f90_ompi.o : sion_f90_ompi.f90 $(SION_HDRS)
+-	$(MPIF90) -c sion_f90_ompi.f90
++	$(MPIF90) $(F90FLAGS) -c sion_f90_ompi.f90
+ 
+ 
+ 
