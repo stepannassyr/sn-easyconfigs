@@ -27,7 +27,7 @@ checksums = [
     '5dc1023eb766ba5407f0b5e0845ec786e0021f1da757da737db1fb71fc4236b8',  # scorep-6.0.tar.gz
 ]
 
-patched = [
+patches = [
     'Score-P-6.0-gcc10-cgraph-noglobal.patch'
 ]
 
