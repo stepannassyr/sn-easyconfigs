@@ -54,11 +54,14 @@ exts_list = [
         {'source_urls': ['https://pypi.python.org/packages/source/m/mpmath']}),
     (   'numpy',
         '1.18.2',
-        {   'source_urls': [   'https://github.com/numpy/numpy/releases/download/v1.18.2/'],
+        {
+            'buildopts': " -j$EASYBUILD_JOB_CORES" ,
+            'source_urls': [   'https://github.com/numpy/numpy/releases/download/v1.18.2/'],
             'source_tmpl': 'numpy-%(version)s.zip',
             'patches': ['numpy-1.14.2-xhost.patch']}),
     (   'scipy', '1.4.1',
         {
+            'buildopts': " -j$EASYBUILD_JOB_CORES" ,
             'prebuildopts': "LDFLAGS=-pthread ",
             'preinstallopts': "LDFLAGS=-pthread ",
             'source_urls': ['https://pypi.python.org/packages/source/s/scipy'],

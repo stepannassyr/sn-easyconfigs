@@ -42,7 +42,10 @@ use_pip = True
 #exts_defaultclass = 'PythonPackage'
 #exts_filter = ('python -c "import %(ext_name)s"', '')
 #exts_download_dep_fail = True
-
+local_set_fflags = "export FCFLAGS=\"$FCFLAGS -fallow-argument-mismatch\"; "
+local_set_fflags += "export FFLAGS=\"$FFLAGS -fallow-argument-mismatch\"; "
+local_set_fflags += "export F90FLAGS=\"$F90FLAGS -fallow-argument-mismatch\"; "
+local_set_fflags += "export F77FLAGS=\"$F77FLAGS -fallow-argument-mismatch\"; "
 exts_list = [
     (   'Cycler',
         '0.10.0',
@@ -54,13 +57,16 @@ exts_list = [
         {'source_urls': ['https://pypi.python.org/packages/source/m/mpmath']}),
     (   'numpy',
         '1.18.2',
-        {   'source_urls': ['https://github.com/numpy/numpy/releases/download/v1.18.2/'],
+        {   
+            'buildopts': " -j$EASYBUILD_JOB_CORES" ,
+            'source_urls': ['https://github.com/numpy/numpy/releases/download/v1.18.2/'],
             'source_tmpl': 'numpy-%(version)s.zip',
             'patches': ['numpy-1.14.2-xhost.patch']}),
     (   'scipy', '1.4.1',
         {
-            'prebuildopts': "LDFLAGS=-pthread ",
-            'preinstallopts': "LDFLAGS=-pthread ",
+            'buildopts': " -j$EASYBUILD_JOB_CORES" ,
+            'prebuildopts': "%s LDFLAGS=-pthread" % local_set_fflags,
+            'preinstallopts': "export FCFLAGS=-fallow-argument-mismatch; LDFLAGS=-pthread",
             'source_urls': ['https://pypi.python.org/packages/source/s/scipy'],
             'patches': [
                          # https://github.com/scipy/scipy/pull/11324/commits
