@@ -19,6 +19,7 @@ patches = [
     'Qt5-%(version)s_fix-avx2.patch',
     'Qt5-%(version)s_fix-qmake-libdir.patch',
     'Qt5-%(version)s-aarch64-user_fpsimd_struct.patch',
+    'Qt5-%(version)s-fix-stdexcept.patch',
 ]
 checksums = [
     'c6fcd53c744df89e7d3223c02838a33309bd1c291fcb6f9341505fe99f7f19fa',  # qt-everywhere-src-5.14.2.tar.xz
