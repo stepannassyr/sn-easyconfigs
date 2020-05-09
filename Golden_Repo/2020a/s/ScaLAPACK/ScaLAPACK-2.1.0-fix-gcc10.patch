@@ -1,0 +1,31 @@
+diff -urN scalapack-2.1.0-unpatched/BLACS/TESTING/Makefile scalapack-2.1.0/BLACS/TESTING/Makefile
+--- scalapack-2.1.0-unpatched/BLACS/TESTING/Makefile	2020-05-09 13:58:04.910665280 +0200
++++ scalapack-2.1.0/BLACS/TESTING/Makefile	2020-05-09 14:03:01.703366864 +0200
+@@ -14,6 +14,14 @@
+ 
+ obj = blacstest.o btprim.o
+ 
++
++EXTRAFFLAGS =
++GCCVERSIONGTEQ10 := $(shell expr `gcc -dumpversion | cut -f1 -d.` \>= 10)
++
++ifeq "$(GCCVERSIONGTEQ10)" "1"
++	EXTRAFFLAGS = -fallow-argument-mismatch
++endif
++
+ xCbtest: $(obj) $(tools)
+ 	$(CC) -c $(CDEFS) $(CCFLAGS) -DBTCINTFACE Cbt.c
+ 	$(FCLOADER) $(FCLOADFLAGS) -o $@ $(obj) $(tools) Cbt.o ../../$(SCALAPACKLIB)
+@@ -31,10 +41,10 @@
+ #  also not be optimized.
+ #  --------------------------------------------------------------------
+ tools.o : tools.f
+-	$(FC) $(NOOPT) -c $*.f
++	$(FC) $(EXTRAFFLAGS) $(NOOPT) -c $*.f
+ 
+ blacstest.o : blacstest.f
+-	$(FC) $(NOOPT) -c $*.f
++	$(FC) $(EXTRAFFLAGS) $(NOOPT) -c $*.f
+ 
+ btprim.o : btprim.f
+ 	$(FC) -c $(FCFLAGS) $*.f

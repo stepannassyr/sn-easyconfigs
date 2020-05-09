@@ -12,7 +12,7 @@ source_urls = [homepage]
 sources = [SOURCELOWER_TGZ]
 checksums = ['61d9216cf81d246944720cfce96255878a3f85dec13b9351f1fa0fd6768220a6']
 
-#patches = ["ScaLAPACK-OpenMPI-4.0.0.patch"]
+patches = ["ScaLAPACK-2.1.0-fix-gcc10.patch"]
 
 local_blaslib = 'OpenBLAS'
 local_blasver = '0.3.9'

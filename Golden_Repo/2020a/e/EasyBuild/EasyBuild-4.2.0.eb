@@ -19,6 +19,7 @@ patches = [
     ('score-p-add-clang-to-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
     ('pdt-add-armlinux-to-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
     ('netcdf-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
+    ('scalapack-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
     ]
 
 source_urls = [
