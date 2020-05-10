@@ -1,0 +1,45 @@
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+# Author: Ravi Tripathi
+# Email: ravi89@uab.edu
+
+easyblock = 'ConfigureMake'
+
+name = 'ImageMagick'
+version = '7.0.10-6'
+
+homepage = 'https://www.imagemagick.org/'
+description = """ImageMagick is a software suite to create, edit, compose, or convert bitmap images"""
+
+toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
+
+source_urls = ['https://github.com/ImageMagick/ImageMagick/archive/']
+sources = ['%(version)s.tar.gz']
+checksums = ['37d36f4d736eb16e0dd43c50302e1d01d1bb1125165333df8273508a22f8a64d']
+
+dependencies = [
+    ('bzip2', '1.0.8'),
+    ('X11', '20200326'),
+    ('Ghostscript', '9.52'),
+    ('JasPer', '2.0.16'),
+    ('libjpeg-turbo', '2.0.4'),
+    ('LibTIFF', '4.1.0'),
+    ('LittleCMS', '2.9'),
+]
+
+builddependencies = [
+    ('binutils', '2.34'),
+    ('pkg-config', '0.29.2'),
+]
+
+preconfigopts = "LDFLAGS=\"$LDFLAGS -L$MATHLIB_PATH/lib\" "
+configopts = "--with-gslib --with-x"
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['bin', 'etc/%(name)s-%(version_major)s',
+             'include/%(name)s-%(version_major)s', 'lib', 'share'],
+}
+
+modextravars = {'MAGICK_HOME': '%(installdir)s'}
+
+moduleclass = 'vis'

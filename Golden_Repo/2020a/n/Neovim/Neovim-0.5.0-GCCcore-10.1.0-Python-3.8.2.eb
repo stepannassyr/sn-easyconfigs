@@ -17,7 +17,9 @@ toolchainopts = {'pic': True}
 source_urls = ["https://github.com/neovim/neovim/archive/"]
 sources = ["nightly.tar.gz"]
 
-patches = ['neovim-0.1.7-bitop.patch']
+patches = [
+    'neovim-0.1.7-bitop.patch',
+]
 
 builddependencies = [
     ('CMake', '3.17.0'),
