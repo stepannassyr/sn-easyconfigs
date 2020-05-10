@@ -58,7 +58,11 @@ dependencies = [
 
 osdependencies = [('openssl-devel', 'libssl-dev', 'libopenssl-devel')]
 
-configopts = "--with-pic --enable-threads --enable-R-shlib"
+
+configopts =  "FFLAGS=\"$FFLAGS -fallow-argument-mismatch\" "
+configopts += " FCFLAGS=\"$FCFLAGS -fallow-argument-mismatch\" "
+configopts += " CFLAGS=\"$CFLAGS -fcommon\" "
+configopts += " --with-pic --enable-threads --enable-R-shlib"
 # Enable graphics capabilities for plotting. libpng and libjpeg are correctly set by the easyblock
 configopts += " --with-cairo --with-libtiff"
 # some recommended packages may fail in a parallel build (e.g. Matrix), and we're installing them anyway below
@@ -652,6 +656,7 @@ exts_list = [
         'checksums': ['624448d2ac22e1798097d09fc5dc4605908a33f490b8ec971fc6ea318a445c11'],
     }),
     ('VGAM', '1.1-2', {
+        'preinstallopts': 'export FCFLAGS=-fallow-argument-mismatch; ',
         'checksums': ['f8071339f127121945954c98168749efcc179c67c70437d35b5d684fd4b0ca4f'],
     }),
     ('waveslim', '1.8.2', {
