@@ -1,0 +1,35 @@
+easyblock = 'ConfigureMake'
+
+name = "gperftools"
+version = "2.7.90"
+
+homepage = 'http://code.google.com/p/gperftools/'
+description = """gperftools are for use by developers so that they can create more robust applications.
+ Especially of use to those developing multi-threaded applications in C++ with templates.
+ Includes TCMalloc, heap-checker, heap-profiler and cpu-profiler."""
+
+toolchain = {'version': '9.3.0', 'name': 'GCCcore'}
+
+github_account='gperftools'
+sources = [SOURCELOWER_TAR_GZ]
+source_urls = [GITHUB_SOURCE]
+
+builddependencies = [
+    ('binutils', '2.34'),
+    ('Automake', '1.16.1'),
+    ('Autoconf', '2.69'),
+    ('libtool', '2.4.6'),
+]
+
+dependencies = [
+    ('libunwind', '1.4.0'),
+]
+
+preconfigopts="./autogen.sh && "
+
+sanity_check_paths = {
+    'files': ["bin/pprof"],
+    'dirs': []
+}
+
+moduleclass = 'tools'
