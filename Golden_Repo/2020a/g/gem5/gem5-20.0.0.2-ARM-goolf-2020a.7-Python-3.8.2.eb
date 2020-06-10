@@ -9,7 +9,7 @@ versionsuffix = '-Python-%(pyver)s'
 homepage = "https://www.gem5.org/"
 description = """The gem5 simulator is a modular platform for computer-system architecture research, encompassing system-level architecture as well as processor microarchitecture"""
 
-toolchain = {'name': 'goolf', 'version': '2020a'}
+toolchain = {'name': 'goolf', 'version': '2020a.7'}
 
 source_urls = [GITHUB_SOURCE]
 
@@ -31,6 +31,7 @@ builddependencies = [
     ('SCons', '3.1.1'),
 ]
 
+buildopts = "PYTHON_CONFIG=$EBROOTPYTHON/bin/python-config"
 
 sanity_check_paths = {
     'files': ['bin/gem5.opt'],

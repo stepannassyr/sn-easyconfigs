@@ -31,6 +31,7 @@ builddependencies = [
     ('SCons', '3.1.1'),
 ]
 
+buildopts = "PYTHON_CONFIG=$EBROOTPYTHON/bin/python-config"
 
 sanity_check_paths = {
     'files': ['bin/gem5.opt'],
