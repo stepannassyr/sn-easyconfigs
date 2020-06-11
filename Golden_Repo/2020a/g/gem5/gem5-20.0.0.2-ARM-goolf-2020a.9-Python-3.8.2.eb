@@ -16,6 +16,8 @@ source_urls = [GITHUB_SOURCE]
 github_account = 'gem5'
 sources = ["v%s.tar.gz" % rawversion]
 
+patches = ["gem5-20.0.0.2-respect-cpath.patch"]
+
 dependencies = [
     ('OpenMPI', '4.0.3'), # For Boost, HDF5, Valgrind
     ('Valgrind', '3.15.0'),
