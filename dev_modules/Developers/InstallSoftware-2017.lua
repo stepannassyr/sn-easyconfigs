@@ -149,6 +149,13 @@ elseif architecture == "Haswell" then
         LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
     end
     pushenv("EASYBUILD_OPTARCH", opt)
+-- Zen 1
+elseif architecture == "Zen" then
+    local opt="GCCcore:march=znver1 -mtune=znver1;GCC:march=znver1 -mtune=znver1;Intel:xCORE-AVX2;Clang:march=znver1 -mtune=znver1"
+    if mode()=="load" then
+        LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
+    end
+    pushenv("EASYBUILD_OPTARCH", opt)
 -- Zen 2
 elseif architecture == "Zen2" then
     local opt="GCCcore:march=znver2 -mtune=znver2;GCC:march=znver2 -mtune=znver2;Intel:xCORE-AVX2;Clang:march=znver2 -mtune=znver2"

@@ -10,8 +10,12 @@ if architecture == ".Cortex-A72" then
     architecture = "Cortex-A72"
 elseif architecture == ".Cortex-A76" then
     architecture = "Cortex-A76"
+elseif architecture == ".Haswell" then
+    architecture = "Haswell"
 elseif architecture == ".ThunderX2" then
     architecture = "ThunderX2"
+elseif architecture == ".Zen" then
+    architecture = "Zen"
 elseif architecture == ".Zen2" then
     architecture = "Zen2"
 end
@@ -20,8 +24,12 @@ if architecture == "Cortex-A72" then
     systemname = "juaweihi1616"
 elseif architecture == "Cortex-A76" then
     systemname = "juaweihi1620"
+elseif architecture == "Haswell" then
+    systemname = "haswell"
 elseif architecture == "ThunderX2" then
     systemname = "tx2"
+elseif architecture == "Zen" then
+    systemname = "zn1"
 elseif architecture == "Zen2" then
     systemname = "zn2"
 else
@@ -104,8 +112,10 @@ if old_software_root == nil or old_software_root == "" then
         old_systemname = tmp_system_prefix[6] or ""
         if old_systemname == "juaweihi1616" or
            old_systemname == "juaweihi1620" or
+           old_systemname == "haswell" or
            old_systemname == "tx2" or
-           old_systemname == "zn2"  then
+           old_systemname == "zn1" or
+           old_systemname == "zn2" then
             old_software_root = pathJoin(prefix, old_systemname)
             break
         end
