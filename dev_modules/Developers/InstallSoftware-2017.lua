@@ -39,7 +39,7 @@ local user = capture("id -u -n")
 user = string.gsub(user, "\n", "")
 
 if mode()=="load" then
-    if user ~= "swmanage" and user ~="nassyr1" then
+    if user ~= "swmanage" and user ~="nassyr1" and user ~="linedot" then
         if not userInGroup("software") then
             LmodError(colors("%{yellow}Sorry but we only allow installations from users in the software group!\n"..
                       "If you would like to be included in that group please contact: "..
@@ -145,6 +145,13 @@ elseif architecture == "SandyBridge" then
 -- Jureca
 elseif architecture == "Haswell" then
     local opt="GCCcore:march=haswell -mtune=haswell;GCC:march=haswell -mtune=haswell;Intel:xCORE-AVX2;Clang:march=haswell -mtune=haswell"
+    if mode()=="load" then
+        LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
+    end
+    pushenv("EASYBUILD_OPTARCH", opt)
+-- Zen 2
+elseif architecture == "Zen2" then
+    local opt="GCCcore:march=znver2 -mtune=znver2;GCC:march=znver2 -mtune=znver2;Intel:xCORE-AVX2;Clang:march=znver2 -mtune=znver2"
     if mode()=="load" then
         LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
     end
