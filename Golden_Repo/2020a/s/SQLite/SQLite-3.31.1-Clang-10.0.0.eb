@@ -25,7 +25,7 @@ local_version_str = '%%(version_major)s%s00' % ''.join('%02d' % int(x) for x in 
 toolchain = {'name': 'Clang', 'version': '10.0.0'}
 
 # eg. http://www.sqlite.org/2014/sqlite-autoconf-3080600.tar.gz
-source_urls = ['http://www.sqlite.org/2020/']
+source_urls = ['https://www.sqlite.org/2020/']
 sources = ['sqlite-autoconf-%s.tar.gz' % local_version_str]
 checksums = ['62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae']
 
