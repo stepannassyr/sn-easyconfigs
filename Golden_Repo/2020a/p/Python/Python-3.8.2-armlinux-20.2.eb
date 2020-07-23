@@ -7,7 +7,7 @@ description = """Python is a programming language that lets you work more quickl
  more effectively."""
 
 
-toolchain = {'name': 'armlinux', 'version': '20.1'}
+toolchain = {'name': 'armlinux', 'version': '20.2'}
 toolchainopts = {'pic': True}
 
 source_urls = ['http://www.python.org/ftp/%(namelower)s/%(version)s/']
