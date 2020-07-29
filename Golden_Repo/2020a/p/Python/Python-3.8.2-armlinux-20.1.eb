@@ -260,7 +260,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/p/python-gflags/'],
         'checksums': ['40ae131e899ef68e9e14aa53ca063839c34f6a168afe622217b5b875492a1ee2'],
     }),
-    ('Click', '7.1.2', {
+    ('click', '7.1.2', {
         'modulename': 'click',
         'source_urls': ['https://pypi.python.org/packages/source/c/click'],
         'checksums': ['5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7'],
