@@ -5,8 +5,8 @@ diff -urN easybuild-unpatched/easyblocks/p/pdt.py easybuild/easyblocks/p/pdt.py
  
          out, _ = run_cmd("uname -m", simple=False)
          self.machine = out.strip()
-+	if 'aarch64' == self.machine:
-+		self.machine = 'arm64_linux'
++        if 'aarch64' == self.machine:
++            self.machine = 'arm64_linux'
          self.log.info("Using '%s' as machine label", self.machine)
  
      def prepare_step(self, *args, **kwargs):
