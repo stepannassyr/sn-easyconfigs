@@ -7,7 +7,7 @@ description = """Python is a programming language that lets you work more quickl
  more effectively."""
 
 
-toolchain = {'name': 'armlinux', 'version': '20.0'}
+toolchain = {'name': 'armlinux', 'version': '20.2'}
 toolchainopts = {'pic': True}
 
 source_urls = ['http://www.python.org/ftp/%(namelower)s/%(version)s/']
@@ -260,7 +260,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/p/python-gflags/'],
         'checksums': ['40ae131e899ef68e9e14aa53ca063839c34f6a168afe622217b5b875492a1ee2'],
     }),
-    ('click', '7.1.2', {
+    ('Click', '7.1.2', {
         'modulename': 'click',
         'source_urls': ['https://pypi.python.org/packages/source/c/click'],
         'checksums': ['d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a'],

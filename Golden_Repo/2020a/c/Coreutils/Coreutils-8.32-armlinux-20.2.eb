@@ -1,0 +1,27 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'ConfigureMake'
+
+name = "Coreutils"
+version = "8.32"
+
+homepage = 'http://www.gnu.org/software/coreutils/'
+description = """The GNU Core Utilities are the basic file, shell and text manipulation utilities of the
+ GNU operating system.  These are the core utilities which are expected to exist on every operating system.
+"""
+
+
+toolchain = {'name': 'armlinux', 'version': '20.2'}
+toolchainopts = { 'pic': True}
+
+source_urls = [GNU_SOURCE]
+sources = [SOURCELOWER_TAR_XZ]
+patches = ['Coreutils-8.32-getdents64.patch']
+
+builddependencies = [('binutils', '2.34')]
+
+sanity_check_paths = {
+    'files': ['bin/sort', 'bin/echo', 'bin/du', 'bin/date', 'bin/true'],
+    'dirs': []
+}
+
+moduleclass = 'tools'

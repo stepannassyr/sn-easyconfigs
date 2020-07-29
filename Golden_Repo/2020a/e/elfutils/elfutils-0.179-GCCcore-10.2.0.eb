@@ -1,0 +1,37 @@
+easyblock = 'ConfigureMake'
+
+name = 'elfutils'
+version = '0.179'
+
+homepage = 'https://sourceware.org/elfutils/'
+description = """
+elfutils is a collection of utilities and libraries to read, create and modify ELF binary files, find and handle DWARF debug data, symbols, thread state and stacktraces for processes and core files on GNU/Linux. 
+"""
+
+toolchain = {'name': 'GCCcore', 'version': '10.2.0'}
+
+source_urls = ['ftp://sourceware.org/pub/%(name)s/%(version)s/']
+sources = [SOURCELOWER_TAR_BZ2]
+checksums = ['25a545566cbacaa37ae6222e58f1c48ea4570f53ba991886e2f5ce96e22a23a2']
+
+builddependencies = [('binutils', '2.34')]
+dependencies = [
+    ('cURL', '7.69.1'),
+    ('libmicrohttpd', '0.9.70'),
+    ('libarchive', '3.4.2'),
+    ('pkg-config', '0.29.2'),
+    ('SQLite', '3.31.1'),
+]
+
+sanity_check_paths = {
+    'files': ['include/libelf.h', 'include/gelf.h', 'include/nlist.h'] +
+             ['lib/libelf.%s' % x for x in [SHLIB_EXT, 'a']] +
+             ['lib/libdebuginfod.%s' % SHLIB_EXT] +
+             ['lib/libdw.%s' % x for x in [SHLIB_EXT, 'a']] +
+             ['lib/libasm.%s' % x for x in [SHLIB_EXT, 'a']],
+    'dirs': [
+        'include/elfutils'
+    ],
+}
+
+moduleclass = 'tools'

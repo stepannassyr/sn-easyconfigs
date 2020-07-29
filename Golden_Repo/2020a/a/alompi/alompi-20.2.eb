@@ -1,0 +1,29 @@
+easyblock = "Toolchain"
+
+name = 'alompi'
+version = '20.2'
+
+homepage = '(none)'
+description = """ARM compiler for HPC based compiler toolchain,
+ including OpenMPI for MPI support.
+"""
+
+
+toolchain = SYSTEM
+
+local_armclangver = '20.2'
+
+local_mpilib = 'OpenMPI'
+local_mpiver = '4.0.3'
+
+local_compname = 'armlinux'
+local_compver = local_armclangver
+
+local_comp = (local_compname, local_compver)
+
+dependencies = [
+    ('armlinux', local_armclangver),
+    (local_mpilib, local_mpiver, '', local_comp),
+]
+
+moduleclass = 'toolchain'

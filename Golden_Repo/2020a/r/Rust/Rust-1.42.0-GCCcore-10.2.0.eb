@@ -1,0 +1,31 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'ConfigureMake'
+
+name = 'Rust'
+version = '1.42.0'
+
+homepage = 'https://www.rust-lang.org'
+description = """Rust is a systems programming language that runs blazingly fast, prevents segfaults,
+ and guarantees thread safety."""
+
+
+toolchain = {'name': 'GCCcore', 'version': '10.2.0'}
+
+source_urls = ['https://static.rust-lang.org/dist/']
+sources = ['rustc-%(version)s-src.tar.gz']
+
+builddependencies = [
+    ('binutils', '2.34'),
+    ('CMake', '3.17.0'),
+]
+
+configopts = "--enable-extended --sysconfdir=%(installdir)s/etc"
+# Rust downloads precompiled packages that otherwise require the 'armar' binary
+configopts += "--set=target.aarch64-unknown-linux-gnu.ar=`which ar` "
+
+sanity_check_paths = {
+    'files': ['bin/cargo', 'bin/rustc', 'bin/rustdoc'],
+    'dirs': ['lib/rustlib', 'share/doc', 'share/man'],
+}
+
+moduleclass = 'lang'

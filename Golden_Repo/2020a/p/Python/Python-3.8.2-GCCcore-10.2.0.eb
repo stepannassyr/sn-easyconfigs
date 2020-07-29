@@ -7,7 +7,7 @@ description = """Python is a programming language that lets you work more quickl
  more effectively."""
 
 
-toolchain = {'name': 'armlinux', 'version': '20.0'}
+toolchain = {'name': 'GCCcore', 'version': '10.2.0'}
 toolchainopts = {'pic': True}
 
 source_urls = ['http://www.python.org/ftp/%(namelower)s/%(version)s/']
@@ -39,8 +39,6 @@ builddependencies = [
     ('binutils', '2.34'),
     # Needed just for unzipping zip files in systems without unzip
     ('unzip', '6.0'),
-    # Needs llvm-profdata and llvm-ar, so use Clang here
-    ('Clang', '9.0.1', '', True),
 ]
 
 osdependencies = [('openssl-devel', 'libssl-dev', 'libopenssl-devel')]
@@ -260,7 +258,7 @@ exts_list = [
         'source_urls': ['https://pypi.python.org/packages/source/p/python-gflags/'],
         'checksums': ['40ae131e899ef68e9e14aa53ca063839c34f6a168afe622217b5b875492a1ee2'],
     }),
-    ('click', '7.1.2', {
+    ('Click', '7.1.2', {
         'modulename': 'click',
         'source_urls': ['https://pypi.python.org/packages/source/c/click'],
         'checksums': ['d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a'],
