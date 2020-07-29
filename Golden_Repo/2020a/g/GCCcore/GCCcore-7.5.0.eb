@@ -48,7 +48,7 @@ builddependencies = [
     ('binutils', '2.34'),
 ]
 
-languages = ['c', 'c++', 'fortran', 'ada']
+languages = ['c', 'c++', 'fortran']
 
 withisl = True
 
