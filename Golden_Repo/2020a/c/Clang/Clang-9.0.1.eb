@@ -53,6 +53,7 @@ checksums = [
     'b26fd72a78bd7db998a26270ec9ec6a01346651d88fa87b4b323e13049fb6f07',  # clang-tools-extra-9.0.1.src.tar.xz
     'cdce5bea9d1e914b8ff484677bcc1b0f826d143ed1700c666e78a0717076d08f',  # Clang-9.0.0-omp-libm.patch
     'd7d2d79cf859f8349e59f38bcec7fbc493835b143e397fda8f51faf30de83dd4',  # clang-9.0.1-glibc-2.31.patch
+    '61b0b0be5c90e24622a81e5094ba56eeed2dd3bca03792f2fb832ef17251eef4',  # Clang-10.0.0-symlinks-are-not-bins.patch
 ]
 
 #source_urls = ["https://github.com/llvm/llvm-project/releases/download/llvmorg-%(version)s/"]

@@ -1,0 +1,9 @@
+diff -urN /home/jusers/nassyr1/juawei/SourceCode/git/easybuild-framework/easybuild/toolchains/goolf.py /global/opt-aarch64/ohpc/pub/easybuild/software/EasyBuild/3.9.3/lib/python2.7/site-packages/easybuild_framework-3.9.3-py2.7.egg/easybuild/toolchains/goolf.py
+--- /home/jusers/nassyr1/juawei/SourceCode/git/easybuild-framework/easybuild/toolchains/goolf.py	2019-09-11 18:05:59.872921545 +0200
++++ /global/opt-aarch64/ohpc/pub/easybuild/software/EasyBuild/3.9.3/lib/python2.7/site-packages/easybuild_framework-3.9.3-py2.7.egg/easybuild/toolchains/goolf.py	2019-08-22 10:53:55.332261101 +0200
+@@ -42,4 +42,4 @@
+ 
+     def is_deprecated(self):
+         """Return whether or not this toolchain is deprecated."""
+-        return True
++        return False

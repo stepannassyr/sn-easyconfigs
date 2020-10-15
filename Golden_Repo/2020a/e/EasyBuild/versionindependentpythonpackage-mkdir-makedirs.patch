@@ -1,0 +1,13 @@
+diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/versionindependentpythonpackage.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/versionindependentpythonpackage.py
+--- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/versionindependentpythonpackage.py	2019-09-11 18:09:02.671613645 +0200
++++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/generic/versionindependentpythonpackage.py	2019-08-24 10:22:15.827322289 +0200
+@@ -59,7 +59,7 @@
+         env.setvar('PYTHONPATH', '%s:%s' % (full_pylibdir, os.getenv('PYTHONPATH')))
+ 
+         try:
+-            os.mkdir(full_pylibdir)
++            os.makedirs(full_pylibdir)
+         except OSError as err:
+             # this will raise an error and not return
+             raise EasyBuildError("Failed to install: %s", err)
+

@@ -1,7 +1,7 @@
 easyblock = 'EB_EasyBuildMeta'
 
 name = 'EasyBuild'
-version = '4.2.0'
+version = '4.3.0'
 
 homepage = 'https://easybuilders.github.io/easybuild'
 description = """EasyBuild is a software build and installation framework
@@ -11,24 +11,29 @@ description = """EasyBuild is a software build and installation framework
 toolchain = SYSTEM
 
 patches = [
-    ('fw.patch', '../easybuild-framework-%(version)s'),
-    ('eb.patch', '../easybuild-easyblocks-%(version)s'),
+    ('gcc-toolchain-add-extra-libs.patch', '../easybuild-framework-%(version)s'),
+    ('undeprecate-goolf.patch', '../easybuild-framework-%(version)s'),
+    ('boost-add-armclang.patch', '../easybuild-easyblocks-%(version)s'),
+    ('fortran-python-add-armclang-support.patch', '../easybuild-easyblocks-%(version)s'),
+    ('versionindependentpythonpackage-mkdir-makedirs.patch', '../easybuild-easyblocks-%(version)s'),
+    ('scalapack-armpl-support.patch', '../easybuild-easyblocks-%(version)s'),
+    ('clang-all-llvm-projects-and-gcc-independence.patch', '../easybuild-easyblocks-%(version)s'),
     ('easyblocks-clang-fix-git-version.patch', '../easybuild-easyblocks-%(version)s'),
-    ('fix-pdt-for-aarch64.patch', '../easybuild-easyblocks-%(version)s'),
     ('score-p-add-armlinux-to-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
     ('score-p-add-clang-to-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
     ('pdt-add-armlinux-to-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
     ('netcdf-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
     ('scalapack-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
+    ('wip-clang-11-independent.patch', '../easybuild-easyblocks-%(version)s'),
     ]
 
 source_urls = [
     # easybuild-framework
-    'https://files.pythonhosted.org/packages/79/8d/734c9328be100fa088eea370c8a9419fcd00a1d2ffb8e2d8b48e1ea91ccc/',
+    'https://files.pythonhosted.org/packages/55/cf/928fb935f0d1648819a46f5b95e84d3f788ac50103e56883a7af1da8be0c/',
     # easybuild-easyblocks
-    'https://files.pythonhosted.org/packages/3a/2c/44bd425b407229f49d2a4b849c57366ccabcfc6a44524772c11954dbc833/',
+    'https://files.pythonhosted.org/packages/ba/d9/41d2be37a3496484cc3b8e6ebc4d8f173455403cdfa953c6f2e22afdcbb3/',
     # easybuild-easyconfigs
-    'https://files.pythonhosted.org/packages/c3/5e/9e03725be46b8cad207b5ef5f0e80e2eb205f4e6bd80edb731f48cf5d4a5/',
+    'https://files.pythonhosted.org/packages/da/16/dd24726c94dabd85debc92f4732c781a90f6fb308824c82736da20960f6f/',
 ]
 sources = [
     'easybuild-framework-%(version)s.tar.gz',
@@ -36,9 +41,9 @@ sources = [
     'easybuild-easyconfigs-%(version)s.tar.gz',
 ]
 checksums = [
-    'e260ad9c921c10873b0e3b6b322a42e5732fbed905cb50f5d189a4f54f4ad327',  # easybuild-framework-4.2.0.tar.gz
-    '3619fcd79b8c4f9ff3c913f8d76586c4388f1ec48c90d99140bd230da5631776',  # easybuild-easyblocks-4.2.0.tar.gz
-    '81b57120e0e3ba0d97defafa677a7449fa355b34dfa6ecaca190b5bc94fedffd',  # easybuild-easyconfigs-4.2.0.tar.gz
+    '97c42d8f26ebc6fc43748442a9f0bbbc5316ae38b8320f7052695d9b77e101ab',  # easybuild-framework-4.3.0.tar.gz
+    '06598715848db38f6633831d9555b8a1c2aca3023cbe5b33b85778acf8a65174',  # easybuild-easyblocks-4.3.0.tar.gz
+    '48431ddee0d3f36b69dc0dbc2dfca77603a57811ae31f879b9e470a0bf570126',  # easybuild-easyconfigs-4.3.0.tar.gz
 ]
 
 # order matters a lot, to avoid having dependencies auto-resolved (--no-deps easy_install option doesn't work?)

@@ -1,0 +1,71 @@
+diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/c/clang.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/c/clang.py
+--- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/c/clang.py	2019-09-11 18:09:02.656613424 +0200
++++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/c/clang.py	2019-09-13 10:03:06.080134941 +0200
+@@ -108,16 +108,19 @@
+     def extract_step(self):
+         """
+         Prepare a combined LLVM source tree.  The layout is:
+-        llvm/             Unpack llvm-*.tar.gz here
++        llvm/              Unpack llvm-*.tar.gz here
+           projects/
+-            compiler-rt/  Unpack compiler-rt-*.tar.gz here
+-            openmp/       Unpack openmp-*.tar.xz here
++            compiler-rt/   Unpack compiler-rt-*.tar.gz here
++            openmp/        Unpack openmp-*.tar.xz here
++            libcxx/        Unpack libcxx-*.tar.gz here
++            libcxxabi/     Unpack libcxxabi-*.tar.gz here
++            libunwind/     Unpack libunwind-*.tar.gz here
+           tools/
+-            clang/        Unpack clang-*.tar.gz here
+-            polly/        Unpack polly-*.tar.gz here
+-            libcxx/       Unpack libcxx-*.tar.gz here
+-            libcxxabi/    Unpack libcxxabi-*.tar.gz here
+-            lld/          Unpack lld-*.tar.gz here
++            clang/         Unpack clang-*.tar.gz here
++              tools/extra/ Unpack clang-tools-extra-*.tar.gz here
++            polly/         Unpack polly-*.tar.gz here
++            lld/           Unpack lld-*.tar.gz here
++            lldb/          Unpack lldb-*.tar.gz here
+         """
+ 
+         # Extract everything into separate directories.
+@@ -157,7 +160,11 @@
+             find_source_dir('libcxx-*', os.path.join(self.llvm_src_dir, 'projects', 'libcxx'))
+             find_source_dir('libcxxabi-*', os.path.join(self.llvm_src_dir, 'projects', 'libcxxabi'))
+ 
+-        find_source_dir(['clang-*', 'cfe-*'], os.path.join(self.llvm_src_dir, 'tools', 'clang'))
++        find_source_dir('libunwind-*', os.path.join(self.llvm_src_dir, 'projects', 'libunwind'))
++        find_source_dir('lldb-*', os.path.join(self.llvm_src_dir, 'tools', 'lldb'))
++
++        find_source_dir(['cfe-*','clang-%s*' % self.version], os.path.join(self.llvm_src_dir, 'tools', 'clang'))
++        find_source_dir('clang-tools-extra-*', os.path.join(self.llvm_src_dir, 'tools/clang/tools', 'extra'))
+ 
+         if LooseVersion(self.version) >= LooseVersion('3.8'):
+             find_source_dir('openmp-*', os.path.join(self.llvm_src_dir, 'projects', 'openmp'))
+@@ -236,6 +243,9 @@
+                 '-DCLANG_DEFAULT_OPENMP_RUNTIME=%s' % self.cfg["default_openmp_runtime"]
+             )
+ 
++        self.cfg.update('configopts', '-DCOMPILER_RT_BUILD_BUILTINS=ON')
++        self.cfg.update('configopts', "-DLLDB_RELOCATABLE_PYTHON=ON")
++
+         if self.cfg['assertions']:
+             self.cfg.update('configopts', "-DLLVM_ENABLE_ASSERTIONS=ON")
+         else:
+@@ -324,6 +334,15 @@
+         options = "-DCMAKE_INSTALL_PREFIX=%s " % self.installdir
+         options += "-DCMAKE_C_COMPILER='%s' " % CC
+         options += "-DCMAKE_CXX_COMPILER='%s' " % CXX
++
++        self.cfg.update('configopts', '-DCLANG_DEFAULT_CXX_STDLIB=libc++')
++        self.cfg.update('configopts', '-DCLANG_DEFAULT_RTLIB=compiler-rt')
++        self.cfg.update('configopts', '-DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON')
++        self.cfg.update('configopts', '-DCOMPILER_RT_USE_LIBCXX=ON')
++        self.cfg.update('configopts', '-DLIBCXXABI_USE_COMPILER_RT=ON')
++        self.cfg.update('configopts', '-DLIBCXXABI_USE_LLVM_UNWINDER=ON')
++        self.cfg.update('configopts', '-DLIBCXX_USE_COMPILER_RT=ON')
++        self.cfg.update('configopts', '-DLIBUNWIND_USE_COMPILER_RT=ON')
+         options += self.cfg['configopts']
+ 
+         self.log.info("Configuring")
+

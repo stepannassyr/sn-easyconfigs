@@ -6,7 +6,7 @@ diff -urN easybuild-unpatched/easyblocks/s/scalapack.py easybuild/easyblocks/s/s
  
  import easybuild.tools.toolchain as toolchain
 +import easybuild.tools.environment as env
- from easybuild.easyblocks.blacs import det_interface  #@UnresolvedImport
+ from easybuild.easyblocks.blacs import det_interface  # @UnresolvedImport
  from easybuild.easyblocks.generic.configuremake import ConfigureMake
  from easybuild.toolchains.linalg.acml import Acml
 @@ -50,7 +51,7 @@
