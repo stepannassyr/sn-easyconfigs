@@ -149,7 +149,7 @@
 +
 +        if self.cfg['one_source']:
 +            self.cfg.update('configopts', "-DLLVM_ENABLE_PROJECTS\"=clang;clang-tools-extra;flang;lld;lldb;mlir;openmp,parallel-libs,polly,pstl\"")
-+            self.cfg.update('configopts', "-DLLVM_ENABLE_RUNTIMES\"=compiler-rt,libcxx,libcxxabi,libunwind\"")
++            self.cfg.update('configopts', "-DLLVM_ENABLE_RUNTIMES\"=compiler-rt;libcxx;libcxxabi;libunwind\"")
 +
          options += self.cfg['configopts']
          options += "-DCMAKE_BUILD_TYPE=%s" % self.build_type
