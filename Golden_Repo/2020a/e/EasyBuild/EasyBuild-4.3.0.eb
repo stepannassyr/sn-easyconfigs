@@ -25,6 +25,7 @@ patches = [
     ('netcdf-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
     ('scalapack-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
     ('wip-clang-11-independent.patch', '../easybuild-easyblocks-%(version)s'),
+    ('clang-check-lib-symlink-existence.patch', '../easybuild-easyblocks-%(version)s'),
     ]
 
 source_urls = [

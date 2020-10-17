@@ -99,7 +99,7 @@
              self.cfg.update('configopts', "-DLINK_POLLY_INTO_TOOLS=ON")
  
 +        if self.cfg['one_source']:
-+            self.cfg.update('configopts', "-DLLVM_ENABLE_PROJECTS\"=clang;clang-tools-extra;compiler-rt;flang;libcxx;libcxxabi;libunwind;lld;lldb;mlir;openmp,parallel-libs,polly,pstl\"")
++            self.cfg.update('configopts', "-DLLVM_ENABLE_PROJECTS\"=clang;clang-tools-extra;compiler-rt;flang;libcxx;libcxxabi;libunwind;lld;lldb;mlir;openmp;parallel-libs;polly;pstl\"")
 +
          build_targets = self.cfg['build_targets']
          if build_targets is None:
@@ -119,20 +119,20 @@
              apply_regex_substitutions(cmakelists, regex_subs)
  
          elif LooseVersion(self.version) < LooseVersion('10.0'):
-@@ -393,18 +401,31 @@
+@@ -393,18 +401,27 @@
          options += "-DCMAKE_STRIP='%s' " % STRIP
          options += "-DCMAKE_ADDR2LINE='%s' " % ADDR2LINE
  
 +        self.cfg.update('configopts', '-DBENCHMARK_USE_LIBCXX=ON')
          self.cfg.update('configopts', '-DCLANG_DEFAULT_CXX_STDLIB=libc++')
-         self.cfg.update('configopts', "-DCLANG_DEFAULT_LINKER='%s'" % LD)
-+        self.cfg.update('configopts', "-DFLANG_DEFAULT_LINKER='%s'" % LD)
-+        self.cfg.update('configopts', "-DCLANG_DEFAULT_OBJCOPY='%s'" % OBJCOPY)
+-        self.cfg.update('configopts', "-DCLANG_DEFAULT_LINKER='%s'" % LD)
++        self.cfg.update('configopts', '-DCLANG_DEFAULT_LINKER=lld')
++        self.cfg.update('configopts', '-DFLANG_DEFAULT_LINKER=lld')
          self.cfg.update('configopts', '-DCLANG_DEFAULT_RTLIB=compiler-rt')
++        self.cfg.update('configopts', '-DFLANG_DEFAULT_RTLIB=compiler-rt')
 -        self.cfg.update('configopts', '-DLLVM_TOOL_COMPILER_RT_BUILD=ON')
 -        self.cfg.update('configopts', '-DLLVM_TOOL_LIBCXX_BUILD=ON')
 -        self.cfg.update('configopts', '-DLLVM_TOOL_LIBCXXABI_BUILD=ON')
-+        self.cfg.update('configopts', '-DFLANG_DEFAULT_RTLIB=compiler-rt')
 +        self.cfg.update('configopts', '-DCLANG_DEFAULT_UNWINDLIB=libunwind')
          self.cfg.update('configopts', '-DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON')
          self.cfg.update('configopts', '-DCOMPILER_RT_USE_LIBCXX=ON')
@@ -147,9 +147,6 @@
 +        self.cfg.update('configopts', '-DSANITIZER_USE_STATIC_LLVM_UNWINDER=ON')
 +        
 +
-+        if self.cfg['one_source']:
-+            self.cfg.update('configopts', "-DLLVM_ENABLE_PROJECTS\"=clang;clang-tools-extra;flang;lld;lldb;mlir;openmp,parallel-libs,polly,pstl\"")
-+            self.cfg.update('configopts', "-DLLVM_ENABLE_RUNTIMES\"=compiler-rt;libcxx;libcxxabi;libunwind\"")
 +
          options += self.cfg['configopts']
          options += "-DCMAKE_BUILD_TYPE=%s" % self.build_type

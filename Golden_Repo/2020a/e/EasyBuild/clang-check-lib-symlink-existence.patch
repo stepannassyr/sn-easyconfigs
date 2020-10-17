@@ -1,0 +1,26 @@
+--- a/easybuild/easyblocks/c/clang.py	2020-10-17 19:44:47.000000000 +0200
++++ b/easybuild/easyblocks/c/clang.py	2020-10-17 19:51:40.000000000 +0200
+@@ -498,18 +498,11 @@
+         # apparently also required for 9.0.1
+         #if self.version[-4:] == "-git":
+         if LooseVersion(self.version) >= LooseVersion('9.0'):
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++.so'),
+-                       os.path.join(self.installdir, 'lib', 'libc++.so'))
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++.so.1'),
+-                       os.path.join(self.installdir, 'lib', 'libc++.so.1'))
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++abi.so'),
+-                       os.path.join(self.installdir, 'lib', 'libc++abi.so'))
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++abi.so.1'),
+-                       os.path.join(self.installdir, 'lib', 'libc++abi.so.1'))
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libunwind.so'),
+-                       os.path.join(self.installdir, 'lib', 'libunwind.so'))
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libunwind.so.1'),
+-                       os.path.join(self.installdir, 'lib', 'libunwind.so.1'))
++            src_lib_dir=os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++')
++            dest_lib_dir=os.path.join(self.installdir, 'lib')
++            for lib in ['libc++.so', 'libc++.so.1', 'libc++abi.so', 'libc++abi.so.1', 'libunwind.so', 'libunwind.so.1']:
++                if( not os.path.exists(os.path.join(dest_lib_dir, lib))):
++                    os.symlink(os.path.join(src_lib_dir, lib), os.path.join(dest_lib_dir, lib))
+ 
+     def sanity_check_step(self):
+         """Custom sanity check for Clang."""
