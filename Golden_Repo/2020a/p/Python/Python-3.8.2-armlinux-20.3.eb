@@ -1,0 +1,557 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+name = 'Python'
+version = '3.8.2'
+
+homepage = 'http://python.org/'
+description = """Python is a programming language that lets you work more quickly and integrate your systems
+ more effectively."""
+
+
+toolchain = {'name': 'armlinux', 'version': '20.3'}
+toolchainopts = {'pic': True}
+
+source_urls = ['http://www.python.org/ftp/%(namelower)s/%(version)s/']
+sources = [SOURCE_TGZ]
+checksums = ['e634a7a74776c2b89516b2e013dda1728c89c8149b9863b8cea21946daf9d561']
+
+# python needs bzip2 to build the bz2 package
+dependencies = [
+    ('bzip2', '1.0.8'),
+    ('zlib', '1.2.11'),
+    ('libreadline', '8.0'),
+    ('ncurses', '6.1'),
+    ('SQLite', '3.31.1'),
+    ('Tk', '8.6.10'),
+    ('GMP', '6.2.0'),
+    ('XZ', '5.2.5'),
+    ('libxml2', '2.9.9'),
+    ('libxslt', '1.1.33'),
+    ('libffi', '3.3'),
+    ('libyaml', '0.2.2'),
+    ('PostgreSQL', '12.2'),
+    ('protobuf', '3.11.4'),
+    ('gflags', '2.2.2'),
+    ('libspatialindex', '1.9.3'), # Needed for rtree
+    ('libjpeg-turbo', '2.0.4'),
+]
+
+builddependencies = [
+    ('binutils', '2.34'),
+    # Needed just for unzipping zip files in systems without unzip
+    ('unzip', '6.0'),
+    # Needs llvm-profdata and llvm-ar, so use Clang here
+    ('Clang', '9.0.1', '', True),
+]
+
+osdependencies = [('openssl-devel', 'libssl-dev', 'libopenssl-devel')]
+
+exts_download_dep_fail = True
+
+grakover = '3.99.9'
+
+
+# order is important!
+exts_list = [
+    ('attrs', '19.3.0', {
+        'modulename': 'attr',
+        'source_urls': ['https://pypi.python.org/packages/source/a/attrs'],
+        'checksums': ['f7b7ce16570fe9965acd6d30101a28f62fb4a7f9e926b3bbc9b61f8b04247e72'],
+    }),
+    ('six', '1.14.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/s/six/'],
+        'checksums': ['236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a'],
+    }),
+    ('setuptools', '46.1.3', {
+        'source_tmpl': '%(name)s-%(version)s.zip',
+        'source_urls': ['https://pypi.python.org/packages/source/s/setuptools/'],
+        'checksums': ['795e0475ba6cd7fa082b1ee6e90d552209995627a2a227a47c6ea93282f4bfb1'],
+    }),
+    ('zipp', '3.1.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/z/zipp'],
+        'checksums': ['c599e4d75c98f6798c509911d08a22e6c021d074469042177c8c86fb92eefd96'],
+    }),
+    ('pyparsing', '3.0.0a1', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pyparsing/'],
+        'checksums': ['700d17888d441604b0bd51535908dcb297561b040819cccde647a92439db5a2a'],
+    }),
+    ('packaging', '20.3', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/packaging'],
+        'checksums': ['3c292b474fda1671ec57d46d739d072bfd495a4f51ad01a055121d81e952b7a3'],
+    }),
+    ('appdirs', '1.4.3', {
+        'source_urls': ['https://pypi.python.org/packages/source/a/appdirs'],
+        'checksums': ['9e5896d1372858f8dd3344faf4e5014d21849c756c8d5701f78f8a103b372d92'],
+    }),
+    ('certifi', '2020.4.5.1', {
+        'source_urls': ['https://pypi.io/packages/source/c/certifi'],
+        'checksums': ['51fcb31174be6e6664c5f69e3e1691a2d72a1a12e90f872cbdb1567eb47b6519'],
+    }),
+    ('pip', '20.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pip/'],
+        'checksums': ['572c0f25eca7c87217b21f6945b7192744103b18f4e4b16b8a83b227a811e192'],
+    }),
+    ('nose', '1.3.7', {
+        'source_urls': ['https://pypi.python.org/packages/source/n/nose/'],
+        'checksums': ['f1bffef9cbc82628f6e7d7b40d7e255aefaa1adb6a1b1d26c69a8b79e6208a98'],
+    }),
+    ('blist', '1.3.6', {
+        'source_urls': ['https://pypi.python.org/packages/source/b/blist/'],
+        'checksums': ['3a12c450b001bdf895b30ae818d4d6d3f1552096b8c995f0fe0c74bef04d1fc3'],
+    }),
+    ('paycheck', '1.0.2', {
+        'patches': ['paycheck-1.0.2_setup-open-README-utf8.patch'],
+        'source_urls': ['https://pypi.python.org/packages/source/p/paycheck/'],
+        'checksums': [
+            '6db7fc367c146cd59d2327ad4d2d6b0a24bc1be2d6953bb0773cbf702ee1ed34',  # paycheck-1.0.2.tar.gz
+            # paycheck-1.0.2_setup-open-README-utf8.patch
+            'ceb7f08aebf016cdcd94ae41c1c76c8c120907f85cbfce240d3a112afb264d79',
+        ],
+    }),
+    ('argparse', '1.4.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/a/argparse/'],
+        'checksums': ['62b089a55be1d8949cd2bc7e0df0bddb9e028faefc8c32038cc84862aefdd6e4'],
+    }),
+    ('pbr', '5.4.5', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pbr/'],
+        'checksums': ['07f558fece33b05caf857474a366dfcc00562bca13dd8b47b2b3e22d9f9bf55c'],
+    }),
+    ('lockfile', '0.12.2', {
+        'source_urls': ['https://pypi.python.org/packages/source/l/lockfile/'],
+        'checksums': ['6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799'],
+    }),
+    ('Cython', '0.29.17', {
+        'source_urls': ['https://pypi.python.org/packages/source/c/Cython/'],
+        'checksums': ['6361588cb1d82875bcfbad83d7dd66c442099759f895cf547995f00601f9caf2'],
+    }),
+    ('python-dateutil', '2.8.1', {
+        'modulename': 'dateutil',
+        'source_urls': ['https://pypi.python.org/packages/source/p/python-dateutil/'],
+        'checksums': ['73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c'],
+    }),
+    ('decorator', '4.4.2', {
+        'source_urls': ['https://pypi.python.org/packages/source/d/decorator/'],
+        'checksums': ['e3a62f0520172440ca0dcc823749319382e377f37f140a0b99ef45fecb84bfe7'],
+    }),
+    ('liac-arff', '2.4.0', {
+        'modulename': 'arff',
+        'source_urls': ['https://pypi.python.org/packages/source/l/liac-arff/'],
+        'checksums': ['47afcd1fd248b2892f66075987422d0576fc2c2fd0811d0cbd32f2135b065df5'],
+    }),
+    ('pycrypto', '2.6.1', {
+        'modulename': 'Crypto',
+        'source_urls': ['http://ftp.dlitz.net/pub/dlitz/crypto/pycrypto/'],
+        'checksums': ['f2ce1e989b272cfcb677616763e0a2e7ec659effa67a88aa92b3a65528f60a3c'],
+    }),
+    ('ecdsa', '0.15', {
+        'source_urls': ['https://pypi.python.org/packages/source/e/ecdsa/'],
+        'checksums': ['8f12ac317f8a1318efa75757ef0a651abe12e51fc1af8838fb91079445227277'],
+    }),
+    ('pyasn1', '0.4.8', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pyasn1/'],
+        'checksums': ['aef77c9fb94a3ac588e87841208bdec464471d9871bd5050a287cc9a475cd0ba'],
+    }),
+    ('pycparser', '2.20', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pycparser'],
+        'checksums': ['2d475327684562c3a96cc71adf7dc8c4f0565175cf86b6d7a404ff4c771f15f0'],
+    }),
+    ('cffi', '1.14.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/c/cffi'],
+        'checksums': ['2d384f4a127a15ba701207f7639d94106693b6cd64173d6c8988e2c25f3ac2b6'],
+    }),
+    ('ipaddress', '1.0.23', {
+        'source_urls': ['https://pypi.python.org/packages/source/i/ipaddress/'],
+        'checksums': ['b7f8e0369580bb4a24d5ba1d7cc29660a4a6987763faf1d8a8046830e020e7e2'],
+    }),
+    ('asn1crypto', '1.3.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/a/asn1crypto/'],
+        'checksums': ['5a215cb8dc12f892244e3a113fe05397ee23c5c4ca7a69cd6e69811755efc42d'],
+    }),
+    ('idna', '2.9', {
+        'source_urls': ['https://pypi.python.org/packages/source/i/idna/'],
+        'checksums': ['7588d1c14ae4c77d74036e8c22ff447b26d0fde8f007354fd48a7814db15b7cb'],
+    }),
+    ('cryptography', '2.9.2', {
+        'prebuildopts': "LDFLAGS=-pthread ",
+        'preinstallopts': "LDFLAGS=-pthread ",
+        'source_urls': ['https://pypi.python.org/packages/source/c/cryptography/'],
+        'checksums': ['a0c30272fb4ddda5f5ffc1089d7405b7a71b0b0f51993cb4e5dbb4590b2fc229'],
+    }),
+    ('PyNaCl', '1.3.0', {
+        'modulename': 'nacl',
+        'source_urls': ['https://pypi.python.org/packages/source/p/pynacl/'],
+        'checksums': ['0c6100edd16fefd1557da078c7a31e7b7d7a52ce39fdca2bec29d4f7b6e7600c'],
+    }),
+    ('bcrypt', '3.1.7', {
+        'source_urls': ['https://pypi.python.org/packages/source/b/bcrypt/'],
+        'checksums': ['0b0069c752ec14172c5f78208f1863d7ad6755a6fae6fe76ec2c80d13be41e42'],
+    }),
+    ('paramiko', '2.7.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/paramiko/'],
+        'checksums': ['920492895db8013f6cc0179293147f830b8c7b21fdfc839b6bad760c27459d9f'],
+    }),
+    ('netifaces', '0.10.9', {
+        'source_urls': ['https://pypi.python.org/packages/source/n/netifaces'],
+        'checksums': ['2dee9ffdd16292878336a58d04a20f0ffe95555465fee7c9bd23b3490ef2abf3'],
+    }),
+    ('netaddr', '0.7.19', {
+        'source_urls': ['https://pypi.python.org/packages/source/n/netaddr'],
+        'checksums': ['38aeec7cdd035081d3a4c306394b19d677623bf76fa0913f6695127c7753aefd'],
+    }),
+    ('funcsigs', '1.0.2', {
+        'source_urls': ['https://pypi.python.org/packages/source/f/funcsigs'],
+        'checksums': ['a7bb0f2cf3a3fd1ab2732cb49eba4252c2af4240442415b4abce3b87022a8f50'],
+    }),
+    ('mock', '4.0.2', {
+        'source_urls': ['https://pypi.python.org/packages/source/m/mock'],
+        'checksums': ['dd33eb70232b6118298d516bbcecd26704689c386594f0f3c4f13867b2c56f72'],
+    }),
+    ('pytz', '2020.1', {
+        'source_tmpl': '%(name)s-%(version)s.tar.gz',
+        'source_urls': ['https://pypi.python.org/packages/source/p/pytz'],
+        'checksums': ['c35965d010ce31b23eeb663ed3cc8c906275d6be1a34393a1d73a41febf4a048'],
+    }),
+    ('bitstring', '3.1.7', {
+        'source_tmpl': '%(name)s-%(version)s.tar.gz',
+        'source_urls': ['https://pypi.python.org/packages/source/b/bitstring'],
+        'checksums': ['fdf3eb72b229d2864fb507f8f42b1b2c57af7ce5fec035972f9566de440a864a'],
+    }),
+    ('lxml', '4.5.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/l/lxml'],
+        'checksums': ['8620ce80f50d023d414183bf90cc2576c2837b88e00bea3f33ad2630133bbb60'],
+    }),
+    ('XlsxWriter', '1.2.8', {
+        'modulename': 'xlsxwriter',
+        'source_urls': ['https://pypi.python.org/packages/source/x/xlsxwriter'],
+        'checksums': ['488e1988ab16ff3a9cd58c7656d0a58f8abe46ee58b98eecea78c022db28656b'],
+    }),
+    ('Pygments', '2.6.1', {
+        'modulename': 'pygments',
+        'source_urls': ['https://pypi.python.org/packages/source/p/Pygments/'],
+        'checksums': ['647344a061c249a3b74e230c739f434d7ea4d8b1d5f3721bc0f3558049b38f44'],
+    }),
+    ('backports.shutil_get_terminal_size', '1.0.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/b/backports.shutil_get_terminal_size/'],
+        'checksums': ['713e7a8228ae80341c70586d1cc0a8caa5207346927e23d09dcbcaf18eadec80'],
+    }),
+    ('wcwidth', '0.1.9', {
+        'source_urls': ['https://pypi.python.org/packages/source/w/wcwidth/'],
+        'checksums': ['ee73862862a156bf77ff92b09034fc4825dd3af9cf81bc5b360668d425f3c5f1'],
+    }),
+    ('prompt_toolkit', '3.0.5', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/prompt_toolkit/'],
+        'checksums': ['563d1a4140b63ff9dd587bda9557cffb2fe73650205ab6f4383092fb882e7dc8'],
+    }),
+    ('PyYAML', '5.3.1', {
+        'modulename': 'yaml',
+        'source_urls': ['https://pypi.python.org/packages/source/p/PyYAML/'],
+        'checksums': ['b8eac752c5e14d3eca0e6dd9199cd627518cb5ec06add0de9d32baeee6fe645d'],
+    }),
+    ('psycopg2', '2.8.5', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/psycopg2/'],
+        'checksums': ['f7d46240f7a1ae1dd95aab38bd74f7428d46531f69219954266d669da60c0818'],
+    }),
+    ('protobuf', '3.11.3', {
+        'modulename': 'google.protobuf',
+        'source_urls': ['https://pypi.python.org/packages/source/p/protobuf/'],
+        'checksums': ['c77c974d1dadf246d789f6dad1c24426137c9091e930dbf50e0a29c1fcf00b1f'],
+    }),
+    ('python-gflags', '3.1.2', {
+        'modulename': 'gflags',
+        'source_urls': ['https://pypi.python.org/packages/source/p/python-gflags/'],
+        'checksums': ['40ae131e899ef68e9e14aa53ca063839c34f6a168afe622217b5b875492a1ee2'],
+    }),
+    ('Click', '7.1.2', {
+        'modulename': 'click',
+        'source_urls': ['https://pypi.python.org/packages/source/c/click'],
+        'checksums': ['d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a'],
+    }),
+    ('itsdangerous', '1.1.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/i/itsdangerous'],
+        'checksums': ['321b033d07f2a4136d3ec762eac9f16a10ccd60f53c0c91af90217ace7ba1f19'],
+    }),
+    ('Werkzeug', '1.0.1', {
+        'modulename': 'werkzeug',
+        'source_urls': ['https://pypi.python.org/packages/source/w/werkzeug'],
+        'checksums': ['6c80b1e5ad3665290ea39320b91e1be1e0d5f60652b964a3070216de83d2e47c'],
+    }),
+    ('MarkupSafe', '2.0.0a1', {
+        'modulename': 'markupsafe',
+        'source_urls': ['https://pypi.python.org/packages/source/m/markupsafe'],
+        'checksums': ['beac28ed60c8e838301226a7a85841d0af2068eba2dcb1a58c2d32d6c05e440e'],
+    }),
+    ('Jinja2', '3.0.0a1', {
+        'modulename': 'jinja2',
+        'source_urls': ['https://pypi.python.org/packages/source/j/jinja2'],
+        'checksums': ['c922560ac46888d47384de1dbdc3daaa2ea993af4b26a436dec31fa2c19ec668'],
+    }),
+    ('Flask', '1.1.2', {
+        'modulename': 'flask',
+        'source_urls': ['https://pypi.python.org/packages/source/f/flask'],
+        'checksums': ['4efa1ae2d7c9865af48986de8aeb8504bf32c7f3d6fdc9353d34b21f4b127060'],
+    }),
+    ('Mako', '1.1.2', {
+        'modulename': 'mako',
+        'source_urls': ['https://pypi.python.org/packages/source/m/mako'],
+        'checksums': ['3139c5d64aa5d175dbafb95027057128b5fbd05a40c53999f3905ceb53366d9d'],
+    }),
+    ('py', '1.8.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/py'],
+        'checksums': ['5e27081401262157467ad6e7f851b7aa402c5852dbcb3dae06768434de5752aa'],
+    }),
+    ('setuptools_scm', '3.5.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/s/setuptools_scm'],
+        'checksums': ['5bdf21a05792903cafe7ae0c9501182ab52497614fa6b1750d9dbae7b60c1a87'],
+    }),
+    ('more-itertools', '8.2.0', {
+        'modulename': 'more_itertools',
+        'source_urls': ['https://pypi.python.org/packages/source/m/more-itertools'],
+        'checksums': ['b1ddb932186d8a6ac451e1d95844b382f55e12686d51ca0c68b6f61f2ab7a507'],
+    }),
+    ('pluggy', '0.13.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pluggy'],
+        'checksums': ['15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0'],
+    }),
+    ('atomicwrites', '1.4.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/a/atomicwrites'],
+        'checksums': ['ae70396ad1a434f9c7046fd2dd196fc04b12f9e91ffb859164193be8b6168a7a'],
+    }),
+    ('scandir', '1.10.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/s/scandir'],
+        'checksums': ['4d4631f6062e658e9007ab3149a9b914f3548cb38bfb021c64f39a025ce578ae'],
+    }),
+    ('pathlib2', '2.3.5', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pathlib2'],
+        'checksums': ['6cd9a47b597b37cc57de1c05e56fb1a1c9cc9fab04fe78c29acd090418529868'],
+    }),
+    ('pytest', '5.4.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pytest'],
+        'checksums': ['84dde37075b8805f3d1f392cc47e38a0e59518fb46a431cfdaf7cf1ce805f970'],
+    }),
+    ('pytest-runner', '5.2', {
+        'modulename': 'ptr',
+        'source_urls': ['https://pypi.python.org/packages/source/p/pytest-runner'],
+        'checksums': ['96c7e73ead7b93e388c5d614770d2bae6526efd997757d3543fe17b557a0942b'],
+    }),
+    ('ply', '3.11', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/ply'],
+        'checksums': ['00c7c1aaa88358b9c765b6d3000c6eec0ba42abca5351b095321aef446081da3'],
+    }),
+    ('ipython_genutils', '0.2.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/i/ipython_genutils'],
+        'checksums': ['eb2e116e75ecef9d4d228fdc66af54269afa26ab4463042e33785b887c628ba8'],
+    }),
+    ('traitlets', '4.3.3', {
+        'source_urls': ['https://pypi.python.org/packages/source/t/traitlets'],
+        'checksums': ['d023ee369ddd2763310e4c3eae1ff649689440d4ae59d7485eb4cfbbe3e359f7'],
+    }),
+    ('ptyprocess', '0.6.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/ptyprocess'],
+        'checksums': ['923f299cc5ad920c68f2bc0bc98b75b9f838b93b599941a6b63ddbc2476394c0'],
+    }),
+    ('pickleshare', '0.7.5', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pickleshare'],
+        'checksums': ['87683d47965c1da65cdacaf31c8441d12b8044cdec9aca500cd78fc2c683afca'],
+    }),
+    ('pexpect', '4.8.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pexpect'],
+        'checksums': ['fc65a43959d153d0114afe13997d439c22823a27cefceb5ff35c2178c6784c0c'],
+    }),
+    ('simplegeneric', '0.8.1', {
+        'source_tmpl': 'simplegeneric-0.8.1.zip',
+        'source_urls': ['https://pypi.python.org/packages/source/s/simplegeneric'],
+        'checksums': ['dc972e06094b9af5b855b3df4a646395e43d1c9d0d39ed345b7393560d0b9173'],
+    }),
+    ('parso', '0.7.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/parso'],
+        'checksums': ['908e9fae2144a076d72ae4e25539143d40b8e3eafbaeae03c1bfe226f4cdf12c'],
+    }),
+    ('jedi', '0.17.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/j/jedi'],
+        'checksums': ['df40c97641cb943661d2db4c33c2e1ff75d491189423249e989bcea4464f3030'],
+    }),
+    ('typing', '3.7.4.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/t/typing'],
+        'checksums': ['91dfe6f3f706ee8cc32d38edbbf304e9b7583fb37108fef38229617f8b3eba23'],
+    }),
+    ('backcall', '0.1.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/b/backcall'],
+        'checksums': ['38ecd85be2c1e78f77fd91700c76e14667dc21e2713b63876c0eb901196e01e4'],
+    }),
+    ('ipython', '7.14.0', {
+        'modulename': 'IPython',
+        'source_urls': ['https://pypi.python.org/packages/source/i/ipython'],
+        'checksums': ['f0126781d0f959da852fb3089e170ed807388e986a8dd4e6ac44855845b0fb1c'],
+    }),
+    ('urllib3', '1.25.9', {
+        'source_urls': ['https://pypi.python.org/packages/source/u/urllib3'],
+        'checksums': ['3018294ebefce6572a474f0604c2021e33b3fd8006ecd11d62107a5d2a963527'],
+    }),
+    ('chardet', '3.0.4', {
+        'source_urls': ['https://pypi.python.org/packages/source/c/chardet'],
+        'checksums': ['84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae'],
+    }),
+    ('requests', '2.23.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/r/requests'],
+        'checksums': ['b3f43d496c6daba4493e7c431722aeb7dbc6288f52a6e04e7b6023b0247817e6'],
+    }),
+    ('SQLAlchemy', '1.3.16', {
+        'modulename': 'sqlalchemy',
+        'source_urls': ['https://pypi.python.org/packages/source/s/SQLAlchemy'],
+        'checksums': ['7224e126c00b8178dfd227bc337ba5e754b197a3867d33b9f30dc0208f773d70'],
+    }),
+    ('python-editor', '1.0.4', {
+        'modulename': 'editor',
+        'source_urls': ['https://pypi.python.org/packages/source/p/python-editor'],
+        'checksums': ['51fda6bcc5ddbbb7063b2af7509e43bd84bfc32a4ff71349ec7847713882327b'],
+    }),
+    ('alembic', '1.4.2', {
+        'source_urls': ['https://pypi.python.org/packages/source/a/alembic'],
+        'checksums': ['035ab00497217628bf5d0be82d664d8713ab13d37b630084da8e1f98facf4dbf'],
+    }),
+    ('vcversioner', '2.16.0.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/v/vcversioner'],
+        'checksums': ['dae60c17a479781f44a4010701833f1829140b1eeccd258762a74974aa06e19b'],
+    }),
+    ('pyrsistent', '0.16.0', {
+        'source_urls': ['https://pypi.io/packages/source/p/pyrsistent'],
+        'checksums': ['28669905fe725965daa16184933676547c5bb40a5153055a8dee2a4bd7933ad3'],
+    }),
+    ('jsonschema', '3.2.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/j/jsonschema'],
+        'checksums': ['c8a85b28d377cc7737e46e2d9f2b4f44ee3c0e1deac6bf46ddefc7187d30797a'],
+    }),
+    ('python-oauth2', '1.1.1', {
+        'modulename': 'oauth2',
+        'source_urls': ['https://pypi.python.org/packages/source/p/python-oauth2'],
+        'checksums': ['d7a8544927ac18215ba5317edd8f640a5f1f0593921bcf3ce862178312c8c9a4'],
+    }),
+    ('wheel', '0.34.2', {
+        'source_urls': ['https://pypi.python.org/packages/source/w/wheel'],
+        'checksums': ['8788e9155fe14f54164c1b9eb0a319d98ef02c160725587ad60f14ddc57b6f96'],
+    }),
+    ('Rtree', '0.9.4', {
+        'source_urls': ['https://pypi.python.org/packages/source/r/rtree'],
+        'checksums': ['cae327e2c03b3da4ea40d0fdf68f3e55fe9f302c56b9f31e1bfeb36dbea73f44'],
+    }),
+    ('ClusterShell', '1.8.3', {
+        'modulename': 'ClusterShell',
+        'source_urls': ['https://pypi.python.org/packages/source/c/ClusterShell'],
+        'checksums': ['0ebc1925c1aed94f99d74cbc0230215127ade80a25240133204094faa74bc41b'],
+    }),
+    ('cloudpickle', '1.4.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/c/cloudpickle'],
+        'checksums': ['0b6258a20a143603d53b037a20983016d4e978f554ec4f36b3d0895b947099ae'],
+    }),
+    ('Pillow', '7.1.2', {
+        'modulename': 'PIL',
+        'source_urls': ['https://pypi.python.org/packages/source/p/Pillow'],
+        'checksums': ['a0b49960110bc6ff5fead46013bcb8825d101026d466f3a4de3476defe0fb0dd'],
+    }),
+    ('toolz', '0.10.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/t/toolz'],
+        'checksums': ['08fdd5ef7c96480ad11c12d472de21acd32359996f69a5259299b540feba4560'],
+    }),
+    ('xvfbwrapper', '0.2.9', {
+        'source_urls': ['https://pypi.python.org/packages/source/x/xvfbwrapper'],
+        'checksums': ['bcf4ae571941b40254faf7a73432dfc119ad21ce688f1fdec533067037ecfc24'],
+    }),
+    ('traits', '6.0.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/t/traits'],
+        'checksums': ['dbcd70166feca434130a1193284d5819ca72ffbc8dbce8deeecc0cebb41a3bfb'],
+    }),
+    ('webencodings', '0.5.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/w/webencodings'],
+        'checksums': ['b36a1c245f2d304965eb4e0a82848379241dc04b865afcc4aab16748587e1923'],
+    }),
+    ('html5lib', '1.0.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/h/html5lib'],
+        'checksums': ['66cb0dcfdbbc4f9c3ba1a63fdb511ffdbd4f513b2b6d81b80cd26ce6b3fb3736'],
+    }),
+    ('isodate', '0.6.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/i/isodate'],
+        'checksums': ['2e364a3d5759479cdb2d37cce6b9376ea504db2ff90252a2e5b7cc89cc9ff2d8'],
+    }),
+    ('rdflib', '5.0.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/r/rdflib'],
+        'checksums': ['78149dd49d385efec3b3adfbd61c87afaf1281c30d3fcaf1b323b34f603fb155'],
+    }),
+    ('SPARQLWrapper', '1.8.5', {
+        'modulename': 'SPARQLWrapper',
+        'source_urls': ['https://pypi.python.org/packages/source/s/SPARQLWrapper'],
+        'checksums': ['d6a66b5b8cda141660e07aeb00472db077a98d22cb588c973209c7336850fb3c'],
+    }),
+    ('networkx', '2.4', {
+        'source_urls': ['https://pypi.python.org/packages/source/n/networkx'],
+        'checksums': ['f8f4ff0b6f96e4f9b16af6b84622597b5334bf9cae8cf9b2e42e7985d5c95c64'],
+    }),
+    ('prov', '1.5.3', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/prov'],
+        'checksums': ['a0c951107eafd508d5a26caa54863dc11fee3da86778db2a559d32450d2030a9'],
+    }),
+    ('simplejson', '3.17.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/s/simplejson'],
+        'checksums': ['2b4b2b738b3b99819a17feaf118265d0753d5536049ea570b3c43b51c4701e81'],
+    }),
+    ('configparser', '5.0.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/c/configparser'],
+        'checksums': ['2ca44140ee259b5e3d8aaf47c79c36a7ab0d5e94d70bd4105c03ede7a20ea5a1'],
+    }),
+    ('pydot', '1.4.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pydot'],
+        'checksums': ['d49c9d4dd1913beec2a997f831543c8cbd53e535b1a739e921642fe416235f01'],
+    }),
+    ('pydotplus', '2.0.2', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pydotplus'],
+        'checksums': ['91e85e9ee9b85d2391ead7d635e3d9c7f5f44fd60a60e59b13e2403fa66505c4'],
+    }),
+    ('olefile', '0.46', {
+        'source_tmpl': '%(name)s-%(version)s.zip',
+        'source_urls': ['https://pypi.python.org/packages/source/o/olefile'],
+        'checksums': ['133b031eaf8fd2c9399b78b8bc5b8fcbe4c31e85295749bb17a87cba8f3c3964'],
+    }),
+    ('argcomplete', '1.11.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/a/argcomplete'],
+        'checksums': ['5ae7b601be17bf38a749ec06aa07fb04e7b6b5fc17906948dc1866e7facf3740'],
+    }),
+    ('grako', '3.99.9', {
+        'source_tmpl': '%(name)s-%(version)s.zip',
+        'source_urls': ['https://pypi.python.org/packages/source/g/grako'],
+        'checksums': ['fcc37309eab7cd0cbbb26cfd6a54303fbb80a00a58ab295d1e665bc69189c364'],
+    }),
+    ('pytest-forked', '1.1.3', {
+        'modulename': 'pytest_forked',
+        'source_urls': ['https://pypi.python.org/packages/source/p/pytest-forked'],
+        'checksums': ['1805699ed9c9e60cb7a8179b8d4fa2b8898098e82d229b0825d8095f0f261100'],
+    }),
+    ('apipkg', '1.5', {
+        'source_urls': ['https://pypi.python.org/packages/source/a/apipkg'],
+        'checksums': ['37228cda29411948b422fae072f57e31d3396d2ee1c9783775980ee9c9990af6'],
+    }),
+    ('execnet', '1.7.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/e/execnet'],
+        'checksums': ['cacb9df31c9680ec5f95553976c4da484d407e85e41c83cb812aa014f0eddc50'],
+    }),
+    ('pytest-xdist', '1.32.0', {
+        'modulename': 'xdist',
+        'source_urls': ['https://pypi.python.org/packages/source/p/pytest-xdist'],
+        'checksums': ['1d4166dcac69adb38eeaedb88c8fada8588348258a3492ab49ba9161f2971129'],
+    }),
+    ('TatSu', '5.5.0', {
+        'source_tmpl': '%(name)s-%(version)s.zip',
+        'source_urls': ['https://pypi.python.org/packages/source/t/tatsu'],
+        'checksums': ['0adbf7189a8c4f9a882b442f7b8ed6c6ab3baae37057db0e96b6888daacffad0'],
+    }),
+    ('psutil', '5.7.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/psutil'],
+        'checksums': ['685ec16ca14d079455892f25bd124df26ff9137664af445563c1bd36629b5e0e'],
+    }),
+]
+
+import platform
+
+postinstallcmds = [
+    'chmod o+r %%(installdir)s/lib/python3.8/site-packages/grako-%s-py3.8-linux-%s.egg/EGG-INFO/entry_points.txt' % (grakover,platform.machine()),
+    'ln -s %(installdir)s/bin/python3-config %(installdir)s/bin/python-config'
+]
+
+moduleclass = 'lang'

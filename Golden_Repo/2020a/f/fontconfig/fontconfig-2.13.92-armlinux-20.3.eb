@@ -1,0 +1,32 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'ConfigureMake'
+
+name = 'fontconfig'
+version = '2.13.92'
+
+homepage = 'http://www.freedesktop.org/software/fontconfig'
+description = """Fontconfig is a library designed to provide system-wide font configuration, customization and
+application access.
+"""
+
+
+toolchain = {'name': 'armlinux', 'version': '20.3'}
+
+source_urls = ['http://www.freedesktop.org/software/fontconfig/release/']
+sources = [SOURCE_TAR_GZ]
+checksums = ['3406a05b83a42231e3df68d02bc0a0cf47b3f2e8f11c8ede62267daf5f130016']
+
+builddependencies = [
+    ('binutils', '2.34'),
+]
+
+dependencies = [
+    ('expat', '2.2.9'),
+    ('freetype', '2.10.1'),
+    ('gperf', '3.1'),
+    ('util-linux', '2.35.1'),
+]
+
+configopts = '--disable-docs '
+
+moduleclass = 'vis'
