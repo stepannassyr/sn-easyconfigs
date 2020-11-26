@@ -1,0 +1,21 @@
+diff -urN nss-3.50-unpatched/nss/lib/libpkix/pkix/util/pkix_logger.c nss-3.50/nss/lib/libpkix/pkix/util/pkix_logger.c
+--- nss-3.50-unpatched/nss/lib/libpkix/pkix/util/pkix_logger.c	2020-10-25 16:58:35.201091240 +0100
++++ nss-3.50/nss/lib/libpkix/pkix/util/pkix_logger.c	2020-10-25 17:00:09.631569912 +0100
+@@ -313,7 +313,7 @@
+ 
+         logger->callback = NULL;
+         PKIX_DECREF(logger->context);
+-        logger->logComponent = (PKIX_ERRORCLASS)NULL;
++        logger->logComponent = (PKIX_ERRORCLASS)0;
+ 
+ cleanup:
+ 
+@@ -614,7 +614,7 @@
+ 
+         logger->callback = callback;
+         logger->maxLevel = 0;
+-        logger->logComponent = (PKIX_ERRORCLASS)NULL;
++        logger->logComponent = (PKIX_ERRORCLASS)0;
+ 
+         PKIX_INCREF(loggerContext);
+         logger->context = loggerContext;
