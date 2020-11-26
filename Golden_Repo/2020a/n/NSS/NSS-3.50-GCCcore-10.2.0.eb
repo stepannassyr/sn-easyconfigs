@@ -13,7 +13,8 @@ source_urls = ['https://ftp.mozilla.org/pub/security/nss/releases/NSS_%(version_
 sources = [SOURCELOWER_TAR_GZ]
 patches = [
               'NSS-3.39_pkgconfig.patch',
-              'NSS-3.50-hack-putenv-in.patch'
+              'NSS-3.50-hack-putenv-in.patch',
+              'NSS-3.50-getcwd-zero-zero.patch'
           ]
 checksums = [
     '185df319775243f5f5daa9d49b7f9cc5f2b389435be3247c3376579bee063ba7',  # nss-3.50.tar.gz
