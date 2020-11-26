@@ -33,11 +33,11 @@ prebuildopts = 'export LDSHARED="$CC -shared" && '
 preinstallopts = prebuildopts
 
 exts_list = [
-    ('cftime', '1.0.3.4', dict(common_opts.items() + [
+    ('cftime', '1.0.3.4', dict(list(common_opts.items()) + [
         ('source_urls', ['https://github.com/Unidata/cftime/archive/']),
         ('source_tmpl', 'v%(version)srel.tar.gz'),
     ])),
-    (name, version, dict(common_opts.items() + [
+    (name, version, dict(list(common_opts.items()) + [
         ('source_urls', ['https://github.com/Unidata/netcdf4-python/archive/']),
         ('source_tmpl', 'v%(version)srel.tar.gz'),
         ('patches', ['netcdf4-python-1.1.8-avoid-diskless-test.patch']),
