@@ -12,11 +12,11 @@ toolchain = SYSTEM
 
 source_urls = [
     # easybuild-framework
-    'https://files.pythonhosted.org/packages/55/cf/928fb935f0d1648819a46f5b95e84d3f788ac50103e56883a7af1da8be0c/',
+    'https://files.pythonhosted.org/packages/28/ac/79b78c386ff7855c24f9b792c0dadd29a57f2ac3aae6b0076b57174cd311/',
     # easybuild-easyblocks
-    'https://files.pythonhosted.org/packages/ba/d9/41d2be37a3496484cc3b8e6ebc4d8f173455403cdfa953c6f2e22afdcbb3/',
+    'https://files.pythonhosted.org/packages/b7/b9/7c5d3cbb1f4c5265c6dbf89afaeb0d5961b0be9239944a875ce8e96cbef8/',
     # easybuild-easyconfigs
-    'https://files.pythonhosted.org/packages/da/16/dd24726c94dabd85debc92f4732c781a90f6fb308824c82736da20960f6f/',
+    'https://files.pythonhosted.org/packages/45/4e/273a74590f4cf624f8cf0aad0ebb2def8beae00da0a82928a712c57b26f5/',
 ]
 sources = [
     'easybuild-framework-%(version)s.tar.gz',
