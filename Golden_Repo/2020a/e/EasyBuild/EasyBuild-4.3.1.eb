@@ -59,7 +59,7 @@ checksums = [
     'ca62ef32dc03a2a3884a6626af0aeeea8cd180420fda73fc2d240ec156e93051',  # pdt-add-armlinux-to-easyblock.patch
     '4135668cd40be5144441628c46dd857ecedc319701094521cf10d0ccc93027c4',  # netcdf-fix-gcc10.patch
     '6460d8bf73e30c950c6b25a2b3b712473757651f9ddee46e0b6fd1035e964976',  # scalapack-fix-gcc10.patch
-    'e64370fb7325ba5c281951da10b0fc0fa47a8a6db31f2fde47144db53da7e77e',  # wip-clang-11-independent.patch
+    '1d48ee64e30975adfb7949b41157211c6a0dc98d2a58629b99d3b51ac6489d86',  # wip-clang-11-independent.patch
     'dcbe137398c8e703a3008d28c546e765fe35d1d7d334d44194b0ebac04806ff9',  # clang-check-lib-symlink-existence.patch
 ]
 
