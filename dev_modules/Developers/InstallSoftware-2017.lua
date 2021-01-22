@@ -184,6 +184,27 @@ elseif architecture == "Cortex-A72" then
     else
         setenv("EBCUSTOM_EXTRA_LIBS","mathlib,stringlib,".. os.getenv("EBCUSTOM_EXTRA_LIBS"))
     end
+-- Juawei hi1620
+elseif architecture == "Kunpeng920" then
+    local opt="GCCcore:march=armv8.2-a+lse+fp16;GCC:march=armv8.2-a+lse+fp16;armhpc:march=armv8.2-a+lse+fp16;Clang:march=armv8.2-a+lse+fp16;armlinux:march=armv8.2-a+lse+fp16"
+    if mode()=="load" then
+        LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
+    end
+    setenv("ARMOPTPREFIX", "Generic")
+    pushenv("EASYBUILD_OPTARCH", opt)
+    -- Use arm-optimized-routines for everything
+    LmodMessage(colors("%{yellow}   - Loading arm-optimized-routines and adding mathlib to LDFLAGS"))
+    load('arm-optimized-routines')
+    if(nil == os.getenv("EBCUSTOM_EXTRA_LIBDIRS")) then
+        setenv("EBCUSTOM_EXTRA_LIBDIRS",pathJoin(os.getenv("MATHLIB_PATH"),"lib"))
+    else
+        setenv("EBCUSTOM_EXTRA_LIBDIRS",pathJoin(os.getenv("MATHLIB_PATH"),"lib") .. os.getenv("EBCUSTOM_EXTRA_LIBDIRS"))
+    end
+    if(nil == os.getenv("EBCUSTOM_EXTRA_LIBS")) then
+        setenv("EBCUSTOM_EXTRA_LIBS","mathlib,stringlib")
+    else
+        setenv("EBCUSTOM_EXTRA_LIBS","mathlib,stringlib,".. os.getenv("EBCUSTOM_EXTRA_LIBS"))
+    end
 -- ThunderX2
 elseif architecture == "ThunderX2" then
     local opt="GCCcore:march=armv8.1-a+fp+simd+crc -mtune=thunderx2t99;GCC:march=armv8.1-a+fp+simd+crc -mtune=thunderx2t99;armhpc:march=armv8.1-a+fp+simd+crc -mcpu=thunderx2t99 -mtune=thunderx2t99;Clang:march=armv8.1-a+fp+simd+crc -mcpu=thunderx2t99 -mtune=thunderx2t99;armlinux:march=armv8.1-a+fp+simd+crc -mcpu=thunderx2t99 -mtune=thunderx2t99"

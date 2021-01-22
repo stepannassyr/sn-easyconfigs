@@ -8,9 +8,8 @@ end
 -- Get software root
 local softwareroot = os.getenv("SOFTWAREROOT")
 if softwareroot == nil then
-    LmodWarning("SOFTWAREROOT not set, assuming /opt/software/unknown")
-    softwareroot="/opt/software/unknown"
-    --LmodError("SOFTWAREROOT not set, can't continue")
+    --LmodWarning("SOFTWAREROOT not set, assuming /opt/software/unknown")
+    LmodError("SOFTWAREROOT not set, can't continue")
     --local systemname = capture("cat /etc/FZJ/systemname")
     --Sanitize systemname
     --systemname = string.gsub(systemname, "\n", "")
@@ -72,6 +71,3 @@ prepend_path("MODULEPATH", pathJoin(pkgroot, "UI/Defaults"))
 
 -- Make the module 'sticky' so it is hard to unload
 add_property("lmod", "sticky")
-
--- Mark the module as Booster/KNL ready
---add_property("arch", "sandybridge:knl")

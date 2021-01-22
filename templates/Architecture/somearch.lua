@@ -10,6 +10,8 @@ if architecture == ".Cortex-A72" then
     architecture = "Cortex-A72"
 elseif architecture == ".Cortex-A76" then
     architecture = "Cortex-A76"
+elseif architecture == ".Kunpeng920" then
+    architecture = "Kunpeng920"
 elseif architecture == ".Haswell" then
     architecture = "Haswell"
 elseif architecture == ".ThunderX2" then
@@ -22,7 +24,7 @@ end
 
 if architecture == "Cortex-A72" then
     systemname = "juaweihi1616"
-elseif architecture == "Cortex-A76" then
+elseif architecture == "Kunpeng920" then
     systemname = "juaweihi1620"
 elseif architecture == "Haswell" then
     systemname = "haswell"
@@ -36,7 +38,7 @@ else
     LmodError("Trying to load an unsupported architecture!")
 end
 
-local prefix = "/opt/software"
+local prefix = "/opt/ohpc/pub/easybuild/software"
 
 -------------------------------------------------------------------
 -- Module help and whatis
@@ -152,7 +154,7 @@ end
 -- load arm optimized routines
 -------------------------------------------------------------------
 if mode() == "load" then
-    if architecture == "Cortex-A72" or architecture == "Cortex-A76" or architecture == "ThunderX2" then
+    if architecture == "Cortex-A72" or architecture == "Kunpeng920" or architecture == "ThunderX2" then
         load("arm-optimized-routines")
     end
 end
