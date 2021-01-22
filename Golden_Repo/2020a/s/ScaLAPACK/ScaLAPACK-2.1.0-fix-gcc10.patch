@@ -29,3 +29,229 @@ diff -urN scalapack-2.1.0-unpatched/BLACS/TESTING/Makefile scalapack-2.1.0/BLACS
  
  btprim.o : btprim.f
  	$(FC) -c $(FCFLAGS) $*.f
+diff -urN scalapack-2.1.0-unpatched/PBLAS/TESTING/Makefile scalapack-2.1.0/PBLAS/TESTING/Makefile
+--- scalapack-2.1.0-unpatched/PBLAS/TESTING/Makefile	2021-01-13 00:22:32.721680310 +0000
++++ scalapack-2.1.0/PBLAS/TESTING/Makefile	2021-01-13 00:26:38.401680310 +0000
+@@ -68,6 +68,14 @@
+ cpb3t         = pcblas3tst.o $(cpbtcom)
+ zpb3t         = pzblas3tst.o $(zpbtcom)
+ 
++EXTRAFFLAGS =
++GCCVERSIONGTEQ10 := $(shell expr `gcc -dumpversion | cut -f1 -d.` \>= 10)
++
++ifeq "$(GCCVERSIONGTEQ10)" "1"
++	EXTRAFFLAGS = -fallow-argument-mismatch
++	FCFLAGS += $(EXTRAFFLAGS)
++endif
++
+ all : single double complex complex16
+ 
+ single:    PblasErrorHandler $(spb1tst) $(spb2tst) $(spb3tst)
+@@ -139,6 +139,6 @@
+ dlamch.o:
+ 	$(FC) -c $(NOOPT) dlamch.f
+ 
+-.f.o : ; $(FC) -c $(FCFLAGS) $*.f
++.f.o : ; $(FC) -c $(FCFLAGS) $(EXTRAFFLAGS) $*.f
+ 
+ .c.o : ; $(CC) -c $(CDEFS) $(CCFLAGS) -DTestingPblas $*.c
+diff -urN scalapack-2.1.0-unpatched/PBLAS/TIMING/Makefile scalapack-2.1.0/PBLAS/TIMING/Makefile
+--- scalapack-2.1.0-unpatched/PBLAS/TIMING/Makefile	2021-01-13 00:36:50.231680310 +0000
++++ scalapack-2.1.0/PBLAS/TIMING/Makefile	2021-01-13 00:40:56.271680310 +0000
+@@ -63,6 +63,13 @@
+ cpb3t         = pcblas3tim.o pcblastim.o $(pbtcom)
+ zpb3t         = pzblas3tim.o pzblastim.o $(pbtcom)
+ 
++EXTRAFFLAGS =
++GCCVERSIONGTEQ10 := $(shell expr `gcc -dumpversion | cut -f1 -d.` \>= 10)
++
++ifeq "$(GCCVERSIONGTEQ10)" "1"
++	EXTRAFFLAGS = -fallow-argument-mismatch
++endif
++
+ all : single double complex complex16
+ 
+ single:    PblasErrorHandler $(spb1tim) $(spb2tim) $(spb3tim)
+@@ -120,6 +127,6 @@
+ clean :
+ 	rm -f *.o x*
+ 
+-.f.o : ; $(FC) -c $(FCFLAGS) $*.f
++.f.o : ; $(FC) -c $(FCFLAGS) $(EXTRAFFLAGS) $*.f
+ 
+  .c.o : ; $(CC) -c $(CDEFS) $(CCFLAGS) -DTestingPblas $*.c
+diff -urN scalapack-2.1.0-unpatched/TESTING/LIN/Makefile scalapack-2.1.0/TESTING/LIN/Makefile
+--- scalapack-2.1.0-unpatched/TESTING/LIN/Makefile	2021-01-13 00:44:50.631680310 +0000
++++ scalapack-2.1.0/TESTING/LIN/Makefile	2021-01-13 01:18:41.111680310 +0000
+@@ -135,6 +135,13 @@
+ zls = pzlsdriver.o pzlsinfo.o pzqrt13.o pzqrt14.o pzqrt16.o \
+       pzqrt17.o $(zmatgen)
+ 
++EXTRAFFLAGS =
++GCCVERSIONGTEQ10 := $(shell expr `gcc -dumpversion | cut -f1 -d.` \>= 10)
++
++ifeq "$(GCCVERSIONGTEQ10)" "1"
++	EXTRAFFLAGS = -fallow-argument-mismatch
++endif
++
+ all : single double complex complex16
+ 
+ single: $(sluexe) $(sdbluexe) $(sdtluexe) $(sgbluexe) $(slltexe) \
+@@ -273,93 +280,93 @@
+ 	rm -f *.o
+ 
+ psludriver.o: psludriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pdludriver.o: pdludriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pcludriver.o: pcludriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pzludriver.o: pzludriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ 
+ psdbdriver.o: psdbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pddbdriver.o: pddbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pcdbdriver.o: pcdbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pzdbdriver.o: pzdbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ 
+ psdtdriver.o: psdtdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pddtdriver.o: pddtdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pcdtdriver.o: pcdtdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pzdtdriver.o: pzdtdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ 
+ psgbdriver.o: psgbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pdgbdriver.o: pdgbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pcgbdriver.o: pcgbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pzgbdriver.o: pzgbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ 
+ pslltdriver.o: pslltdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pdlltdriver.o: pdlltdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pclltdriver.o: pclltdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pzlltdriver.o: pzlltdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ 
+ pspbdriver.o: pspbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pdpbdriver.o: pdpbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pcpbdriver.o: pcpbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pzpbdriver.o: pzpbdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ 
+ psptdriver.o: psptdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pdptdriver.o: pdptdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pcptdriver.o: pcptdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pzptdriver.o: pzptdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ 
+ psinvdriver.o: psinvdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pdinvdriver.o: pdinvdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pcinvdriver.o: pcinvdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pzinvdriver.o: pzinvdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ 
+ psqrdriver.o: psqrdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pdqrdriver.o: pdqrdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pcqrdriver.o: pcqrdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pzqrdriver.o: pzqrdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ 
+ pslsdriver.o: pslsdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pdlsdriver.o: pdlsdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pclsdriver.o: pclsdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ pzlsdriver.o: pzlsdriver.f
+-	$(FC) $(FCFLAGS) -c $<
++	$(FC) $(FCFLAGS) $(EXTRAFFLAGS) -c $<
+ 
+-.f.o : ; $(FC) -c $(FCFLAGS) $*.f
++.f.o : ; $(FC) -c $(FCFLAGS) $(EXTRAFFLAGS) $*.f
+diff -urN scalapack-2.1.0-unpatched/TESTING/EIG/Makefile scalapack-2.1.0/TESTING/EIG/Makefile
+--- scalapack-2.1.0-unpatched/TESTING/EIG/Makefile	2021-01-13 01:25:53.681680310 +0000
++++ scalapack-2.1.0/TESTING/EIG/Makefile	2021-01-13 01:27:12.421680310 +0000
+@@ -136,6 +136,13 @@
+ shseqr = pshseqrdriver.o psmatgen2.o $(smatgen)
+ dhseqr = pdhseqrdriver.o pdmatgen2.o $(dmatgen)
+ 
++EXTRAFFLAGS =
++GCCVERSIONGTEQ10 := $(shell expr `gcc -dumpversion | cut -f1 -d.` \>= 10)
++
++ifeq "$(GCCVERSIONGTEQ10)" "1"
++	EXTRAFFLAGS = -fallow-argument-mismatch
++endif
++
+ all : single double complex complex16
+ 
+ single:    $(shrdexe) $(strdexe) $(sbrdexe) $(ssepexe) $(sgsepexe) $(snepexe) $(ssvdexe) $(ssyevrexe) $(shseqrexe)
+@@ -249,4 +256,4 @@
+ 	rm -f *.o
+ 
+ .f.o:
+-	$(FC) -c $(FCFLAGS) $<
++	$(FC) -c $(FCFLAGS) $(EXTRAFFLAGS) $<

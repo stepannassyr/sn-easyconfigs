@@ -35,9 +35,8 @@ sources = [
     'clang-tools-extra-%(version)s.src.tar.xz',
 ]
 patches = [
-    'Clang-11.0.0-omp-libm.patch',
+#    'Clang-11.0.0-omp-libm.patch',
     'Clang-10.0.0-symlinks-are-not-bins.patch',
-#    'clang-9.0.1-glibc-2.31.patch'
 ]
 checksums = [
     'df83a44b3a9a71029049ec101fb0077ecbbdf5fe41e395215025779099a98fdf',  # llvm-10.0.0.src.tar.xz
@@ -51,7 +50,6 @@ checksums = [
     '09dc5ecc4714809ecf62908ae8fe8635ab476880455287036a2730966833c626',  # libunwind-10.0.0.src.tar.xz
     'dd1ffcb42ed033f5167089ec4c6ebe84fbca1db4a9eaebf5c614af09d89eb135',  # lldb-10.0.0.src.tar.xz
     'acdf8cf6574b40e6b1dabc93e76debb84a9feb6f22970126b04d4ba18b92911c',  # clang-tools-extra-10.0.0.src.tar.xz
-    'a7056ad40a810cc15d82a29dbfcec76c45b11925eb8fe94c1d35946eccf1ad6d',  # Clang-11.0.0-omp-libm.patch
     '61b0b0be5c90e24622a81e5094ba56eeed2dd3bca03792f2fb832ef17251eef4',  # Clang-10.0.0-symlinks-are-not-bins.patch
 ]
 
@@ -61,6 +59,7 @@ dependencies = [
     # since Clang is a compiler, binutils is a runtime dependency too
     ('binutils', '2.34'),
     ('libedit', '20191231'),
+    ('ncurses', '6.1'),
 #    ('GMP', '6.2.0'),
 ]
 
@@ -69,7 +68,7 @@ local_pysuff = '3.8'
 
 builddependencies = [
     ('GCC', '9.3.0'),
-    ('CMake', '3.17.0','',('GCCcore','9.3.0')),
+    ('CMake', '3.19.3','',('GCCcore','9.3.0')),
     ('Python', local_pyver,'',('GCCcore','9.3.0')),
     ('libxml2', '2.9.9','',('GCCcore','9.3.0')),
 ]
@@ -83,6 +82,11 @@ configopts += " -DBUILD_SHARED_LIBS=ON -DLLVM_BUILD_LLVM_DYLIB=ON "
 
 # FileCheck needed for Rust
 configopts += " -DLLVM_INCLUDE_UTILS=ON -DLLVM_INSTALL_UTILS=ONE "
+
+# ld.gold has issues on CentOS 8
+configopts += " -DCMAKE_SHARED_LINKER_FLAGS=\"-fuse-ld=bfd\" "
+configopts += " -DCMAKE_MODULE_LINKER_FLAGS=\"-fuse-ld=bfd\" "
+configopts += " -DCMAKE_EXE_LINKER_FLAGS=\"-fuse-ld=bfd\" "
 
 default_openmp_runtime = 'libomp'
 assertions      = True
