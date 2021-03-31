@@ -38,7 +38,7 @@ else
     LmodError("Trying to load an unsupported architecture!")
 end
 
-local prefix = "/opt/ohpc/pub/easybuild/software"
+local prefix = os.getenv("SOFTWAREPREFIX")
 
 -------------------------------------------------------------------
 -- Module help and whatis
