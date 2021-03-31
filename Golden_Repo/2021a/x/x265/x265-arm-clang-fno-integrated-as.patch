@@ -1,0 +1,12 @@
+diff -urN x265_3.5-unpatched/source/CMakeLists.txt x265_3.5/source/CMakeLists.txt
+--- x265_3.5-unpatched/source/CMakeLists.txt	2021-04-01 00:28:29.656564331 +0200
++++ x265_3.5/source/CMakeLists.txt	2021-04-01 00:29:31.016867765 +0200
+@@ -247,7 +247,7 @@
+         message(STATUS "cross compile arm")
+     elseif(ARM)
+         if(ARM64)
+-            set(ARM_ARGS -fPIC)
++            set(ARM_ARGS -fPIC -fno-integrated-as)
+             add_definitions(-DHAVE_NEON)
+         else()
+             find_package(Neon)

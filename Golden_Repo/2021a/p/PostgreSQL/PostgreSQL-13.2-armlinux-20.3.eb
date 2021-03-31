@@ -18,7 +18,7 @@ description = """PostgreSQL is a powerful, open source object-relational databas
 
 source_urls = ['http://ftp.postgresql.org/pub/source/v%(version)s/']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['8808449444ee9b086054a6dcfbfb98029e4f8022372c2edf3de5b6d8f417c8e4']
+checksums = ['3386a40736332aceb055c7c9012ecc665188536d874d967fcc5a33e7992f8080']
 
 toolchain = {'name': 'armlinux', 'version': '20.3'}
 

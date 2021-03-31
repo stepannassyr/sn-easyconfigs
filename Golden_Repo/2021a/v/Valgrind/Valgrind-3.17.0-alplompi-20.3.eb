@@ -7,31 +7,35 @@ version = '3.17.0'
 homepage = 'http://valgrind.org/downloads/'
 description = "Valgrind: Debugging and profiling tools"
 
-patches = ['valgrind-3.14.0-openmpi4.patch']
 source_urls = ['ftp://sourceware.org/pub/valgrind/']
 sources = [SOURCELOWER_TAR_BZ2]
+patches = ['valgrind-3.14.0-openmpi4.patch']
+checksums = [
+    'ad3aec668e813e40f238995f60796d9590eee64a16dff88421430630e69285a2',  # valgrind-3.17.0.tar.bz2
+    '13fd644d46b89a2393e66e1b2d77bd80660e494fb83d3e7f578e16fd66057b2b',  # valgrind-3.14.0-openmpi4.patch
+]
 
 toolchain = {'name': 'alplompi', 'version': '20.3'}
 
 preconfigopts = 'unset CC CFLAGS &&'
 configopts = ' --with-mpicc="$MPICC"'
 
-binaries = [
+local_binaries = [
     'callgrind_annotate', 'callgrind_control', 'cg_annotate', 'cg_diff',
     'cg_merge', 'ms_print', 'valgrind', 'valgrind-listener', 'vgdb'
 ]
 
-import platform
+import platform as local_platform
 
-arch_suf=platform.machine()
-if 'x86_64' == arch_suf:
-    arch_suf = 'amd64'
-elif 'aarch64' == arch_suf:
-    arch_suf = 'arm64'
+local_arch_suf = local_platform.machine()
+if 'x86_64' == local_arch_suf:
+    local_arch_suf = 'amd64'
+elif 'aarch64' == local_arch_suf:
+    local_arch_suf = 'arm64'
 
 sanity_check_paths = {
-    'files': ['bin/%s' % x for x in binaries] 
-           + ['lib/valgrind/libmpiwrap-%s-linux.%s' % (arch_suf,SHLIB_EXT)],
+    'files': ['bin/%s' % x for x in local_binaries] 
+           + ['lib/valgrind/libmpiwrap-%s-linux.%s' % (local_arch_suf,SHLIB_EXT)],
     'dirs': []
 }
 

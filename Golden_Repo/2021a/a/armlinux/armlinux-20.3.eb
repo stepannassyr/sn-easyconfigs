@@ -1,5 +1,4 @@
 # This is a thin wrapper that depends on Modules already being installed and in the MODULEPATH
-import os
 easyblock = 'Bundle'
 name = 'armlinux'
 version = '20.3'
@@ -10,9 +9,10 @@ ARM Compiler for Linux (armclang, armclang++, armflang)
 """
 
 
+import os as local_os
 toolchain = SYSTEM
-osprefix = os.getenv("ARMOSPREFIX")
-dependencies = [('Generic-AArch64/%s/arm-linux-compiler/%s' % (osprefix,version),     EXTERNAL_MODULE)]
+local_osprefix = local_os.getenv("ARMOSPREFIX")
+dependencies = [('Generic-AArch64/%s/arm-linux-compiler/%s' % (local_osprefix,version),     EXTERNAL_MODULE)]
 
 
 moduleclass = 'compiler'

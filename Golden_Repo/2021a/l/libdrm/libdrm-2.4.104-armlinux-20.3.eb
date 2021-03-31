@@ -11,6 +11,7 @@ description = """Direct Rendering Manager runtime library.
 
 source_urls = ['http://dri.freedesktop.org/libdrm/']
 sources = [SOURCELOWER_TAR_XZ]
+checksums = ['d66ad8b5c2441015ac1333e40137bb803c3bde3612ff040286fcc12158ea1bcb']
 
 toolchain = {'name': 'armlinux', 'version': '20.3'}
 
@@ -21,7 +22,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('X11', '20200326'),
+    ('X11', '20210331'),
 ]
 
 sanity_check_paths = {

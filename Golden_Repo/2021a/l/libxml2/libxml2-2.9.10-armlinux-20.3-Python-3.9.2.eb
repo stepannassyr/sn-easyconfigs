@@ -17,6 +17,7 @@ source_urls = [
     'http://xmlsoft.org/sources/old/'
 ]
 sources = [SOURCELOWER_TAR_GZ]
+checksums = ['aafee193ffb8fe0c82d4afef6ef91972cbaf5feea100edc2f262750611b4be1f']
 
 configopts = 'CC="$CC" CXX="$CXX" --with-pic --with-zlib=$EBROOTZLIB'
 

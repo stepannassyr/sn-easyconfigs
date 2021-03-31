@@ -14,6 +14,7 @@ toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
 
 source_urls = ['https://github.com/anholt/%(name)s/archive/']
 sources = ['%(version)s.tar.gz']
+checksums = ['5d80a43a6524a1ebdd0c9c5d5105295546a0794681853c636a0c70f8f9c658ce']
 
 builddependencies = [
     ('binutils', '2.36.1'),

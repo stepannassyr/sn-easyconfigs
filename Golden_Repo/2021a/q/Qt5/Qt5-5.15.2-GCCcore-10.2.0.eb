@@ -52,7 +52,7 @@ dependencies = [
     ('libpng', '1.6.37'),
     ('SQLite', '3.35.3'),
     # deps for QtWebEngine
-    ('X11', '20200326'),
+    ('X11', '20210331'),
     ('DBus', '1.13.18'),
     ('ICU', '68.2'),
     ('libxml2', '2.9.10','-Python-3.9.2'),

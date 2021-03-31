@@ -12,7 +12,7 @@ toolchain = {'name': 'armlinux', 'version': '20.3'}
 
 source_urls = ['https://github.com/pybind/pybind11/archive/']
 sources = ['v%(version)s.tar.gz']
-checksums = ['1eed57bc6863190e35637290f97a20c81cfe4d9090ac0a24f3bbf08f265eb71d']
+checksums = ['8ff2fff22df038f5cd02cea8af56622bc67f5b64534f1b83b9f133b8366acff2']
 
 builddependencies = [
     ('binutils', '2.36.1'),

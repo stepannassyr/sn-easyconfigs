@@ -16,6 +16,7 @@ toolchain = {'name': 'GCCcore', 'version': '10.2.0'}
 
 source_urls = [FTPGNOME_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
+checksums = ['fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788']
 
 builddependencies = [
     ('binutils', '2.36.1'),

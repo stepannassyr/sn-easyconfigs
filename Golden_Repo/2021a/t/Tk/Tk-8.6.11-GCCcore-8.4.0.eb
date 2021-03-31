@@ -15,7 +15,7 @@ toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
 
 source_urls = ["http://prdownloads.sourceforge.net/tcl"]
 sources = ['%(namelower)s%(version)s-src.tar.gz']
-checksums = ['63df418a859d0a463347f95ded5cd88a3dd3aaa1ceecaeee362194bc30f3e386']
+checksums = ['5228a8187a7f70fa0791ef0f975270f068ba9557f57456f51eb02d9d4ea31282']
 
 #patches = ['Tk-8.6.8_different-prefix-with-tcl.patch']
 
@@ -25,7 +25,7 @@ builddependencies = [
 
 dependencies = [
     ('Tcl', version),
-    ('X11', '20200326'),
+    ('X11', '20210331'),
 ]
 
 configopts = '--disable-xss --enable-threads --with-tcl=$EBROOTTCL/lib CFLAGS="-I$EBROOTTCL/include"'

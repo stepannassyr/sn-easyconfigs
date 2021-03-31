@@ -16,8 +16,9 @@ description = """libcurl is a free and easy-to-use client-side URL transfer libr
 
 toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
 
-sources = [SOURCELOWER_TAR_GZ]
 source_urls = ['http://%(namelower)s.haxx.se/download/']
+sources = [SOURCELOWER_TAR_GZ]
+checksums = ['4d51346fe621624c3e4b9f86a8fd6f122a143820e17889f59c18f245d2d8e7a6']
 
 #dependencies = [('OpenSSL', '1.0.1p')]
 builddependencies = [

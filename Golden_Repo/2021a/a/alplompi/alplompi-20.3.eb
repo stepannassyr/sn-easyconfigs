@@ -9,26 +9,12 @@ description = """ARM compiler for Linux based compiler toolchain, including
 
 toolchain = SYSTEM
 
-armclangver = '20.3'
-
-blaslib = 'ArmBLAS'
-blasver = armclangver
-blas = '%s-%s' % (blaslib, blasver)
-
-fftlib = 'ArmFFT'
-fftver = armclangver
-fft = '%s-%s' % (fftlib, fftver)
-
-# toolchain used to build dependencies
-comp_mpi_tc_name = 'alompi'
-comp_mpi_tc = (comp_mpi_tc_name, version)
-
 dependencies = [
-    ('armlinux', armclangver),
-    ('OpenMPI', '4.1.0', '', ('armlinux', armclangver)),
-    (blaslib, blasver, '', ('armlinux', armclangver)),
-    (fftlib, fftver, '', ('armlinux', armclangver)),
-    ('ScaLAPACK', '2.1.0', '-%s' % blas, comp_mpi_tc),
+    ('armlinux', version),
+    ('OpenMPI', '4.1.0', '', ('armlinux', version)),
+    ('ArmBLAS', version, '', ('armlinux', version)),
+    ('ArmFFT', version, '', ('armlinux', version)),
+    ('ScaLAPACK', '2.1.0', '-ArmBLAS-%s' % version, ('alompi', '20.3')),
 ]
 
 moduleclass = 'toolchain'

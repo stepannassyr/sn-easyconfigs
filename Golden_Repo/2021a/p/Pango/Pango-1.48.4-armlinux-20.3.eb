@@ -16,6 +16,10 @@ toolchain = {'name': 'armlinux', 'version': '20.3'}
 source_urls = [FTPGNOME_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
 patches = ['Pango-1.44.7-explicit-fallthrough.patch']
+checksums = [
+    '418913fb062071a075846244989d4a67aa5c80bf0eae8ee4555a092fd566a37a',  # pango-1.48.4.tar.xz
+    'f55e92fb8e9e8b1b57e2d10721790d0980c29bb526bdf10a474422354ff47bc6',  # Pango-1.44.7-explicit-fallthrough.patch
+]
 
 builddependencies = [
     ('binutils', '2.36.1'),
@@ -28,7 +32,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('X11', '20200326'),
+    ('X11', '20210331'),
     ('GLib', '2.68.0'),
     ('cairo', '1.17.4'),
     ('HarfBuzz', '2.8.0'),

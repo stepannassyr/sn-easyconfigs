@@ -11,8 +11,9 @@ description = """HarfBuzz is an OpenType text shaping engine.
 
 toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
 
-source_urls = ['http://www.freedesktop.org/software/harfbuzz/release/']
+source_urls = ['https://github.com/harfbuzz/%(namelower)s/releases/download/%(version)s/']
 sources = [SOURCELOWER_TAR_XZ]
+checksums = ['a1079fd021adaf5683351f34587a255975cc3bcadba31246ae40ebebb95ecd42']
 
 builddependencies = [
     ('binutils', '2.36.1'),
@@ -22,7 +23,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('X11', '20200326'),
+    ('X11', '20210331'),
     ('GLib', '2.68.0'),
     ('cairo', '1.17.4'),
     ('freetype', '2.10.4'),

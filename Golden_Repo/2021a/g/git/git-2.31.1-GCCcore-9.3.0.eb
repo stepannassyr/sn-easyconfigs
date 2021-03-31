@@ -25,8 +25,9 @@ to handle everything from small to very large projects with speed and efficiency
 
 toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
 
-sources = ['v%(version)s.tar.gz']
 source_urls = ['https://github.com/git/git/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['b1c0e95e9861b5d1b9ad3d8deaa2d8c7f02304ffc1b5e8869dd9fb98f9a0d436']
 
 builddependencies = [
     ('binutils', '2.36.1'),

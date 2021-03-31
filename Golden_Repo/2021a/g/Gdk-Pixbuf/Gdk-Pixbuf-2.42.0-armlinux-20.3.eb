@@ -17,8 +17,11 @@ toolchain = {'name': 'armlinux', 'version': '20.3'}
 
 source_urls = [FTPGNOME_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
-
 patches = ['gdk-pixbuf_postinstall.patch']
+checksums = [
+    '73441338d1a901dc7a3940113cb0aac22776b2832f7eab8f8ec7ec5755adaec7',  # gdk-pixbuf-2.42.0.tar.xz
+    'fdb99f490adbdd3430e742919691287138e65c2be65712aca8bb654bbc5fed49',  # gdk-pixbuf_postinstall.patch
+]
 
 builddependencies = [
     ('binutils', '2.36.1'),

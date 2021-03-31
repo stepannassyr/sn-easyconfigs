@@ -13,6 +13,7 @@ toolchainopts = {'optarch': True, 'pic': True}
 
 source_urls = [homepage]
 sources = ['fftw-%(version)s.tar.gz']
+checksums = ['bf2c7ce40b04ae811af714deb512510cc2c17b9ab9d6ddcf49fe4487eea7af3d']
 
 local_common_configopts = "--enable-threads --enable-openmp --with-pic --enable-static --enable-shared"
 

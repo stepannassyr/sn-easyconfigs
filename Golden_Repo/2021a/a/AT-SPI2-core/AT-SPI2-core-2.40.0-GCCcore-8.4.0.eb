@@ -16,6 +16,7 @@ toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
 
 source_urls = [FTPGNOME_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
+checksums = ['4196a7d30a0051e52a67b8ce4283fe79ae5e4e14a725719934565adf1d333429']
 
 # See https://gitlab.gnome.org/GNOME/at-spi2-core/merge_requests/9/diffs
 #patches = ['atspi_meson_fullpath.patch']
@@ -31,7 +32,7 @@ builddependencies = [
 dependencies = [
     ('DBus', '1.13.18'),
     ('intltool', '0.51.0', '-Perl-5.32.1'),
-    ('X11', '20200326'),
+    ('X11', '20210331'),
 ]
 
 # without this, pkg-config can't find gio-2.0, because libselinux.pc is not found at the end of the dependency chain

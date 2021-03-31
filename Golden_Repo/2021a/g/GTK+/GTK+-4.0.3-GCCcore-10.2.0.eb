@@ -12,8 +12,9 @@ description = """
 
 toolchain = {'name': 'GCCcore', 'version': '10.2.0'}
 
-source_urls = [FTPGNOME_SOURCE]
-sources = [SOURCELOWER_TAR_XZ]
+source_urls = ['https://download.gnome.org/sources/gtk/4.0/']
+sources = ['gtk-%(version)s.tar.xz']
+checksums = ['d7c9893725790b50bd9a3bb278856d9d543b44b6b9b951d7b60e7bdecc131890']
 
 builddependencies = [
     ('binutils', '2.36.1'),
@@ -27,7 +28,7 @@ dependencies = [
     ('AT-SPI2-ATK', '2.38.0'),
     ('Gdk-Pixbuf', '2.42.0'),
     ('Pango', '1.48.4'),
-    ('X11', '20200326'),
+    ('X11', '20210331'),
     ('libepoxy', '1.5.5'),
 ]
 

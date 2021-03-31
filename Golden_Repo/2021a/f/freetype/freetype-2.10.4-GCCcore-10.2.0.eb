@@ -13,7 +13,7 @@ toolchain = {'name': 'GCCcore', 'version': '10.2.0'}
 
 source_urls = [GNU_SAVANNAH_SOURCE]
 sources = [SOURCE_TAR_GZ]
-checksums = ['3a60d391fd579440561bf0e7f31af2222bc610ad6ce4d9d7bd2165bca8669110']
+checksums = ['5eab795ebb23ac77001cfb68b7d4d50b5d6c7469247b0b01b2c953269f658dac']
 
 builddependencies = [
     ('binutils', '2.36.1'),

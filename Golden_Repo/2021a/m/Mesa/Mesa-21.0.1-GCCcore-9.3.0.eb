@@ -23,13 +23,14 @@ toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
 # -xHost, this always gets overwritten and will fail.
 #toolchainopts = {'optarch': False}
 
-sources = [SOURCELOWER_TAR_XZ]
 source_urls = [
     'https://mesa.freedesktop.org/archive/%(version)s',
     'ftp://ftp.freedesktop.org/pub/mesa/%(version)s',
     'ftp://ftp.freedesktop.org/pub/mesa/older-versions/%(version_major)s.x/%(version)s',
     'ftp://ftp.freedesktop.org/pub/mesa/',
 ]
+sources = [SOURCELOWER_TAR_XZ]
+checksums = ['379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb']
 
 local_pyver = '3.9.2'
 
@@ -51,8 +52,8 @@ dependencies = [
     ('zlib', '1.2.11'),
     ('nettle', '3.7.2'),
     ('libdrm', '2.4.104'),
-    ('LLVM', '11.0.1'),
-    ('X11', '20200326'),
+    ('LLVM', '11.1.0'),
+    ('X11', '20210331'),
     ('libunwind', '1.5.0'),
 ]
 
