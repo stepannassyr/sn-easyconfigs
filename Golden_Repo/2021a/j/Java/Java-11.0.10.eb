@@ -1,0 +1,26 @@
+name = 'Java'
+version = '11.0.10'
+
+homepage = 'http://openjdk.java.net'
+description = """Java Platform, Standard Edition (Java SE) lets you develop and deploy
+ Java applications on desktops and servers."""
+
+toolchain = SYSTEM
+
+import platform
+
+local_arch_suf = platform.machine()
+if 'x86_64' == local_arch_suf:
+    local_arch_suf = 'x64'
+
+source_urls = ['https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-%(version)s%2B9/']
+sources = ['OpenJDK11U-jdk_%s_linux_hotspot_%%(version)s_9.tar.gz' % local_arch_suf]
+checksums = ['420c5d1e5dc66b2ed7dedd30a7bdf94bfaed10d5e1b07dc579722bf60a8114a9']
+
+local_arch_sums = {
+    'x64'     : '330d19a2eaa07ed02757d7a785a77bab49f5ee710ea03b4ee2fa220ddd0feffc',
+    'aarch64' : '420c5d1e5dc66b2ed7dedd30a7bdf94bfaed10d5e1b07dc579722bf60a8114a9',
+}
+
+
+moduleclass = 'lang'

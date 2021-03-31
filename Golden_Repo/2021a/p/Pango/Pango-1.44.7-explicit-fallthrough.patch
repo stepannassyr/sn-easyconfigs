@@ -1,0 +1,69 @@
+diff -urN pango-1.44.7-unpatched/examples/cairotwisted.c pango-1.44.7/examples/cairotwisted.c
+--- pango-1.44.7-unpatched/examples/cairotwisted.c	2020-04-25 02:29:43.621889602 +0200
++++ pango-1.44.7/examples/cairotwisted.c	2020-04-25 02:32:45.592785793 +0200
+@@ -235,6 +235,7 @@
+ 	/* Make it look like it's a line_to to last_move_to */
+ 	data = (&last_move_to) - 1;
+ 	/* fall through */
++    __attribute__((fallthrough));
+     case CAIRO_PATH_LINE_TO:
+ 	parametrization[i] = two_points_distance (&current_point, &data[1]);
+ 	current_point = data[1];
+@@ -362,6 +363,7 @@
+       /* Make it look like it's a line_to to last_move_to */
+       data = (&last_move_to) - 1;
+       /* fall through */
++  __attribute__((fallthrough));
+   case CAIRO_PATH_LINE_TO:
+       {
+ 	ratio = the_x / parametrization[i];
+diff -urN pango-1.44.7-unpatched/pango/break.c pango-1.44.7/pango/break.c
+--- pango-1.44.7-unpatched/pango/break.c	2020-04-25 02:29:43.621889602 +0200
++++ pango-1.44.7/pango/break.c	2020-04-25 02:30:12.222030486 +0200
+@@ -406,6 +406,7 @@
+                 break;
+               }
+ 	    /* fall through */
++      __attribute__((fallthrough));
+ 	  case G_UNICODE_CONTROL:
+ 	  case G_UNICODE_LINE_SEPARATOR:
+ 	  case G_UNICODE_PARAGRAPH_SEPARATOR:
+@@ -422,6 +423,7 @@
+ 		break;
+ 	      }
+ 	    /* fall through */
++      __attribute__((fallthrough));
+ 
+ 	  case G_UNICODE_OTHER_LETTER:
+ 	    if (makes_hangul_syllable)
+@@ -595,6 +597,7 @@
+ 		  if (wc != 0x000D && wc != 0x000A && wc != 0x000B && wc != 0x000C && wc != 0x0085)
+ 		    break;
+ 		  /* fall through */
++        __attribute__((fallthrough));
+ 		case G_UNICODE_LINE_SEPARATOR:
+ 		case G_UNICODE_PARAGRAPH_SEPARATOR:
+ 		  WB_type = WB_NewlineCRLF; /* CR, LF, Newline */
+diff -urN pango-1.44.7-unpatched/pango/pango-renderer.c pango-1.44.7/pango/pango-renderer.c
+--- pango-1.44.7-unpatched/pango/pango-renderer.c	2020-04-25 02:29:43.621889602 +0200
++++ pango-1.44.7/pango/pango-renderer.c	2020-04-25 02:31:24.142384714 +0200
+@@ -223,6 +223,7 @@
+ 				     rect->width,
+ 				     rect->height);
+       /* Fall through */
++    __attribute__((fallthrough));
+     case PANGO_UNDERLINE_SINGLE:
+     case PANGO_UNDERLINE_LOW:
+       pango_renderer_draw_rectangle (renderer,
+diff -urN pango-1.44.7-unpatched/tests/testboundaries_ucd.c pango-1.44.7/tests/testboundaries_ucd.c
+--- pango-1.44.7-unpatched/tests/testboundaries_ucd.c	2020-04-25 02:29:43.611889553 +0200
++++ pango-1.44.7/tests/testboundaries_ucd.c	2020-04-25 02:32:15.822639210 +0200
+@@ -105,7 +105,7 @@
+         case 0x00f7: /* DIVISION SIGN: boundary here */
+           temp_attr.bits |= bits.bits;
+           /* fall through */
+-
++        __attribute__((fallthrough));
+         case 0x00d7: /* MULTIPLICATION SIGN: no boundary here */
+           break;
+ 

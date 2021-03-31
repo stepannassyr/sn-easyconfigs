@@ -1,0 +1,40 @@
+diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/s/scalapack.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/s/scalapack.py
+--- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/s/scalapack.py	2019-09-11 18:09:02.685613851 +0200
++++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/s/scalapack.py	2019-08-23 18:05:22.079185019 +0200
+@@ -47,6 +47,7 @@
+ from easybuild.toolchains.linalg.lapack import Lapack
+ from easybuild.toolchains.linalg.openblas import OpenBLAS
+ from easybuild.toolchains.linalg.intelmkl import IntelMKL
++from easybuild.toolchains.linalg.armblas import ArmBLAS
+ from easybuild.tools.build_log import EasyBuildError
+ from easybuild.tools.filetools import copy_file, remove_file
+ from easybuild.tools.modules import get_software_root
+@@ -92,10 +93,11 @@
+         # determine build options BLAS and LAPACK libs
+         extra_makeopts = []
+ 
+-        acml = get_software_root(Acml.LAPACK_MODULE_NAME[0])
+-        lapack = get_software_root(Lapack.LAPACK_MODULE_NAME[0])
++        acml     = get_software_root(Acml.LAPACK_MODULE_NAME[0])
++        lapack   = get_software_root(Lapack.LAPACK_MODULE_NAME[0])
+         openblas = get_software_root(OpenBLAS.LAPACK_MODULE_NAME[0])
+         intelmkl = get_software_root(IntelMKL.LAPACK_MODULE_NAME[0])
++        armpl    = get_software_root(ArmBLAS.LAPACK_MODULE_NAME[0])
+ 
+         if lapack:
+             extra_makeopts.append('LAPACKLIB=%s' % os.path.join(lapack, 'lib', 'liblapack.a'))
+@@ -130,6 +132,13 @@
+             extra_makeopts.extend([
+                 'BLASLIB="-L%s %s -lpthread"' % (libdir, blas_libs),
+                 'LAPACKLIB="-L%s %s"' % (libdir, blas_libs),
++            ])
++        elif armpl:
++            libdir = os.path.join(armpl, 'lib')
++            blas_libs = ' '.join(['-l%s' % lib for lib in ArmBLAS.BLAS_LIB])
++            extra_makeopts.extend([
++                'BLASLIB="-L%s %s -lpthread"' % (libdir, blas_libs),
++                'LAPACKLIB="-L%s %s"' % (libdir, blas_libs),
+             ])
+         else:
+             raise EasyBuildError("Unknown LAPACK library used, no idea how to set BLASLIB/LAPACKLIB make options")
+

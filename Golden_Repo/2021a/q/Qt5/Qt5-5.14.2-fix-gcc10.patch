@@ -1,0 +1,202 @@
+diff -urN qt-everywhere-src-5.14.2-unpatched/qtlocation/src/3rdparty/mapbox-gl-native/platform/default/bidi.cpp qt-everywhere-src-5.14.2/qtlocation/src/3rdparty/mapbox-gl-native/platform/default/bidi.cpp
+--- qt-everywhere-src-5.14.2-unpatched/qtlocation/src/3rdparty/mapbox-gl-native/platform/default/bidi.cpp	2020-05-10 00:08:17.373937101 +0200
++++ qt-everywhere-src-5.14.2/qtlocation/src/3rdparty/mapbox-gl-native/platform/default/bidi.cpp	2020-05-10 00:28:11.379828490 +0200
+@@ -4,6 +4,7 @@
+ #include <unicode/ubidi.h>
+ #include <unicode/ushape.h>
+ 
++#include <stdexcept>
+ #include <memory>
+ 
+ namespace mbgl {
+diff -urN qt-everywhere-src-5.14.2-unpatched/qtlocation/src/3rdparty/mapbox-gl-native/platform/qt/src/bidi.cpp qt-everywhere-src-5.14.2/qtlocation/src/3rdparty/mapbox-gl-native/platform/qt/src/bidi.cpp
+--- qt-everywhere-src-5.14.2-unpatched/qtlocation/src/3rdparty/mapbox-gl-native/platform/qt/src/bidi.cpp	2020-05-10 00:08:17.373937101 +0200
++++ qt-everywhere-src-5.14.2/qtlocation/src/3rdparty/mapbox-gl-native/platform/qt/src/bidi.cpp	2020-05-10 00:28:11.379828490 +0200
+@@ -1,4 +1,5 @@
+ #include <memory>
++#include <stdexcept>
+ 
+ #include <mbgl/text/bidi.hpp>
+ 
+diff -urN qt-everywhere-src-5.14.2-unpatched/qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/util/convert.cpp qt-everywhere-src-5.14.2/qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/util/convert.cpp
+--- qt-everywhere-src-5.14.2-unpatched/qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/util/convert.cpp	2020-05-10 00:08:17.343936953 +0200
++++ qt-everywhere-src-5.14.2/qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/util/convert.cpp	2020-05-10 00:29:07.050101702 +0200
+@@ -1,9 +1,11 @@
+ #include <mbgl/util/convert.hpp>
+ 
++#include <cstdint>
++
+ namespace mbgl {
+ namespace util {
+ 
+-template std::array<float, 2> convert(const std::array<int32_t, 2>&);
++template std::array<float, 2> convert(const std::array<std::int32_t, 2>&);
+ 
+ } // namespace util
+ } // namespace mbgl
+diff -urN qt-everywhere-src-5.14.2-unpatched/qtwebengine/src/3rdparty/chromium/media/cdm/supported_cdm_versions.h qt-everywhere-src-5.14.2/qtwebengine/src/3rdparty/chromium/media/cdm/supported_cdm_versions.h
+--- qt-everywhere-src-5.14.2-unpatched/qtwebengine/src/3rdparty/chromium/media/cdm/supported_cdm_versions.h	2020-05-10 00:08:14.233921576 +0200
++++ qt-everywhere-src-5.14.2/qtwebengine/src/3rdparty/chromium/media/cdm/supported_cdm_versions.h	2020-05-10 04:03:58.812830042 +0200
+@@ -5,6 +5,7 @@
+ #ifndef MEDIA_CDM_SUPPORTED_CDM_VERSIONS_H_
+ #define MEDIA_CDM_SUPPORTED_CDM_VERSIONS_H_
+ 
++#include <cstddef>
+ #include <array>
+ 
+ #include "media/base/media_export.h"
+@@ -52,7 +53,7 @@
+ // Returns whether the CDM interface of |version| is supported in the
+ // implementation.
+ constexpr bool IsSupportedCdmInterfaceVersion(int version) {
+-  for (size_t i = 0; i < kSupportedCdmInterfaceVersions.size(); ++i) {
++  for (std::size_t i = 0; i < kSupportedCdmInterfaceVersions.size(); ++i) {
+     if (kSupportedCdmInterfaceVersions[i].version == version)
+       return true;
+   }
+@@ -70,7 +71,7 @@
+ 
+ // Returns whether the CDM interface of |version| is enabled by default.
+ constexpr bool IsCdmInterfaceVersionEnabledByDefault(int version) {
+-  for (size_t i = 0; i < kSupportedCdmInterfaceVersions.size(); ++i) {
++  for (std::size_t i = 0; i < kSupportedCdmInterfaceVersions.size(); ++i) {
+     if (kSupportedCdmInterfaceVersions[i].version == version)
+       return kSupportedCdmInterfaceVersions[i].enabled;
+   }
+diff -urN qt-everywhere-src-5.14.2-unpatched/qtwebengine/src/3rdparty/chromium/third_party/perfetto/include/perfetto/base/task_runner.h qt-everywhere-src-5.14.2/qtwebengine/src/3rdparty/chromium/third_party/perfetto/include/perfetto/base/task_runner.h
+--- qt-everywhere-src-5.14.2-unpatched/qtwebengine/src/3rdparty/chromium/third_party/perfetto/include/perfetto/base/task_runner.h	2020-05-10 00:08:10.633903777 +0200
++++ qt-everywhere-src-5.14.2/qtwebengine/src/3rdparty/chromium/third_party/perfetto/include/perfetto/base/task_runner.h	2020-05-10 01:58:58.886530705 +0200
+@@ -17,6 +17,7 @@
+ #ifndef INCLUDE_PERFETTO_BASE_TASK_RUNNER_H_
+ #define INCLUDE_PERFETTO_BASE_TASK_RUNNER_H_
+ 
++#include <cstdint>
+ #include <functional>
+ 
+ #include "perfetto/base/export.h"
+@@ -45,7 +46,7 @@
+   // Schedule a task for execution after |delay_ms|. Note that there is no
+   // strict ordering guarantee between immediate and delayed tasks. Can be
+   // called from any thread.
+-  virtual void PostDelayedTask(std::function<void()>, uint32_t delay_ms) = 0;
++  virtual void PostDelayedTask(std::function<void()>, std::uint32_t delay_ms) = 0;
+ 
+   // Schedule a task to run when |fd| becomes readable. The same |fd| can only
+   // be monitored by one function. Note that this function only needs to be
+diff -urN qt-everywhere-src-5.14.2-unpatched/qtwebengine/src/3rdparty/chromium/third_party/webrtc/call/rtx_receive_stream.h qt-everywhere-src-5.14.2/qtwebengine/src/3rdparty/chromium/third_party/webrtc/call/rtx_receive_stream.h
+--- qt-everywhere-src-5.14.2-unpatched/qtwebengine/src/3rdparty/chromium/third_party/webrtc/call/rtx_receive_stream.h	2020-05-10 00:08:10.043900860 +0200
++++ qt-everywhere-src-5.14.2/qtwebengine/src/3rdparty/chromium/third_party/webrtc/call/rtx_receive_stream.h	2020-05-10 02:14:07.330957160 +0200
+@@ -11,6 +11,7 @@
+ #ifndef CALL_RTX_RECEIVE_STREAM_H_
+ #define CALL_RTX_RECEIVE_STREAM_H_
+ 
++#include <cstdint>
+ #include <map>
+ 
+ #include "call/rtp_packet_sink_interface.h"
+@@ -25,7 +26,7 @@
+  public:
+   RtxReceiveStream(RtpPacketSinkInterface* media_sink,
+                    std::map<int, int> associated_payload_types,
+-                   uint32_t media_ssrc,
++                   std::uint32_t media_ssrc,
+                    // TODO(nisse): Delete this argument, and
+                    // corresponding member variable, by moving the
+                    // responsibility for rtcp feedback to
+@@ -41,7 +42,7 @@
+   const std::map<int, int> associated_payload_types_;
+   // TODO(nisse): Ultimately, the media receive stream shouldn't care about the
+   // ssrc, and we should delete this.
+-  const uint32_t media_ssrc_;
++  const std::uint32_t media_ssrc_;
+   ReceiveStatistics* const rtp_receive_statistics_;
+ };
+ 
+diff -urN qt-everywhere-src-5.14.2-unpatched/qtwebengine/src/3rdparty/chromium/third_party/webrtc/modules/audio_processing/aec3/clockdrift_detector.h qt-everywhere-src-5.14.2/qtwebengine/src/3rdparty/chromium/third_party/webrtc/modules/audio_processing/aec3/clockdrift_detector.h
+--- qt-everywhere-src-5.14.2-unpatched/qtwebengine/src/3rdparty/chromium/third_party/webrtc/modules/audio_processing/aec3/clockdrift_detector.h	2020-05-10 00:08:09.963900465 +0200
++++ qt-everywhere-src-5.14.2/qtwebengine/src/3rdparty/chromium/third_party/webrtc/modules/audio_processing/aec3/clockdrift_detector.h	2020-05-10 02:21:57.623244397 +0200
+@@ -12,6 +12,7 @@
+ #define MODULES_AUDIO_PROCESSING_AEC3_CLOCKDRIFT_DETECTOR_H_
+ 
+ #include <array>
++#include <cstddef>
+ 
+ namespace webrtc {
+ 
+@@ -31,7 +32,7 @@
+  private:
+   std::array<int, 3> delay_history_;
+   Level level_;
+-  size_t stability_counter_;
++  std::size_t stability_counter_;
+ };
+ }  // namespace webrtc
+ 
+diff -urN qt-everywhere-src-5.14.2-unpatched/qtwebengine/src/3rdparty/chromium/third_party/webrtc/modules/video_coding/decoding_state.h qt-everywhere-src-5.14.2/qtwebengine/src/3rdparty/chromium/third_party/webrtc/modules/video_coding/decoding_state.h
+--- qt-everywhere-src-5.14.2-unpatched/qtwebengine/src/3rdparty/chromium/third_party/webrtc/modules/video_coding/decoding_state.h	2020-05-10 00:08:09.903900168 +0200
++++ qt-everywhere-src-5.14.2/qtwebengine/src/3rdparty/chromium/third_party/webrtc/modules/video_coding/decoding_state.h	2020-05-10 03:38:05.615351262 +0200
+@@ -11,6 +11,7 @@
+ #ifndef MODULES_VIDEO_CODING_DECODING_STATE_H_
+ #define MODULES_VIDEO_CODING_DECODING_STATE_H_
+ 
++#include <cstdint>
+ #include <map>
+ #include <set>
+ #include <vector>
+@@ -26,8 +27,8 @@
+  public:
+   // The max number of bits used to reference back
+   // to a previous frame when using flexible mode.
+-  static const uint16_t kNumRefBits = 7;
+-  static const uint16_t kFrameDecodedLength = 1 << kNumRefBits;
++  static const std::uint16_t kNumRefBits = 7;
++  static const std::uint16_t kFrameDecodedLength = 1 << kNumRefBits;
+ 
+   VCMDecodingState();
+   ~VCMDecodingState();
+@@ -45,10 +46,10 @@
+   // sequence number is higher than the current one. This accounts for packets
+   // arriving late.
+   void UpdateOldPacket(const VCMPacket* packet);
+-  void SetSeqNum(uint16_t new_seq_num);
++  void SetSeqNum(std::uint16_t new_seq_num);
+   void Reset();
+-  uint32_t time_stamp() const;
+-  uint16_t sequence_num() const;
++  std::uint32_t time_stamp() const;
++  std::uint16_t sequence_num() const;
+   // Return true if at initial state.
+   bool in_initial_state() const;
+   // Return true when sync is on - decode all layers.
+@@ -58,18 +59,18 @@
+   void UpdateSyncState(const VCMFrameBuffer* frame);
+   // Designated continuity functions
+   bool ContinuousPictureId(int picture_id) const;
+-  bool ContinuousSeqNum(uint16_t seq_num) const;
++  bool ContinuousSeqNum(std::uint16_t seq_num) const;
+   bool ContinuousLayer(int temporal_id, int tl0_pic_id) const;
+   bool ContinuousFrameRefs(const VCMFrameBuffer* frame) const;
+   bool UsingPictureId(const VCMFrameBuffer* frame) const;
+   bool UsingFlexibleMode(const VCMFrameBuffer* frame) const;
+-  bool AheadOfFramesDecodedClearedTo(uint16_t index) const;
++  bool AheadOfFramesDecodedClearedTo(std::uint16_t index) const;
+   bool HaveSpsAndPps(const std::vector<NaluInfo>& nalus) const;
+ 
+   // Keep state of last decoded frame.
+   // TODO(mikhal/stefan): create designated classes to handle these types.
+-  uint16_t sequence_num_;
+-  uint32_t time_stamp_;
++  std::uint16_t sequence_num_;
++  std::uint32_t time_stamp_;
+   int picture_id_;
+   int temporal_id_;
+   int tl0_pic_id_;
+@@ -78,7 +79,7 @@
+ 
+   // Used to check references in flexible mode.
+   bool frame_decoded_[kFrameDecodedLength];
+-  uint16_t frame_decoded_cleared_to_;
++  std::uint16_t frame_decoded_cleared_to_;
+   std::set<int> received_sps_;
+   std::map<int, int> received_pps_;
+ };

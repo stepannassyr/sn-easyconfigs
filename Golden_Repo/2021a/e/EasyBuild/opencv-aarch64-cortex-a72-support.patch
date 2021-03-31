@@ -1,0 +1,32 @@
+diff -urN a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/o/opencv.py b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/o/opencv.py
+--- a/easybuild-easyblocks-3.9.4/easybuild/easyblocks/o/opencv.py	2019-09-11 18:09:02.680613778 +0200
++++ b/easybuild-easyblocks-3.9.4/easybuild/easyblocks/o/opencv.py	2019-09-10 14:03:47.204465379 +0200
+@@ -38,7 +38,8 @@
+ from easybuild.tools.config import build_option
+ from easybuild.tools.filetools import compute_checksum, copy
+ from easybuild.tools.modules import get_software_libdir, get_software_root
+-from easybuild.tools.systemtools import get_cpu_features, get_shared_lib_ext
++from easybuild.tools.systemtools import AARCH32, AARCH64, POWER, X86_64
++from easybuild.tools.systemtools import get_cpu_features, get_cpu_architecture, get_shared_lib_ext
+ from easybuild.tools.toolchain.compiler import OPTARCH_GENERIC
+ 
+ 
+@@ -69,7 +70,7 @@
+         self.pylibdir = det_pylibdir()
+ 
+         ippicv_tgz = glob.glob(os.path.join(self.builddir, 'ippicv*.tgz'))
+-        if ippicv_tgz:
++        if ippicv_tgz and (X86_64 == get_cpu_architecture()):
+             if len(ippicv_tgz) == 1:
+                 # copy ippicv tarball in the right place
+                 # expected location is 3rdparty/ippicv/downloads/linux-<md5sum>/
+@@ -147,6 +148,9 @@
+             elif optarch == OPTARCH_GENERIC:
+                 # optimize for generic x86 architecture (lowest supported by OpenCV is SSE3)
+                 self.cfg.update('configopts', '-DCPU_BASELINE=SSE3')
++            elif optarch == {'GCC': 'march=armv8-a+fp+simd+crc -mtune=cortex-a72', 'armhpc': 'march=armv8-a+fp+simd+crc -mcpu=cortex-a72 -mtune=cortex-a72', 'GCCcore': 'march=armv8-a+fp+simd+crc -mtune=cortex-a72'}:
++                # optimize for neon
++                self.cfg.update('configopts', '-DCPU_BASELINE=NEON')
+             else:
+                 raise EasyBuildError("Don't know how to configure OpenCV in accordance with --optarch='%s'", optarch)
+ 

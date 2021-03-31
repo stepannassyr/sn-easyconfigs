@@ -1,0 +1,16 @@
+diff -urN openmpi-4.0.3-unpatched/ompi/include/mpi.h.in openmpi-4.0.3/ompi/include/mpi.h.in
+--- openmpi-4.0.3-unpatched/ompi/include/mpi.h.in	2020-06-11 12:47:00.022450435 +0200
++++ openmpi-4.0.3/ompi/include/mpi.h.in	2020-06-11 12:50:45.439130427 +0200
+@@ -312,6 +312,12 @@
+ #            define OMPI_OMIT_MPI1_COMPAT_DECLS 0
+ #            define OMPI_REMOVED_USE_STATIC_ASSERT 0
+ #            define __mpi_interface_removed__(func, newfunc) __mpi_interface_deprecated__(#func " was removed in MPI-3.0.  Use " #newfunc " instead.  continuing...")
++#        elif !defined(__STDC_VERSION__) && defined(__cplusplus)
++#            if(__cplusplus >= 201103L)
++#                define OMPI_OMIT_MPI1_COMPAT_DECLS 1
++#                define OMPI_REMOVED_USE_STATIC_ASSERT 1
++#define THIS_SYMBOL_WAS_REMOVED_IN_MPI30(func, newfunc) _Static_assert(0, #func " was removed in MPI-3.0.  Use " #newfunc " instead.")
++#            endif
+ #        elif (__STDC_VERSION__ >= 201112L)
+ #            define OMPI_OMIT_MPI1_COMPAT_DECLS 1
+ #            define OMPI_REMOVED_USE_STATIC_ASSERT 1

@@ -1,0 +1,70 @@
+# JUAWEI/ARM64 EasyConfig files
+# Copyright 2019 Stepan Nassyr @ Forschungszentrum Juelich
+easyblock = 'CMakeMake'
+
+name = 'Neovim'
+version = '0.5.0-f89bfa686'
+versionsuffix = "-Python-%(pyver)s"
+
+homepage = 'https://neovim.io'
+description = """hyperextensible Vim-based text editor
+"""
+
+
+toolchain = {'name': 'armlinux', 'version': '20.3'}
+toolchainopts = {'pic': True}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/neovim/',
+        'repo_name': 'neovim',
+        'commit': 'f89bfa68',
+        'recursive': True,
+        'keep_git_dir': True,
+    },
+}]
+
+patches = [
+    'neovim-0.1.7-bitop.patch',
+]
+
+builddependencies = [
+    ('CMake', '3.20.0'),
+    ('Ninja', '1.10.2'),
+    ('binutils', '2.36.1'),
+    ('Autoconf', '2.71'),
+    ('Automake', '1.16.3'),
+    ('pkg-config', '0.29.2'),
+    ('unzip',      '6.0'),
+]
+
+dependencies = [
+    ('Python', '3.9.2'),
+    ('Perl', '5.32.1'),
+    ('jemalloc', '5.2.1'),
+    ('gperf',    '3.1'),
+    ('luv', '1.36.0-0'),
+    ('libvterm', '0.1.3'),
+    ('utf8proc', '2.6.1'),
+]
+
+separate_build_dir=True
+
+# No LuaJIT for AArch64
+configopts =  "-DPREFER_LUA=ON"
+# Use system libs
+configopts += " -DDEPS_CMAKE_FLAGS=\"-DUSE_BUNDLED_UNIBILIUM=OFF -DUSE_BUNDLED_LIBTERMKEY=OFF -DUSE_BUNDLED_LIBVTERM=OFF\""
+
+# Standard
+#osdependencies = ['unibilium-devel', 'lua-devel', 'msgpack-devel', 'libtermkey-devel','libvterm-devel', 'lua-lpeg', 'lua-mpack', 'lua-bitop', 'libuv-devel']
+# OpenHPC
+osdependencies = ['unibilium-devel', 'msgpack-devel', 'libtermkey-devel', 'libuv-devel']
+
+
+sanity_check_paths = {
+    'files': ['bin/nvim'],
+    'dirs': ['bin'],
+}
+
+moduleclass = 'tools'

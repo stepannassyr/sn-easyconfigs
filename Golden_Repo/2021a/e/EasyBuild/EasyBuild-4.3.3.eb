@@ -1,0 +1,78 @@
+easyblock = 'EB_EasyBuildMeta'
+
+name = 'EasyBuild'
+version = '4.3.3'
+
+homepage = 'https://easybuilders.github.io/easybuild'
+description = """EasyBuild is a software build and installation framework
+ written in Python that allows you to install software in a structured,
+ repeatable and robust way."""
+
+toolchain = SYSTEM
+
+source_urls = [
+    # easybuild-framework
+    'https://files.pythonhosted.org/packages/f9/64/c43c80fc156e848d57c69e0050a86e2304168b0e9aa0fef8996aa62193d4/',
+    # easybuild-easyblocks
+    'https://files.pythonhosted.org/packages/df/ac/3ea4218e8b1307fb869efb565cda46f3280e59ecca1a8a5eaa6cd8116bb3/',
+    # easybuild-easyconfigs
+    'https://files.pythonhosted.org/packages/9c/f2/51979a480815c2cb1c661a7809664e31128bd75fedaa5bf01ad739bfec25/',
+]
+sources = [
+    'easybuild-framework-%(version)s.tar.gz',
+    'easybuild-easyblocks-%(version)s.tar.gz',
+    'easybuild-easyconfigs-%(version)s.tar.gz',
+]
+patches = [
+    ('gcc-toolchain-add-extra-libs.patch', '../easybuild-framework-%(version)s'),
+    ('undeprecate-goolf.patch', '../easybuild-framework-%(version)s'),
+    ('boost-add-armclang.patch', '../easybuild-easyblocks-%(version)s'),
+    ('fortran-python-add-armclang-support.patch', '../easybuild-easyblocks-%(version)s'),
+    ('versionindependentpythonpackage-mkdir-makedirs.patch', '../easybuild-easyblocks-%(version)s'),
+    ('scalapack-armpl-support.patch', '../easybuild-easyblocks-%(version)s'),
+    ('clang-all-llvm-projects-and-gcc-independence.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblocks-clang-fix-git-version.patch', '../easybuild-easyblocks-%(version)s'),
+    ('score-p-add-armlinux-to-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
+    ('score-p-add-clang-to-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
+    ('pdt-add-armlinux-to-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
+    ('netcdf-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
+    ('scalapack-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
+    ('wip-clang-11-independent.patch', '../easybuild-easyblocks-%(version)s'),
+    ('clang-check-lib-symlink-existence.patch', '../easybuild-easyblocks-%(version)s'),
+    ]
+checksums = [
+    '8f466ffd422e45e38eaf0308bca48887f69e58e67e2467c28042c9801ec5a017',  # easybuild-framework-4.3.3.tar.gz
+    '1628fbc4ef9138aae743242e2f55dc4ad1eea650f2f38c86c1e265193bdb3f33',  # easybuild-easyblocks-4.3.3.tar.gz
+    'dbc93d7cc452fb4621ff43fad8990ce3840ec2f6cb88169970de1a78d42ef1c4',  # easybuild-easyconfigs-4.3.3.tar.gz
+    '719b13866173c4507eea2758937574951fd7fb12db2397772f9b2423b0013d85',  # gcc-toolchain-add-extra-libs.patch
+    '6c68b83ed1e371985c322a915de4194eb93dc2f45730a81b87394bcec71183a5',  # undeprecate-goolf.patch
+    '5ae9dfd159aafbf460a8e5b3b4f6ff3af572e85c93aae23702293e161db36fb8',  # boost-add-armclang.patch
+    'e697d2bce5615897228bc413657b82384865c288004eeafaa0e55a67e11ddeb9',  # fortran-python-add-armclang-support.patch
+    # versionindependentpythonpackage-mkdir-makedirs.patch
+    '3f9ff63e26f3af9a6f0785ba69b01bd0f5e41ae35b1937ee393ffd1e78a4269b',
+    '2151d482e65352b5dde1126f81252a3a4cb176346f503d44b2d87940ca3d8783',  # scalapack-armpl-support.patch
+    # clang-all-llvm-projects-and-gcc-independence.patch
+    'c0099f4e2398518c23276c824b80d17346085f5c1443bcd8f5c7228a0ac6e3a6',
+    'e10d9df02e80b5e1ac25bb167de0b25603e750573f25eef742bc6f0c1e790da6',  # easyblocks-clang-fix-git-version.patch
+    '2285bedc25e05b182e482e652c6b8142740bd76f9983be2693c184d01fda3958',  # score-p-add-armlinux-to-easyblock.patch
+    '1f4b5bd781ff9b2ad26e299c729ab49667c21ff903f646aef269af484b70b478',  # score-p-add-clang-to-easyblock.patch
+    'ca62ef32dc03a2a3884a6626af0aeeea8cd180420fda73fc2d240ec156e93051',  # pdt-add-armlinux-to-easyblock.patch
+    '4135668cd40be5144441628c46dd857ecedc319701094521cf10d0ccc93027c4',  # netcdf-fix-gcc10.patch
+    '6460d8bf73e30c950c6b25a2b3b712473757651f9ddee46e0b6fd1035e964976',  # scalapack-fix-gcc10.patch
+    '1d48ee64e30975adfb7949b41157211c6a0dc98d2a58629b99d3b51ac6489d86',  # wip-clang-11-independent.patch
+    'dcbe137398c8e703a3008d28c546e765fe35d1d7d334d44194b0ebac04806ff9',  # clang-check-lib-symlink-existence.patch
+]
+
+# order matters a lot, to avoid having dependencies auto-resolved (--no-deps easy_install option doesn't work?)
+# EasyBuild is a (set of) Python packages, so it depends on Python
+# usually, we want to use the system Python, so no actual Python dependency is listed
+allow_system_deps = [('Python', SYS_PYTHON_VERSION)]
+
+local_pyshortver = '.'.join(SYS_PYTHON_VERSION.split('.')[:2])
+
+sanity_check_paths = {
+    'files': ['bin/eb'],
+    'dirs': ['lib/python%s/site-packages' % local_pyshortver],
+}
+
+moduleclass = 'tools'

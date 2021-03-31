@@ -1,0 +1,23 @@
+name = 'ScaLAPACK'
+version = '2.1.0'
+
+homepage = 'http://www.netlib.org/scalapack/'
+description = """The ScaLAPACK (or Scalable LAPACK) library includes a subset of LAPACK routines
+ redesigned for distributed memory MIMD parallel computers."""
+
+toolchain = {'name': 'alompi', 'version': '20.3'}
+toolchainopts = {'pic': True}
+
+source_urls = [homepage]
+sources = [SOURCELOWER_TGZ]
+checksums = ['61d9216cf81d246944720cfce96255878a3f85dec13b9351f1fa0fd6768220a6']
+
+#patches = ["ScaLAPACK-OpenMPI-4.0.0.patch"]
+
+dependencies = [
+    ('ArmBLAS', '20.3')
+]
+
+versionsuffix = '-ArmBLAS-20.3'
+
+moduleclass = 'numlib'

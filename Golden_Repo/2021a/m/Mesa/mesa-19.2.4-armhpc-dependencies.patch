@@ -1,0 +1,79 @@
+diff -urN mesa-19.2.4-unpatched/src/gallium/targets/dri/meson.build mesa-19.2.4/src/gallium/targets/dri/meson.build
+--- mesa-19.2.4-unpatched/src/gallium/targets/dri/meson.build	2019-11-15 15:10:01.605508730 +0100
++++ mesa-19.2.4/src/gallium/targets/dri/meson.build	2019-11-15 15:13:16.485933776 +0100
+@@ -48,9 +48,10 @@
+   cpp_args : [cpp_vis_args],
+   link_args : [ld_args_build_id, ld_args_gc_sections, gallium_dri_ld_args],
+   link_depends : gallium_dri_link_depends,
++  link_whole : [libmesa_gallium, libgallium, libpipe_loader_static],
+   link_with : [
+-    libmesa_gallium, libdricommon, libmegadriver_stub, libdri, libgalliumvl,
+-    libgallium, libglapi, libpipe_loader_static, libws_null, libwsw, libswdri,
++    libdricommon, libmegadriver_stub, libdri, libgalliumvl,
++    libglapi, libws_null, libwsw, libswdri,
+     libswkmsdri,
+   ],
+   dependencies : [
+@@ -58,7 +59,8 @@
+     driver_swrast, driver_r300, driver_r600, driver_radeonsi, driver_nouveau,
+     driver_kmsro, driver_v3d, driver_vc4, driver_freedreno, driver_etnaviv,
+     driver_tegra, driver_i915, driver_svga, driver_virgl,
+-    driver_swr, driver_panfrost, driver_iris, driver_lima
++    driver_swr, driver_panfrost, driver_iris, driver_lima,
++    idep_mesautil, idep_xmlconfig
+   ],
+   # Will be deleted during installation, see install_megadrivers.py
+   install : true,
+diff -urN mesa-19.2.4-unpatched/src/gallium/targets/osmesa/meson.build mesa-19.2.4/src/gallium/targets/osmesa/meson.build
+--- mesa-19.2.4-unpatched/src/gallium/targets/osmesa/meson.build	2019-11-15 15:10:01.605508730 +0100
++++ mesa-19.2.4/src/gallium/targets/osmesa/meson.build	2019-11-15 15:05:37.067782975 +0100
+@@ -43,13 +43,13 @@
+     inc_gallium_drivers,
+   ],
+   link_depends : osmesa_link_deps,
+-  link_whole : [libosmesa_st, libglapi_static],
++  link_whole : [libosmesa_st, libglapi_static, libgallium],
+   link_with : [
+-    libmesa_gallium, libgallium, libws_null, osmesa_link_with,
++    libmesa_gallium, libws_null, osmesa_link_with,
+   ],
+   dependencies : [
+     dep_selinux, dep_thread, dep_clock, dep_unwind,
+-    driver_swrast, driver_swr,
++    driver_swrast, driver_swr, idep_mesautil, idep_xmlconfig
+   ],
+   version : '8.0.0',
+   install : true,
+diff -urN mesa-19.2.4-unpatched/src/glx/meson.build mesa-19.2.4/src/glx/meson.build
+--- mesa-19.2.4-unpatched/src/glx/meson.build	2019-11-15 15:10:01.595507682 +0100
++++ mesa-19.2.4/src/glx/meson.build	2019-11-15 15:05:37.067782975 +0100
+@@ -163,7 +163,7 @@
+   dependencies : [
+     dep_libdrm, dep_dl, dep_m, dep_thread, dep_x11, dep_xcb_glx, dep_xcb,
+     dep_x11_xcb, dep_xcb_dri2, dep_xext, dep_xfixes, dep_xdamage, dep_xxf86vm,
+-    extra_deps_libgl,
++    extra_deps_libgl, idep_mesautil, idep_xmlconfig
+   ],
+   version : gl_lib_version,
+   install : true,
+diff -urN mesa-19.2.4-unpatched/src/util/meson.build mesa-19.2.4/src/util/meson.build
+--- mesa-19.2.4-unpatched/src/util/meson.build  2019-11-15 21:03:56.201989652 +0100
++++ mesa-19.2.4/src/util/meson.build    2019-11-15 21:04:17.864250681 +0100
+@@ -144,7 +144,7 @@
+ )
+
+ idep_mesautil = declare_dependency(
+-  link_with : _libmesa_util,
++  link_whole : _libmesa_util,
+   include_directories : inc_util,
+   dependencies : [dep_zlib, dep_clock, dep_thread, dep_atomic, dep_m],
+ )
+@@ -169,7 +169,7 @@
+ idep_xmlconfig = declare_dependency(
+   sources : xmlpool_options_h,
+   include_directories : inc_util,
+-  link_with : _libxmlconfig,
++  link_whole : _libxmlconfig,
+   dependencies : dep_expat,
+ )
+

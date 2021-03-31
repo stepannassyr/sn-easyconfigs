@@ -1,0 +1,13 @@
+diff -urN XML-Bare-0.53-unpatched/Makefile.PL XML-Bare-0.53/Makefile.PL
+--- XML-Bare-0.53-unpatched/Makefile.PL	2020-04-22 02:26:37.178167635 +0200
++++ XML-Bare-0.53/Makefile.PL	2020-04-22 02:27:09.358324393 +0200
+@@ -91,6 +91,9 @@
+   );
+ }
+ sub getcc {
++  if( defined $ENV{'CC'} ) {
++    return $ENV{'CC'};
++  }
+   my $div = (substr($ENV{'PATH'},0,1) eq '/') ? ':' : ';';
+   my @path = split($div,$ENV{'PATH'});
+   foreach my $dir ( @path ) {

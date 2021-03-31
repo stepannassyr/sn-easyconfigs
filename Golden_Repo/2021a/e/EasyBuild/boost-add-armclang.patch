@@ -1,0 +1,25 @@
+diff -urN a/easybuild-easyblocks-4.0.1/easybuild/easyblocks/b/boost.py b/easybuild-easyblocks-4.0.1/easybuild/easyblocks/b/boost.py
+--- a/easybuild-easyblocks-4.0.1/easybuild/easyblocks/b/boost.py	2019-11-13 18:02:49.219268697 +0100
++++ b/easybuild-easyblocks-4.0.1/easybuild/easyblocks/b/boost.py	2019-11-13 17:11:55.068471260 +0100
+@@ -167,6 +167,12 @@
+                     ])
+                 else:
+                     raise EasyBuildError("Bailing out: only PrgEnv-gnu supported for now")
++            elif self.toolchain.toolchain_family() == toolchain.ARMHPC:
++                txt = '\n'.join([
++                    'using clang : arm64 : armclang ;',
++                    'using mpi ;',
++                    ''
++                    ])
+             else:
+                 txt = "using mpi : %s ;" % os.getenv("MPICXX")
+ 
+@@ -188,6 +194,8 @@
+         """Build Boost with bjam tool."""
+ 
+         bjamoptions = " --prefix=%s" % self.objdir
++        if self.toolchain.toolchain_family() == toolchain.ARMHPC:
++            bjamoptions += " toolset=clang --user-config=user-config.jam"
+ 
+         cxxflags = os.getenv('CXXFLAGS')
+         # only disable -D_GLIBCXX_USE_CXX11_ABI if use_glibcxx11_abi was explicitly set to False

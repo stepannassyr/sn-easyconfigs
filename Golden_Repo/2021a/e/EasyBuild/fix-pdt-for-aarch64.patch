@@ -1,0 +1,12 @@
+diff -urN easybuild-unpatched/easyblocks/p/pdt.py easybuild/easyblocks/p/pdt.py
+--- easybuild-unpatched/easyblocks/p/pdt.py	2020-03-27 01:24:25.403919461 +0100
++++ easybuild/easyblocks/p/pdt.py	2020-03-27 01:24:35.172030670 +0100
+@@ -33,6 +33,8 @@
+ 
+         out, _ = run_cmd("uname -m", simple=False)
+         self.machine = out.strip()
++        if 'aarch64' == self.machine:
++            self.machine = 'arm64_linux'
+         self.log.info("Using '%s' as machine label", self.machine)
+ 
+     def prepare_step(self, *args, **kwargs):

@@ -1,0 +1,17 @@
+diff -urN sionlib-unpatched/mf/Makefile.defs.linux-gomp sionlib/mf/Makefile.defs.linux-gomp
+--- sionlib-unpatched/mf/Makefile.defs.linux-gomp	2020-03-27 00:56:33.478910061 +0100
++++ sionlib/mf/Makefile.defs.linux-gomp	2020-03-27 01:00:37.610099142 +0100
+@@ -10,8 +10,13 @@
+ #------------------------------------------------------------------------------
+ # Platform Settings
+ #------------------------------------------------------------------------------
++UNAME_P := $(shell uname -p)
++PREC   =
++PFLAG  =
++ifeq ($(UNAME_P),x86_64)
+ PREC   = 64
+ PFLAG  = -m$(PREC)
++endif
+ AFLAG  =
+ 
+ PLAT     = linux

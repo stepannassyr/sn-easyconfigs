@@ -1,0 +1,23 @@
+name = 'Java'
+version = '8.282.08'
+
+homepage = 'http://openjdk.java.net'
+description = """Java Platform, Standard Edition (Java SE) lets you develop and deploy
+ Java applications on desktops and servers."""
+
+toolchain = SYSTEM
+
+import platform
+
+local_arch_suf = platform.machine()
+if 'x86_64' == local_arch_suf:
+    local_arch_suf = 'x64'
+
+# https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u252-b09/OpenJDK8U-jdk_aarch64_linux_hotspot_8u252b09.tar.gz
+# https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u252-b09/OpenJDK8U-jdk_x64_linux_hotspot_8u252b09.tar.gz
+# 8.252.09 -> 8u252-b09
+local_dl_version = version.replace('.','u',1).replace('.','-b',1)
+source_urls = ['https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk%s/' %(local_dl_version)]
+sources = ['OpenJDK8U-jdk_%s_linux_hotspot_%s.tar.gz' % (local_arch_suf,local_dl_version.replace('-','',1))]
+
+moduleclass = 'lang'

@@ -1,0 +1,54 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'JAR'
+
+name = 'JUnit'
+version = '5.7.1'
+
+homepage = 'http://sourceforge.net/projects/junit'
+description = """A programmer-oriented testing framework for Java."""
+
+
+toolchain = SYSTEM
+
+sources = ['%(namelower)s-jupiter-%(version)s.jar',
+           '%(namelower)s-jupiter-params-%(version)s.jar',
+           '%(namelower)s-jupiter-api-%(version)s.jar',
+           '%(namelower)s-jupiter-engine-%(version)s.jar',
+           '%(namelower)s-jupiter-migrationsupport-%(version)s.jar',
+           '%(namelower)s-vintage-engine-%(version)s.jar',
+           '%(namelower)s-platform-console-standalone-1.6.1.jar',
+           '%(namelower)s-platform-testkit-1.6.1.jar',
+           '%(namelower)s-platform-console-1.6.1.jar',
+           '%(namelower)s-platform-launcher-1.6.1.jar',
+           '%(namelower)s-platform-engine-1.6.1.jar',
+           '%(namelower)s-platform-reporting-1.6.1.jar',
+           '%(namelower)s-platform-runner-1.6.1.jar',
+           '%(namelower)s-platform-suite-api-1.6.1.jar',
+           '%(namelower)s-platform-commons-1.6.1.jar',
+           ]
+#https://search.maven.org/remotecontent?filepath=org/junit/platform/junit-platform-console-standalone/1.6.1/junit-platform-console-standalone-1.6.1.jar
+source_urls = ['http://search.maven.org/remotecontent?filepath=org/junit/jupiter/junit-jupiter/%(version)s/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/jupiter/junit-jupiter-params/%(version)s/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/jupiter/junit-jupiter-api/%(version)s/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/jupiter/junit-jupiter-engine/%(version)s/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/jupiter/junit-jupiter-migrationsupport/%(version)s/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/vintage/junit-vintage-engine/%(version)s/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/platform/junit-platform-console-standalone/1.6.1/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/platform/junit-platform-testkit/1.6.1/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/platform/junit-platform-console/1.6.1/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/platform/junit-platform-launcher/1.6.1/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/platform/junit-platform-engine/1.6.1/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/platform/junit-platform-reporting/1.6.1/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/platform/junit-platform-runner/1.6.1/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/platform/junit-platform-suite-api/1.6.1/',
+               'http://search.maven.org/remotecontent?filepath=org/junit/platform/junit-platform-commons/1.6.1/',
+              ]
+
+dependencies = [('Java', '11.0.10')]
+
+sanity_check_paths = {
+    'files': sources,
+    'dirs': [],
+}
+
+moduleclass = 'devel'

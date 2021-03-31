@@ -1,0 +1,38 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'ConfigureMake'
+
+name = 'Valgrind'
+version = '3.17.0'
+
+homepage = 'http://valgrind.org/downloads/'
+description = "Valgrind: Debugging and profiling tools"
+
+patches = ['valgrind-3.14.0-openmpi4.patch']
+source_urls = ['ftp://sourceware.org/pub/valgrind/']
+sources = [SOURCELOWER_TAR_BZ2]
+
+toolchain = {'name': 'goolf', 'version': '2021a'}
+
+preconfigopts = 'unset CC CFLAGS &&'
+configopts = ' --with-mpicc="$MPICC"'
+
+local_binaries = [
+    'callgrind_annotate', 'callgrind_control', 'cg_annotate', 'cg_diff',
+    'cg_merge', 'ms_print', 'valgrind', 'valgrind-listener', 'vgdb'
+]
+
+import platform
+
+local_arch_suf=platform.machine()
+if 'x86_64' == local_arch_suf:
+    local_arch_suf = 'amd64'
+elif 'aarch64' == local_arch_suf:
+    local_arch_suf = 'arm64'
+
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in local_binaries] 
+           + ['lib/valgrind/libmpiwrap-%s-linux.%s' % (local_arch_suf,SHLIB_EXT)],
+    'dirs': []
+}
+
+moduleclass = 'debugger'

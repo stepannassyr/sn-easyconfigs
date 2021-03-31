@@ -1,0 +1,38 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'ConfigureMake'
+
+name = 'x264'
+version = 'r3048-b86ae3c'
+
+homepage = 'http://www.videolan.org/developers/x264.html'
+description = """x264 is a free software library and application for encoding video streams into the H.264/MPEG-4
+ AVC compression format, and is released under the terms of the GNU GPL.
+"""
+
+
+toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://code.videolan.org/videolan/',
+        'repo_name': 'x264',
+        'commit': 'b86ae3c',
+        'recursive': True,
+        'keep_git_dir': True,
+    },
+}]
+checksums = ['85bd6ce96d82bb1f2825c3ed99f0ab89c38d9a3f9977f2bffe3059cf2ea5b4a9']
+
+builddependencies = [('binutils', '2.36.1')]
+
+dependencies = [('NASM', '2.15.05')]
+
+configopts = "  --enable-shared --enable-static "
+
+sanity_check_paths = {
+    'files': ['bin/x264', 'include/x264_config.h', 'include/x264.h', 'lib/libx264.a', 'lib/libx264.%s' % SHLIB_EXT],
+    'dirs': [],
+}
+
+moduleclass = 'vis'
