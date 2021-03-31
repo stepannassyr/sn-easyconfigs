@@ -27,7 +27,6 @@ local pkgroot = pathJoin(stageroot, stage)
 
 -- Export these so we can use them in any derived modules
 setenv("STAGE", stage)
-setenv("SOFTWAREROOT", softwareroot)
 
 -- Lmod messaging functions
 help([[  This module will reset your module environment for the requested stage ( ]] .. stage .. [[ ) ]])
