@@ -7,9 +7,9 @@ description = """Java Platform, Standard Edition (Java SE) lets you develop and 
 
 toolchain = SYSTEM
 
-import platform
+import platform as local_platform
 
-local_arch_suf = platform.machine()
+local_arch_suf = local_platform.machine()
 if 'x86_64' == local_arch_suf:
     local_arch_suf = 'x64'
 
