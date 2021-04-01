@@ -34,7 +34,7 @@ dependencies = [
     ('libdwarf', '20210305'),     # need new easyconfig
     ('libiberty', '2021-03-16'),  # need new easyconfig or modification of GCC easyconfig (but then only compilable w/GCC)
     ('libmonitor', '2021.03.01'), # need new easyconfig
-    ('libpfm', '4.11.1'),         # need new easyconfig/split from papi
+    ('libpfm', '4.11.1-f6500e77'),# need new easyconfig/split from papi
     ('libunwind', '1.5.0'),
     ('mbedtls', '2.26.0'),        # need new easyconfig
     ('PAPI', '6.0.0.1-70887df7'),
