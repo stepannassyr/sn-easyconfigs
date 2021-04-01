@@ -32,7 +32,7 @@ toolchain = {'name': 'GCCcore', 'version': '8.4.0'}
 sources = [{
     'filename': '%(name)s-%(version)s.tar.gz',
     'git_config': {
-        'url': 'https://bitbucket.org/icl/',
+        'url': 'https://bitbucket.org/icl',
         'repo_name': 'papi',
         'commit': '70887df7f86e9c946d2aa92b6ff464bbe4e1bdbf',
         'recursive': True,
