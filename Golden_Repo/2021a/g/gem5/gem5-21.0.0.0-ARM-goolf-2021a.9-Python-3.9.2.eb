@@ -1,9 +1,9 @@
 easyblock = 'gem5'
 
 name = 'gem5'
-rawversion = '21.0.0.0'
+local_rawversion = '21.0.0.0'
 gem5_isa = 'ARM'
-version = rawversion + '-' + gem5_isa
+version = local_rawversion + '-' + gem5_isa
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = "https://www.gem5.org/"
@@ -14,7 +14,7 @@ toolchain = {'name': 'goolf', 'version': '2021a.9'}
 source_urls = [GITHUB_SOURCE]
 
 github_account = 'gem5'
-sources = ["v%s.tar.gz" % rawversion]
+sources = ["v%s.tar.gz" % local_rawversion]
 
 patches = ["gem5-20.0.0.2-respect-cpath.patch"]
 
