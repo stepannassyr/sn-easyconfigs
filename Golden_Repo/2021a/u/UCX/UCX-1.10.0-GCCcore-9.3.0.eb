@@ -17,12 +17,9 @@ toolchainopts = {'pic': True}
 
 source_urls = ['https://github.com/openucx/ucx/releases/download/v%(version)s']
 sources = ['%(namelower)s-%(version)s.tar.gz']
-patches = ['%(namelower)s-1.7.0-sa-namespace-log.patch',
-           '%(namelower)s-1.7.0-binutils-2.34.patch']
+
 checksums = [
     'b885e24b1b94724c03cb213c355381e98df1e2d1fd7f633cf8055b6dd05db92d',  # ucx-1.10.0.tar.gz
-    'cdd27af3aa7ed5ed798f42061b5cec251cea2d653295c840cfc796a7d2a5c14e',  # ucx-1.7.0-sa-namespace-log.patch
-    'a239ad011341d36aee5a72182f26e3c136a710fe8c5cc0122dff9d62604db729',  # ucx-1.7.0-binutils-2.34.patch
 ]
 
 builddependencies = [
