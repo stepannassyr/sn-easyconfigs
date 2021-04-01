@@ -23,8 +23,8 @@ dependencies = [
     ('zlib', '1.2.11'),
 ]
 
-import platform
-if 'x86_64' == platform.machine():
+import platform as local_platform
+if 'x86_64' == local_platform.machine():
     dependencies.append(('Yasm','1.3.0'))
 
 moduleclass = 'lib'
