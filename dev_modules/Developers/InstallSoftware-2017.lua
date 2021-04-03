@@ -40,8 +40,8 @@ user = string.gsub(user, "\n", "")
 
 if mode()=="load" then
     if user ~= "swmanage" and user ~="nassyr1" and user ~="linedot" then
-        if not userInGroup("software") then
-            LmodError(colors("%{yellow}Sorry but we only allow installations from users in the software group!\n"..
+        if not userInGroup("easybuild") then
+            LmodError(colors("%{yellow}Sorry but we only allow installations from users in the easybuild group!\n"..
                       "If you would like to be included in that group please contact: "..
                       contact.."%{reset}"))
         else
