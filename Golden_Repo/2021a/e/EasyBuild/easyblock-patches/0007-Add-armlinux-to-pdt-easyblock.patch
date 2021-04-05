@@ -1,0 +1,24 @@
+From d4d76c09ae5a9c7412e9aee68d599c7f8d545c10 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 08:49:15 +0200
+Subject: [PATCH 07/12] Add armlinux to pdt easyblock
+
+---
+ easybuild/easyblocks/p/pdt.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/easybuild/easyblocks/p/pdt.py b/easybuild/easyblocks/p/pdt.py
+index 7f6dfb2f..5b6fd8e6 100644
+--- a/easybuild/easyblocks/p/pdt.py
++++ b/easybuild/easyblocks/p/pdt.py
+@@ -65,6 +65,7 @@ class EB_PDT(ConfigureMake):
+             toolchain.GCC: '-GNU',
+             toolchain.INTELCOMP: '-icpc',
+             toolchain.PGI: '-pgCC',
++            toolchain.ARMLINUX: '-armclang',
+         }
+         comp_fam = self.toolchain.comp_family()
+         try:
+-- 
+2.31.1
+

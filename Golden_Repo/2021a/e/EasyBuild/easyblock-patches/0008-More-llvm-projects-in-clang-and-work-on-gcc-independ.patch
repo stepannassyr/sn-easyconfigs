@@ -1,0 +1,74 @@
+From b1513efda925519301c8c4d013fee25929c683ba Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 08:57:10 +0200
+Subject: [PATCH 08/12] More llvm-projects in clang and work on gcc
+ independence
+
+---
+ easybuild/easyblocks/c/clang.py | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/easybuild/easyblocks/c/clang.py b/easybuild/easyblocks/c/clang.py
+index 3eb63572..ca0b0ae1 100644
+--- a/easybuild/easyblocks/c/clang.py
++++ b/easybuild/easyblocks/c/clang.py
+@@ -118,14 +118,16 @@ class EB_Clang(CMakeMake):
+           projects/
+             compiler-rt/  Unpack compiler-rt-*.tar.gz here
+             openmp/       Unpack openmp-*.tar.xz here
++            libcxx/       Unpack libcxx-*.tar.gz here
++            libcxxabi/    Unpack libcxxabi-*.tar.gz here
++            libunwind/    Unpack libunwind-*.tar.gz here
+           tools/
+             clang/        Unpack clang-*.tar.gz here
+               tools/
+                 extra/    Unpack clang-tools-extra-*.tar.gz here
+             polly/        Unpack polly-*.tar.gz here
+-            libcxx/       Unpack libcxx-*.tar.gz here
+-            libcxxabi/    Unpack libcxxabi-*.tar.gz here
+             lld/          Unpack lld-*.tar.gz here
++            lldb/         Unpack lldb-*.tar.gz here
+         """
+ 
+         # Extract everything into separate directories.
+@@ -165,7 +167,11 @@ class EB_Clang(CMakeMake):
+             find_source_dir('libcxx-*', os.path.join(self.llvm_src_dir, 'projects', 'libcxx'))
+             find_source_dir('libcxxabi-*', os.path.join(self.llvm_src_dir, 'projects', 'libcxxabi'))
+ 
++        find_source_dir('libunwind-*', os.path.join(self.llvm_src_dir, 'projects', 'libunwind'))
++        find_source_dir('lldb-*', os.path.join(self.llvm_src_dir, 'tools', 'lldb'))
++
+         find_source_dir(['clang-[1-9]*', 'cfe-*'], os.path.join(self.llvm_src_dir, 'tools', 'clang'))
++        find_source_dir('clang-tools-extra-*', os.path.join(self.llvm_src_dir, 'tools/clang/tools', 'extra'))
+ 
+         if self.cfg["build_extra_clang_tools"]:
+             find_source_dir('clang-tools-extra-*', os.path.join(self.llvm_src_dir, 'tools', 'clang', 'tools', 'extra'))
+@@ -249,6 +255,9 @@ class EB_Clang(CMakeMake):
+                 '-DCLANG_DEFAULT_OPENMP_RUNTIME=%s' % self.cfg["default_openmp_runtime"]
+             )
+ 
++        self.cfg.update('configopts', '-DCOMPILER_RT_BUILD_BUILTINS=ON')
++        self.cfg.update('configopts', "-DLLDB_RELOCATABLE_PYTHON=ON")
++
+         if self.cfg['assertions']:
+             self.cfg.update('configopts', "-DLLVM_ENABLE_ASSERTIONS=ON")
+         else:
+@@ -375,6 +384,15 @@ class EB_Clang(CMakeMake):
+         options = "-DCMAKE_INSTALL_PREFIX=%s " % self.installdir
+         options += "-DCMAKE_C_COMPILER='%s' " % CC
+         options += "-DCMAKE_CXX_COMPILER='%s' " % CXX
++
++        self.cfg.update('configopts', '-DCLANG_DEFAULT_CXX_STDLIB=libc++')
++        self.cfg.update('configopts', '-DCLANG_DEFAULT_RTLIB=compiler-rt')
++        self.cfg.update('configopts', '-DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON')
++        self.cfg.update('configopts', '-DCOMPILER_RT_USE_LIBCXX=ON')
++        self.cfg.update('configopts', '-DLIBCXXABI_USE_COMPILER_RT=ON')
++        self.cfg.update('configopts', '-DLIBCXXABI_USE_LLVM_UNWINDER=ON')
++        self.cfg.update('configopts', '-DLIBCXX_USE_COMPILER_RT=ON')
++        self.cfg.update('configopts', '-DLIBUNWIND_USE_COMPILER_RT=ON')
+         options += self.cfg['configopts']
+         options += "-DCMAKE_BUILD_TYPE=%s" % self.build_type
+ 
+-- 
+2.31.1
+

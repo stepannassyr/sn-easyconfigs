@@ -1,0 +1,12 @@
+diff --git a/easybuild/easyblocks/c/clang.py b/easybuild/easyblocks/c/clang.py
+index a5822cf0..07382efe 100644
+--- a/easybuild/easyblocks/c/clang.py
++++ b/easybuild/easyblocks/c/clang.py
+@@ -288,6 +288,7 @@ class EB_Clang(CMakeMake):
+             )
+ 
+         self.cfg.update('configopts', '-DCOMPILER_RT_BUILD_BUILTINS=ON')
++        self.cfg.update('configopts', '-DCOMPILER_RT_EXCLUDE_ATOMIC_BUILTIN=OFF')
+         self.cfg.update('configopts', "-DLLDB_RELOCATABLE_PYTHON=ON")
+ 
+         if self.cfg['assertions']:

@@ -1,0 +1,48 @@
+From d4fc49c3b40f98083ec568aba3abaa7a9e6dace1 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 09:26:05 +0200
+Subject: [PATCH 12/12] scalapack: fix gcc10
+
+---
+ easybuild/easyblocks/s/scalapack.py | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/easybuild/easyblocks/s/scalapack.py b/easybuild/easyblocks/s/scalapack.py
+index 14b2387e..5b2234ca 100644
+--- a/easybuild/easyblocks/s/scalapack.py
++++ b/easybuild/easyblocks/s/scalapack.py
+@@ -37,6 +37,7 @@ import os
+ from distutils.version import LooseVersion
+ 
+ import easybuild.tools.toolchain as toolchain
++import easybuild.tools.environment as env
+ from easybuild.easyblocks.blacs import det_interface  # @UnresolvedImport
+ from easybuild.easyblocks.generic.cmakemake import CMakeMake
+ from easybuild.toolchains.linalg.acml import Acml
+@@ -50,7 +51,7 @@ from easybuild.toolchains.linalg.intelmkl import IntelMKL
+ from easybuild.toolchains.linalg.armblas import ArmBLAS
+ from easybuild.tools.build_log import EasyBuildError
+ from easybuild.tools.filetools import copy_file, remove_file
+-from easybuild.tools.modules import get_software_root
++from easybuild.tools.modules import get_software_root, get_software_version
+ from easybuild.tools.run import run_cmd
+ 
+ 
+@@ -101,6 +102,14 @@ class EB_ScaLAPACK(CMakeMake):
+         else:
+             raise EasyBuildError("Don't know which compiler commands to use.")
+ 
++
++        if self.toolchain.comp_family() == toolchain.GCC:  #@UndefinedVariable
++            if LooseVersion(get_software_version("GCC")) >= LooseVersion("10"):
++                env.setvar('FCFLAGS', "%s -fallow-argument-mismatch" % os.getenv('FCFLAGS'))
++                env.setvar('FFLAGS', "%s -fallow-argument-mismatch" % os.getenv('FFLAGS'))
++                env.setvar('F90FLAGS', "%s -fallow-argument-mismatch" % os.getenv('F90FLAGS'))
++                env.setvar('F77FLAGS', "%s -fallow-argument-mismatch" % os.getenv('F77FLAGS'))
++
+         # determine build options BLAS and LAPACK libs
+         extra_makeopts = []
+ 
+-- 
+2.31.1
+

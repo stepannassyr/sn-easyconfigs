@@ -1,0 +1,37 @@
+From 252cef5117e0d591943c46d23ec0ffe82036da22 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 08:45:37 +0200
+Subject: [PATCH 02/12] Add armclang to fortranpythonpackage.py
+
+---
+ easybuild/easyblocks/generic/fortranpythonpackage.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/easybuild/easyblocks/generic/fortranpythonpackage.py b/easybuild/easyblocks/generic/fortranpythonpackage.py
+index bba5678d..00c99193 100644
+--- a/easybuild/easyblocks/generic/fortranpythonpackage.py
++++ b/easybuild/easyblocks/generic/fortranpythonpackage.py
+@@ -51,7 +51,7 @@ class FortranPythonPackage(PythonPackage):
+             self.cfg.update('buildopts', "--compiler=intel --fcompiler=intelem")
+             cmd = "%s %s setup.py build %s" % (self.cfg['prebuildopts'], self.python_cmd, self.cfg['buildopts'])
+ 
+-        elif comp_fam in [toolchain.GCC, toolchain.CLANGGCC]:  # @UndefinedVariable
++        elif comp_fam in [toolchain.GCC, toolchain.CLANGGCC, toolchain.ARMHPC, toolchain.ARMLINUX]:  # @UndefinedVariable
+             ldflags = os.getenv('LDFLAGS')
+             if ldflags:
+                 # LDFLAGS should not be set when building numpy/scipy, because it overwrites whatever numpy/scipy sets
+@@ -64,7 +64,10 @@ class FortranPythonPackage(PythonPackage):
+                                                                                               cmdprefix))
+                 self.cfg.update('prebuildopts', cmdprefix)
+ 
+-            self.cfg.update('buildopts', "--fcompiler=gnu95")
++            if comp_fam in [toolchain.GCC, toolchain.CLANGGCC]:  # @UndefinedVariable
++                self.cfg.update('buildopts', "--fcompiler=gnu95")
++            else:
++                self.cfg.update('buildopts', "--fcompiler=arm")
+ 
+         else:
+             raise EasyBuildError("Unknown family of compilers being used: %s", comp_fam)
+-- 
+2.31.1
+

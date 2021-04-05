@@ -1,0 +1,40 @@
+From 10098968ebffb684199e85acb93fdc3351594f81 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 09:24:32 +0200
+Subject: [PATCH 10/12] clang easyblock: check symlink existence
+
+---
+ easybuild/easyblocks/c/clang.py | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
+
+diff --git a/easybuild/easyblocks/c/clang.py b/easybuild/easyblocks/c/clang.py
+index d7dba061..098f44b5 100644
+--- a/easybuild/easyblocks/c/clang.py
++++ b/easybuild/easyblocks/c/clang.py
+@@ -540,18 +540,11 @@ class EB_Clang(CMakeMake):
+         # apparently also required for 9.0.1
+         #if self.version[-4:] == "-git":
+         if LooseVersion(self.version) >= LooseVersion('9.0'):
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++.so'),
+-                       os.path.join(self.installdir, 'lib', 'libc++.so'))
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++.so.1'),
+-                       os.path.join(self.installdir, 'lib', 'libc++.so.1'))
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++abi.so'),
+-                       os.path.join(self.installdir, 'lib', 'libc++abi.so'))
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libc++abi.so.1'),
+-                       os.path.join(self.installdir, 'lib', 'libc++abi.so.1'))
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libunwind.so'),
+-                       os.path.join(self.installdir, 'lib', 'libunwind.so'))
+-            os.symlink(os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++', 'libunwind.so.1'),
+-                       os.path.join(self.installdir, 'lib', 'libunwind.so.1'))
++            src_lib_dir=os.path.join(self.installdir, 'lib', get_platform_name()+'-gnu', 'c++')
++            dest_lib_dir=os.path.join(self.installdir, 'lib')
++            for lib in ['libc++.so', 'libc++.so.1', 'libc++abi.so', 'libc++abi.so.1', 'libunwind.so', 'libunwind.so.1']:
++                if( not os.path.exists(os.path.join(dest_lib_dir, lib))):
++                    os.symlink(os.path.join(src_lib_dir, lib), os.path.join(dest_lib_dir, lib))
+ 
+     def sanity_check_step(self):
+         """Custom sanity check for Clang."""
+-- 
+2.31.1
+

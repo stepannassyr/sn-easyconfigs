@@ -1,0 +1,22 @@
+From 565ba2183002b614746c5a2643f7c4ad013acff1 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 08:20:44 +0200
+Subject: [PATCH 2/3] Undepreciate goolf
+
+---
+ easybuild/toolchains/goolf.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/easybuild/toolchains/goolf.py b/easybuild/toolchains/goolf.py
+index 3aece743e..cdbc8ae48 100644
+--- a/easybuild/toolchains/goolf.py
++++ b/easybuild/toolchains/goolf.py
+@@ -42,4 +42,4 @@ class Goolf(Gompi, OpenBLAS, ScaLAPACK, Fftw):
+ 
+     def is_deprecated(self):
+         """Return whether or not this toolchain is deprecated."""
+-        return True
++        return False
+-- 
+2.31.1
+

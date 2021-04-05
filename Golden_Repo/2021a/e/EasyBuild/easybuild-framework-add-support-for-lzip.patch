@@ -1,0 +1,52 @@
+diff --git a/easybuild/framework/easyconfig/templates.py b/easybuild/framework/easyconfig/templates.py
+index 069ee3b59..be9289aa8 100644
+--- a/easybuild/framework/easyconfig/templates.py
++++ b/easybuild/framework/easyconfig/templates.py
+@@ -131,7 +131,7 @@ TEMPLATE_CONSTANTS = [
+     ('SHLIB_EXT', get_shared_lib_ext(), 'extension for shared libraries'),
+ ]
+ 
+-extensions = ['tar.gz', 'tar.xz', 'tar.bz2', 'tgz', 'txz', 'tbz2', 'tb2', 'gtgz', 'zip', 'tar', 'xz', 'tar.Z']
++extensions = ['tar.gz', 'tar.lz', 'tar.xz', 'tar.bz2', 'tgz', 'tlz', 'txz', 'tbz2', 'tb2', 'gtgz', 'zip', 'tar', 'lz', 'xz', 'tar.Z']
+ for ext in extensions:
+     suffix = ext.replace('.', '_').upper()
+     TEMPLATE_CONSTANTS += [
+diff --git a/easybuild/tools/filetools.py b/easybuild/tools/filetools.py
+index eae8c84a4..9e897f205 100644
+--- a/easybuild/tools/filetools.py
++++ b/easybuild/tools/filetools.py
+@@ -142,6 +142,10 @@ EXTRACT_CMDS = {
+     '.tar.xz':  "unxz %(filepath)s --stdout | tar x",
+     '.txz':     "unxz %(filepath)s --stdout | tar x",
+     '.xz':      "unxz %(filepath)s",
++    # lzipped or lzipped tarball
++    '.tar.lz': "lzip -d %(filepath)s | tar x",
++    '.tlz': "lzip -d %(filepath)s | tar x",
++    '.lz': "lzip -d %(filepath)s",
+     # tarball
+     '.tar':     "tar xf %(filepath)s",
+     # zip file
+diff --git a/test/framework/filetools.py b/test/framework/filetools.py
+index c870fc513..0ae8a84bb 100644
+--- a/test/framework/filetools.py
++++ b/test/framework/filetools.py
+@@ -91,6 +91,9 @@ class FileToolsTest(EnhancedTestCase):
+             ('test.xz', "unxz test.xz"),
+             ('test.tar.xz', "unxz test.tar.xz --stdout | tar x"),
+             ('test.txz', "unxz test.txz --stdout | tar x"),
++            ('test.tar.lz', "lzip -d test.tar.lz | tar x"),
++            ('test.tlz', "lzip -d test.tlz | tar x"),
++            ('test.lz', "lzip -d test.lz"),
+             ('test.iso', "7z x test.iso"),
+             ('test.tar.Z', "tar xzf test.tar.Z"),
+         ]
+@@ -121,6 +124,9 @@ class FileToolsTest(EnhancedTestCase):
+             ('test.xz', '.xz'),
+             ('test.tar.xz', '.tar.xz'),
+             ('test.txz', '.txz'),
++            ('test.tar.lz', '.tar.lz'),
++            ('test.tlz', '.tlz'),
++            ('test.lz', '.lz'),
+             ('test.iso', '.iso'),
+             ('test.tar.Z', '.tar.Z'),
+         ]

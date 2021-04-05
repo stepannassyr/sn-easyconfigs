@@ -1,0 +1,41 @@
+From 360d4ead63dae65f2e62c572add0d5b3996ee0f6 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 08:22:04 +0200
+Subject: [PATCH 3/3] Add extra libs to gcc toolchain
+
+---
+ easybuild/toolchains/compiler/gcc.py | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/easybuild/toolchains/compiler/gcc.py b/easybuild/toolchains/compiler/gcc.py
+index ceaac6d1f..10b650fb0 100644
+--- a/easybuild/toolchains/compiler/gcc.py
++++ b/easybuild/toolchains/compiler/gcc.py
+@@ -29,6 +29,7 @@ Support for GCC (GNU Compiler Collection) as toolchain compiler.
+ :author: Kenneth Hoste (Ghent University)
+ """
+ 
++import os
+ import re
+ from distutils.version import LooseVersion
+ 
+@@ -121,6 +122,16 @@ class Gcc(Compiler):
+                 raise EasyBuildError("Failed to determine software root for GCC")
+ 
+         self.variables.append_subdirs("LDFLAGS", gcc_root, subdirs=["lib64", "lib"])
++        extra_libdirs=os.getenv("EBCUSTOM_EXTRA_LIB_DIRS")
++        if None != extra_libdirs:
++            extra_libdirs=extra_libdirs.split(':')
++            for i in extra_libdirs:
++                self.variables.append_subdirs("LDFLAGS", i)
++        extra_libs=os.getenv("EBCUSTOM_EXTRA_LIBS")
++        if None != extra_libs:
++            extra_libs=extra_libs.split(',')
++            for i in extra_libs:
++                self.variables.append("LIBS", i)
+ 
+     def _set_optimal_architecture(self, default_optarch=None):
+         """
+-- 
+2.31.1
+

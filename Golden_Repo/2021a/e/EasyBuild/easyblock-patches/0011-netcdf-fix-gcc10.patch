@@ -1,0 +1,63 @@
+From 4ea2fdb7498fa04a8961e9ece6f180c5cefb2e02 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 09:25:29 +0200
+Subject: [PATCH 11/12] netcdf: fix gcc10
+
+---
+ easybuild/easyblocks/n/netcdf.py         | 4 ++++
+ easybuild/easyblocks/n/netcdf_fortran.py | 9 +++++++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/easybuild/easyblocks/n/netcdf.py b/easybuild/easyblocks/n/netcdf.py
+index 41b5aa68..2c9a6cd2 100644
+--- a/easybuild/easyblocks/n/netcdf.py
++++ b/easybuild/easyblocks/n/netcdf.py
+@@ -74,6 +74,10 @@ class EB_netCDF(CMakeMake):
+             ConfigureMake.configure_step(self)
+ 
+         else:
++        
++            if self.toolchain.comp_family() == toolchain.GCC:
++                if LooseVersion(get_software_version("GCC")) >= LooseVersion("10"):
++                    self.cfg.update('configopts', '-DCMAKE_C_FLAGS="%s -fcommon"' % os.getenv('CFLAGS'))
+             for (dep, libname) in [('cURL', 'curl'), ('HDF5', 'hdf5'), ('Szip', 'sz'), ('zlib', 'z'),
+                                    ('PnetCDF', 'pnetcdf')]:
+                 dep_root = get_software_root(dep)
+diff --git a/easybuild/easyblocks/n/netcdf_fortran.py b/easybuild/easyblocks/n/netcdf_fortran.py
+index f56e2d1d..94233cea 100644
+--- a/easybuild/easyblocks/n/netcdf_fortran.py
++++ b/easybuild/easyblocks/n/netcdf_fortran.py
+@@ -33,11 +33,13 @@ EasyBuild support for building and installing netCDF-Fortran, implemented as an
+ """
+ 
+ import os
++from distutils.version import LooseVersion
+ 
+ import easybuild.tools.environment as env
+ import easybuild.tools.toolchain as toolchain
+ from easybuild.easyblocks.generic.configuremake import ConfigureMake
+ from easybuild.tools.systemtools import get_shared_lib_ext
++from easybuild.tools.modules import get_software_version
+ 
+ 
+ class EB_netCDF_minus_Fortran(ConfigureMake):
+@@ -49,11 +51,14 @@ class EB_netCDF_minus_Fortran(ConfigureMake):
+         if self.toolchain.options['pic']:
+             self.cfg.update('configopts', "--with-pic")
+ 
+-        self.cfg.update('configopts', 'FCFLAGS="%s" FC="%s"' % (os.getenv('FFLAGS'), os.getenv('F90')))
+-
+         # add -DgFortran to CPPFLAGS when building with GCC
+         if self.toolchain.comp_family() == toolchain.GCC:  # @UndefinedVariable
+             env.setvar('CPPFLAGS', "%s -DgFortran" % os.getenv('CPPFLAGS'))
++            if LooseVersion(get_software_version("GCC")) >= LooseVersion("10"):
++                env.setvar('FCFLAGS', "%s -fallow-argument-mismatch" % os.getenv('FCFLAGS'))
++                env.setvar('FFLAGS', "%s -fallow-argument-mismatch" % os.getenv('FFLAGS'))
++
++        self.cfg.update('configopts', 'FCFLAGS="%s" FC="%s"' % (os.getenv('FFLAGS'), os.getenv('F90')))
+ 
+         super(EB_netCDF_minus_Fortran, self).configure_step()
+ 
+-- 
+2.31.1
+

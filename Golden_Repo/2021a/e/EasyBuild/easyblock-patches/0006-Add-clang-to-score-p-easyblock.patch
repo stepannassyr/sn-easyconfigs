@@ -1,0 +1,24 @@
+From 49c7ab40d3a8ad2a3281371adfb074dd0f98d011 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 08:48:04 +0200
+Subject: [PATCH 06/12] Add clang to score-p easyblock
+
+---
+ easybuild/easyblocks/s/score_p.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/easybuild/easyblocks/s/score_p.py b/easybuild/easyblocks/s/score_p.py
+index 0c92ec54..dbfcd52a 100644
+--- a/easybuild/easyblocks/s/score_p.py
++++ b/easybuild/easyblocks/s/score_p.py
+@@ -66,6 +66,7 @@ class EB_Score_minus_P(ConfigureMake):
+                 toolchain.NVHPC: 'pgi',
+                 toolchain.PGI: 'pgi',
+                 toolchain.ARMLINUX: 'armlinux',
++                 toolchain.CLANG: 'clang',
+             }
+             comp_fam = self.toolchain.comp_family()
+             if comp_fam in comp_opts:
+-- 
+2.31.1
+
