@@ -22,22 +22,22 @@ source_urls = [
     'http://isl.gforge.inria.fr/',  # original HTTP source for ISL
 ]
 sources = [
-    'gcc-%(version)s.tar.gz',
-    'gmp-6.2.0.tar.bz2',
-    'mpfr-4.0.2.tar.bz2',
-    'mpc-1.1.0.tar.gz',
-    'isl-0.22.1.tar.bz2',
+    'gcc-%(version)s.tar.xz',
+    'gmp-6.2.1.tar.lz',
+    'mpfr-4.1.0.tar.xz',
+    'mpc-1.2.1.tar.gz',
+    'isl-0.23.tar.bz2',
 ]
 patches = [
     'GCCcore-6.2.0-fix-find-isl.patch',
     'gcc-10-Only-use-__getauxval-when-building-shared-libgcc.patch',
 ]
 checksums = [
-    '27e879dccc639cd7b0cc08ed575c1669492579529b53c9ff27b0b96265fa867d',  # gcc-10.2.0.tar.gz
-    'f51c99cb114deb21a60075ffb494c1a210eb9d7cb729ed042ddb7de9534451ea',  # gmp-6.2.0.tar.bz2
-    'c05e3f02d09e0e9019384cdd58e0f19c64e6db1fd6f5ecf77b4b1c61ca253acc',  # mpfr-4.0.2.tar.bz2
-    '6985c538143c1208dcb1ac42cedad6ff52e267b47e5f970183a3e75125b43c2e',  # mpc-1.1.0.tar.gz
-    '1a668ef92eb181a7c021e8531a3ca89fd71aa1b3744db56f68365ab0a224c5cd',  # isl-0.22.1.tar.bz2
+    'b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c',  # gcc-10.2.0.tar.xz
+    '2c7f4f0d370801b2849c48c9ef3f59553b5f1d3791d070cffb04599f9fc67b41',  # gmp-6.2.1.tar.lz
+    '0c98a3f1732ff6ca4ea690552079da9c597872d30e96ec28414ee23c95558a7f',  # mpfr-4.1.0.tar.xz
+    '17503d2c395dfcf106b622dc142683c1199431d095367c6aacba6eec30340459',  # mpc-1.2.1.tar.gz
+    'c58922c14ae7d0791a77932f377840890f19bc486b653fa64eba7f1026fb214d',  # isl-0.23.tar.bz2
     '5ad909606d17d851c6ad629b4fddb6c1621844218b8d139fed18c502a7696c68',  # GCCcore-6.2.0-fix-find-isl.patch
     # gcc-10-Only-use-__getauxval-when-building-shared-libgcc.patch
     'bd9df45b0a656a98755f8a9b6dad02ce3410c3c598651c53669191d655857698',
