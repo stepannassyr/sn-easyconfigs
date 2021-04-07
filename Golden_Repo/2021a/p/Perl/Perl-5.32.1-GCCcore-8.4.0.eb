@@ -569,9 +569,10 @@ exts_list = [
         'checksums': ['68c1dac2187421f0eb7abf71452a06f190181b8fc4b28ededf5b90296fb943cc'],
     }),
     ('Date::Language', '1.10', {
-        'source_tmpl': 'TimeDate-%(version)s.tar.gz',
+	'filename' : 'TimeDate-%(version)s.tar.gz',
+        'source_tmpl': 'TimeDate-2.33.tar.gz',
         'source_urls': ['https://cpan.metacpan.org/authors/id/A/AT/ATOOMIC'],
-        'checksums': ['cc7b00b7d3d555e8c8c1c0215580818c99d540933165f9919553c39c60d417d2'],
+        'checksums': ['c0b69c4b039de6f501b0d9f13ec58c86b040c1f7e9b27ef249651c143d605eb2'],
     }),
     ('version', '0.9928', {
         'source_tmpl': 'version-%(version)s.tar.gz',
