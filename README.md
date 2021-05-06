@@ -7,10 +7,15 @@
 
 # Available Software
 
-* Not all software that is available in the public JSC repository is available here. Specifically:
-    * There is only 1 Stage: 2019b
-    * Golden\_Repo/2019b-unconfirmed  contains Software that did not compile for the system or which has not been tested to compile.
-    * Fewer available toolchains
+* Not all software that is available in the public JSC repository is available here. Conversely some software available here is not in the JSC repository.
+* Available Stages:
+    * 2019b
+    * 2020a
+    * 2021a
+* Available Compilers: armclang, GCC, Clang
+* Available MPI: OpenMPI
+* Available BLAS/LAPACK/FFT: Arm PL, OpenBLAS 
+* For available versions/combinations see Golden\_Repo/<stage>/README.md
 
 # Setting up the software stack
 
