@@ -36,7 +36,7 @@ builddependencies = [
     ('flex', '2.6.4'),
     ('gperf', '3.1'),
     ('Ninja', '1.10.2'),
-    ('Python', '3.9.2'),
+    ('Python', '3.9.4'),
     ('re2c', '2.1.1')
 ]
 
@@ -54,7 +54,7 @@ dependencies = [
     ('X11', '20210331'),
     ('DBus', '1.13.18'),
     ('ICU', '68.2'),
-    ('libxml2', '2.9.10','-Python-3.9.2'),
+    ('libxml2', '2.9.10-babe7503','-Python-3.9.4'),
     ('libxslt', '1.1.34'),
     ('opus', '1.3.1'),
     ('libwebp', '1.2.0'),

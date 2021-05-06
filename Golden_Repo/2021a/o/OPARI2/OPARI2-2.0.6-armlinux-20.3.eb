@@ -27,7 +27,7 @@ description = """
 
 toolchain = {'name': 'armlinux', 'version': '20.3'}
 
-source_urls = ['https://www.vi-hps.org/cms/upload/packages/opari2/']
+source_urls = ['http://perftools.pages.jsc.fz-juelich.de/cicd/opari2/tags/opari2-%(version)s/']
 sources = [SOURCELOWER_TAR_GZ]
 
 patches = ['OPARI2-2.0.5-add-armlinux.patch']

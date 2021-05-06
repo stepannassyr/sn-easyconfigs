@@ -22,7 +22,7 @@ sources = [{
         'keep_git_dir': True,
     },
 }]
-checksums = ['85bd6ce96d82bb1f2825c3ed99f0ab89c38d9a3f9977f2bffe3059cf2ea5b4a9']
+checksums = ['7ced6c1968ceb1b2cc85f393653b93546c7e9dab2337dd54c76221b372220577']
 
 builddependencies = [('binutils', '2.36.1')]
 

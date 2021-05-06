@@ -1,0 +1,22 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = "Toolchain"
+
+name = 'gompi'
+version = '2021a.11'
+
+homepage = '(none)'
+description = """gcc and GFortran based compiler toolchain,
+ including OpenMPI for MPI support.
+"""
+
+
+toolchain = SYSTEM
+
+local_gcc_version = '11.1.0'
+
+dependencies = [
+    ('GCC', local_gcc_version),
+    ('OpenMPI', '4.1.0', '', ('GCC', local_gcc_version)),
+]
+
+moduleclass = 'toolchain'

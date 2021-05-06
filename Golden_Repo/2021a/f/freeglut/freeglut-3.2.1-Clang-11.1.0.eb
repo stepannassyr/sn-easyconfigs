@@ -23,7 +23,7 @@ builddependencies = [
 dependencies = [
     ('X11', '20210331'),
     ('libGLU', '9.0.1'),
-    ('Mesa', '21.0.1'),
+    ('Mesa', '21.0.3'),
 ]
 
 sanity_check_paths = {

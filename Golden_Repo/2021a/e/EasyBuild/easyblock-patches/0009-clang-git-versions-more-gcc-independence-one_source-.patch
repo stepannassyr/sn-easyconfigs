@@ -1,15 +1,15 @@
 From b4133e61022ff859c30d5d7fd57646259ee0c1b6 Mon Sep 17 00:00:00 2001
 From: Stepan Nassyr <s.nassyr@fz-juelich.de>
 Date: Mon, 5 Apr 2021 09:23:33 +0200
-Subject: [PATCH 09/12] clang git versions, more gcc independence, one_source
+Subject: [PATCH 09/17] clang git versions, more gcc independence, one_source
  support
 
 ---
- easybuild/easyblocks/c/clang.py | 180 ++++++++++++++++++++++++--------
+ easybuild/easyblocks/c/clang.py | 180 ++++++++++++++++++++++++++++++----------
  1 file changed, 135 insertions(+), 45 deletions(-)
 
 diff --git a/easybuild/easyblocks/c/clang.py b/easybuild/easyblocks/c/clang.py
-index ca0b0ae1..d7dba061 100644
+index ca0b0ae..d7dba06 100644
 --- a/easybuild/easyblocks/c/clang.py
 +++ b/easybuild/easyblocks/c/clang.py
 @@ -37,6 +37,7 @@ Support for building and installing Clang, implemented as an easyblock.
@@ -87,7 +87,7 @@ index ca0b0ae1..d7dba061 100644
              src_dirs[glob_src_dirs[0]] = targetdir
  
 -        find_source_dir('compiler-rt-*', os.path.join(self.llvm_src_dir, 'projects', 'compiler-rt'))
-+        if not self.cfg['one_source']:
++        if not self.cfg['one_source']
 +            # git repo has no version suffixes
 +            if self.version[-4:] == '-git':
 +                globsuff = ''
@@ -141,7 +141,7 @@ index ca0b0ae1..d7dba061 100644
 +                find_source_dir('pstl%s' % globsuff, os.path.join(self.llvm_src_dir, 'projects', 'pstl'))
  
 -        for src in self.src:
-+        if (self.version[-4:] == '-git') or (self.cfg['one_source']):
++        if (self.version[-4:] == '-git') or (self.cfg['one-source']):
              for (dirname, new_path) in src_dirs.items():
 -                if src['name'].startswith(dirname):
 -                    old_path = os.path.join(src['finalpath'], dirname)
@@ -314,5 +314,5 @@ index ca0b0ae1..d7dba061 100644
          custom_commands = ['clang --help', 'clang++ --help', 'llvm-config --cxxflags']
          super(EB_Clang, self).sanity_check_step(custom_paths=custom_paths, custom_commands=custom_commands)
 -- 
-2.31.1
+1.8.3.1
 

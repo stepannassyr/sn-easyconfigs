@@ -1,0 +1,51 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'MesonNinja'
+
+name = 'AT-SPI2-core'
+version = '2.40.0'
+
+homepage = 'https://developer.gnome.org/ATK/stable/'
+description = """
+ ATK provides the set of accessibility interfaces that are implemented by other
+ toolkits and applications. Using the ATK interfaces, accessibility tools have
+ full access to view and control running applications.
+"""
+
+
+toolchain = {'name': 'GCCcore', 'version': '11.1.0'}
+
+source_urls = [FTPGNOME_SOURCE]
+sources = [SOURCELOWER_TAR_XZ]
+checksums = ['4196a7d30a0051e52a67b8ce4283fe79ae5e4e14a725719934565adf1d333429']
+
+# See https://gitlab.gnome.org/GNOME/at-spi2-core/merge_requests/9/diffs
+# patches = ['atspi_meson_fullpath.patch']
+
+builddependencies = [
+    ('binutils', '2.36.1'),
+    ('GObject-Introspection', '1.68.0'),
+    ('Meson', '0.57.1', '-Python-3.9.4'),
+    ('Ninja', '1.10.2'),
+    ('pkg-config', '0.29.2'),
+]
+
+dependencies = [
+    ('DBus', '1.13.18'),
+    ('intltool', '0.51.0', '-Perl-5.32.1'),
+    ('X11', '20210331'),
+]
+
+# without this, pkg-config can't find gio-2.0, because libselinux.pc is not found at the end of the dependency chain
+preconfigopts = 'PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib64/pkgconfig '
+
+modextrapaths = {
+    'GI_TYPELIB_PATH': 'lib64/girepository-1.0',
+    'XDG_DATA_DIRS': 'share',
+}
+
+sanity_check_paths = {
+    'files': ['lib64/libatspi.%s' % SHLIB_EXT],
+    'dirs': [],
+}
+
+moduleclass = 'vis'

@@ -1,14 +1,14 @@
 From 6bd7f7e5a0bdc4cdddf9564e1bfaf2b9a8e4451c Mon Sep 17 00:00:00 2001
 From: Stepan Nassyr <s.nassyr@fz-juelich.de>
 Date: Mon, 5 Apr 2021 08:44:55 +0200
-Subject: [PATCH 01/12] Add armclang to Boost
+Subject: [PATCH 01/17] Add armclang to Boost
 
 ---
  easybuild/easyblocks/b/boost.py | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 diff --git a/easybuild/easyblocks/b/boost.py b/easybuild/easyblocks/b/boost.py
-index fa684f15..736234c4 100644
+index fa684f1..736234c 100644
 --- a/easybuild/easyblocks/b/boost.py
 +++ b/easybuild/easyblocks/b/boost.py
 @@ -169,6 +169,12 @@ class EB_Boost(EasyBlock):
@@ -34,5 +34,5 @@ index fa684f15..736234c4 100644
          cxxflags = os.getenv('CXXFLAGS')
          # only disable -D_GLIBCXX_USE_CXX11_ABI if use_glibcxx11_abi was explicitly set to False
 -- 
-2.31.1
+1.8.3.1
 

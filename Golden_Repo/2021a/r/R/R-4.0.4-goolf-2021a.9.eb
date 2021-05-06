@@ -18,7 +18,7 @@ builddependencies = [
 
 dependencies = [
     ('X11', '20210331'),
-    ('Mesa', '21.0.1'),
+    ('Mesa', '21.0.3'),
     ('libGLU', '9.0.1'),
     ('cairo', '1.17.4'),
     ('libreadline', '8.1'),
@@ -36,12 +36,12 @@ dependencies = [
     ('Java', '11.0.10', '', True),  # Java bindings are built if Java is found, might as well provide it
     ('Tk', '8.6.11'),  # for tcltk
     ('cURL', '7.75.0'),  # for RCurl
-    ('libxml2', '2.9.10'),  # for XML
+    ('libxml2', '2.9.10-babe7503'),  # for XML
     ('GDAL', '3.2.2'),  # for rgdal
     ('CFITSIO', '3.49'),  # for rgdal
     ('Xerces-C++', '3.2.3'),  # for rgdal
     ('PROJ', '8.0.0'), # for rgdal
-    ('GEOS', '3.9.1', '-Python-3.9.2'),  # for sf
+    ('GEOS', '3.9.1'),  # for sf
     ('GMP', '6.2.1'),  # for igraph
     ('NLopt', '2.6.2'),  # for nloptr
     ('FFTW', '3.3.9','',('gompi','2021a.9')),  # for fftw
@@ -1425,6 +1425,9 @@ exts_list = [
     (   'units',
         '0.7-1',
         {   'checksums': [   'd0b6c76afb9aa5d7a0eaae05e6fc1bd2bb9d62d4c43e986b4782d6e5c2efa687']}),
+    (   'rgeos',
+        '0.5-5',
+        {   'checksums': [   '4baa0dfe6ff76e87ddb67a030fc14fe963d28b518485a4d71058923b2606d420']}),
     (   'sf',
         '0.9-8',
         {   'checksums': [   'd03508f977f8edda08f897e92f013e15f6a0b40e9040e6a41a9e535bfca3b707']}),

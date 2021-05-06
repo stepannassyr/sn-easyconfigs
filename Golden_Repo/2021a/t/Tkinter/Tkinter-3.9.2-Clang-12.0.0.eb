@@ -1,0 +1,24 @@
+name = 'Tkinter'
+version = '3.9.2'
+
+homepage = 'https://python.org/'
+description = "Tkinter module, built with the Python buildsystem"
+
+toolchain = {'name': 'Clang', 'version': '12.0.0'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://www.python.org/ftp/python/%(version)s/']
+sources = ['Python-%(version)s.tgz']
+
+builddependencies = [
+    ('binutils', '2.36.1'),
+    ('libffi', '3.3'),
+]
+
+dependencies = [
+    ('Python', '3.9.4'),
+    ('Tk', '8.6.11'),
+    ('zlib', '1.2.11'),
+]
+
+moduleclass = 'lang'

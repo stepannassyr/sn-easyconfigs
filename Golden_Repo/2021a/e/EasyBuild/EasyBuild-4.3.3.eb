@@ -39,7 +39,11 @@ patches = [
     ('easyblock-patches/0010-clang-easyblock-check-symlink-existence.patch', '../easybuild-easyblocks-%(version)s'),
     ('easyblock-patches/0011-netcdf-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
     ('easyblock-patches/0012-scalapack-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
-    ('easyblock-patches/wip-clang-no-gcc-libatomic.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0013-fix-typos.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0014-Update-clang-options-for-later-stages.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0015-Clang-add-enable_modules-option.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0016-clang.py-fuse-ld-lld.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0017-clang.py-undo-runtimes.patch', '../easybuild-easyblocks-%(version)s'),
     ]
 
 # order matters a lot, to avoid having dependencies auto-resolved (--no-deps easy_install option doesn't work?)

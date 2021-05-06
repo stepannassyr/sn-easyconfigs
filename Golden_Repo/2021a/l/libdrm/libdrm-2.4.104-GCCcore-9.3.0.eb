@@ -17,7 +17,7 @@ toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
 
 builddependencies = [
     ('binutils', '2.36.1'),
-    ('Meson', '0.57.1', '-Python-3.9.2'),
+    ('Meson', '0.57.1', '-Python-3.9.4'),
     ('Ninja', '1.10.2')
 ]
 

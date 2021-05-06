@@ -1,7 +1,7 @@
 From 0ea0f1f6775dec539594d5143b03e13dd8f36fa8 Mon Sep 17 00:00:00 2001
 From: Stepan Nassyr <s.nassyr@fz-juelich.de>
 Date: Mon, 5 Apr 2021 08:46:12 +0200
-Subject: [PATCH 03/12] versionindependentpythonpackage.py - use makedirs
+Subject: [PATCH 03/17] versionindependentpythonpackage.py - use makedirs
  instead of mkdir
 
 ---
@@ -9,7 +9,7 @@ Subject: [PATCH 03/12] versionindependentpythonpackage.py - use makedirs
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/easybuild/easyblocks/generic/versionindependentpythonpackage.py b/easybuild/easyblocks/generic/versionindependentpythonpackage.py
-index 9ac044bd..5aa4f961 100644
+index 9ac044b..5aa4f96 100644
 --- a/easybuild/easyblocks/generic/versionindependentpythonpackage.py
 +++ b/easybuild/easyblocks/generic/versionindependentpythonpackage.py
 @@ -60,7 +60,7 @@ class VersionIndependentPythonPackage(PythonPackage):
@@ -22,5 +22,5 @@ index 9ac044bd..5aa4f961 100644
              # this will raise an error and not return
              raise EasyBuildError("Failed to install: %s", err)
 -- 
-2.31.1
+1.8.3.1
 

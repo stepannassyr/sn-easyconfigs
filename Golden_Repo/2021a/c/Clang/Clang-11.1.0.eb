@@ -25,14 +25,17 @@ sources = [
 ]
 patches = [
     'Clang-11.0.0-omp-libm.patch',
+    'llvm-11.1.0-fix-rpcserialization-global-destructor-issue.patch',
 #    'Clang-10.0.0-symlinks-are-not-bins.patch',
 #    'clang-9.0.1-glibc-2.31.patch'
 ]
 checksums = [
     '74d2529159fd118c3eac6f90107b5611bccc6f647fdea104024183e8d5e25831',  # llvm-project-11.1.0.src.tar.xz
     'a7056ad40a810cc15d82a29dbfcec76c45b11925eb8fe94c1d35946eccf1ad6d',  # Clang-11.0.0-omp-libm.patch
+    'ba96d260e1bfc30ab7f353532753592191b18b4e87d7e79f145a48d12a06b248',  # llvm-11.1.0-fix-rpcserialization-global-destructor-issue.patch
 ]
 
+# One source instead of multiple projects
 one_source = True
 
 #source_urls = ["https://github.com/llvm/llvm-project/releases/download/llvmorg-%(version)s/"]
@@ -45,7 +48,7 @@ dependencies = [
 #    ('GMP', '6.2.1'),
 ]
 
-local_pyver = '3.9.2'
+local_pyver = '3.9.4'
 local_pysuff = '3.9'
 
 builddependencies = [
@@ -54,18 +57,21 @@ builddependencies = [
     ('Doxygen', '1.9.1','',('GCCcore','10.2.0')),
     ('SWIG', '4.0.2','',('GCCcore','10.2.0')),
     ('Python', local_pyver,'',('GCCcore','10.2.0')),
-    ('libxml2', '2.9.10','',('GCCcore','10.2.0')),
+    ('libxml2', '2.9.10-babe7503','',('GCCcore','10.2.0')),
 ]
 
 configopts  = " -DPYTHON_EXECUTABLE=$EBROOTPYTHON/bin/python%s" % local_pysuff
 configopts += " -DPYTHON_INCLUDE_DIR=$EBROOTPYTHON/include/python%s" % local_pysuff
 configopts += " -DPYTHON_LIBRARY=$EBROOTPYTHON/lib/libpython%s.so" % local_pysuff
 
+# Modules support
+enable_modules = True
+
 # need libLLVM.so for Mesa (and probably other sw as well)
 configopts += " -DBUILD_SHARED_LIBS=ON -DLLVM_BUILD_LLVM_DYLIB=ON "
 
 # FileCheck needed for Rust
-configopts += " -DLLVM_INCLUDE_UTILS=ON -DLLVM_INSTALL_UTILS=ONE "
+configopts += " -DLLVM_INCLUDE_UTILS=ON -DLLVM_INSTALL_UTILS=ON "
 
 # ld.gold has issues on CentOS 8
 configopts += " -DCMAKE_SHARED_LINKER_FLAGS=\"-fuse-ld=bfd\" "

@@ -17,20 +17,20 @@ checksums = ['67734f584f3a05a2872f57e9a8db38f3b06c7087fb531c5a839d9171968103ea']
 
 builddependencies = [
     ('binutils', '2.36.1'),
-    ('Python', '3.9.2'),
-    ('Meson', '0.57.1', '-Python-%s' % '3.9.2'),
+    ('Python', '3.9.4'),
+    ('Meson', '0.57.1', '-Python-%s' % '3.9.4'),
     ('Ninja', '1.10.2'),
 ]
 
 dependencies = [
     ('libffi', '3.3'),
     ('gettext', '0.21'),
-    ('libxml2', '2.9.10'),
+    ('libxml2', '2.9.10-babe7503'),
     ('PCRE', '8.44'),
     ('util-linux', '2.35.1')
 ]
 
-configopts = '-Ddefault_library=both'
+configopts = '-Ddefault_library=both -Dselinux=disabled'
 
 postinstallcmds = ["sed -i -e 's|#!.*python|#!/usr/bin/env python|' %(installdir)s/bin/*"]
 

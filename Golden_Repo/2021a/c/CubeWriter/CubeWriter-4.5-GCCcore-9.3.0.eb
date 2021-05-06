@@ -31,7 +31,7 @@ toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
 source_urls = ['https://apps.fz-juelich.de/scalasca/releases/cube/%(version_major_minor)s/dist']
 sources = ['cubew-%(version)s.tar.gz']
 checksums = [
-    '93fff6cc1e8b0780f0171ef5302a2e1a257f99b6383fbfc1b9b82f925ceff501',  # cubew-4.4.3.tar.gz
+    '16bd8fd864197a74ca65f7325761ad75d73d555072326e95e1338cff39f28a5c',  # cubew-4.5.tar.gz
 ]
 
 builddependencies = [

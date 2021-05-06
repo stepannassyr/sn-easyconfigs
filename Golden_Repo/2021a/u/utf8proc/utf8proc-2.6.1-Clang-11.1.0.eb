@@ -16,6 +16,10 @@ toolchainopts = {'pic': True}
 source_urls = ["https://github.com/JuliaStrings/utf8proc/archive/"]
 sources = ["v%(version)s.tar.gz"]
 
+dependencies = [
+    ('libuv', '1.41.0'),
+]
+
 builddependencies = [
     ('CMake', '3.20.0'),
     ('binutils', '2.36.1'),
@@ -23,7 +27,7 @@ builddependencies = [
 
 separate_build_dir=True
 
-osdependencies = ['libuv-devel','lua']
+osdependencies = ['lua']
 
 sanity_check_paths = {
     'files': ['include/utf8proc.h','lib/libutf8proc.a'],

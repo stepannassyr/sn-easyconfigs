@@ -20,7 +20,7 @@ sources = [SOURCELOWER_TAR_XZ]
 builddependencies = [
     ('binutils', '2.36.1'),
     ('GObject-Introspection', '1.68.0'),
-    ('Meson', '0.57.1', '-Python-3.9.2'),
+    ('Meson', '0.57.1', '-Python-3.9.4'),
     ('Ninja', '1.10.2')
 ]
 

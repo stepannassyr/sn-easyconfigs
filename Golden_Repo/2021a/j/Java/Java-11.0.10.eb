@@ -17,7 +17,7 @@ source_urls = ['https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/down
 sources = ['OpenJDK11U-jdk_%s_linux_hotspot_%%(version)s_9.tar.gz' % local_arch_suf]
 
 local_arch_sums = {
-    'x64'     : '330d19a2eaa07ed02757d7a785a77bab49f5ee710ea03b4ee2fa220ddd0feffc',
+    'x64'     : 'ae78aa45f84642545c01e8ef786dfd700d2226f8b12881c844d6a1f71789cb99',
     'aarch64' : '420c5d1e5dc66b2ed7dedd30a7bdf94bfaed10d5e1b07dc579722bf60a8114a9',
 }
 checksums = [local_arch_sums[local_arch_suf]]

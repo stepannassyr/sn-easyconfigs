@@ -1,0 +1,47 @@
+From 8899212ae7f30809b51b801896db598a708e528b Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Tue, 6 Apr 2021 08:43:20 +0200
+Subject: [PATCH 14/17] Update clang options for later stages
+
+---
+ easybuild/easyblocks/c/clang.py | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/easybuild/easyblocks/c/clang.py b/easybuild/easyblocks/c/clang.py
+index a5822cf..071c45b 100644
+--- a/easybuild/easyblocks/c/clang.py
++++ b/easybuild/easyblocks/c/clang.py
+@@ -444,20 +444,27 @@ class EB_Clang(CMakeMake):
+         options += "-DCMAKE_ADDR2LINE='%s' " % ADDR2LINE
+ 
+         self.cfg.update('configopts', '-DBENCHMARK_USE_LIBCXX=ON')
++        self.cfg.update('configopts', '-DBENCHMARK_ENABLE_EXCEPTIONS=ON')
+         self.cfg.update('configopts', '-DCLANG_DEFAULT_CXX_STDLIB=libc++')
+         self.cfg.update('configopts', '-DCLANG_DEFAULT_LINKER=lld')
+-        self.cfg.update('configopts', '-DFLANG_DEFAULT_LINKER=lld')
+         self.cfg.update('configopts', '-DCLANG_DEFAULT_RTLIB=compiler-rt')
+-        self.cfg.update('configopts', '-DFLANG_DEFAULT_RTLIB=compiler-rt')
+         self.cfg.update('configopts', '-DCLANG_DEFAULT_UNWINDLIB=libunwind')
++        self.cfg.update('configopts', '-DCOMPILER_RT_EXCLUDE_ATOMIC_BUILTIN=OFF')
+         self.cfg.update('configopts', '-DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON')
+         self.cfg.update('configopts', '-DCOMPILER_RT_USE_LIBCXX=ON')
++        self.cfg.update('configopts', '-DFLANG_DEFAULT_LINKER=lld')
++        self.cfg.update('configopts', '-DFLANG_DEFAULT_RTLIB=compiler-rt')
++        self.cfg.update('configopts', '-DGCC_INSTALL_PREFIX=')
++        self.cfg.update('configopts', '-DLIBCXXABI_ENABLE_STATIC_UNWINDER=ON')
+         self.cfg.update('configopts', '-DLIBCXXABI_USE_COMPILER_RT=ON')
+         self.cfg.update('configopts', '-DLIBCXXABI_USE_LLVM_UNWINDER=ON')
+-        self.cfg.update('configopts', '-DLIBCXXABI_ENABLE_STATIC_UNWINDER=ON')
+         self.cfg.update('configopts', '-DLIBCXX_CXX_ABI=libcxxabi')
++        self.cfg.update('configopts', '-DLIBCXX_ENABLE_PARALLEL_ALGORITHMS=ON')
+         self.cfg.update('configopts', '-DLIBCXX_USE_COMPILER_RT=ON')
+         self.cfg.update('configopts', '-DLIBUNWIND_USE_COMPILER_RT=ON')
++        self.cfg.update('configopts', '-DLLVM_ENABLE_LLD=ON')
++        self.cfg.update('configopts', '-DLLVM_ENABLE_LIBCXX=ON')
++        self.cfg.update('configopts', '-DLLVM_ENABLE_RUNTIMES=all')
+         self.cfg.update('configopts', '-DSANITIZER_CXX_ABI=libcxxabi')
+         self.cfg.update('configopts', '-DSANITIZER_USE_STATIC_CXX_ABI=ON')
+         self.cfg.update('configopts', '-DSANITIZER_USE_STATIC_LLVM_UNWINDER=ON')
+-- 
+1.8.3.1
+

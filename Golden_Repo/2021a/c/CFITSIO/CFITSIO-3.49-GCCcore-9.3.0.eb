@@ -16,8 +16,8 @@ source_urls = ['https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/']
 patches = ['CFITSIO_install_test_data.patch']
 
 checksums = [
-    '418516f10ee1e0f1b520926eeca6b77ce639bed88804c7c545e74f26b3edf4ef',  # cfitsio-3.47.tar.gz
-    'e7b99d380976e2695f524254add38298c35117d152d67be36f105c3cb57e4375',  # CFITSIO_install_test_data.patch
+    '5b65a20d5c53494ec8f638267fca4a629836b7ac8dd0ef0266834eab270ed4b3',  # cfitsio-3.49.tar.gz
+    '2ceb30761fe7cbe02acdacff54e3b3597f346983b24eae99013e71dc79c7447c',  # CFITSIO_install_test_data.patch
 ]
 
 # curl for HTTPs support
@@ -33,7 +33,7 @@ sanity_check_paths = {
     'files': [
         'lib/libcfitsio.a',
         'lib/libcfitsio.so',
-        'lib/libcfitsio.so.8.%(version)s'
+        'lib/libcfitsio.so.9.%(version)s'
     ],
     'dirs': ['include'],
 }

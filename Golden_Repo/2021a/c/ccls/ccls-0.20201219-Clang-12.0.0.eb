@@ -1,0 +1,36 @@
+# JUAWEI/ARM64 EasyConfig files
+# Copyright 2019 Stepan Nassyr @ Forschungszentrum Juelich
+easyblock = 'CMakeMake'
+
+name = 'ccls'
+version = '0.20201219'
+
+homepage = 'https://github.com/MaskRay/ccls'
+description = """C/C++/Obj-C language server supporting cross references, hierarchies, completion and semantic highlighting
+"""
+
+
+toolchain = {'name': 'Clang', 'version': '12.0.0'}
+toolchainopts = {'pic': True}
+
+source_urls = ["https://github.com/MaskRay/ccls/archive/"]
+sources = ["%(version)s.tar.gz"]
+#patches = ['ccls-0.20190823.5-Clang-10.0.0-handleDeclOccurrence.patch']
+
+osdependencies=[('rapidjson-devel')]
+builddependencies = [
+    ('CMake', '3.20.0'),
+    ('binutils', '2.36.1'),
+]
+
+
+separate_build_dir=True
+
+
+
+sanity_check_paths = {
+    'files': ['bin/ccls'],
+    'dirs': ['bin'],
+}
+
+moduleclass = 'tools'

@@ -1,0 +1,47 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'MesonNinja'
+
+name = 'GLib'
+version = '2.68.0'
+
+homepage = 'http://www.gtk.org/'
+description = "GLib is one of the base libraries of the GTK+ project"
+
+
+toolchain = {'name': 'Clang', 'version': '12.0.0'}
+toolchainopts = { 'pic': True}
+
+source_urls = [FTPGNOME_SOURCE]
+sources = [SOURCELOWER_TAR_XZ]
+checksums = ['6c257205a0a343b662c9961a58bb4ba1f1e31c82f5c6b909ec741194abc3da10']
+
+
+builddependencies = [
+    ('binutils', '2.36.1'),
+    ('Python', '3.9.4'),
+    ('Meson', '0.57.1', '-Python-%s' % '3.9.4'),
+    ('Ninja', '1.10.2'),
+]
+
+dependencies = [
+    ('libffi', '3.3'),
+    ('gettext', '0.21'),
+    ('libxml2', '2.9.10-babe7503'),
+    ('PCRE', '8.44'),
+    ('util-linux', '2.35.1')
+]
+
+configopts = '-Ddefault_library=both -Dselinux=disabled'
+
+postinstallcmds = ["sed -i -e 's|#!.*python|#!/usr/bin/env python|' %(installdir)s/bin/*"]
+
+modextrapaths = {
+    'CPATH': ['include/gio-unix-2.0', 'include/glib-2.0'],
+}
+
+sanity_check_paths = {
+    'files': ['lib64/libglib-%(version_major)s.0.a', 'lib64/libglib-%%(version_major)s.0.%s' % SHLIB_EXT],
+    'dirs': ['bin', 'include'],
+}
+
+moduleclass = 'vis'

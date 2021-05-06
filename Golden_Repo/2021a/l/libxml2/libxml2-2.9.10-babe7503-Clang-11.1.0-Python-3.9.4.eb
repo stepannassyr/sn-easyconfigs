@@ -1,0 +1,59 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+name = 'libxml2'
+version = '2.9.10-babe7503'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://xmlsoft.org/'
+description = """Libxml2 is the XML C parser and toolchain developed for the Gnome project (but usable
+ outside of the Gnome platform).
+"""
+
+
+toolchain = {'name': 'Clang', 'version': '11.1.0'}
+toolchainopts = {'pic': True}
+
+source_urls = [
+#    'http://xmlsoft.org/sources/',
+#    'http://xmlsoft.org/sources/old/',
+    'http://www.w3.org/XML/Test/'
+]
+sources = [
+    {
+        'filename': '%(name)s-%(version)s.tar.gz',
+        'git_config': {
+            'url': 'https://gitlab.gnome.org/GNOME/',
+            'repo_name': 'libxml2',
+            'commit': 'babe75030c7f64a37826bb3342317134568bef61',
+        },
+    },
+    'xmlts20080827.tar.gz'
+]
+
+patches = ['libxml2-2.9.7_fix-hardcoded-paths.patch']
+
+checksums = ['44958f84ffa096791c9c4180083e9250ff06a6642b798ecaba623f27d31f60fa',
+             '96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7']
+
+preconfigopts = "./autogen.sh && "
+
+#tests failing
+runtest = ""
+
+prebuildopts= "mv ../xmlconf ./ && "
+
+builddependencies = [
+    ('binutils', '2.36.1'),
+]
+
+dependencies = [
+    ('zlib', '1.2.11'),
+    ('XZ', '5.2.5'),
+    ('libxml2', version),
+    ('libiconv', '1.16'),
+    ('Python', '3.9.4'),
+]
+
+
+modextrapaths = {'CPATH': ['include/libxml2']}
+
+moduleclass = 'lib'

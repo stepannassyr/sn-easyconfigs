@@ -1,14 +1,14 @@
 From d4fc49c3b40f98083ec568aba3abaa7a9e6dace1 Mon Sep 17 00:00:00 2001
 From: Stepan Nassyr <s.nassyr@fz-juelich.de>
 Date: Mon, 5 Apr 2021 09:26:05 +0200
-Subject: [PATCH 12/12] scalapack: fix gcc10
+Subject: [PATCH 12/17] scalapack: fix gcc10
 
 ---
  easybuild/easyblocks/s/scalapack.py | 11 ++++++++++-
  1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/easybuild/easyblocks/s/scalapack.py b/easybuild/easyblocks/s/scalapack.py
-index 14b2387e..5b2234ca 100644
+index 14b2387..5b2234c 100644
 --- a/easybuild/easyblocks/s/scalapack.py
 +++ b/easybuild/easyblocks/s/scalapack.py
 @@ -37,6 +37,7 @@ import os
@@ -44,5 +44,5 @@ index 14b2387e..5b2234ca 100644
          extra_makeopts = []
  
 -- 
-2.31.1
+1.8.3.1
 

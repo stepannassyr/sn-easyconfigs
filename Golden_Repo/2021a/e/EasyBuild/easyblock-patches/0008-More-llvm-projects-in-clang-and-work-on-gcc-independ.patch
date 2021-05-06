@@ -1,7 +1,7 @@
 From b1513efda925519301c8c4d013fee25929c683ba Mon Sep 17 00:00:00 2001
 From: Stepan Nassyr <s.nassyr@fz-juelich.de>
 Date: Mon, 5 Apr 2021 08:57:10 +0200
-Subject: [PATCH 08/12] More llvm-projects in clang and work on gcc
+Subject: [PATCH 08/17] More llvm-projects in clang and work on gcc
  independence
 
 ---
@@ -9,7 +9,7 @@ Subject: [PATCH 08/12] More llvm-projects in clang and work on gcc
  1 file changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/easybuild/easyblocks/c/clang.py b/easybuild/easyblocks/c/clang.py
-index 3eb63572..ca0b0ae1 100644
+index 3eb6357..ca0b0ae 100644
 --- a/easybuild/easyblocks/c/clang.py
 +++ b/easybuild/easyblocks/c/clang.py
 @@ -118,14 +118,16 @@ class EB_Clang(CMakeMake):
@@ -70,5 +70,5 @@ index 3eb63572..ca0b0ae1 100644
          options += "-DCMAKE_BUILD_TYPE=%s" % self.build_type
  
 -- 
-2.31.1
+1.8.3.1
 

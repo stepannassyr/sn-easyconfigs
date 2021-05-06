@@ -11,7 +11,7 @@ toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
 
 source_urls = ['http://sourceforge.net/projects/lcms/files/lcms/%(version)s/']
 sources = ['lcms2-%(version)s.tar.gz']
-checksums = ['48c6fdf98396fa245ed86e622028caf49b96fa22f3e5734f853f806fbc8e7d20']
+checksums = ['18663985e864100455ac3e507625c438c3710354d85e5cbb7cd4043e11fe10f5']
 
 builddependencies = [
     # use same binutils version that was used when building GCCcore toolchain

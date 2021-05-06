@@ -28,7 +28,7 @@ dependencies = [
     ('Gdk-Pixbuf', '2.42.0'),
     ('Pango', '1.48.4'),
     ('X11', '20210331'),
-    ('libepoxy', '1.5.5'),
+    ('libepoxy', '1.5.7'),
 ]
 
 # without this, pkg-config can't find gio-2.0, because libselinux.pc is not found at the end of the dependency chain

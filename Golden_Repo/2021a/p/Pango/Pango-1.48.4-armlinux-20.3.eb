@@ -25,7 +25,7 @@ builddependencies = [
     ('binutils', '2.36.1'),
     ('Coreutils', '8.32'),
     ('GObject-Introspection', '1.68.0'),
-    ('Meson', '0.57.1', '-Python-3.9.2'),
+    ('Meson', '0.57.1', '-Python-3.9.4'),
     ('Ninja', '1.10.2'),
     ('git', '2.31.1'),
     ('pkg-config', '0.29.2'),

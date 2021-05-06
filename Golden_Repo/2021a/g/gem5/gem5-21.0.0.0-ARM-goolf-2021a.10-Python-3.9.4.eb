@@ -1,0 +1,44 @@
+easyblock = 'gem5'
+
+name = 'gem5'
+local_rawversion = '21.0.0.0'
+gem5_isa = 'ARM'
+version = local_rawversion + '-' + gem5_isa
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://www.gem5.org/"
+description = """The gem5 simulator is a modular platform for computer-system architecture research, encompassing system-level architecture as well as processor microarchitecture"""
+
+toolchain = {'name': 'goolf', 'version': '2021a.10'}
+
+source_urls = [GITHUB_SOURCE]
+
+github_account = 'gem5'
+sources = ["v%s.tar.gz" % local_rawversion]
+
+patches = ["gem5-20.0.0.2-respect-cpath.patch"]
+
+dependencies = [
+    ('OpenMPI', '4.1.0'), # For Boost, HDF5, Valgrind
+    ('Valgrind', '3.17.0'),
+    ('Boost', '1.75.0', versionsuffix),
+    ('HDF5', '1.12.0'),
+    ('Python', '3.9.4'),
+    ('gperf', '3.1'),
+    ('gperftools', '2.9.1'),
+    ('protobuf', '3.15.6'),
+    ('zlib', '1.2.11'),
+]
+builddependencies = [
+    ('SCons', '4.1.0.post1'),
+]
+
+buildopts = "PYTHON_CONFIG=$EBROOTPYTHON/bin/python-config"
+
+sanity_check_paths = {
+    'files': ['bin/gem5.opt'],
+    'dirs': ['bin']
+}
+
+moduleclass = 'tools'
+

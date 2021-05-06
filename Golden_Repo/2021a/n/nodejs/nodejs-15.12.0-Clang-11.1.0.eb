@@ -2,7 +2,7 @@ easyblock = 'ConfigureMake'
 
 name = 'nodejs'
 version = '15.12.0'
-local_libversion = '83'
+local_libversion = '88'
 
 homepage = 'http://%(name)s.org'
 description = """Node.js is a platform built on Chrome's JavaScript runtime
@@ -14,7 +14,7 @@ toolchain = {'name': 'Clang', 'version': '11.1.0'}
 
 source_urls = ['http://%(name)s.org/dist/v%(version)s/']
 sources = ['node-v%(version)s.tar.gz']
-checksums = ['5769ce6cf619e3f38dab9d64eab204722665b8b0f5bd2568ac171e2edc6db7f7']
+checksums = ['cfb13ad6443e9e08d2c37468e57d2d79b91c5372e9d9d3f03756a0e31d984497']
 
 builddependencies = [('binutils', '2.36.1')]
 

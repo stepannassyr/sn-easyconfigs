@@ -6,6 +6,8 @@ import argparse
 import pprint
 
 SOURCE_TGZ=''
+OS_PKG_OPENSSL_DEV=''
+PYPI_SOURCE=''
 
 def main(argv):
     parser = argparse.ArgumentParser("Checks python packages in easyconfig for updates and prints a list to be replace exts_list with")

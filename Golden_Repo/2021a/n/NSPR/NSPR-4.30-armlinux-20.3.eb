@@ -11,7 +11,7 @@ toolchain = {'name': 'armlinux', 'version': '20.3'}
 
 source_urls = ['https://archive.mozilla.org/pub/nspr/releases/v%(version)s/src/']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['0bc309be21f91da4474c56df90415101c7f0c7c7cab2943cd943cd7896985256']
+checksums = ['8d4cd8f8409484dc4c3d31e180354bfc506573eccf86cd691106a1ef7edc913b']
 
 builddependencies = [('binutils', '2.36.1')]
 

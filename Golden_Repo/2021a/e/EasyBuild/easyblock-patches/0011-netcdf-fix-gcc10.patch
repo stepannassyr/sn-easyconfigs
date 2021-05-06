@@ -1,7 +1,7 @@
 From 4ea2fdb7498fa04a8961e9ece6f180c5cefb2e02 Mon Sep 17 00:00:00 2001
 From: Stepan Nassyr <s.nassyr@fz-juelich.de>
 Date: Mon, 5 Apr 2021 09:25:29 +0200
-Subject: [PATCH 11/12] netcdf: fix gcc10
+Subject: [PATCH 11/17] netcdf: fix gcc10
 
 ---
  easybuild/easyblocks/n/netcdf.py         | 4 ++++
@@ -9,7 +9,7 @@ Subject: [PATCH 11/12] netcdf: fix gcc10
  2 files changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/easybuild/easyblocks/n/netcdf.py b/easybuild/easyblocks/n/netcdf.py
-index 41b5aa68..2c9a6cd2 100644
+index 41b5aa6..2c9a6cd 100644
 --- a/easybuild/easyblocks/n/netcdf.py
 +++ b/easybuild/easyblocks/n/netcdf.py
 @@ -74,6 +74,10 @@ class EB_netCDF(CMakeMake):
@@ -24,7 +24,7 @@ index 41b5aa68..2c9a6cd2 100644
                                     ('PnetCDF', 'pnetcdf')]:
                  dep_root = get_software_root(dep)
 diff --git a/easybuild/easyblocks/n/netcdf_fortran.py b/easybuild/easyblocks/n/netcdf_fortran.py
-index f56e2d1d..94233cea 100644
+index f56e2d1..94233ce 100644
 --- a/easybuild/easyblocks/n/netcdf_fortran.py
 +++ b/easybuild/easyblocks/n/netcdf_fortran.py
 @@ -33,11 +33,13 @@ EasyBuild support for building and installing netCDF-Fortran, implemented as an
@@ -59,5 +59,5 @@ index f56e2d1d..94233cea 100644
          super(EB_netCDF_minus_Fortran, self).configure_step()
  
 -- 
-2.31.1
+1.8.3.1
 

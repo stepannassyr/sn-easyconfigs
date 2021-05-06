@@ -1,14 +1,14 @@
 From 1035d8577fa4569d5c7760b18d3a596c07911d3c Mon Sep 17 00:00:00 2001
 From: Stepan Nassyr <s.nassyr@fz-juelich.de>
 Date: Mon, 5 Apr 2021 08:46:51 +0200
-Subject: [PATCH 04/12] Add Arm PL support to ScaLAPACK
+Subject: [PATCH 04/17] Add Arm PL support to ScaLAPACK
 
 ---
  easybuild/easyblocks/s/scalapack.py | 13 +++++++++++--
  1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/easybuild/easyblocks/s/scalapack.py b/easybuild/easyblocks/s/scalapack.py
-index c0e2be50..14b2387e 100644
+index c0e2be5..14b2387 100644
 --- a/easybuild/easyblocks/s/scalapack.py
 +++ b/easybuild/easyblocks/s/scalapack.py
 @@ -47,6 +47,7 @@ from easybuild.toolchains.linalg.gotoblas import GotoBLAS
@@ -48,5 +48,5 @@ index c0e2be50..14b2387e 100644
              raise EasyBuildError("Unknown LAPACK library used, no idea how to set BLASLIB/LAPACKLIB make options")
  
 -- 
-2.31.1
+1.8.3.1
 

@@ -34,7 +34,7 @@ sources = [SOURCELOWER_TAR_GZ]
 patches = ['CubeLib-4.4.4-add-armclang.patch']
 
 checksums = [
-    'adb8216ee3b7701383884417374e7ff946edb30e56640307c65465187dca7512',  # cubelib-4.4.4.tar.gz
+    '98f66837b4a834b1aacbcd4480a242d7a8c4a1b8dd44e02e836b8c7a4f0ffd98',  # cubelib-4.5.tar.gz
 ]
 
 builddependencies = [

@@ -1,0 +1,34 @@
+From 974dbe6859bbcc2bf4e7716f026685e24af6c9d4 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 13:04:33 +0200
+Subject: [PATCH 13/17] fix typos
+
+---
+ easybuild/easyblocks/c/clang.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/easybuild/easyblocks/c/clang.py b/easybuild/easyblocks/c/clang.py
+index 098f44b..a5822cf 100644
+--- a/easybuild/easyblocks/c/clang.py
++++ b/easybuild/easyblocks/c/clang.py
+@@ -164,7 +164,7 @@ class EB_Clang(CMakeMake):
+                                      glob_src_dirs)
+             src_dirs[glob_src_dirs[0]] = targetdir
+ 
+-        if not self.cfg['one_source']
++        if not self.cfg['one_source']:
+             # git repo has no version suffixes
+             if self.version[-4:] == '-git':
+                 globsuff = ''
+@@ -202,7 +202,7 @@ class EB_Clang(CMakeMake):
+                 find_source_dir('parallel-libs%s' % globsuff, os.path.join(self.llvm_src_dir, 'projects', 'parallel-libs'))
+                 find_source_dir('pstl%s' % globsuff, os.path.join(self.llvm_src_dir, 'projects', 'pstl'))
+ 
+-        if (self.version[-4:] == '-git') or (self.cfg['one-source']):
++        if (self.version[-4:] == '-git') or (self.cfg['one_source']):
+             for (dirname, new_path) in src_dirs.items():
+                 old_path = os.path.join(self.llvm_project_src_dir, dirname)
+                 try:
+-- 
+1.8.3.1
+

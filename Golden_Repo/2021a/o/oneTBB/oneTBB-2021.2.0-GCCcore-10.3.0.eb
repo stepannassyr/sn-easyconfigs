@@ -1,0 +1,28 @@
+# EasyConfig for oneTBB (previously intel TBB)
+easyblock = "CMakeMake"
+name = 'oneTBB'
+version = '2021.2.0'
+
+homepage = 'https://github.com/oneapi-src/oneTBB'
+description = """Intel(R) Threading Building Blocks (Intel(R) TBB) lets you easily write parallel C++ programs that
+ take full advantage of multicore performance, that are portable, composable and have future-proof scalability."""
+
+toolchain = {'name': 'GCCcore', 'version': '10.3.0'}
+
+source_urls = ['https://github.com/oneapi-src/oneTBB/archive/']
+sources = ['v%(version)s.tar.gz']
+checksums = ['cee20b0a71d977416f3e3b4ec643ee4f38cedeb2a9ff015303431dd9d8d79854']
+
+# "maybe uninitialized" errors with current GCC
+configopts = " -DTBB_STRICT=OFF "
+
+builddependencies = [
+    ('binutils', '2.36.1'),
+    ('CMake', '3.20.0')
+]
+sanity_check_paths = {
+    'files': ['include/oneapi/tbb.h', 'include/tbb/tbb.h', 'lib64/libtbbmalloc.%s' % SHLIB_EXT, 'lib/libtbb.%s' % SHLIB_EXT],
+    'dirs': ['include/oneapi', 'include/tbb', 'lib64/cmake/TBB', 'share/doc/TBB'],
+}
+
+moduleclass = 'lib'

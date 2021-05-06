@@ -1,0 +1,22 @@
+diff --git a/setup.py b/setup.py
+index f46f321..efb6030 100644
+--- a/setup.py
++++ b/setup.py
+@@ -8,6 +8,8 @@ compatible CPython 2.3 through to CPython 3.2, Jython, PyPy
+ 
+ from setuptools import setup
+ 
++import setuptools_scm
++
+ 
+ def main():
+     with open('README.txt') as fp:
+@@ -18,7 +20,7 @@ def main():
+         package_dir={'': 'src'},
+         description='iniconfig: brain-dead simple config-ini parsing',
+         long_description=readme,
+-        use_scm_version=True,
++        use_scm_version={'version_scheme': 'post-release'},
+         url='http://github.com/RonnyPfannschmidt/iniconfig',
+         license='MIT License',
+         platforms=['unix', 'linux', 'osx', 'cygwin', 'win32'],

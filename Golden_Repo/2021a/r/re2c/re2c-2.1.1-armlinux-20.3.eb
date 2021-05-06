@@ -13,7 +13,7 @@ toolchain = {'name': 'armlinux', 'version': '20.3'}
 
 source_urls = ['https://github.com/skvadrik/re2c/releases/download/%(version)s']
 sources = ['%(name)s-%(version)s.tar.xz']
-checksums = ['f37f25ff760e90088e7d03d1232002c2c2672646d5844fdf8e0d51a5cd75a503']
+checksums = ['036ee264fafd5423141ebd628890775aa9447a4c4068a6307385d7366fe711f8']
 
 builddependencies = [('binutils', '2.36.1')]
 

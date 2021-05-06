@@ -1,0 +1,32 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'ConfigureMake'
+
+name = 'libxslt'
+version = '1.1.34'
+
+homepage = 'http://xmlsoft.org/'
+description = """Libxslt is the XSLT C library developed for the GNOME project
+ (but usable outside of the Gnome platform).
+"""
+
+
+toolchain = {'name': 'Clang', 'version': '12.0.0'}
+
+source_urls = [
+    'http://xmlsoft.org/sources/',
+    'http://xmlsoft.org/sources/old/'
+]
+sources = [SOURCELOWER_TAR_GZ]
+checksums = ['8e36605144409df979cab43d835002f63988f3dc94d5d3537c12796db90e38c8']
+
+builddependencies = [
+    ('binutils', '2.36.1'),
+]
+
+dependencies = [
+    ('zlib', '1.2.11'),
+# Requires the libxml2 python module, so relying on system python for that
+    ('libxml2', '2.9.10-babe7503'),
+]
+
+moduleclass = 'lib'
