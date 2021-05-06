@@ -15,10 +15,8 @@ toolchainopts = {'pic': True}
 
 source_urls = ['https://github.com/mdadams/jasper/archive/']
 sources = ['version-%(version)s.tar.gz']
-patches = ['CVE-2018-19539.patch']
 checksums = [
     'f1d8b90f231184d99968f361884e2054a1714fdbbd9944ba1ae4ebdcc9bbfdb1',  # version-2.0.16.tar.gz
-    '5f809b63ab049ef4dca677ca18d9ff811a96743406eabf982a29db7c53b9b6f8',  # CVE-2018-19539.patch
 ]
 
 builddependencies = [
@@ -43,5 +41,7 @@ sanity_check_paths = {
     'files': ["bin/jasper", "bin/jiv", "lib64/libjasper.so"],
     'dirs': ["include"],
 }
+
+sanity_check_commands = ['jasper --version']
 
 moduleclass = 'vis'
