@@ -186,11 +186,11 @@ elseif architecture == "Cortex-A72" then
     end
 -- Juawei hi1620
 elseif architecture == "Kunpeng920" then
-    local opt="GCCcore:march=armv8.2-a+lse+fp16;GCC:march=armv8.2-a+lse+fp16;armhpc:march=armv8.2-a+lse+fp16;Clang:march=armv8.2-a+lse+fp16;armlinux:march=armv8.2-a+lse+fp16"
+    local opt="GCCcore:march=armv8.2-a+crypto+dotprod+fp16fml -mcpu=tsv110+dotprod+fp16fml;GCC:march=armv8.2-a+crypto+dotprod+fp16fml -mcpu=tsv110+dotprod+fp16fml;armhpc:march=armv8.2-a+crypto+dotprod+fp16fml -mcpu=tsv110+dotprod+fp16fml;Clang:march=armv8.2-a+crypto+dotprod+fp16fml -mcpu=tsv110+dotprod+fp16fml;armlinux:march=armv8.2-a+crypto+dotprod+fp16fml -mcpu=tsv110+dotprod+fp16fml"
     if mode()=="load" then
         LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
     end
-    setenv("ARMOPTPREFIX", "Generic")
+    setenv("ARMOPTPREFIX", "Generic-AArch64")
     pushenv("EASYBUILD_OPTARCH", opt)
     -- Use arm-optimized-routines for everything
     LmodMessage(colors("%{yellow}   - Loading arm-optimized-routines and adding mathlib to LDFLAGS"))
