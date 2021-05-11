@@ -1,0 +1,41 @@
+# This file is part of the ARM64/JUAWEI easybuild repository (https://gitlab.version.fz-juelich.de/nassyr1/juawei-easyconfigs/)
+easyblock = 'MesonNinja'
+
+name = 'graphene'
+version = '1.10.6'
+
+homepage = 'https://ebassi.github.io/graphene/'
+description = """
+ A thin layer of graphic data types.
+ """
+
+
+toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
+
+source_urls = [GITHUB_SOURCE]
+
+github_account = 'ebassi'
+sources = ['%(version)s.tar.gz']
+checksums = ['7eba972751d404316a9b59a7c1e0782de263c3cf9dd5ebf1503ba9b8354cc948']
+
+builddependencies = [
+    ('binutils', '2.36.1'),
+    ('Meson', '0.57.1', '-Python-3.9.4'),
+    ('Ninja', '1.10.2'),
+]
+
+dependencies = [
+    ('GObject-Introspection', '1.68.0'),
+]
+
+sanity_check_paths = {
+    'files': ['include/graphene-1.0/graphene.h','lib/libgraphene-1.0.%s' % SHLIB_EXT],
+    'dirs':  ['include/graphene-1.0','share/gir-1.0','lib/girepository-1.0']
+}
+
+modextrapaths = {
+    'GI_TYPELIB_PATH': 'lib64/girepository-1.0',
+    'XDG_DATA_DIRS': 'share',
+}
+
+moduleclass = 'vis'

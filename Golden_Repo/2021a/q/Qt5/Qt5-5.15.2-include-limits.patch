@@ -1,0 +1,22 @@
+diff --color -urN qt-everywhere-src-5.15.2-unpatched/qtbase/src/corelib/global/qglobal.h qt-everywhere-src-5.15.2/qtbase/src/corelib/global/qglobal.h
+--- qt-everywhere-src-5.15.2-unpatched/qtbase/src/corelib/global/qglobal.h	2021-05-06 21:02:38.206681080 +0000
++++ qt-everywhere-src-5.15.2/qtbase/src/corelib/global/qglobal.h	2021-05-06 21:03:23.986681080 +0000
+@@ -45,6 +45,7 @@
+ #  include <type_traits>
+ #  include <cstddef>
+ #  include <utility>
++#  include <limits>
+ #endif
+ #ifndef __ASSEMBLER__
+ #  include <assert.h>
+diff --color -urN a/string_pool.h b/string_pool.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/perfetto/src/trace_processor/containers/string_pool.h	2021-05-07 00:15:32.516681080 +0000
++++ b/qtwebengine/src/3rdparty/chromium/third_party/perfetto/src/trace_processor/containers/string_pool.h	2021-05-07 00:15:55.156681080 +0000
+@@ -20,6 +20,7 @@
+ #include <stddef.h>
+ #include <stdint.h>
+ 
++#include <limits>
+ #include <unordered_map>
+ #include <vector>
+ 

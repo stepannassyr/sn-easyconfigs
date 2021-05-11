@@ -1,12 +1,12 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
-easyblock = 'ConfigureMake'
+easyblock = 'MesonNinja'
 
 name = 'GTK+'
 version = '4.0.3'
 
-homepage = 'https://developer.gnome.org/gtk+/stable/'
+homepage = 'https://www.gtk.org/'
 description = """
- The GTK+ 3 package contains libraries used for creating graphical user interfaces for applications.
+ The GTK 4 package contains libraries used for creating graphical user interfaces for applications.
  """
 
 
@@ -19,6 +19,8 @@ checksums = ['d7c9893725790b50bd9a3bb278856d9d543b44b6b9b951d7b60e7bdecc131890']
 builddependencies = [
     ('binutils', '2.36.1'),
     ('Coreutils', '8.32'),
+    ('Meson', '0.57.1', '-Python-3.9.4'),
+    ('Ninja', '1.10.2'),
     ('pkg-config', '0.29.2'),
     ('GObject-Introspection', '1.68.0'),
 ]
@@ -27,14 +29,17 @@ dependencies = [
     ('ATK', '2.36.0'),
     ('AT-SPI2-ATK', '2.38.0'),
     ('Gdk-Pixbuf', '2.42.0'),
+    ('graphene', '1.10.6'),
     ('Pango', '1.48.4'),
+    ('FFmpeg', '4.3.2'),
     ('X11', '20210331'),
     ('libepoxy', '1.5.7'),
 ]
 
 # without this, pkg-config can't find gio-2.0, because libselinux.pc is not found at the end of the dependency chain
-preconfigopts = 'PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib64/pkgconfig '
-configopts = "--disable-silent-rules --disable-glibtest --enable-introspection=yes "
+# preconfigopts = 'PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib64/pkgconfig '
+# configopts = "--disable-silent-rules --disable-glibtest --enable-introspection=yes "
+configopts = " -Dwayland-backend=false"
 
 modextrapaths = {
     'GI_TYPELIB_PATH': 'lib64/girepository-1.0',
