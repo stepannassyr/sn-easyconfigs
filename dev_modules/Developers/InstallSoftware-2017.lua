@@ -150,6 +150,13 @@ elseif architecture == "Haswell" then
     end
     pushenv("EASYBUILD_OPTARCH", opt)
 -- Zen 1
+elseif architecture == "Piledriver" then
+    local opt="GCCcore:march=bdver2 -mtune=bdver2;GCC:march=bdver2 -mtune=bdver2;Intel:xCORE-AVX2;Clang:march=bdver2 -mtune=bdver2"
+    if mode()=="load" then
+        LmodMessage(colors("%{yellow}   - Setting EASYBUILD_OPTARCH to "..opt))
+    end
+    pushenv("EASYBUILD_OPTARCH", opt)
+-- Zen 1
 elseif architecture == "Zen" then
     local opt="GCCcore:march=znver1 -mtune=znver1;GCC:march=znver1 -mtune=znver1;Intel:xCORE-AVX2;Clang:march=znver1 -mtune=znver1"
     if mode()=="load" then
