@@ -31,6 +31,9 @@ configopts = 'CC="$CC" CXX="$CXX" --with-pic --without-python --with-zlib=$EBROO
 
 builddependencies = [
     ('binutils', '2.36.1'),
+    ('Autotools', '20210330'),
+    ('pkg-config', '0.29.2'),
+    ('libtool', '2.4.6'),
 ]
 
 dependencies = [
