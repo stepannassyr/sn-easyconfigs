@@ -30,6 +30,11 @@ builddependencies = [
     ('binutils', '2.36.1')
 ]
 
+# replace -march=skylake-avx512 option with equivalent -m* flags,
+# to avoid problems when building on systems which don't support AVX-512;
+# cfr. https://github.com/open-mpi/ompi/issues/8306
+preconfigopts = "sed -i 's/-march=skylake-avx512/-mavx512f -mavx512bw -mavx512vl -mavx512dq/g' configure && "
+
 
 configopts = '--enable-shared --enable-static --with-verbs '
 configopts += '--enable-mpirun-prefix-by-default '  # suppress failure modes in relation to mpirun path

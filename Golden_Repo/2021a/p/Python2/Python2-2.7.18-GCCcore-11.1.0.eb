@@ -26,6 +26,8 @@ dependencies = [
 
 osdependencies = [OS_PKG_OPENSSL_DEV]
 
+configopts = 'LDFLAGS="$LDFLAGS -Wl,-fuse-ld=bfd"'
+
 hidden = True
 
 moduleclass = 'lang'
