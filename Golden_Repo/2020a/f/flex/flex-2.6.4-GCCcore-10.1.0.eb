@@ -9,7 +9,7 @@ description = """Flex (Fast Lexical Analyzer) is a tool for generating scanners.
 
 
 toolchain = {'name': 'GCCcore', 'version': '10.1.0'}
-toolchainopts = {'pic': True}
+toolchainopts = {'pic': True, 'noopt' : True}
 
 source_urls = ['https://github.com/westes/flex/releases/download/v%(version)s/']
 sources = [SOURCELOWER_TAR_GZ]

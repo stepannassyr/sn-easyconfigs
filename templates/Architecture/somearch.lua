@@ -16,6 +16,8 @@ elseif architecture == ".Haswell" then
     architecture = "Haswell"
 elseif architecture == ".ThunderX2" then
     architecture = "ThunderX2"
+elseif architecture == ".Piledriver" then
+    architecture = "Piledriver"
 elseif architecture == ".Zen" then
     architecture = "Zen"
 elseif architecture == ".Zen2" then
@@ -30,6 +32,8 @@ elseif architecture == "Haswell" then
     systemname = "haswell"
 elseif architecture == "ThunderX2" then
     systemname = "tx2"
+elseif architecture == "Piledriver" then
+    systemname = "bd2"
 elseif architecture == "Zen" then
     systemname = "zn1"
 elseif architecture == "Zen2" then
