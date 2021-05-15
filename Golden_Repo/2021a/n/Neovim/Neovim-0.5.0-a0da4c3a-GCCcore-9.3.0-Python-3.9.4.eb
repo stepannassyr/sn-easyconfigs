@@ -57,6 +57,18 @@ separate_build_dir=True
 # Use system libs
 configopts = " -DDEPS_CMAKE_FLAGS=\"-DUSE_BUNDLED_UNIBILIUM=OFF -DUSE_BUNDLED_LIBTERMKEY=OFF -DUSE_BUNDLED_LIBVTERM=OFF\""
 
+
+import platform as local_platform
+import os as local_os
+
+local_arch = local_platform.machine()
+local_osprefix = local_os.getenv("ARMOSPREFIX")
+
+
+# LuaJIT available on x86_64. On AArch64 it's not available in CentOS/RHEL 7
+if ("aarch64" == local_arch) and ("RHEL/7" == local_osprefix):
+    configopts +=  " -DPREFER_LUA=ON "
+
 # Standard
 #osdependencies = ['unibilium-devel', 'lua-devel', 'msgpack-devel', 'libtermkey-devel','libvterm-devel', 'lua-lpeg', 'lua-mpack', 'lua-bitop', 'libuv-devel']
 # OpenHPC
