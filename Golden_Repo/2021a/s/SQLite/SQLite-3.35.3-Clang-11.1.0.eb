@@ -27,7 +27,7 @@ toolchain = {'name': 'Clang', 'version': '11.1.0'}
 # eg. http://www.sqlite.org/2014/sqlite-autoconf-3080600.tar.gz
 source_urls = ['https://www.sqlite.org/2021/']
 sources = ['sqlite-autoconf-%s.tar.gz' % local_version_str]
-checksums = ['62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae']
+checksums = ['ecbccdd440bdf32c0e1bb3611d635239e3b5af268248d130d0445a32daf0274b']
 
 builddependencies = [
     ('binutils', '2.36.1'),
