@@ -1,0 +1,53 @@
+diff --color -urN a/RegisterPasses.cpp b/RegisterPasses.cpp
+--- a/polly/lib/Support/RegisterPasses.cpp	2021-05-18 07:09:28.386681080 +0000
++++ b/polly/lib/Support/RegisterPasses.cpp	2021-05-18 07:11:42.826681080 +0000
+@@ -361,11 +361,11 @@
+     PM.add(polly::createPruneUnprofitablePass());
+ 
+ #ifdef GPU_CODEGEN
+-  if (Target == TARGET_HYBRID)
++  if (::Target == TARGET_HYBRID)
+     PM.add(
+         polly::createPPCGCodeGenerationPass(GPUArchChoice, GPURuntimeChoice));
+ #endif
+-  if (Target == TARGET_CPU || Target == TARGET_HYBRID)
++  if (::Target == TARGET_CPU || ::Target == TARGET_HYBRID)
+     switch (Optimizer) {
+     case OPTIMIZER_NONE:
+       break; /* Do nothing */
+@@ -378,7 +378,7 @@
+   if (ExportJScop)
+     PM.add(polly::createJSONExporterPass());
+ 
+-  if (Target == TARGET_CPU || Target == TARGET_HYBRID)
++  if (::Target == TARGET_CPU || ::Target == TARGET_HYBRID)
+     switch (CodeGeneration) {
+     case CODEGEN_AST:
+       PM.add(polly::createIslAstInfoWrapperPassPass());
+@@ -398,7 +398,7 @@
+ #endif
+ 
+ #ifdef GPU_CODEGEN
+-  if (Target == TARGET_HYBRID)
++  if (::Target == TARGET_HYBRID)
+     PM.add(polly::createManagedMemoryRewritePassPass(GPUArchChoice,
+                                                      GPURuntimeChoice));
+ #endif
+@@ -495,7 +495,7 @@
+     SPM.addPass(JSONImportPass());
+   assert(!DeadCodeElim && "This option is not implemented");
+   assert(!EnablePruneUnprofitable && "This option is not implemented");
+-  if (Target == TARGET_CPU || Target == TARGET_HYBRID)
++  if (::Target == TARGET_CPU || ::Target == TARGET_HYBRID)
+     switch (Optimizer) {
+     case OPTIMIZER_NONE:
+       break; /* Do nothing */
+@@ -506,7 +506,7 @@
+ 
+   assert(!ExportJScop && "This option is not implemented");
+ 
+-  if (Target == TARGET_CPU || Target == TARGET_HYBRID) {
++  if (::Target == TARGET_CPU || ::Target == TARGET_HYBRID) {
+     switch (CodeGeneration) {
+     case CODEGEN_FULL:
+       SPM.addPass(polly::CodeGenerationPass());

@@ -9,7 +9,7 @@
 ##
 
 name = 'Clang'
-version = '11.1.0'
+version = '12.0.0'
 
 homepage = 'http://clang.llvm.org/'
 description = """C, C++, Objective-C compiler, based on LLVM."""
@@ -18,31 +18,23 @@ toolchain = SYSTEM
 # Do not set optarch to True: it will cause the build to fail
 # toolchainopts = {'optarch': False}
 
-#source_urls = ["http://releases.llvm.org/%(version)s/"]
 source_urls = ["http://github.com/llvm/llvm-project/releases/download/llvmorg-%(version)s/"]
 sources = [
     'llvm-project-%(version)s.src.tar.xz',
 ]
 patches = [
     'Clang-11.0.0-omp-libm.patch',
-    'llvm-11.1.0-fix-rpcserialization-global-destructor-issue.patch',
-    'llvm-11.1.0-numeric_limits-need-limits.patch',
-#    'llvm-12.0.0-polly-unambiguous-target.patch',
-#    'llvm-12.0.0-extbinaryhdrlayouttable-global-destructor.patch',
-#    'Clang-10.0.0-symlinks-are-not-bins.patch',
-#    'clang-9.0.1-glibc-2.31.patch'
+    'llvm-12.0.0-fix-flang-numeric_limits.patch',
+    'llvm-12.0.0-polly-unambiguous-target.patch',
+    'llvm-12.0.0-fix-rpcserialization-global-destructor-issue.patch',
+    'llvm-12.0.0-extbinaryhdrlayouttable-global-destructor.patch',
+    'llvm-12.0.0-skip-pstl-in-libcxx-linker-script.patch',
 ]
 checksums = [
-    '74d2529159fd118c3eac6f90107b5611bccc6f647fdea104024183e8d5e25831',  # llvm-project-11.1.0.src.tar.xz
+    '9ed1688943a4402d7c904cc4515798cdb20080066efa010fe7e1f2551b423628',  # llvm-project-11.1.0.src.tar.xz
     'a7056ad40a810cc15d82a29dbfcec76c45b11925eb8fe94c1d35946eccf1ad6d',  # Clang-11.0.0-omp-libm.patch
-    'ba96d260e1bfc30ab7f353532753592191b18b4e87d7e79f145a48d12a06b248',  # llvm-11.1.0-fix-rpcserialization-global-destructor-issue.patch
 ]
 
-# One source instead of multiple projects
-one_source = True
-
-#source_urls = ["https://github.com/llvm/llvm-project/releases/download/llvmorg-%(version)s/"]
-#source_urls = ["http://llvm.org/releases/%(version)s"]
 dependencies = [
     # since Clang is a compiler, binutils is a runtime dependency too
     ('binutils', '2.36.1'),
@@ -62,14 +54,14 @@ builddependencies = [
     ('SWIG', '4.0.2','',('GCCcore',local_gccver)),
 #    ('Python', local_pyver,'',('GCCcore',local_gccver)),
 #    ('libxml2', '2.9.10-babe7503','',('GCCcore',local_gccver)),
+#    ('GMP', '6.2.1','',('GCCcore',local_gccver)),
+#    ('hwloc', '2.4.1','',('GCCcore',local_gccver)),
+#    ('Z3', '4.8.10','',('GCCcore',local_gccver)),
 ]
 
 #configopts  = " -DPYTHON_EXECUTABLE=$EBROOTPYTHON/bin/python%s" % local_pysuff
 #configopts += " -DPYTHON_INCLUDE_DIR=$EBROOTPYTHON/include/python%s" % local_pysuff
 #configopts += " -DPYTHON_LIBRARY=$EBROOTPYTHON/lib/libpython%s.so" % local_pysuff
-
-# Modules support
-enable_modules = True
 
 # need libLLVM.so for Mesa (and probably other sw as well)
 configopts = " -DBUILD_SHARED_LIBS=ON -DLLVM_BUILD_LLVM_DYLIB=ON "
@@ -89,6 +81,12 @@ build_lld       = True
 libcxx          = True
 enable_rtti     = True
 static_analyzer = True
+
+# Modules support
+enable_modules = True
+
+# One source instead of multiple projects
+one_source = True
 
 skip_all_tests = True
 

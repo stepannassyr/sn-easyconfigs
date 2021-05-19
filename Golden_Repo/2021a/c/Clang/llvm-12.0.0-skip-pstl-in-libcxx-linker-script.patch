@@ -1,0 +1,13 @@
+diff --color -urN a/libcxx/cmake/Modules/DefineLinkerScript.cmake b/libcxx/cmake/Modules/DefineLinkerScript.cmake
+--- a/libcxx/cmake/Modules/DefineLinkerScript.cmake	2021-05-19 14:08:24.466681080 +0000
++++ b/libcxx/cmake/Modules/DefineLinkerScript.cmake	2021-05-19 14:08:34.436681080 +0000
+@@ -34,6 +34,9 @@
+       if ("${lib}" STREQUAL "cxx-headers")
+         continue()
+       endif()
++      if ("${lib}" STREQUAL "pstl::ParallelSTL")
++        continue()
++      endif()
+       # If ${lib} is not a target, we use a dummy target which we know will
+       # have an OUTPUT_NAME property so that CMake doesn't fail when evaluating
+       # the non-selected branch of the `IF`. It doesn't matter what it evaluates

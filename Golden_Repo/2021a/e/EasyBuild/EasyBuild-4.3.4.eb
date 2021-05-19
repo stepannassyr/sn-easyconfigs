@@ -49,6 +49,7 @@ patches = [
     ('easyblock-patches/0015-Clang-add-enable_modules-option.patch', '../easybuild-easyblocks-%(version)s'),
     ('easyblock-patches/0016-clang.py-fuse-ld-lld.patch', '../easybuild-easyblocks-%(version)s'),
     ('easyblock-patches/0017-clang.py-undo-runtimes.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/clang-remove-pstl-and-make-compilable.patch', '../easybuild-easyblocks-%(version)s'),
     ]
 
 # order matters a lot, to avoid having dependencies auto-resolved (--no-deps easy_install option doesn't work?)

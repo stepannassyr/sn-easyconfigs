@@ -1,0 +1,22 @@
+diff --color -urN a/llvm/utils/benchmark/src/benchmark_register.h b/llvm/utils/benchmark/src/benchmark_register.h
+--- a/llvm/utils/benchmark/src/benchmark_register.h	2021-05-19 19:01:56.446681080 +0000
++++ b/llvm/utils/benchmark/src/benchmark_register.h	2021-05-19 19:02:24.826681080 +0000
+@@ -2,6 +2,7 @@
+ #define BENCHMARK_REGISTER_H
+ 
+ #include <vector>
++#include <limits>
+ 
+ #include "check.h"
+ 
+diff --color -urN a/flang/runtime/unit.cpp b/flang/runtime/unit.cpp
+--- a/flang/runtime/unit.cpp	2021-05-19 19:02:42.206681080 +0000
++++ b/flang/runtime/unit.cpp	2021-05-19 19:02:56.516681080 +0000
+@@ -11,6 +11,7 @@
+ #include "lock.h"
+ #include "unit-map.h"
+ #include <cstdio>
++#include <limits>
+ 
+ namespace Fortran::runtime::io {
+ 

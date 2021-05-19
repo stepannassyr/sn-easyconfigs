@@ -1,0 +1,68 @@
+diff --color -urN a/llvm/include/llvm/ExecutionEngine/Orc/Shared/Serialization.h b/llvm/include/llvm/ExecutionEngine/Orc/Shared/Serialization.h
+--- a/llvm/include/llvm/ExecutionEngine/Orc/Shared/Serialization.h	2021-05-18 11:23:30.896681080 +0000
++++ b/llvm/include/llvm/ExecutionEngine/Orc/Shared/Serialization.h	2021-05-18 11:25:29.656681080 +0000
+@@ -335,7 +335,7 @@
+       // the key of the deserializers map to save us from duplicating the string
+       // in the serializer. This should be changed to use a stringpool if we
+       // switch to a map type that may move keys in memory.
+-      std::lock_guard<std::recursive_mutex> Lock(DeserializersMutex);
++      std::lock_guard<std::recursive_mutex> Lock(GetDeserializersMutex());
+       auto I = Deserializers.insert(
+           Deserializers.begin(),
+           std::make_pair(std::move(Name), std::move(Deserialize)));
+@@ -344,7 +344,7 @@
+ 
+     {
+       assert(KeyName != nullptr && "No keyname pointer");
+-      std::lock_guard<std::recursive_mutex> Lock(SerializersMutex);
++      std::lock_guard<std::recursive_mutex> Lock(GetSerializersMutex());
+       Serializers[ErrorInfoT::classID()] =
+           [KeyName, Serialize = std::move(Serialize)](
+               ChannelT &C, const ErrorInfoBase &EIB) -> Error {
+@@ -358,7 +358,7 @@
+   }
+ 
+   static Error serialize(ChannelT &C, Error &&Err) {
+-    std::lock_guard<std::recursive_mutex> Lock(SerializersMutex);
++    std::lock_guard<std::recursive_mutex> Lock(GetSerializersMutex());
+ 
+     if (!Err)
+       return serializeSeq(C, std::string());
+@@ -372,7 +372,7 @@
+   }
+ 
+   static Error deserialize(ChannelT &C, Error &Err) {
+-    std::lock_guard<std::recursive_mutex> Lock(DeserializersMutex);
++    std::lock_guard<std::recursive_mutex> Lock(GetDeserializersMutex());
+ 
+     std::string Key;
+     if (auto Err = deserializeSeq(C, Key))
+@@ -400,19 +400,20 @@
+                                                 inconvertibleErrorCode()));
+   }
+ 
+-  static std::recursive_mutex SerializersMutex;
+-  static std::recursive_mutex DeserializersMutex;
++  static std::recursive_mutex &GetSerializersMutex() {
++    static std::recursive_mutex SerializersMutex;
++    return SerializersMutex;
++  }
++
++  static std::recursive_mutex &GetDeserializersMutex() {
++    static std::recursive_mutex DeserializersMutex;
++    return DeserializersMutex;
++  }
+   static std::map<const void *, WrappedErrorSerializer> Serializers;
+   static std::map<std::string, WrappedErrorDeserializer> Deserializers;
+ };
+ 
+ template <typename ChannelT>
+-std::recursive_mutex SerializationTraits<ChannelT, Error>::SerializersMutex;
+-
+-template <typename ChannelT>
+-std::recursive_mutex SerializationTraits<ChannelT, Error>::DeserializersMutex;
+-
+-template <typename ChannelT>
+ std::map<const void *,
+          typename SerializationTraits<ChannelT, Error>::WrappedErrorSerializer>
+     SerializationTraits<ChannelT, Error>::Serializers;

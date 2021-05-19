@@ -1,0 +1,47 @@
+diff --git a/easybuild/easyblocks/c/clang.py b/easybuild/easyblocks/c/clang.py
+index 2ce6adcd..84787246 100644
+--- a/easybuild/easyblocks/c/clang.py
++++ b/easybuild/easyblocks/c/clang.py
+@@ -307,7 +307,8 @@ class EB_Clang(CMakeMake):
+                 self.cfg.update('configopts', "-DLLVM_Z3_INSTALL_DIR=%s" % z3_root)
+ 
+         if self.cfg['one_source']:
+-            self.cfg.update('configopts', "-DLLVM_ENABLE_PROJECTS\"=clang;clang-tools-extra;compiler-rt;flang;libcxx;libcxxabi;libunwind;lld;lldb;mlir;openmp;parallel-libs;polly;pstl\"")
++            # adding pstl leads to build failure
++            self.cfg.update('configopts', "-DLLVM_ENABLE_PROJECTS\"=clang;clang-tools-extra;compiler-rt;flang;libcxx;libcxxabi;libunwind;lld;lldb;mlir;openmp;parallel-libs;polly\"")
+ 
+         build_targets = self.cfg['build_targets']
+         if build_targets is None:
+@@ -448,6 +449,7 @@ class EB_Clang(CMakeMake):
+         self.cfg.update('configopts', '-DBENCHMARK_ENABLE_EXCEPTIONS=ON')
+         self.cfg.update('configopts', '-DCLANG_DEFAULT_CXX_STDLIB=libc++')
+         self.cfg.update('configopts', '-DCLANG_DEFAULT_LINKER=lld')
++        self.cfg.update('configopts', '-DCLANG_DEFAULT_OBJCOPY=llvm-objcopy')
+         self.cfg.update('configopts', '-DCLANG_DEFAULT_RTLIB=compiler-rt')
+         self.cfg.update('configopts', '-DCLANG_DEFAULT_UNWINDLIB=libunwind')
+         self.cfg.update('configopts', '-DCOMPILER_RT_EXCLUDE_ATOMIC_BUILTIN=OFF')
+@@ -455,19 +457,19 @@ class EB_Clang(CMakeMake):
+         self.cfg.update('configopts', '-DCOMPILER_RT_USE_LIBCXX=ON')
+         self.cfg.update('configopts', '-DFLANG_DEFAULT_LINKER=lld')
+         self.cfg.update('configopts', '-DFLANG_DEFAULT_RTLIB=compiler-rt')
+-        self.cfg.update('configopts', '-DGCC_INSTALL_PREFIX=')
+-        self.cfg.update('configopts', '-DLIBCXXABI_ENABLE_STATIC_UNWINDER=ON')
++#        self.cfg.update('configopts', '-DGCC_INSTALL_PREFIX=')
++#        self.cfg.update('configopts', '-DLIBCXXABI_ENABLE_STATIC_UNWINDER=ON')
+         self.cfg.update('configopts', '-DLIBCXXABI_USE_COMPILER_RT=ON')
+         self.cfg.update('configopts', '-DLIBCXXABI_USE_LLVM_UNWINDER=ON')
+         self.cfg.update('configopts', '-DLIBCXX_CXX_ABI=libcxxabi')
+-        self.cfg.update('configopts', '-DLIBCXX_ENABLE_PARALLEL_ALGORITHMS=ON')
++#        self.cfg.update('configopts', '-DLIBCXX_ENABLE_PARALLEL_ALGORITHMS=ON')
+         self.cfg.update('configopts', '-DLIBCXX_USE_COMPILER_RT=ON')
+         self.cfg.update('configopts', '-DLIBUNWIND_USE_COMPILER_RT=ON')
+         self.cfg.update('configopts', '-DLLVM_ENABLE_LLD=ON')
+         self.cfg.update('configopts', '-DLLVM_ENABLE_LIBCXX=ON')
+         self.cfg.update('configopts', '-DSANITIZER_CXX_ABI=libcxxabi')
+-        self.cfg.update('configopts', '-DSANITIZER_USE_STATIC_CXX_ABI=ON')
+-        self.cfg.update('configopts', '-DSANITIZER_USE_STATIC_LLVM_UNWINDER=ON')
++#        self.cfg.update('configopts', '-DSANITIZER_USE_STATIC_CXX_ABI=ON')
++#        self.cfg.update('configopts', '-DSANITIZER_USE_STATIC_LLVM_UNWINDER=ON')
+ 
+         # Switch to LLD from BFD
+         self.cfg.update('configopts', '-DCMAKE_SHARED_LINKER_FLAGS=\"-fuse-ld=lld\" ')
