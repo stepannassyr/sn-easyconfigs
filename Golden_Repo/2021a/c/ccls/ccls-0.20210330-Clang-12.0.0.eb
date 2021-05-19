@@ -3,14 +3,14 @@
 easyblock = 'CMakeMake'
 
 name = 'ccls'
-version = '0.20201219'
+version = '0.20210330'
 
 homepage = 'https://github.com/MaskRay/ccls'
 description = """C/C++/Obj-C language server supporting cross references, hierarchies, completion and semantic highlighting
 """
 
 
-toolchain = {'name': 'Clang', 'version': '11.1.0'}
+toolchain = {'name': 'Clang', 'version': '12.0.0'}
 toolchainopts = {'pic': True}
 
 source_urls = ["https://github.com/MaskRay/ccls/archive/"]
