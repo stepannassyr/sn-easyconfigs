@@ -23,8 +23,6 @@ sources = [{
     },
 }]
 
-checksums = ['dd749472c6a3e709d369aaf1c647ecb3938319eb6f7bebdf64200cf03d108750']
-
 
 builddependencies = [('binutils', '2.36.1')]
 
