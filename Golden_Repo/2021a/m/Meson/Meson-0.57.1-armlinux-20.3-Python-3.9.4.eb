@@ -13,10 +13,10 @@ toolchain = {'name': 'armlinux', 'version': '20.3'}
 
 source_urls = [PYPI_LOWER_SOURCE]
 sources = [SOURCELOWER_TAR_GZ]
-patches = ['meson-0.54.0-armlinux.patch']
+patches = ['meson-0.57.1-armlinux.patch']
 checksums = [
     '72e1c782ba9bda204f4a1ed57f98d027d7b6eb9414c723eebbd6ec7f1955c8a6',  # meson-0.57.1.tar.gz
-    '40d6b411e85a05a5ab29f59fa89f07e5d72713c2898cf9ef36819f1b51fbea1a',  # meson-0.54.0-armlinux.patch
+    '3778bf51653986772e42d8abfda0e9e8ae26c9273fad74cfe745f776b8d56451',  # meson-0.57.1-armlinux.patch
 ]
 
 builddependencies = [

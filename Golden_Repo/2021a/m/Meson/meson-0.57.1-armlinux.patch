@@ -1,0 +1,247 @@
+diff --git a/mesonbuild/build.py b/mesonbuild/build.py
+index 9a4f8b1e1..cf4fab3ee 100644
+--- a/mesonbuild/build.py
++++ b/mesonbuild/build.py
+@@ -1655,9 +1655,9 @@ class Executable(BuildTarget):
+                 self.suffix = 'exe'
+             elif machine.system.startswith('wasm') or machine.system == 'emscripten':
+                 self.suffix = 'js'
+-            elif ('c' in self.compilers and self.compilers['c'].get_id().startswith('arm') or
+-                  'cpp' in self.compilers and self.compilers['cpp'].get_id().startswith('arm')):
+-                self.suffix = 'axf'
++#            elif ('c' in self.compilers and self.compilers['c'].get_id().startswith('arm') or
++#                  'cpp' in self.compilers and self.compilers['cpp'].get_id().startswith('arm')):
++#                self.suffix = 'axf'
+             elif ('c' in self.compilers and self.compilers['c'].get_id().startswith('ccrx') or
+                   'cpp' in self.compilers and self.compilers['cpp'].get_id().startswith('ccrx')):
+                 self.suffix = 'abs'
+diff --git a/mesonbuild/compilers/__init__.py b/mesonbuild/compilers/__init__.py
+index bda608642..3f1a99435 100644
+--- a/mesonbuild/compilers/__init__.py
++++ b/mesonbuild/compilers/__init__.py
+@@ -38,6 +38,9 @@ __all__ = [
+     'AppleClangCPPCompiler',
+     'AppleClangObjCCompiler',
+     'AppleClangObjCPPCompiler',
++    'ArmLinuxCCompiler',
++    'ArmLinuxCPPCompiler',
++    'ArmLinuxFortranCompiler',
+     'ArmCCompiler',
+     'ArmCPPCompiler',
+     'ArmclangCCompiler',
+@@ -133,6 +136,7 @@ from .compilers import (
+ from .c import (
+     CCompiler,
+     AppleClangCCompiler,
++    ArmLinuxCCompiler,
+     ArmCCompiler,
+     ArmclangCCompiler,
+     ClangCCompiler,
+@@ -153,6 +157,7 @@ from .c import (
+ from .cpp import (
+     CPPCompiler,
+     AppleClangCPPCompiler,
++    ArmLinuxCPPCompiler,
+     ArmCPPCompiler,
+     ArmclangCPPCompiler,
+     ClangCPPCompiler,
+@@ -181,6 +186,7 @@ from .fortran import (
+     G95FortranCompiler,
+     GnuFortranCompiler,
+     ElbrusFortranCompiler,
++    ArmLinuxFortranCompiler,
+     FlangFortranCompiler,
+     IntelFortranCompiler,
+     IntelClFortranCompiler,
+diff --git a/mesonbuild/compilers/c.py b/mesonbuild/compilers/c.py
+index 0a2d47890..6520c0663 100644
+--- a/mesonbuild/compilers/c.py
++++ b/mesonbuild/compilers/c.py
+@@ -29,6 +29,7 @@ from .mixins.visualstudio import MSVCCompiler, ClangClCompiler
+ from .mixins.gnu import GnuCompiler
+ from .mixins.intel import IntelGnuLikeCompiler, IntelVisualStudioLikeCompiler
+ from .mixins.clang import ClangCompiler
++from .mixins.armlinux import ArmLinuxCompiler
+ from .mixins.elbrus import ElbrusCompiler
+ from .mixins.pgi import PGICompiler
+ from .mixins.emscripten import EmscriptenMixin
+@@ -182,6 +183,15 @@ class ClangCCompiler(_ClangCStds, ClangCompiler, CCompiler):
+         return []
+ 
+ 
++class ArmLinuxCCompiler(ClangCCompiler):
++    def __init__(self, exelist, version, for_machine: MachineChoice,
++                 is_cross: bool, info: 'MachineInfo', exe_wrapper=None, **kwargs):
++        ClangCCompiler.__init__(self, exelist=exelist, version=version,
++                                for_machine=for_machine, is_cross=is_cross,
++                                info=info, exe_wrapper=exe_wrapper, **kwargs)
++        self.id = 'armclang'
++
++
+ class AppleClangCCompiler(ClangCCompiler):
+ 
+     """Handle the differences between Apple Clang and Vanilla Clang.
+diff --git a/mesonbuild/compilers/cpp.py b/mesonbuild/compilers/cpp.py
+index ebe3a4f5d..b0c6e4d3f 100644
+--- a/mesonbuild/compilers/cpp.py
++++ b/mesonbuild/compilers/cpp.py
+@@ -36,6 +36,7 @@ from .mixins.visualstudio import MSVCCompiler, ClangClCompiler
+ from .mixins.gnu import GnuCompiler
+ from .mixins.intel import IntelGnuLikeCompiler, IntelVisualStudioLikeCompiler
+ from .mixins.clang import ClangCompiler
++from .mixins.armlinux import ArmLinuxCompiler
+ from .mixins.elbrus import ElbrusCompiler
+ from .mixins.pgi import PGICompiler
+ from .mixins.emscripten import EmscriptenMixin
+@@ -155,7 +156,7 @@ class CPPCompiler(CLikeCompiler, Compiler):
+         }
+ 
+         # Currently, remapping is only supported for Clang, Elbrus and GCC
+-        assert(self.id in frozenset(['clang', 'lcc', 'gcc', 'emscripten']))
++        assert(self.id in frozenset(['armclang', 'clang', 'lcc', 'gcc', 'emscripten']))
+ 
+         if cpp_std not in CPP_FALLBACKS:
+             # 'c++03' and 'c++98' don't have fallback types
+@@ -250,6 +251,16 @@ class ClangCPPCompiler(ClangCompiler, CPPCompiler):
+         return ['-lstdc++']
+ 
+ 
++class ArmLinuxCPPCompiler(ClangCPPCompiler):
++    def __init__(self, exelist, version, for_machine: MachineChoice,
++                 is_cross: bool, info: 'MachineInfo', exe_wrapper=None, **kwargs):
++        ClangCPPCompiler.__init__(self, exelist=exelist, version=version,
++                                  for_machine=for_machine, is_cross=is_cross,
++                                  info=info, exe_wrapper=exe_wrapper, **kwargs)
++        self.id = 'armclang'
++
++
++
+ class AppleClangCPPCompiler(ClangCPPCompiler):
+     def language_stdlib_only_link_flags(self) -> T.List[str]:
+         return ['-lc++']
+diff --git a/mesonbuild/compilers/fortran.py b/mesonbuild/compilers/fortran.py
+index d65d5853c..c01ae3f51 100644
+--- a/mesonbuild/compilers/fortran.py
++++ b/mesonbuild/compilers/fortran.py
+@@ -27,6 +27,7 @@ from .mixins.gnu import (
+ )
+ from .mixins.intel import IntelGnuLikeCompiler, IntelVisualStudioLikeCompiler
+ from .mixins.clang import ClangCompiler
++from .mixins.armlinux import ArmLinuxCompiler
+ from .mixins.elbrus import ElbrusCompiler
+ from .mixins.pgi import PGICompiler
+ 
+@@ -469,6 +470,14 @@ class FlangFortranCompiler(ClangCompiler, FortranCompiler):
+     def language_stdlib_only_link_flags(self) -> T.List[str]:
+         return ['-lflang', '-lpgmath']
+ 
++class ArmLinuxFortranCompiler(FlangFortranCompiler):
++    def __init__(self, exelist, version, for_machine: MachineChoice,
++                 is_cross, info: 'MachineInfo', exe_wrapper=None,
++                 **kwargs):
++        FlangFortranCompiler.__init__(self, exelist, version, for_machine,
++                                 is_cross, info, exe_wrapper, **kwargs)
++        self.id = 'armflang'
++
+ class Open64FortranCompiler(FortranCompiler):
+ 
+     def __init__(self, exelist: T.List[str], version: str, for_machine: MachineChoice, is_cross: bool,
+diff --git a/mesonbuild/compilers/mixins/armlinux.py b/mesonbuild/compilers/mixins/armlinux.py
+new file mode 100644
+index 000000000..2901ca26d
+--- /dev/null
++++ b/mesonbuild/compilers/mixins/armlinux.py
+@@ -0,0 +1,22 @@
++# Copyright 2020 Stepan Nassyr Forschungszentrum Juelich GmbH
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#     http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++
++"""Abstractions for the Arm Compiler for Linux (armclang)."""
++
++from .clang import ClangCompiler
++
++class ArmLinuxCompiler(ClangCompiler):
++    def __init__(self):
++        super().__init__()
++        self.id = 'armclang'
+diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+index 756dd8193..98f22f77a 100644
+--- a/mesonbuild/environment.py
++++ b/mesonbuild/environment.py
+@@ -70,6 +70,9 @@ from .linkers import (
+ )
+ from functools import lru_cache
+ from .compilers import (
++    ArmLinuxFortranCompiler,
++    ArmLinuxCCompiler,
++    ArmLinuxCPPCompiler,
+     ArmCCompiler,
+     ArmCPPCompiler,
+     ArmclangCCompiler,
+@@ -723,11 +726,11 @@ class Environment:
+                 self.default_objc = []
+                 self.default_objcpp = []
+             else:
+-                self.default_c = ['cc', 'gcc', 'clang', 'nvc', 'pgcc', 'icc']
+-                self.default_cpp = ['c++', 'g++', 'clang++', 'nvc++', 'pgc++', 'icpc']
++                self.default_c = ['cc', 'gcc', 'armclang', 'clang', 'nvc', 'pgcc', 'icc']
++                self.default_cpp = ['c++', 'g++', 'armclang++', 'clang++', 'nvc++', 'pgc++', 'icpc']
+                 self.default_objc = ['cc', 'gcc', 'clang']
+                 self.default_objcpp = ['c++', 'g++', 'clang++']
+-            self.default_fortran = ['gfortran', 'flang', 'nvfortran', 'pgfortran', 'ifort', 'g95']
++            self.default_fortran = ['gfortran', 'armflang', 'flang', 'nvfortran', 'pgfortran', 'ifort', 'g95']
+             self.default_cs = ['mcs', 'csc']
+         self.default_d = ['ldc2', 'ldc', 'gdc', 'dmd']
+         self.default_java = ['javac']
+@@ -1304,6 +1307,21 @@ class Environment:
+                     ccache + compiler, version, for_machine, is_cross, info,
+                     exe_wrap, linker=linker, full_version=full_version)
+ 
++            if 'Arm C/C++/Fortran Compiler' in out:
++                arm_ver_str = re.search('.*version ([0-9.]+).*',out)
++                if arm_ver_str is None:
++                    popen_exceptions[' '.join(compiler)] = 'version string not found'
++                    continue
++                arm_ver_str = arm_ver_str.group(1)
++                version = search_version(arm_ver_str)
++                full_version = arm_ver_str
++                cls = ArmLinuxCCompiler if lang == 'c' else ArmLinuxCPPCompiler
++                linker = self._guess_nix_linker(compiler, cls, for_machine)
++                self.coredata.add_lang_args(cls.language, cls, for_machine, self)
++                return cls(
++                    ccache + compiler, version, for_machine, is_cross, info,
++                    exe_wrap, full_version=full_version, linker=linker)
++
+             if 'armclang' in out:
+                 # The compiler version is not present in the first line of output,
+                 # instead it is present in second line, startswith 'Component:'.
+@@ -1604,6 +1622,19 @@ class Environment:
+                         compiler, version, for_machine, is_cross, info, exe_wrap,
+                         full_version=full_version, linker=linker)
+ 
++                if 'Arm C/C++/Fortran Compiler' in out:
++                    arm_ver_str = re.search('.*version ([0-9.]+).*',out)
++                    if arm_ver_str is None:
++                        popen_exceptions[' '.join(compiler)] = 'version string not found'
++                        continue
++                    arm_ver_str = arm_ver_str.group(1)
++                    version = search_version(arm_ver_str)
++                    full_version = arm_ver_str
++                    linker = self._guess_nix_linker(compiler, cls, for_machine)
++                    return ArmLinuxFortranCompiler(
++                        compiler, version, for_machine, is_cross, info,
++                        exe_wrap, full_version=full_version, linker=linker)
++
+                 if 'flang' in out or 'clang' in out:
+                     linker = self._guess_nix_linker(
+                         compiler, FlangFortranCompiler, for_machine)
