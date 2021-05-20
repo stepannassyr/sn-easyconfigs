@@ -24,7 +24,7 @@ sources = [
         },
     }
 ]
-checksums = ['f8d2c197900247b619bf9be9b60c253cb47ad34b8e8702b4344966b846fba8e6']
+checksums = ['44958f84ffa096791c9c4180083e9250ff06a6642b798ecaba623f27d31f60fa']
 
 preconfigopts = "./autogen.sh && "
 configopts = 'CC="$CC" CXX="$CXX" --with-pic --without-python --with-zlib=$EBROOTZLIB'
