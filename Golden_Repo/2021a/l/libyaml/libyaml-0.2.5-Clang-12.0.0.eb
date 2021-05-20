@@ -22,7 +22,7 @@ toolchain = {'name': 'Clang', 'version': '12.0.0'}
 
 source_urls = ['http://pyyaml.org/download/libyaml/']
 sources = ['yaml-%(version)s.tar.gz']
-checksums = ['4a9100ab61047fd9bd395bcef3ce5403365cafd55c1e0d0299cde14958e47be9']
+checksums = ['c642ae9b75fee120b2d96c712538bd2cf283228d2337df2cf2988e3c02678ef4']
 
 builddependencies = [
     ('binutils', '2.36.1'),
