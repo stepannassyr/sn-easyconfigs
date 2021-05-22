@@ -1,0 +1,12 @@
+diff --color -urN a/src/llvm-project/lld/MachO/CMakeLists.txt b/src/llvm-project/lld/MachO/CMakeLists.txt
+--- a/src/llvm-project/lld/MachO/CMakeLists.txt	2021-05-22 16:44:28.076681080 +0000
++++ b/src/llvm-project/lld/MachO/CMakeLists.txt	2021-05-22 16:43:34.366681080 +0000
+@@ -2,7 +2,7 @@
+ tablegen(LLVM Options.inc -gen-opt-parser-defs)
+ add_public_tablegen_target(MachOOptionsTableGen)
+ 
+-include_directories(${LLVM_MAIN_SRC_DIR}/../libunwind/include)
++include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libunwind/include)
+ 
+ add_lld_library(lldMachO2
+   Arch/X86_64.cpp

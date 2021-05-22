@@ -2,26 +2,26 @@
 easyblock = 'ConfigureMake'
 
 name = 'Rust'
-version = '1.51.0'
+version = '1.52.1'
 
 homepage = 'https://www.rust-lang.org'
 description = """Rust is a systems programming language that runs blazingly fast, prevents segfaults,
  and guarantees thread safety."""
 
 
-toolchain = {'name': 'Clang', 'version': '11.1.0'}
+toolchain = {'name': 'Clang', 'version': '12.0.0'}
 
 source_urls = ['https://static.rust-lang.org/dist/']
 sources = ['rustc-%(version)s-src.tar.gz']
 
-patches = ['Rust-1.51.0-lld-macho-include-dir.patch']
+patches = ['Rust-1.52.1-lld-macho-include-dir.patch']
 
 builddependencies = [
 #    ('binutils', '2.36.1'),
     ('CMake', '3.20.0'),
 ]
 
-configopts = "--enable-extended --sysconfdir=%(installdir)s/etc --enable-sanitizers --enable-use-libcxx --llvm-libunwind=system "
+configopts = "--enable-extended --sysconfdir=%(installdir)s/etc --enable-lld --enable-sanitizers --enable-use-libcxx --llvm-libunwind=system "
 configopts += "--llvm-config=$EBROOTCLANG/bin/llvm-config --llvm-root=$EBROOTCLANG --enable-llvm-link-shared "
 configopts += "--default-linker=lld "
 configopts += " --set=target.aarch64-unknown-linux-gnu.cc=$EBROOTCLANG/bin/clang --set=target.aarch64-unknown-linux-gnu.cxx=$EBROOTCLANG/bin/clang++ "
@@ -32,7 +32,7 @@ configopts += " --set=target.aarch64-unknown-linux-gnu.llvm-filecheck=$EBROOTCLA
 configopts += "--set=target.aarch64-unknown-linux-gnu.ar=$EBROOTCLANG/bin/llvm-ar "
 # Requiring Ninja would create a circular dependency
 configopts += "--set=llvm.ninja=false "
-configopts += "--set=llvm.ldflags=-Wl,$EBROOTCLANG/lib/clang/11.1.0/lib/linux/libclang_rt.builtins-aarch64.a "
+configopts += "--set=llvm.ldflags=-Wl,$EBROOTCLANG/lib/clang/12.0.0/lib/linux/libclang_rt.builtins-aarch64.a "
 
 sanity_check_paths = {
     'files': ['bin/cargo', 'bin/rustc', 'bin/rustdoc'],
