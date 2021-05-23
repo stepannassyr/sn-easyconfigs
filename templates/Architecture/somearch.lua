@@ -115,14 +115,21 @@ if old_software_root == nil or old_software_root == "" then
         for j in string.gmatch(i, "([^/]+)") do
             tmp_system_prefix[#tmp_system_prefix+1]=j
         end
-        old_systemname = tmp_system_prefix[6] or ""
-        if old_systemname == "juaweihi1616" or
-           old_systemname == "juaweihi1620" or
-           old_systemname == "haswell" or
-           old_systemname == "tx2" or
-           old_systemname == "zn1" or
-           old_systemname == "zn2" then
-            old_software_root = pathJoin(prefix, old_systemname)
+        rootfound = false
+	for pathindex=1,8 do
+            old_systemname = tmp_system_prefix[pathindex] or ""
+            if old_systemname == "juaweihi1616" or
+               old_systemname == "juaweihi1620" or
+               old_systemname == "haswell" or
+               old_systemname == "tx2" or
+               old_systemname == "zn1" or
+               old_systemname == "zn2" then
+                old_software_root = pathJoin(prefix, old_systemname)
+                rootfound = true
+                break
+            end
+        end
+        if rootfound then
             break
         end
     end
