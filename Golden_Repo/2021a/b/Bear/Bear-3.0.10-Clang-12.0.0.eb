@@ -19,6 +19,12 @@ builddependencies = [
     ('binutils', '2.36.1'),
 ]
 
+dependencies = [
+    ('protobuf', '3.15.6'),
+    ('gRPC', '1.37.1'),
+    ('SQLite', '3.35.3'),
+]
+
 
 #configopts = "-DPNG_BUILD_ZLIB=ON -DZLIB_INCLUDE_DIR=$EBROOTZLIB/include -DZLIB_LIBRARY=$EBROOTZLIB/lib/libz.so"
 
