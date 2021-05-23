@@ -1,0 +1,34 @@
+easyblock = 'CMakeNinja'
+
+name = 'c-ares'
+version = '1.17.1'
+
+homepage = 'https://c-ares.haxx.se/'
+description = "c-ares is a C library for asynchronous DNS requests (including name resolves)"
+
+toolchain = {'name': 'Clang', 'version': '11.1.0'}
+
+github_account = 'c-ares'
+source_urls = [GITHUB_SOURCE]
+sources = ['cares-1_17_1.tar.gz']
+#sources = [SOURCELOWER_TAR_GZ]
+checksums = ['61f7cf09605f5e38d4828f82d0e2ddb9de8e355ecfd6819b740691c644583b8f']
+
+builddependencies = [
+    ('CMake', '3.20.0'),
+    ('Ninja', '1.10.2'),
+]
+
+
+configopts = "-DBUILD_SHARED_LIBS=ON "
+
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in ['acountry','adig','ahost']]+
+             ['include/%s.h' % x for x in ['ares_build','ares_dns','ares','ares_rules','ares_version']]+
+             ['lib/libcares.%s' % SHLIB_EXT]+
+             ['lib/pkgconfig/libcares.pc']+
+             ['lib/cmake/c-ares/c-ares-%s.cmake' % x for x in ['config','config-version','targets','targets-release']],
+    'dirs': []
+}
+
+moduleclass = 'lib'
