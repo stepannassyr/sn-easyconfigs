@@ -1,0 +1,32 @@
+# This file is part of the AArch64/Prototype JSC EasyBuild repository (https://gitlab.version.fz-juelich.de/nassyr1/juawei-easyconfigs/)
+easyblock = 'CMakeNinja'
+
+name = 'gRPC'
+version = '1.37.1'
+
+homepage = 'https://grpc.io/'
+description = """gRPC is a modern open source high performance Remote Procedure Call (RPC) framework that can run in any environment.
+"""
+
+
+toolchain = {'name': 'Clang', 'version': '12.0.0'}
+
+github_account = 'grpc'
+source_urls = [GITHUB_LOWER_SOURCE]
+sources = ['v%(version)s.tar.gz']
+
+builddependencies = [
+    ('CMake', '3.20.0'),
+    ('Ninja', '1.10.2'),
+    ('binutils', '2.36.1'),
+    ('Autotools', '20210330'),
+    ('libtool', '2.4.6'),
+    ('pkg-config', '0.29.2'),
+]
+
+sanity_check_paths = {
+    'files': ['include/pngconf.h', 'include/png.h', 'include/pnglibconf.h', 'lib/libpng.a', 'lib/libpng.%s' % SHLIB_EXT],
+    'dirs': ['bin', 'include/libpng', 'share/man'],
+}
+
+moduleclass = 'tools'
