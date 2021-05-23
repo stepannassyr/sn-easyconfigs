@@ -1,5 +1,5 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
-easyblock = 'CMakeMake'
+easyblock = 'CMakeNinja'
 
 name = 'Bear'
 version = '3.0.10'
@@ -16,7 +16,7 @@ sources = ['%(version)s.tar.gz']
 
 builddependencies = [
     ('CMake', '3.20.0'),
-    ('binutils', '2.36.1'),
+    ('Ninja', '1.10.2'),
 ]
 
 dependencies = [
@@ -25,14 +25,9 @@ dependencies = [
     ('SQLite', '3.35.3'),
 ]
 
-
-#configopts = "-DPNG_BUILD_ZLIB=ON -DZLIB_INCLUDE_DIR=$EBROOTZLIB/include -DZLIB_LIBRARY=$EBROOTZLIB/lib/libz.so"
-
-#majminver = ''.join(version.split('.')[:2])
-#sanity_check_paths = {
-#    'files': ['include/pngconf.h', 'include/png.h', 'include/pnglibconf.h', 'lib/libpng.a',
-#              'lib/libpng.%s' % SHLIB_EXT, 'lib/libpng%s.a' % majminver, 'lib/libpng%s.%s' % (majminver, SHLIB_EXT)],
-#    'dirs': ['bin', 'include/libpng%s' % majminver, 'share/man'],
-#}
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in ['bear','citnames','intercept']],
+    'dirs': ['bin', 'libexec', 'share/man', 'share/doc'],
+}
 
 moduleclass = 'tools'
