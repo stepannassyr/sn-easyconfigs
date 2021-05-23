@@ -1,0 +1,34 @@
+easyblock = 'CMakeNinja'
+
+name = 'abseil-cpp'
+version = '20210324.1'
+
+homepage = 'https://abseil.io/'
+description = "Abseil is an open source collection of C++ libraries drawn from the most fundamental pieces of Google’s internal codebase."
+
+toolchain = {'name': 'Clang', 'version': '12.0.0'}
+toolchainopts = {'pic' : True}
+
+github_account = 'abseil'
+source_urls = [GITHUB_SOURCE]
+sources = ['%(version)s.tar.gz']
+checksums = ['441db7c09a0565376ecacf0085b2d4c2bbedde6115d7773551bc116212c2a8d6']
+
+builddependencies = [
+    ('CMake', '3.20.0'),
+    ('Ninja', '1.10.2'),
+]
+
+
+configopts = "-DABSL_ENABLE_INSTALL=ON "
+
+# Only check a subset of the files
+sanity_check_paths = {
+    'files': ['include/absl/base/%s.h' % x for x in ['attributes','call_once','casts','config','const_init','dynamic_annotations','log_severity','macros','optimization','options','policy_checks','port','thread_annotations']]+
+             ['lib/libabsl_%s.a' % x for x in ['base','city','flags','hash','log_severity','raw_hash_set','status','strings','time']]+
+             ['lib/pkgconfig/absl_%s.pc' % x for x in ['any','base','config','flags','hash','log_severity','strings','time']]+
+             ['lib/cmake/absl/absl%s.cmake' % x for x in ['Config','ConfigVersion','Targets','Targets-release']],
+    'dirs': ['include/absl/%s' % x for x in ['algorithm','base','cleanup','container','debugging','flags','functional','hash','memory','meta','numeric','random','status','strings','synchronization','time','types','utility']]
+}
+
+moduleclass = 'lib'
