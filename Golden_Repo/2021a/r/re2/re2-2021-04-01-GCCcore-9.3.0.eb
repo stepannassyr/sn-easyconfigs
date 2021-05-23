@@ -1,0 +1,31 @@
+easyblock = 'CMakeNinja'
+
+name = 're2'
+version = '2021-04-01'
+
+homepage = 'https://github.com/google/re2'
+description = "RE2 is a fast, safe, thread-friendly alternative to backtracking regular expression engines like those used in PCRE, Perl, and Python."
+
+toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
+
+github_account = 'google'
+source_urls = [GITHUB_SOURCE]
+sources = ['%(version)s.tar.gz']
+checksums = ['358aedf71dbf26506848905f5d4417b7adba5cf44d3bbcf70bf4ef68ccb0871e']
+
+builddependencies = [
+    ('CMake', '3.20.0'),
+    ('Ninja', '1.10.2'),
+]
+
+
+configopts = "-DBUILD_SHARED_LIBS=ON "
+
+sanity_check_paths = {
+    'files': ['include/re2/%s.h' % x for x in ['filtered_re2','re2','set','stringpiece']]+
+             ['lib/libre2.%s' % SHLIB_EXT]+
+             ['lib/cmake/re2/re2Config.cmake', 'lib/cmake/re2/re2Config-release.cmake'],
+    'dirs': []
+}
+
+moduleclass = 'lib'
