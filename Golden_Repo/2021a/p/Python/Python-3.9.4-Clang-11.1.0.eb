@@ -194,8 +194,8 @@ exts_list = [
         'checksums': ['c5b02147e01ea9920e6b0a3f1f7bb833612d507592c837a6c49552768f4054e1'],
     }),
     ('cryptography', local_cryptography_version, {
-        'prebuildopts': "LDFLAGS=-pthread ",
-        'preinstallopts': "LDFLAGS=-pthread ",
+        'prebuildopts': "RUSTFLAGS=\"-Clinker=clang\" LDFLAGS=\"-pthread\" ",
+        'preinstallopts': "RUSTFLAGS=\"-Clinker=clang\" LDFLAGS=\"-pthread\" ",
         'source_urls': ['https://pypi.python.org/packages/source/c/cryptography/'],
         'checksums': [local_cryptography_sha256],
     }),
