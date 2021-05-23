@@ -6,6 +6,7 @@ local colors = require 'ansicolors'
 -------------------------------------------------------------------
 local architecture = myModuleVersion()
 local systemname = ""
+local quiet = architecture:sub(1,1) == "."
 if architecture == ".Cortex-A72" then
     architecture = "Cortex-A72"
 elseif architecture == ".Cortex-A76" then
@@ -88,7 +89,7 @@ setenv("OTHERSTAGES", pathJoin(software_root, 'OtherStages'))
 -------------------------------------------------------------------
 old_software_root = os.getenv("SOFTWAREROOT") or ""
 old_systemname = os.getenv("LMOD_SYSTEM_NAME") or ""
-if mode()=="load" then
+if mode()=="load" and not quiet then
     LmodMessage(colors("%{green}New $SOFTWAREROOT: ")..software_root.."\n"..
                 colors("%{green}New $LMOD_SYSTEM_NAME: ")..systemname.."\n"..
                 colors("%{green}New $ARCHITECTURE: ")..architecture
@@ -139,7 +140,7 @@ if old_software_root == nil or old_software_root == "" then
     LmodWarning("I can't find the correct module paths to swap")
 else
     local new_modulepath = string.gsub(old_modulepath, old_software_root, software_root)
-    if mode()=="load" then
+    if mode()=="load" and not quiet then
         LmodMessage(colors("%{green}Re-setting $MODULEPATH to: "))
         LmodMessage(new_modulepath)
         LmodMessage(colors("%{red}Was: "))
@@ -172,7 +173,7 @@ end
 -------------------------------------------------------------------
 -- Print a warning
 -------------------------------------------------------------------
-if mode()=="load" then
+if mode()=="load" and not quiet then
     LmodMessage(colors("%{red}\nWARNING: "..
                 "%{yellow}Unloading this module might result in a broken environment. Please swap the module to use "..
                 "the desired architecture instead.\n"
