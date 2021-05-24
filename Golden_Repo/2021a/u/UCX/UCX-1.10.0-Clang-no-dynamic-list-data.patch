@@ -1,0 +1,50 @@
+diff --git a/src/tools/perf/Makefile.am b/src/tools/perf/Makefile.am
+index bc68f81c4..75cc8b432 100644
+--- a/src/tools/perf/Makefile.am
++++ b/src/tools/perf/Makefile.am
+@@ -16,7 +16,7 @@ bin_PROGRAMS          = ucx_perftest
+ ucx_perftest_SOURCES  = perftest.c
+ ucx_perftest_CPPFLAGS = $(BASE_CPPFLAGS) $(RTE_CPPFLAGS)
+ ucx_perftest_CFLAGS   = $(BASE_CFLAGS) $(OPENMP_CFLAGS)
+-ucx_perftest_LDFLAGS  = $(RTE_LDFLAGS) -Wl,-dynamic-list-data
++ucx_perftest_LDFLAGS  = $(RTE_LDFLAGS)
+ ucx_perftest_LDADD    = \
+ 	$(abs_top_builddir)/src/uct/libuct.la \
+ 	$(abs_top_builddir)/src/ucp/libucp.la \
+diff --git a/test/gtest/Makefile.am b/test/gtest/Makefile.am
+index aeae4abb8..dcf36af73 100644
+--- a/test/gtest/Makefile.am
++++ b/test/gtest/Makefile.am
+@@ -63,7 +63,7 @@ gtest_CPPFLAGS = \
+ 	$(GTEST_CPPFLAGS) \
+ 	$(OPENMP_CFLAGS)
+ 
+-gtest_LDFLAGS  = $(GTEST_LDFLAGS) -no-install -Wl,-dynamic-list-data
++gtest_LDFLAGS  = $(GTEST_LDFLAGS) -no-install
+ gtest_CFLAGS   = $(BASE_CFLAGS)
+ gtest_CXXFLAGS = \
+ 	$(BASE_CXXFLAGS) $(GTEST_CXXFLAGS) \
+diff --color -urN ucx-1.10.0-unpatched/src/tools/perf/Makefile.in ucx-1.10.0/src/tools/perf/Makefile.in
+--- ucx-1.10.0-unpatched/src/tools/perf/Makefile.in	2021-05-24 17:52:38.626681080 +0000
++++ ucx-1.10.0/src/tools/perf/Makefile.in	2021-05-24 17:53:11.826681080 +0000
+@@ -513,7 +513,7 @@
+ ucx_perftest_SOURCES = perftest.c
+ ucx_perftest_CPPFLAGS = $(BASE_CPPFLAGS) $(RTE_CPPFLAGS)
+ ucx_perftest_CFLAGS = $(BASE_CFLAGS) $(OPENMP_CFLAGS)
+-ucx_perftest_LDFLAGS = $(RTE_LDFLAGS) -Wl,-dynamic-list-data
++ucx_perftest_LDFLAGS = $(RTE_LDFLAGS)
+ ucx_perftest_LDADD = \
+ 	$(abs_top_builddir)/src/uct/libuct.la \
+ 	$(abs_top_builddir)/src/ucp/libucp.la \
+diff --color -urN ucx-1.10.0-unpatched/test/gtest/Makefile.in ucx-1.10.0/test/gtest/Makefile.in
+--- ucx-1.10.0-unpatched/test/gtest/Makefile.in	2021-05-24 17:52:38.626681080 +0000
++++ ucx-1.10.0/test/gtest/Makefile.in	2021-05-24 17:53:31.366681080 +0000
+@@ -759,7 +759,7 @@
+ @HAVE_GTEST_TRUE@	-I$(top_srcdir)/test/gtest $(GTEST_CPPFLAGS) \
+ @HAVE_GTEST_TRUE@	$(OPENMP_CFLAGS) $(am__append_2) \
+ @HAVE_GTEST_TRUE@	$(am__append_10) $(am__append_13)
+-@HAVE_GTEST_TRUE@gtest_LDFLAGS = $(GTEST_LDFLAGS) -no-install -Wl,-dynamic-list-data
++@HAVE_GTEST_TRUE@gtest_LDFLAGS = $(GTEST_LDFLAGS) -no-install
+ @HAVE_GTEST_TRUE@gtest_CFLAGS = $(BASE_CFLAGS)
+ @HAVE_GTEST_TRUE@gtest_CXXFLAGS = $(BASE_CXXFLAGS) $(GTEST_CXXFLAGS) \
+ @HAVE_GTEST_TRUE@	-DGTEST_UCM_HOOK_LIB_DIR="\"${abs_builddir}/ucm/test_dlopen/.libs\"" \
