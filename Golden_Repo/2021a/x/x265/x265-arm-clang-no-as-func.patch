@@ -1,0 +1,17 @@
+diff --color -urN x265_3.5-unpatched/source/common/aarch64/asm.S x265_3.5/source/common/aarch64/asm.S
+--- x265_3.5-unpatched/source/common/aarch64/asm.S	2021-05-24 20:09:30.926681080 +0000
++++ x265_3.5/source/common/aarch64/asm.S	2021-05-24 20:48:32.126681080 +0000
+@@ -35,12 +35,10 @@
+ #define ELF @
+ #endif
+ 
+-#define HAVE_AS_FUNC 1
+-
+ #if HAVE_AS_FUNC
+ #define FUNC
+ #else
+-#define FUNC @
++#define FUNC #
+ #endif
+ 
+ .macro function name, export=1
