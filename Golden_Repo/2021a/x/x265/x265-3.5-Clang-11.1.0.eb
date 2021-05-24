@@ -17,7 +17,7 @@ source_urls = [
     'https://bitbucket.org/multicoreware/x265_git/downloads/'
 ]
 sources = ['%(name)s_%(version)s.tar.gz']
-checksums = ['f26e148ed1f4dfb33fd1eb3ff5e60e08078d1b2017e88bcbb045b3fb58300b9c']
+checksums = ['e70a3335cacacbba0b3a20ec6fecd6783932288ebc8163ad74bcc9606477cae8']
 
 builddependencies = [
     ('binutils', '2.36.1'),
