@@ -27,6 +27,7 @@ patches = [
     'Clang-11.0.0-omp-libm.patch',
     'llvm-11.1.0-fix-rpcserialization-global-destructor-issue.patch',
     'llvm-11.1.0-numeric_limits-need-limits.patch',
+    'https://cgit.freebsd.org/src/patch/?id=e63539f3059728ff58328ac0ecb2a7bf4e2f08e8',
 #    'llvm-12.0.0-polly-unambiguous-target.patch',
 #    'llvm-12.0.0-extbinaryhdrlayouttable-global-destructor.patch',
 #    'Clang-10.0.0-symlinks-are-not-bins.patch',
