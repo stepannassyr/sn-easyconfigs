@@ -22,7 +22,6 @@ sources = [{
     },
 }]
 patches = [('opus-1.3.1-add-opus_buildtype.patch',1)]
-checksums = ['89352f2ff60b19604c55ac60a1c327480fdbbde435716fd59d0a10a3018d3232']
 
 builddependencies = [
     ('binutils', '2.36.1'),
