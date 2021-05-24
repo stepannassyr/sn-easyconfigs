@@ -21,18 +21,22 @@ builddependencies = [
     ('CMake', '3.20.0'),
 ]
 
+import platform as local_platform
+
+local_arch_suf = local_platform.machine()
+
 configopts = "--enable-extended --sysconfdir=%(installdir)s/etc --enable-lld --enable-sanitizers --enable-use-libcxx --llvm-libunwind=system "
 configopts += "--llvm-config=$EBROOTCLANG/bin/llvm-config --llvm-root=$EBROOTCLANG --enable-llvm-link-shared "
 configopts += "--default-linker=lld "
-configopts += " --set=target.aarch64-unknown-linux-gnu.cc=$EBROOTCLANG/bin/clang --set=target.aarch64-unknown-linux-gnu.cxx=$EBROOTCLANG/bin/clang++ "
-configopts += " --set=target.aarch64-unknown-linux-gnu.linker=$EBROOTCLANG/bin/clang "
-configopts += " --set=target.aarch64-unknown-linux-gnu.ranlib=$EBROOTCLANG/bin/llvm-ranlib "
-configopts += " --set=target.aarch64-unknown-linux-gnu.llvm-filecheck=$EBROOTCLANG/bin/FileCheck "
+configopts += " --set=target.%s-unknown-linux-gnu.cc=$EBROOTCLANG/bin/clang --set=target.%s-unknown-linux-gnu.cxx=$EBROOTCLANG/bin/clang++ " % (local_arch_suf,local_arch_suf)
+configopts += " --set=target.%s-unknown-linux-gnu.linker=$EBROOTCLANG/bin/clang " % (local_arch_suf)
+configopts += " --set=target.%s-unknown-linux-gnu.ranlib=$EBROOTCLANG/bin/llvm-ranlib " % (local_arch_suf)
+configopts += " --set=target.%s-unknown-linux-gnu.llvm-filecheck=$EBROOTCLANG/bin/FileCheck " % (local_arch_suf)
 # Rust downloads precompiled packages that otherwise require the 'armar' binary
-configopts += "--set=target.aarch64-unknown-linux-gnu.ar=$EBROOTCLANG/bin/llvm-ar "
+configopts += "--set=target.%s-unknown-linux-gnu.ar=$EBROOTCLANG/bin/llvm-ar " % (local_arch_suf)
 # Requiring Ninja would create a circular dependency
 configopts += "--set=llvm.ninja=false "
-configopts += "--set=llvm.ldflags=-Wl,$EBROOTCLANG/lib/clang/12.0.0/lib/linux/libclang_rt.builtins-aarch64.a "
+configopts += "--set=llvm.ldflags=-Wl,$EBROOTCLANG/lib/clang/11.1.0/lib/linux/libclang_rt.builtins-%s.a " % (local_arch_suf)
 
 sanity_check_paths = {
     'files': ['bin/cargo', 'bin/rustc', 'bin/rustdoc'],
