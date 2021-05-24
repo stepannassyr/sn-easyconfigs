@@ -14,13 +14,11 @@ sources = [SOURCELOWER_TAR_GZ]
 patches = [
               'NSS-3.39_pkgconfig.patch',
               'NSS-3.50-hack-putenv-in.patch',
-              'NSS-3.50-pkix-errorclass-null-to-zero.patch'
           ]
 checksums = [
     '182d2fef629102ae9423aabf2c192242b565cf5098e82c5a26cf70c5e4ea2221',  # nss-3.63.tar.gz
     '5c4b55842e5afd1e8e67b90635f6474510b89242963c4ac2622d3e3da9062774',  # NSS-3.39_pkgconfig.patch
     '563e435d2275e681cb06688d7ee9cc0543869101717820dbf1e0d59e22e4568e',  # NSS-3.50-hack-putenv-in.patch
-    'c3ff5bb5d35a08215dda6531fb8fe49d9f9ced42e402b4631c7ecf7e46bdef43',  # NSS-3.50-pkix-errorclass-null-to-zero.patch
 ]
 
 builddependencies = [('binutils', '2.36.1')]
