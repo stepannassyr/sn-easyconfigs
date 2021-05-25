@@ -13,7 +13,7 @@ toolchainopts = { 'pic': True}
 
 source_urls = [FTPGNOME_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
-checksums = ['6c257205a0a343b662c9961a58bb4ba1f1e31c82f5c6b909ec741194abc3da10']
+checksums = ['67734f584f3a05a2872f57e9a8db38f3b06c7087fb531c5a839d9171968103ea']
 
 
 builddependencies = [
