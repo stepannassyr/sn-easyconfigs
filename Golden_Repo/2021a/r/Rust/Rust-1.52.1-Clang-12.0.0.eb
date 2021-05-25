@@ -25,7 +25,7 @@ import platform as local_platform
 
 local_arch_suf = local_platform.machine()
 
-configopts = "--enable-extended --sysconfdir=%(installdir)s/etc --enable-lld --enable-sanitizers --enable-use-libcxx --llvm-libunwind=system "
+configopts = "--enable-extended --sysconfdir=%(installdir)s/etc --enable-sanitizers --enable-use-libcxx --llvm-libunwind=system "
 configopts += "--llvm-config=$EBROOTCLANG/bin/llvm-config --llvm-root=$EBROOTCLANG --enable-llvm-link-shared "
 configopts += "--default-linker=lld "
 configopts += " --set=target.%s-unknown-linux-gnu.cc=$EBROOTCLANG/bin/clang --set=target.%s-unknown-linux-gnu.cxx=$EBROOTCLANG/bin/clang++ " % (local_arch_suf,local_arch_suf)
