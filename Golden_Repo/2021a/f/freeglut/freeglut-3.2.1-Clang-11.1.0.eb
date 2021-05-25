@@ -10,12 +10,14 @@ description = """freeglut is a completely OpenSourced alternative to the OpenGL 
 
 
 toolchain = {'name': 'Clang', 'version': '11.1.0'}
+toolchainopts = {'pic' : True}
 
 sources = [SOURCE_TAR_GZ]
+patches = ['freeglut-3.2.1-extern-fg-gl2-fptrs.patch']
 source_urls = ['http://prdownloads.sourceforge.net/%(name)s']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+#    ('binutils', '2.36.1'),
     ('CMake', '3.20.0'),
 ]
 
