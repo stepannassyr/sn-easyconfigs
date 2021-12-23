@@ -1,0 +1,118 @@
+require("strict")
+color = require("ansicolors")
+local hook = require("Hook")
+
+
+-- Where is everything
+local prefix = "%SOFTWAREPREFIX%"
+
+-- What stages are available
+local stages = {"2019b","2020a","2021a"}
+
+-- What systems exist
+local machines = {%PLATFORMS%}
+
+-- What compilers are in which stage
+local stage_compilers = {
+    ["2019b"] = {"GCC 9.2.0", "armhpc 19.2", "armhpc 19.3", "armlinux 20.0", "Clang 8.0.1", "Clang 9.0.0"},
+    ["2020a"] = {"GCC 7.5.0", "GCC 8.4.0", "GCC 9.3.0", "armlinux 20.0", "armlinux 20.1", "armlinux 20.2", "Clang 9.0.1", "Clang 10.0.0"},
+    ["2021a"] = {"GCC 9.3.0", "GCC 10.3.0", "GCC 11.1.0", "armlinux 20.3", "armlinux 21.0", "Clang 11.1.0", "Clang 12.0.0"},
+}
+
+-- What mpis are in which stage
+local stage_mpis = {
+    ["2019b"] = {"OpenMPI 4.0.1", "OpenMPI 4.0.2"},
+    ["2020a"] = {"OpenMPI 4.0.3"},
+    ["2021a"] = {"OpenMPI 4.1.0"},
+}
+
+generated_map = {}
+
+-- for every machine
+for idx_m,machine in ipairs(machines) do
+    -- for every stage
+    for idx_s,stage in ipairs(stages) do
+        stage_prefix = pathJoin(prefix,machine,"Stages",stage)
+        modules_prefix = pathJoin(stage_prefix, "modules/all")
+        -- stage UI
+        generated_map[pathJoin(stage_prefix,"UI/Tools")] = "Core modules in Stage " .. stage
+        generated_map[pathJoin(stage_prefix,"UI/Compilers")] = "Compilers in Stage " .. stage
+        -- for each compiler
+        for idx_c,compiler in ipairs(stage_compilers[stage]) do
+            matcher = string.gmatch(compiler,"%S+")
+            comp_name = matcher()
+            comp_version = matcher()
+            comp_r_version = comp_version:gsub('%.','%%.')
+
+            -- for GCC also add GCCcore path
+            if "GCC" == comp_name then
+                generated_map[pathJoin(modules_prefix,"Compiler", comp_name .. "core", comp_r_version)] = "Modules compiled with " .. compiler
+            end
+
+            -- Add modules compiled with this compiler
+            generated_map[pathJoin(modules_prefix,"Compiler", comp_name, comp_r_version)] = "Modules compiled with " .. compiler
+            -- And add MPI environments for this compiler
+            generated_map[pathJoin(modules_prefix,"Compiler/mpi", comp_name, comp_r_version)] = "MPI runtimes available for " .. compiler
+
+            -- for each MPI
+            for idx_mpi,mpi in ipairs(stage_mpis[stage]) do
+                matcher = string.gmatch(mpi,"%S+")
+                mpi_name = matcher()
+                mpi_version = matcher()
+                mpi_r_version = mpi_version:gsub('%.','%%.')
+
+                -- Add modules compiled with this compiler and this MPI
+                generated_map[pathJoin(modules_prefix,"MPI", comp_name, comp_r_version, mpi_name, mpi_r_version)] = "Modules built with " .. compiler .. " and " .. mpi
+            end -- for every mpi
+        end -- for every compiler
+    end -- for every stage
+end -- for every machine
+
+local mapT =
+{
+   en_grouped = {
+      ['/etc/modulefiles$']                                = "Core Modules",
+      ['/usr/share/lmod/lmod/modulefiles/Core$']           = "Lmod Modules",
+-- New EasyBuild based software stack
+      ['%SOFTWAREPREFIX%/modules/system']                                                        = "Architectures",
+      ['%SOFTWAREPREFIX%/modules/custom']                                                        = "Custom modules",
+
+   }
+}
+
+for k,v in pairs(generated_map) do
+    mapT["en_grouped"][k] = v
+end
+
+function avail_hook(t)
+   LmodMessage("\n\n")
+   LmodMessage(color("To switch the software stage, use \
+\
+. %SOFTWAREPREFIX%/switch_stage.sh -s <stage>\
+\
+Currently the available stages are:\
+\
+- 2019b \
+- 2020a \
+- 2021a \
+\
+Please load a compiler (%{bright green blackbg}armlinux%{reset}, %{bright green blackbg}GCC%{reset}, %{bright green blackbg}Clang%{reset}), and an MPI library (currently only %{bright green blackbg}OpenMPI%{reset}). Once both are loaded module av will list all software available with this Compiler/MPI combination. Please contact %{bright yellow blackbg}%SITECONTACT%%{reset} if you require additional software."))
+   LmodMessage("\n")
+   local availStyle = masterTbl().availStyle
+   local styleT     = mapT[availStyle]
+   if (not availStyle or availStyle == "system" or styleT == nil) then
+      return
+   end
+
+   for k,v in pairs(t) do
+      for pat,label in pairs(styleT) do
+         if (k:find(pat)) then
+            t[k] = color("%{cyan bright blackbg}" .. label)
+            break
+         end
+      end
+   end
+end
+
+hook.register("avail",avail_hook)
+

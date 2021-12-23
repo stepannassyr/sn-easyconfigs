@@ -1,0 +1,30 @@
+help([[
+Optimized math and string functions for ARMv8 processors. Release v%AORVER%. See https://github.com/ARM-software/optimized-routines for more information.
+]])
+
+local version = "%AORVER%"
+local category = "libs"
+local package_name = "arm-optimized-routines"
+local arch = os.getenv("ARCHITECTURE")
+if nil == arch then
+--  LmodWarning("$ARCHITECTURE is not defined")
+--  arch = 'Cortex-A72'
+--  I think this is reloaded internally with no environment variables set for some reason. Just exit
+    os.exit(0)
+end
+local package_path = pathJoin("%SOFTWAREPREFIX%/",category,"/" .. package_name,version,arch)
+
+whatis("Name: ARM optimized routines")
+whatis("Version: " .. version)
+whatis("Keywords: Development, Libraries, Math, String")
+whatis("URL: https://github.com/ARM-software/optimized-routines")
+whatis("Optimized implementations of various library functions for ARM architecture processors.")
+
+
+setenv(       "MATHLIB_PATH",        package_path)
+
+prepend_path( "PATH",              pathJoin(package_path, "usr/bin"))
+prepend_path( "INCLUDE",           pathJoin(package_path, "usr/include"))
+prepend_path( "CPATH",             pathJoin(package_path, "usr/include"))
+prepend_path( "LD_LIBRARY_PATH",   pathJoin(package_path, "usr/lib"))
+prepend_path( "LIBRARY_PATH",      pathJoin(package_path, "usr/lib"))
