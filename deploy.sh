@@ -579,6 +579,17 @@ else
 	echo "found"
 fi
 
+echo -n "Checking for lzip... "
+
+if ! command -v lzip &> /dev/null
+then
+	echo "not found"
+	echo $(ywn lzip)
+	exit 1
+else
+	echo "found"
+fi
+
 echo "Checking for required lua modules"
 
 luareqs=(ansicolors posix)
