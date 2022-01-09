@@ -23,7 +23,7 @@ local stage_compilers = {
 local stage_mpis = {
     ["2019b"] = {"OpenMPI 4.0.1", "OpenMPI 4.0.2"},
     ["2020a"] = {"OpenMPI 4.0.3"},
-    ["2021a"] = {"OpenMPI 4.1.0"},
+    ["2021a"] = {"OpenMPI 4.1.2"},
 }
 
 generated_map = {}
@@ -32,7 +32,8 @@ generated_map = {}
 for idx_m,machine in ipairs(machines) do
     -- for every stage
     for idx_s,stage in ipairs(stages) do
-        stage_prefix = pathJoin(prefix,machine,"Stages",stage)
+        machine_r = machine:gsub('%-','%%-')
+        stage_prefix = pathJoin(prefix,machine_r,"Stages",stage)
         modules_prefix = pathJoin(stage_prefix, "modules/all")
         -- stage UI
         generated_map[pathJoin(stage_prefix,"UI/Tools")] = "Core modules in Stage " .. stage
