@@ -16,7 +16,7 @@ local_gcc_version = '11.1.0'
 
 dependencies = [
     ('GCC', local_gcc_version),
-    ('OpenMPI', '4.1.0', '', ('GCC', local_gcc_version)),
+    ('OpenMPI', '4.1.2', '', ('GCC', local_gcc_version)),
 ]
 
 moduleclass = 'toolchain'

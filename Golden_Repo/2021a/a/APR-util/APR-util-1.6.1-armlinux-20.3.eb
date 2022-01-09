@@ -22,7 +22,7 @@ builddependencies = [
 dependencies = [
     ('APR', '1.7.0'),
     ('SQLite', '3.35.3'),
-    ('expat', '2.3.0'),
+    ('expat', '2.4.2'),
 ]
 
 configopts = "--with-apr=$EBROOTAPR/bin/apr-1-config --with-sqlite3=$EBROOTSQLITE --with-expat=$EBROOTEXPAT "

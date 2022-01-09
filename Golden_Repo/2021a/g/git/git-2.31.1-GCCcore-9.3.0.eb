@@ -36,7 +36,7 @@ builddependencies = [
 
 dependencies = [
     ('cURL', '7.75.0'),
-    ('expat', '2.3.0'),
+    ('expat', '2.4.2'),
     ('gettext', '0.21'),
     ('Perl', '5.32.1'),
 ]

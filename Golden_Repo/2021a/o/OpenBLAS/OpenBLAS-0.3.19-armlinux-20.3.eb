@@ -1,10 +1,10 @@
 name = 'OpenBLAS'
-version = '0.3.13'
+version = '0.3.19'
 
 homepage = 'http://xianyi.github.com/OpenBLAS/'
 description = "OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version."
 
-toolchain = {'name': 'GCC', 'version': '11.1.0'}
+toolchain = {'name': 'armlinux', 'version': '20.3'}
 # need to build with -fno-tree-vectorize due to asm constraint bugs in OpenBLAS<0.3.6
 # cfr. https://github.com/easybuilders/easybuild-easyconfigs/issues/7180
 toolchainopts = {'vectorize': True}
@@ -20,7 +20,7 @@ patches = [
     ('timing.tgz', '.'),
 ]
 checksums = [
-    '79197543b17cc314b7e43f7a33148c308b0807cd6381ee77f77e15acf3e6459e',  # v0.3.13.tar.gz
+    '947f51bfe50c2a0749304fbe373e00e7637600b0a47b78a51382aeb30ca08562',  # v0.3.19.tar.gz
     'f328d88b7fa97722f271d7d0cfea1c220e0f8e5ed5ff01d8ef1eb51d6f4243a1',  # large.tgz
     '999c65f8ea8bd4eac7f1c7f3463d4946917afd20a997807300fe35d70122f3af',  # timing.tgz
 ]

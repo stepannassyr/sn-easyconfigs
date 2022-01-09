@@ -13,7 +13,7 @@ toolchainopts = {'pic': True}
 dependencies = [
 	('vivado/2020.1', EXTERNAL_MODULE),
 	('maxcompiler/2020.2', EXTERNAL_MODULE),
-	('OpenBLAS','0.3.13'),
+	('OpenBLAS', '0.3.19'),
 	('GLPK','5.0'),
 	('PAPI','6.0.0.1-70887df7'),
 	('hwloc','2.4.1'),

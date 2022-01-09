@@ -14,7 +14,7 @@ toolchain = SYSTEM
 
 dependencies = [
     ('GCC', '9.3.0'),
-    ('OpenMPI', '4.1.0', '', ('GCC', '9.3.0')),
+    ('OpenMPI', '4.1.2', '', ('GCC', '9.3.0')),
 ]
 
 moduleclass = 'toolchain'

@@ -11,7 +11,7 @@ toolchain = SYSTEM
 
 dependencies = [
     ('armlinux', version),
-    ('OpenMPI', '4.1.0', '', ('armlinux', version)),
+    ('OpenMPI', '4.1.2', '', ('armlinux', version)),
     ('ArmBLAS', version, '', ('armlinux', version)),
     ('ArmFFT', version, '', ('armlinux', version)),
     ('ScaLAPACK', '2.1.0', '-ArmBLAS-%s' % version, ('alompi', '20.3')),

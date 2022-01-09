@@ -13,10 +13,10 @@ toolchain = SYSTEM
 # because of toolchain preparation functions
 dependencies = [
     ('GCC', '10.3.0'),
-    ('OpenMPI', '4.1.0', '', ('GCC', '10.3.0')),
-    ('OpenBLAS', '0.3.13', '', ('GCC', '10.3.0')),
+    ('OpenMPI', '4.1.2', '', ('GCC', '10.3.0')),
+    ('OpenBLAS', '0.3.19', '', ('GCC', '10.3.0')),
     ('FFTW', '3.3.9', '', ('gompi', version)),
-    ('ScaLAPACK', '2.1.0', '-OpenBLAS-0.3.13', ('gompi', version)),
+    ('ScaLAPACK', '2.1.0', '-OpenBLAS-0.3.19', ('gompi', version)),
 ]
 
 moduleclass = 'toolchain'
