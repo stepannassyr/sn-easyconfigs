@@ -1,13 +1,16 @@
 diff -urN a/easybuild-easyblocks-4.5.2/easybuild/easyblocks/b/boost.py b/easybuild-easyblocks-4.5.2/easybuild/easyblocks/b/boost.py
 --- a/easybuild-easyblocks-4.5.2/easybuild/easyblocks/b/boost.py    2022-01-31 12:26:44.000000000 +0000
 +++ b/easybuild-easyblocks-4.5.2/easybuild/easyblocks/b/boost.py    2022-01-31 12:26:01.000000000 +0000
-@@ -275,6 +275,9 @@
-             threading = "multi"
+@@ -276,6 +276,12 @@
 
          self.bjamoptions += " threading=" + threading + " --layout=" + layout
-+        # Trying to fix some errors
+
++        # Somehow the tagged layout is not being used unless we specify all this
 +        if get_cpu_architecture() == AARCH64:
 +            self.bjamoptions += " architecture=arm abi=aapcs address-model=64 binary-format=elf"
-
++        elif get_cpu_architecture() == X86_64:
++            self.bjamoptions += " architecture=x86 abi=sysv address-model=64 binary-format=elf"
++
          if not self.cfg['boost_mpi'] and not self.cfg['only_python_bindings']:
              # Default but avoids a warning. Building Boost.MPI is actually enabled by `using mpi` in the user-config
+             # Note: Can't use both --with-* and --without-*
