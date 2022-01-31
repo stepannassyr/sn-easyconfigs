@@ -44,12 +44,6 @@ if mode()=="load" then
             LmodError(colors("%{yellow}Sorry but we only allow installations from users in the easybuild group!\n"..
                       "If you would like to be included in that group please contact: "..
                       contact.."%{reset}"))
-        else
-            if not (is_devel and (isloaded("Stages/"..stage) or isloaded("Stages/Devel"))) then
-                LmodError(colors("%{yellow}Sorry but we only allow installations into Devel stages!\n"..
-                          "If you would like a working installation moved to production please contact: "..
-                          contact.."%{reset}"))
-            end
         end
     end
 end
