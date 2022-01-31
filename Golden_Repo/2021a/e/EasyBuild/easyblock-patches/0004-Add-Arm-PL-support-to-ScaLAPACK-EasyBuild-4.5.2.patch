@@ -1,0 +1,46 @@
+From 1035d8577fa4569d5c7760b18d3a596c07911d3c Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 08:46:51 +0200
+Subject: [PATCH 04/17] Add Arm PL support to ScaLAPACK
+
+---
+ easybuild/easyblocks/s/scalapack.py | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/easybuild/easyblocks/s/scalapack.py b/easybuild/easyblocks/s/scalapack.py
+index c0e2be5..14b2387 100644
+--- a/easybuild/easyblocks/s/scalapack.py
++++ b/easybuild/easyblocks/s/scalapack.py
+@@ -48,6 +48,7 @@
+ from easybuild.toolchains.linalg.lapack import Lapack
+ from easybuild.toolchains.linalg.openblas import OpenBLAS
+ from easybuild.toolchains.linalg.intelmkl import IntelMKL
++from easybuild.toolchains.linalg.armblas import ArmBLAS
+ from easybuild.tools.build_log import EasyBuildError
+ from easybuild.tools.filetools import copy_file, remove_file
+ from easybuild.tools.modules import get_software_root
+@@ -109,6 +110,7 @@
+         intelmkl = get_software_root(IntelMKL.LAPACK_MODULE_NAME[0])
+         lapack = get_software_root(Lapack.LAPACK_MODULE_NAME[0])
+         openblas = get_software_root(OpenBLAS.LAPACK_MODULE_NAME[0])
++        armpl = get_software_root(ArmBLAS.LAPACK_MODULE_NAME[0])
+
+         if flexiblas:
+             libdir = os.path.join(flexiblas, 'lib')
+@@ -151,6 +153,13 @@
+             extra_makeopts.extend([
+                 'BLASLIB="-L%s %s -lpthread"' % (libdir, blas_libs),
+                 'LAPACKLIB="-L%s %s"' % (libdir, blas_libs),
++            ])
++        elif armpl:
++            libdir = os.path.join(armpl, 'lib')
++            blas_libs = ' '.join(['-l%s' % lib for lib in ArmBLAS.BLAS_LIB])
++            extra_makeopts.extend([
++                'BLASLIB="-L%s %s -lpthread"' % (libdir, blas_libs),
++                'LAPACKLIB="-L%s %s"' % (libdir, blas_libs),
+             ])
+         else:
+             raise EasyBuildError("Unknown LAPACK library used, no idea how to set BLASLIB/LAPACKLIB make options")
+-- 
+1.8.3.1
+

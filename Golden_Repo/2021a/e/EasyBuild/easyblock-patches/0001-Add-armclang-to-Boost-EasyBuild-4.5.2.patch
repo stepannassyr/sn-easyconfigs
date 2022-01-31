@@ -1,0 +1,40 @@
+From 6bd7f7e5a0bdc4cdddf9564e1bfaf2b9a8e4451c Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Mon, 5 Apr 2021 08:44:55 +0200
+Subject: [PATCH 01/17] Add armclang to Boost
+
+---
+ easybuild/easyblocks/b/boost.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/easybuild/easyblocks/b/boost.py b/easybuild/easyblocks/b/boost.py
+index fa684f1..736234c 100644
+--- a/easybuild/easyblocks/b/boost.py
++++ b/easybuild/easyblocks/b/boost.py
+@@ -193,6 +193,12 @@
+                     ])
+                 else:
+                     raise EasyBuildError("Bailing out: only PrgEnv-gnu supported for now")
++            elif self.toolchain.toolchain_family() == toolchain.ARMHPC:
++                txt = '\n'.join([
++                    'using clang : arm64 : armclang ;',
++                    'using mpi ;',
++                    ''
++                    ])
+             else:
+                 user_config.append("using mpi : %s ;" % os.getenv("MPICXX"))
+
+@@ -202,7 +208,9 @@
+         """Build Boost with bjam tool."""
+
+         self.bjamoptions = " --prefix=%s --user-config=user-config.jam" % self.installdir
+-        if 'toolset=' not in self.cfg['buildopts']:
++        if self.toolchain.toolchain_family() == toolchain.ARMHPC:
++            bjamoptions += " toolset=clang"
++        elif 'toolset=' not in self.cfg['buildopts']:
+             self.bjamoptions += " toolset=" + self.toolset
+
+         cxxflags = os.getenv('CXXFLAGS')
+-- 
+1.8.3.1
+
