@@ -1,7 +1,7 @@
 easyblock = 'PackedBinary'
 
 name = 'ant'
-version = '1.10.9'
+version = '1.10.12'
 versionsuffix = '-Java-%(javaver)s'
 
 homepage = 'http://ant.apache.org/'
@@ -13,7 +13,7 @@ toolchain = SYSTEM
 
 source_urls = ['http://dlcdn.apache.org//ant/binaries']
 sources = ['apache-%(name)s-%(version)s-bin.tar.gz']
-checksums = ['5f8a85ddee6effe79163aa54c7bef6b60305e37200dedc1986437fb5c072a9f3']
+checksums = ['4b3b557279bae4fb80210a5679180fdae3498b44cfd13368e3386e2a21dd853b']
 
 dependencies = [('Java', '11.0.10')]
 
