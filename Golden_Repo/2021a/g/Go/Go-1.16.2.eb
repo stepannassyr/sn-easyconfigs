@@ -20,7 +20,7 @@ source_urls = ['https://storage.googleapis.com/golang/']
 sources = ['%%(namelower)s%%(version)s.linux-%s.tar.gz' % local_arch_suf]
 
 local_arch_csums = {
-  'arm64' : 'cd813387f770c07819912f8ff4b9796a4e317dee92548b7226a19e60ac79eb27',
+  'arm64' : '6924601d998a0917694fd14261347e3798bd2ad6b13c4d7f2edd70c9d57f62ab',
   'amd64' : '08df79b46b0adf498ea9f320a0f23d6ec59e9003660b4c9c1ce8e5e2c6f823ca'
 }
 
