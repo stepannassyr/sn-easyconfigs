@@ -10,8 +10,8 @@ description = """Doxygen is a documentation system for C++, C, Java, Objective-C
 
 toolchain = {'name': 'Clang', 'version': '11.1.0'}
 
+source_urls = [SOURCEFORGE_SOURCE]
 sources = ['%(namelower)s-%(version)s.src.tar.gz']
-source_urls = ['http://doxygen.nl/files/']
 
 builddependencies = [
     ('binutils', '2.36.1'),
