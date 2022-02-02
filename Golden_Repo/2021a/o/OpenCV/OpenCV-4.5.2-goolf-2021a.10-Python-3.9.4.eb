@@ -39,7 +39,7 @@ dependencies = [
     ('LibTIFF', '4.2.0'),
     ('JasPer', '2.0.28'),
     ('Java', '11.0.10', '', True),
-    ('ant', '1.10.9', '-Java-%(javaver)s', True),
+    ('ant', '1.10.12', '-Java-%(javaver)s', True),
     ('GLib', '2.68.0'),
     ('GTK+', '4.0.3'),
     ('protobuf', '3.15.6'),
