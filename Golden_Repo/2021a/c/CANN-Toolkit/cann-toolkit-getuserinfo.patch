@@ -1,0 +1,76 @@
+diff --color -urN Ascend-toolkit-1.78.t30.0.b300-linux.aarch64-unpatched/toolkit/scripts/install.sh Ascend-toolkit-1.78.t30.0.b300-linux.aarch64-unpacked/toolkit/scripts/install.sh
+--- Ascend-toolkit-1.78.t30.0.b300-linux.aarch64-unpatched/toolkit/scripts/install.sh	2022-01-22 12:42:47.889225179 +0000
++++ Ascend-toolkit-1.78.t30.0.b300-linux.aarch64-unpacked/toolkit/scripts/install.sh	2022-01-22 23:00:50.213937140 +0000
+@@ -180,39 +180,39 @@
+ }
+ 
+ getUserInfo() {
+-    if [ "$(id -u)" -ne 0 ];then
+-        # common user
+-        if [ $input_username_flag = y ] || [ $input_usergroup_flag = y ]; then
+-            log_and_print $LEVEL_ERROR "No need to specify the username and usergroup."
+-            exitLog 1
+-        fi
+-        username=$USER # current username
+-        local usergroups=`groups`
+-        usergroup=${usergroups%%" "*}
+-    else
+-        # root
+-        if [ $input_username_flag = y ]; then
+-            if [ ! $input_usergroup_flag = y ]; then
+-                log_and_print $LEVEL_ERROR "Username and usergroup must be specified at the same time."
+-                exitLog 1
+-            fi
+-        else
+-            if [ $input_usergroup_flag = y ]; then
+-                log_and_print $LEVEL_ERROR "Username and usergroup must be specified at the same time."
+-                exitLog 1
+-            fi
+-            # use default value
+-            username=$(getInstallParam "UserName" "${installInfo}")
+-            usergroup=$(getInstallParam "UserGroup" "${installInfo}")
+-            if [ x"${username}" == "x" ]; then
+-                username=$DEFAULT_USERNAME
+-            fi
+-            if [ x"${usergroup}" == "x" ]; then
+-                usergroup=$DEFAULT_USERGROUP
+-            fi
+-            return
+-        fi
+-    fi
++    #if [ "$(id -u)" -ne 0 ];then
++    #    # common user
++    #    if [ $input_username_flag = y ] || [ $input_usergroup_flag = y ]; then
++    #        log_and_print $LEVEL_ERROR "No need to specify the username and usergroup."
++    #        exitLog 1
++    #    fi
++    #    username=$USER # current username
++    #    local usergroups=`groups`
++    #    usergroup=${usergroups%%" "*}
++    #else
++    #    # root
++    #    if [ $input_username_flag = y ]; then
++    #        if [ ! $input_usergroup_flag = y ]; then
++    #            log_and_print $LEVEL_ERROR "Username and usergroup must be specified at the same time."
++    #            exitLog 1
++    #        fi
++    #    else
++    #        if [ $input_usergroup_flag = y ]; then
++    #            log_and_print $LEVEL_ERROR "Username and usergroup must be specified at the same time."
++    #            exitLog 1
++    #        fi
++    #        # use default value
++    #        username=$(getInstallParam "UserName" "${installInfo}")
++    #        usergroup=$(getInstallParam "UserGroup" "${installInfo}")
++    #        if [ x"${username}" == "x" ]; then
++    #            username=$DEFAULT_USERNAME
++    #        fi
++    #        if [ x"${usergroup}" == "x" ]; then
++    #            usergroup=$DEFAULT_USERGROUP
++    #        fi
++    #        return
++    #    fi
++    #fi
+     if [ ! -f "${installInfo}" ]; then
+         return
+     fi
