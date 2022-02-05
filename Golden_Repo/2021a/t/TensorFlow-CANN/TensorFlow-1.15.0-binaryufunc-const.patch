@@ -1,0 +1,21 @@
+diff --color -urN TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/python/lib/core/bfloat16.cc TensorFlow/tensorflow-1.15.0/tensorflow/python/lib/core/bfloat16.cc
+--- TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/python/lib/core/bfloat16.cc	2022-02-03 15:16:08.426280419 +0000
++++ TensorFlow/tensorflow-1.15.0/tensorflow/python/lib/core/bfloat16.cc	2022-02-03 15:20:01.737820983 +0000
+@@ -490,7 +490,7 @@
+ }
+ 
+ template <typename InType, typename OutType, typename Functor>
+-void BinaryUFunc(char** args, npy_intp* dimensions, npy_intp* steps,
++void BinaryUFunc(char** args, npy_intp const* dimensions, npy_intp const* steps,
+                  void* data) {
+   const char* i0 = args[0];
+   const char* i1 = args[1];
+@@ -506,7 +506,7 @@
+ }
+ 
+ template <typename Functor>
+-void CompareUFunc(char** args, npy_intp* dimensions, npy_intp* steps,
++void CompareUFunc(char** args, npy_intp const* dimensions, npy_intp const* steps,
+                   void* data) {
+   BinaryUFunc<bfloat16, npy_bool, Functor>(args, dimensions, steps, data);
+ }

@@ -1,0 +1,1086 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6c3c0b0..1b39479 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -64,11 +67,21 @@ if (ENABLE_OPEN_SRC)
+     )
+     swig_add_library(_tf_adapter TYPE SHARED LANGUAGE python SOURCES ${SOURCES} ${CMAKE_BINARY_DIR}/dist/swig/ge_plugin.i OUTPUT_DIR ${CMAKE_BINARY_DIR}/dist/python/npu_bridge)
+     set_property(TARGET _tf_adapter PROPERTY SWIG_COMPILE_OPTIONS -threads)
++
++    # cxx11 abi shim for GEGetErrorMsg()
++    add_library(ge_shim_oldabi OBJECT ge_cxx11_shim.cpp )
++    target_compile_options(ge_shim_oldabi PRIVATE -D_GLIBCXX_USE_CXX11_ABI=0)
++
++    add_library(ge_shim_newabi OBJECT ge_cxx11_shim.cpp )
++    target_compile_options(ge_shim_newabi PRIVATE -D_GLIBCXX_USE_CXX11_ABI=1)
+
+     foreach (COMPILE_FLAG ${COMPILE_FLAGS})
+         target_compile_options(_tf_adapter PUBLIC "${COMPILE_FLAG}")
+     endforeach (COMPILE_FLAG)
+
++    target_link_libraries(_tf_adapter PRIVATE ge_shim_oldabi)
++    target_link_libraries(_tf_adapter PRIVATE ge_shim_newabi)
++
+     target_link_libraries(_tf_adapter PUBLIC "dl")
+     foreach (LINK_FLAG ${LINK_FLAGS})
+         target_link_libraries(_tf_adapter PUBLIC "${LINK_FLAG}")
+diff --git a/ge_cxx11_shim.cpp b/ge_cxx11_shim.cpp
+new file mode 100644
+index 0000000..cd0a42c
+--- /dev/null
++++ b/ge_cxx11_shim.cpp
+@@ -0,0 +1,158 @@
++#include "ge/ge_api.h"
++#include "graph/op_desc.h"
++#include "graph/node.h"
++#include "graph/model.h"
++#include "graph/compute_graph.h"
++#include "framework/memory/memory_api.h"
++#include "framework/omg/parser/parser_api.h" 
++
++#include <cstdlib>
++#include <cstring>
++#include <string>
++
++#include <ext/vstring.h>
++
++__gnu_cxx::__vstring _ge_GEGetErrorMsg();
++ge::Status _ge_GetVarBaseAddrAndSize(const __gnu_cxx::__vstring &var_name, uint64_t &base_addr, uint64_t &var_size);
++ge::Status _ge_GEInitialize(const std::map<__gnu_cxx::__vstring, __gnu_cxx::__vstring> &options);
++ge::Status _ge_ParserInitialize(const std::map<__gnu_cxx::__vstring, __gnu_cxx::__vstring>& options);
++
++#if 0 == _GLIBCXX_USE_CXX11_ABI
++
++std::map<std::string, std::string> map_convert(const std::map<__gnu_cxx::__vstring, __gnu_cxx::__vstring> &options)
++{
++    std::map<std::string,std::string> new_options;
++    for(auto& opt : options)
++    {
++        new_options.insert({std::string(opt.first.c_str(), opt.first.size()), std::string(opt.second.c_str(), opt.second.size())});
++    }
++    return new_options;
++}
++
++__gnu_cxx::__vstring _ge_GEGetErrorMsg()
++{
++    std::string ge_str = ge::GEGetErrorMsg();
++    return __gnu_cxx::__vstring(ge_str.c_str(), ge_str.size());
++}
++
++ge::Graph::Graph(const __gnu_cxx::__vstring& name)
++    : Graph(std::string(name.c_str(), name.size()))
++{
++}
++
++void ge::OpDesc::SetName(const __gnu_cxx::__vstring& name)
++{
++    SetName(std::string(name.c_str(), name.size()));
++}
++
++__gnu_cxx::__vstring ge::Node::GetNameV() const
++{
++    std::string ge_str = GetName();
++    return __gnu_cxx::__vstring(ge_str.c_str(), ge_str.size());
++}
++
++ge::Model::Model(const __gnu_cxx::__vstring &name, const __gnu_cxx::__vstring &custom_version)
++    : Model(std::string(name.c_str(),name.size()), std::string(custom_version.c_str(), custom_version.size()))
++{
++}
++
++ge::ComputeGraph::ComputeGraph(const __gnu_cxx::__vstring& name)
++    : ComputeGraph(std::string(name.c_str(), name.size()))
++{
++}
++
++ge::Status ge::Session::AddGraph(uint32_t graphId, const Graph &graph, const std::map<__gnu_cxx::__vstring, __gnu_cxx::__vstring> &options)
++{
++    return AddGraph(graphId, graph, map_convert(options));
++}
++
++ge::Status _ge_GetVarBaseAddrAndSize(const __gnu_cxx::__vstring &var_name, uint64_t &base_addr, uint64_t &var_size)
++{
++    return ge::GetVarBaseAddrAndSize(std::string(var_name.c_str(), var_name.size()), base_addr, var_size);
++}
++
++ge::Status _ge_GEInitialize(const std::map<__gnu_cxx::__vstring, __gnu_cxx::__vstring> &options)
++{
++    return ge::GEInitialize(map_convert(options));
++}
++
++ge::Status _ge_ParserInitialize(const std::map<__gnu_cxx::__vstring, __gnu_cxx::__vstring>& options)
++{
++    return ge::ParserInitialize(map_convert(options));
++}
++
++ge::Session::Session(const std::map<__gnu_cxx::__vstring, __gnu_cxx::__vstring> &options)
++    : Session(map_convert(options))
++{
++}
++
++
++#else
++
++std::map<__gnu_cxx::__vstring, __gnu_cxx::__vstring> map_convert(const std::map<std::string, std::string> &options)
++{
++    std::map<__gnu_cxx::__vstring,__gnu_cxx::__vstring> new_options;
++    for(auto& opt : options)
++    {
++        new_options.insert({__gnu_cxx::__vstring(opt.first.c_str(), opt.first.size()), __gnu_cxx::__vstring(opt.second.c_str(), opt.second.size())});
++    }
++    return new_options;
++}
++
++std::string ge::GEGetErrorMsg()
++{
++    __gnu_cxx::__vstring vstr = _ge_GEGetErrorMsg();
++    return std::string(vstr.c_str(), vstr.size());
++}
++
++ge::Graph::Graph(const std::string& name)
++    : Graph(__gnu_cxx::__vstring(name.c_str(), name.size()))
++{
++}
++
++void ge::OpDesc::SetName(const std::string& name)
++{
++    SetName(__gnu_cxx::__vstring(name.c_str(), name.size()));
++}
++
++std::string ge::Node::GetName() const
++{
++    __gnu_cxx::__vstring ge_str = GetNameV();
++    return std::string(ge_str.c_str(), ge_str.size());
++}
++
++ge::Model::Model(const std::string &name, const std::string &custom_version)
++    : Model(__gnu_cxx::__vstring(name.c_str(),name.size()), __gnu_cxx::__vstring(custom_version.c_str(), custom_version.size()))
++{
++}
++
++ge::ComputeGraph::ComputeGraph(const std::string& name)
++    : ComputeGraph(__gnu_cxx::__vstring(name.c_str(), name.size()))
++{
++}
++
++ge::Status ge::Session::AddGraph(uint32_t graphId, const Graph &graph, const std::map<std::string, std::string> &options)
++{
++    return AddGraph(graphId, graph, map_convert(options));
++}
++
++ge::Status ge::GetVarBaseAddrAndSize(const std::string &var_name, uint64_t &base_addr, uint64_t &var_size)
++{
++    return _ge_GetVarBaseAddrAndSize(__gnu_cxx::__vstring(var_name.c_str(), var_name.size()), base_addr, var_size);
++}
++
++ge::Status ge::GEInitialize(const std::map<std::string, std::string> &options)
++{
++    return _ge_GEInitialize(map_convert(options));
++}
++
++ge::Status ge::ParserInitialize(const std::map<std::string, std::string>& options)
++{
++    return _ge_ParserInitialize(map_convert(options));
++}
++
++ge::Session::Session(const std::map<std::string, std::string> &options)
++    : Session(map_convert(options))
++{
++}
++#endif
+diff --git a/inc/graphengine/inc/external/ge/ge_api.h b/inc/graphengine/inc/external/ge/ge_api.h
+index c2cbe79..e9da939 100644
+--- a/inc/graphengine/inc/external/ge/ge_api.h
++++ b/inc/graphengine/inc/external/ge/ge_api.h
+@@ -26,6 +26,8 @@
+ #include "graph/graph.h"
+ #include "graph/tensor.h"
+ 
++#include <ext/vstring.h>
++
+ namespace ge {
+ typedef uint32_t (*pCallBackFunc)(uint32_t graph_id, const std::map<std::string, ge::Tensor> &params_list);
+ 
+@@ -50,6 +52,7 @@ class GE_FUNC_VISIBILITY Session {
+  public:
+   ATTRIBUTED_DEPRECATED(Session(const std::map<AscendString, AscendString> &))
+   explicit Session(const std::map<std::string, std::string> &options);
++  explicit Session(const std::map<__gnu_cxx::__vstring, __gnu_cxx::__vstring> &options);
+ 
+   explicit Session(const std::map<AscendString, AscendString> &options);
+ 
+@@ -74,6 +77,8 @@ class GE_FUNC_VISIBILITY Session {
+   ATTRIBUTED_DEPRECATED(Status AddGraph(uint32_t, const Graph &, const std::map<AscendString, AscendString> &))
+   Status AddGraph(uint32_t graphId, const Graph &graph, const std::map<std::string, std::string> &options);
+ 
++  Status AddGraph(uint32_t graphId, const Graph &graph, const std::map<__gnu_cxx::__vstring, __gnu_cxx::__vstring> &options);
++
+   ///
+   /// @ingroup client
+   /// @brief add a graph with a specific graphId and graphOptions
+diff --git a/inc/metadef/inc/external/graph/graph.h b/inc/metadef/inc/external/graph/graph.h
+index 35a4b61..6772ead 100644
+--- a/inc/metadef/inc/external/graph/graph.h
++++ b/inc/metadef/inc/external/graph/graph.h
+@@ -22,6 +22,8 @@
+ #include <utility>
+ #include <vector>
+ 
++#include <ext/vstring.h>
++
+ #include "./operator.h"
+ #include "./gnode.h"
+ 
+@@ -37,6 +39,7 @@ class GE_FUNC_DEV_VISIBILITY GE_FUNC_HOST_VISIBILITY Graph {
+ 
+  public:
+   ATTRIBUTED_DEPRECATED(Graph(const char *))
++  explicit Graph(const __gnu_cxx::__vstring &name);
+   explicit Graph(const std::string &name);
+ 
+   explicit Graph(const char *name);
+diff --git a/inc/metadef/inc/graph/compute_graph.h b/inc/metadef/inc/graph/compute_graph.h
+index 2105fa5..e5813d2 100644
+--- a/inc/metadef/inc/graph/compute_graph.h
++++ b/inc/metadef/inc/graph/compute_graph.h
+@@ -31,6 +31,8 @@
+ #include "graph/op_desc.h"
+ #include "graph/range_vistor.h"
+ 
++#include <ext/vstring.h>
++
+ namespace ge {
+ using ConstComputeGraph = const ComputeGraph;
+ 
+@@ -51,6 +53,7 @@ class ComputeGraph : public std::enable_shared_from_this<ComputeGraph>, public A
+   using Vistor = RangeVistor<T, std::shared_ptr<ConstComputeGraph>>;
+ 
+   explicit ComputeGraph(const std::string &name);
++  explicit ComputeGraph(const __gnu_cxx::__vstring &name);
+   ~ComputeGraph() override;
+   ComputeGraph(const ge::ComputeGraph&);
+   ComputeGraph(ge::ComputeGraph&&);
+diff --git a/inc/metadef/inc/graph/model.h b/inc/metadef/inc/graph/model.h
+index 0aa6c6a..a0b0b7c 100644
+--- a/inc/metadef/inc/graph/model.h
++++ b/inc/metadef/inc/graph/model.h
+@@ -37,6 +37,7 @@ class GE_FUNC_DEV_VISIBILITY GE_FUNC_HOST_VISIBILITY Model : public AttrHolder {
+   ~Model() = default;
+ 
+   Model(const std::string &name, const std::string &custom_version);
++  Model(const __gnu_cxx::__vstring &name, const __gnu_cxx::__vstring &custom_version);
+ 
+   std::string GetName() const;
+   void SetName(const std::string &name);
+diff --git a/inc/metadef/inc/graph/node.h b/inc/metadef/inc/graph/node.h
+index 7c749cb..b803fa3 100644
+--- a/inc/metadef/inc/graph/node.h
++++ b/inc/metadef/inc/graph/node.h
+@@ -29,6 +29,8 @@
+ #include "graph/op_desc.h"
+ #include "graph/range_vistor.h"
+ 
++#include <ext/vstring.h>
++
+ namespace ge {
+ class ComputeGraph;
+ 
+@@ -95,6 +97,7 @@ class Node : public std::enable_shared_from_this<Node> {
+  public:
+   graphStatus Init();
+ 
++  __gnu_cxx::__vstring GetNameV() const;
+   std::string GetName() const;
+   std::string GetType() const;
+ 
+diff --git a/inc/metadef/inc/graph/op_desc.h b/inc/metadef/inc/graph/op_desc.h
+index 5aa7fba..3a2f5c2 100644
+--- a/inc/metadef/inc/graph/op_desc.h
++++ b/inc/metadef/inc/graph/op_desc.h
+@@ -28,6 +28,8 @@
+ #include "detail/attributes_holder.h"
+ #include "graph/range_vistor.h"
+ 
++#include <ext/vstring.h>
++
+ #define DYNAMIN_INPUT_NAME(name, index) (((name)) + std::to_string((index)))
+ #define DYNAMIN_OUTPUT_NAME(name, index) (((name)) + std::to_string((index)))
+ namespace ge {
+@@ -84,6 +86,7 @@ class OpDesc : public std::enable_shared_from_this<OpDesc>, public AttrHolder {
+   std::string GetName() const;
+ 
+   void SetName(const std::string &name);
++  void SetName(const __gnu_cxx::__vstring &name);
+ 
+   std::string GetType() const;
+ 
+diff --git a/inc/tensorflow/tensorflow/compiler/jit/graphcycles/graphcycles.h b/inc/tensorflow/tensorflow/compiler/jit/graphcycles/graphcycles.h
+index 74b2137..a06017c 100644
+--- a/inc/tensorflow/tensorflow/compiler/jit/graphcycles/graphcycles.h
++++ b/inc/tensorflow/tensorflow/compiler/jit/graphcycles/graphcycles.h
+@@ -69,7 +69,7 @@ public:
+   // Attempt to insert an edge from source_node to dest_node.  If the
+   // edge would introduce a cycle, return false without making any
+   // changes. Otherwise add the edge and return true.
+-  bool InsertEdge(int32 source_node, int32 dest_node);
++  bool InsertEdge(int32 source_node, int32 dest_node, bool ignore_cycle = false);
+ 
+   // Remove any edge that exists from source_node to dest_node.
+   void RemoveEdge(int32 source_node, int32 dest_node);
+@@ -144,4 +144,4 @@ private:
+ };
+ 
+ }  // namespace tensorflow
+-#endif  // TENSORFLOW_COMPILER_JIT_GRAPHCYCLES_GRAPHCYCLES_H_
+\ No newline at end of file
++#endif  // TENSORFLOW_COMPILER_JIT_GRAPHCYCLES_GRAPHCYCLES_H_
+diff --git a/tf_adapter/common/graphcycles.cc b/tf_adapter/common/graphcycles.cc
+new file mode 100644
+index 0000000..a3a6387
+--- /dev/null
++++ b/tf_adapter/common/graphcycles.cc
+@@ -0,0 +1,521 @@
++/* Copyright 2017 The TensorFlow Authors. All Rights Reserved.
++Licensed under the Apache License, Version 2.0 (the "License");
++you may not use this file except in compliance with the License.
++You may obtain a copy of the License at
++
++    http://www.apache.org/licenses/LICENSE-2.0
++
++Unless required by applicable law or agreed to in writing, software
++distributed under the License is distributed on an "AS IS" BASIS,
++WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++See the License for the specific language governing permissions and
++limitations under the License.
++
++Copyright (c) Huawei Technologies Co., Ltd. 2019-2020. All rights reserved.
++
++Licensed under the Apache License, Version 2.0 (the "License");
++you may not use this file except in compliance with the License.
++You may obtain a copy of the License at
++
++http://www.apache.org/licenses/LICENSE-2.0
++
++Unless required by applicable law or agreed to in writing, software
++distributed under the License is distributed on an "AS IS" BASIS,
++WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++See the License for the specific language governing permissions and
++limitations under the License.
++==============================================================================*/
++
++// GraphCycles provides incremental cycle detection on a dynamic
++// graph using the following algorithm:
++//
++// A dynamic topological sort algorithm for directed acyclic graphs
++// David J. Pearce, Paul H. J. Kelly
++// Journal of Experimental Algorithmics (JEA) JEA Homepage archive
++// Volume 11, 2006, Article No. 1.7
++//
++// Brief summary of the algorithm:
++//
++// (1) Maintain a rank for each node that is consistent
++//     with the topological sort of the graph. I.e., path from x to y
++//     implies rank[x] < rank[y].
++// (2) When a new edge (x->y) is inserted, do nothing if rank[x] < rank[y].
++// (3) Otherwise: adjust ranks in the neighborhood of x and y.
++
++#include "tf_adapter/common/graphcycles.h"
++
++#include <algorithm>
++#include <unordered_set>
++
++#include "absl/algorithm/container.h"
++#include "absl/container/flat_hash_set.h"
++#include "absl/container/inlined_vector.h"
++#include "absl/strings/str_cat.h"
++#include "tensorflow/compiler/jit/graphcycles/ordered_set.h"
++#include "tensorflow/core/platform/logging.h"
++
++namespace tensorflow {
++namespace {
++using NodeSet = absl::flat_hash_set<int32>;
++using OrderedNodeSet = OrderedSet<int32>;
++
++template <typename T>
++struct VecStruct {
++  typedef absl::InlinedVector<T, 4> type;
++};
++template <typename T>
++using Vec = typename VecStruct<T>::type;
++
++struct Node {
++  int32 rank;    // rank number assigned by Pearce-Kelly algorithm
++  bool visited;  // Temporary marker used by depth-first-search
++  void* data;    // User-supplied data
++  OrderedNodeSet in;   // List of immediate predecessor nodes in graph
++  OrderedNodeSet out;  // List of immediate successor nodes in graph
++};
++}  // namespace
++
++struct GraphCycles::Rep {
++  Vec<Node*> nodes_;
++  Vec<int32> free_nodes_;  // Indices for unused entries in nodes_
++
++  // Temporary state.
++  Vec<int32> deltaf_;  // Results of forward DFS
++  Vec<int32> deltab_;  // Results of backward DFS
++  Vec<int32> list_;    // All nodes to reprocess
++  Vec<int32> merged_;  // Rank values to assign to list_ entries
++  Vec<int32> stack_;   // Emulates recursion stack when doing depth first search
++};
++
++GraphCycles::GraphCycles() : rep_(new Rep), has_cycle_(false) {}
++
++GraphCycles::~GraphCycles() {
++  for (Vec<Node*>::size_type i = 0; i < rep_->nodes_.size(); i++) {
++    delete rep_->nodes_[i];
++  }
++  delete rep_;
++  has_cycle_ = false;
++}
++
++bool GraphCycles::CheckInvariants() const {
++  Rep* r = rep_;
++  NodeSet ranks;  // Set of ranks seen so far.
++  for (Vec<Node*>::size_type x = 0; x < r->nodes_.size(); x++) {
++    Node* nx = r->nodes_[x];
++    if (nx->visited) {
++      LOG(FATAL) << "Did not clear visited marker on node " << x;
++    }
++    if (!ranks.insert(nx->rank).second) {
++      LOG(FATAL) << "Duplicate occurrence of rank " << nx->rank;
++    }
++    for (int32 y : nx->out.GetSequence()) {
++      Node* ny = r->nodes_[y];
++      if (nx->rank >= ny->rank) {
++        LOG(FATAL) << "Edge " << x << "->" << y << " has bad rank assignment "
++                   << nx->rank << "->" << ny->rank;
++      }
++    }
++  }
++  return true;
++}
++
++int32 GraphCycles::NewNode() {
++  if (rep_->free_nodes_.empty()) {
++    Node* n = new Node;
++    n->visited = false;
++    n->data = nullptr;
++    n->rank = rep_->nodes_.size();
++    rep_->nodes_.push_back(n);
++    return n->rank;
++  } else {
++    // Preserve preceding rank since the set of ranks in use must be
++    // a permutation of [0,rep_->nodes_.size()-1].
++    int32 r = rep_->free_nodes_.back();
++    rep_->nodes_[r]->data = nullptr;
++    rep_->free_nodes_.pop_back();
++    return r;
++  }
++}
++
++void GraphCycles::RemoveNode(int32 node) {
++  Node* x = rep_->nodes_[node];
++  for (int32 y : x->out.GetSequence()) {
++    rep_->nodes_[y]->in.Erase(node);
++  }
++  for (int32 y : x->in.GetSequence()) {
++    rep_->nodes_[y]->out.Erase(node);
++  }
++  x->in.Clear();
++  x->out.Clear();
++  rep_->free_nodes_.push_back(node);
++}
++
++void* GraphCycles::GetNodeData(int32 node) const {
++  return rep_->nodes_[node]->data;
++}
++
++void GraphCycles::SetNodeData(int32 node, void* data) {
++  rep_->nodes_[node]->data = data;
++}
++
++bool GraphCycles::HasEdge(int32 x, int32 y) const {
++  return rep_->nodes_[x]->out.Contains(y);
++}
++
++void GraphCycles::RemoveEdge(int32 x, int32 y) {
++  rep_->nodes_[x]->out.Erase(y);
++  rep_->nodes_[y]->in.Erase(x);
++  // No need to update the rank assignment since a previous valid
++  // rank assignment remains valid after an edge deletion.
++}
++
++static bool ForwardDFS(GraphCycles::Rep* r, int32 n, int32 upper_bound, bool ignore_cycle, bool& has_cycle);
++static bool ForwardDFSUnlimitRank(GraphCycles::Rep* r, int32 n, int32 upper_bound);
++static void BackwardDFS(GraphCycles::Rep* r, int32 n, int32 lower_bound);
++static void Reorder(GraphCycles::Rep* r);
++static void Sort(const Vec<Node*>&, Vec<int32>* delta);
++static void MoveToList(GraphCycles::Rep* r, Vec<int32>* src, Vec<int32>* dst);
++static void ClearVisitedBits(GraphCycles::Rep* r, const Vec<int32>& nodes);
++
++bool GraphCycles::InsertEdge(int32 x, int32 y, bool ignore_cycle) {
++  if (x == y) return false;
++  Rep* r = rep_;
++  Node* nx = r->nodes_[x];
++  if (!nx->out.Insert(y)) {
++    // Edge already exists.
++    return true;
++  }
++
++  Node* ny = r->nodes_[y];
++  ny->in.Insert(x);
++
++  if (nx->rank <= ny->rank) {
++    // New edge is consistent with existing rank assignment.
++    return true;
++  }
++
++  // Current rank assignments are incompatible with the new edge.  Recompute.
++  // We only need to consider nodes that fall in the range [ny->rank,nx->rank].
++  if (!ForwardDFS(r, y, nx->rank, ignore_cycle, has_cycle_)) {
++    // Found a cycle.  Undo the insertion and tell caller.
++    nx->out.Erase(y);
++    ny->in.Erase(x);
++    // Since we do not call Reorder() on this path, clear any visited
++    // markers left by ForwardDFS.
++    ClearVisitedBits(r, r->deltaf_);
++    return false;
++  }
++  BackwardDFS(r, x, ny->rank);
++  Reorder(r);
++  return true;
++}
++
++static bool ForwardDFS(GraphCycles::Rep* r, int32 n, int32 upper_bound, bool ignore_cycle, bool& has_cycle) {
++  // Avoid recursion since stack space might be limited.
++  // We instead keep a stack of nodes to visit.
++  r->deltaf_.clear();
++  r->stack_.clear();
++  r->stack_.push_back(n);
++  while (!r->stack_.empty()) {
++    n = r->stack_.back();
++    r->stack_.pop_back();
++    Node* nn = r->nodes_[n];
++    if (nn->visited) continue;
++
++    nn->visited = true;
++    r->deltaf_.push_back(n);
++
++    for (auto w : nn->out.GetSequence()) {
++      Node* nw = r->nodes_[w];
++      if (nw->rank == upper_bound && !ignore_cycle) {
++        return false;  // Cycle
++      }
++      if (nw->rank == upper_bound && ignore_cycle) {
++        has_cycle = true;
++      }
++      if (!nw->visited && nw->rank < upper_bound) {
++        r->stack_.push_back(w);
++      }
++    }
++  }
++  return true;
++}
++
++static bool ForwardDFSUnlimitRank(GraphCycles::Rep* r, int32 n, int32 upper_bound) {
++  // Avoid recursion since stack space might be limited.
++  // We instead keep a stack of nodes to visit.
++  r->deltaf_.clear();
++  r->stack_.clear();
++  r->stack_.push_back(n);
++  while (!r->stack_.empty()) {
++    n = r->stack_.back();
++    r->stack_.pop_back();
++    Node* nn = r->nodes_[n];
++    if (nn->visited) continue;
++
++    nn->visited = true;
++    r->deltaf_.push_back(n);
++
++    for (auto w : nn->out.GetSequence()) {
++      Node* nw = r->nodes_[w];
++      if (nw->rank == upper_bound) {
++        return false;  // Cycle
++      }
++      if (!nw->visited) {
++        r->stack_.push_back(w);
++      }
++    }
++  }
++  return true;
++}
++
++static void BackwardDFS(GraphCycles::Rep* r, int32 n, int32 lower_bound) {
++  r->deltab_.clear();
++  r->stack_.clear();
++  r->stack_.push_back(n);
++  while (!r->stack_.empty()) {
++    n = r->stack_.back();
++    r->stack_.pop_back();
++    Node* nn = r->nodes_[n];
++    if (nn->visited) continue;
++
++    nn->visited = true;
++    r->deltab_.push_back(n);
++
++    for (auto w : nn->in.GetSequence()) {
++      Node* nw = r->nodes_[w];
++      if (!nw->visited && lower_bound < nw->rank) {
++        r->stack_.push_back(w);
++      }
++    }
++  }
++}
++
++static void Reorder(GraphCycles::Rep* r) {
++  Sort(r->nodes_, &r->deltab_);
++  Sort(r->nodes_, &r->deltaf_);
++
++  // Adds contents of delta lists to list_ (backwards deltas first).
++  r->list_.clear();
++  MoveToList(r, &r->deltab_, &r->list_);
++  MoveToList(r, &r->deltaf_, &r->list_);
++
++  // Produce sorted list of all ranks that will be reassigned.
++  r->merged_.resize(r->deltab_.size() + r->deltaf_.size());
++  std::merge(r->deltab_.begin(), r->deltab_.end(), r->deltaf_.begin(),
++             r->deltaf_.end(), r->merged_.begin());
++
++  // Assign the ranks in order to the collected list.
++  for (Vec<int32>::size_type i = 0; i < r->list_.size(); i++) {
++    r->nodes_[r->list_[i]]->rank = r->merged_[i];
++  }
++}
++
++static void Sort(const Vec<Node*>& nodes, Vec<int32>* delta) {
++  struct ByRank {
++    const Vec<Node*>* nodes;
++    bool operator()(int32 a, int32 b) const {
++      return (*nodes)[a]->rank < (*nodes)[b]->rank;
++    }
++  };
++  ByRank cmp;
++  cmp.nodes = &nodes;
++  std::sort(delta->begin(), delta->end(), cmp);
++}
++
++static void MoveToList(GraphCycles::Rep* r, Vec<int32>* src, Vec<int32>* dst) {
++  for (Vec<int32>::size_type i = 0; i < src->size(); i++) {
++    int32 w = (*src)[i];
++    (*src)[i] = r->nodes_[w]->rank;  // Replace src entry with its rank
++    r->nodes_[w]->visited = false;   // Prepare for future DFS calls
++    dst->push_back(w);
++  }
++}
++
++static void ClearVisitedBits(GraphCycles::Rep* r, const Vec<int32>& nodes) {
++  for (Vec<int32>::size_type i = 0; i < nodes.size(); i++) {
++    r->nodes_[nodes[i]]->visited = false;
++  }
++}
++
++int GraphCycles::FindPath(int32 x, int32 y, int max_path_len,
++                          int32 path[]) const {
++  // Forward depth first search starting at x until we hit y.
++  // As we descend into a node, we push it onto the path.
++  // As we leave a node, we remove it from the path.
++  int path_len = 0;
++
++  Rep* r = rep_;
++  NodeSet seen;
++  r->stack_.clear();
++  r->stack_.push_back(x);
++  while (!r->stack_.empty()) {
++    int32 n = r->stack_.back();
++    r->stack_.pop_back();
++    if (n < 0) {
++      // Marker to indicate that we are leaving a node
++      path_len--;
++      continue;
++    }
++
++    if (path_len < max_path_len) {
++      path[path_len] = n;
++    }
++    path_len++;
++    r->stack_.push_back(-1);  // Will remove tentative path entry
++
++    if (n == y) {
++      return path_len;
++    }
++
++    for (auto w : r->nodes_[n]->out.GetSequence()) {
++      if (seen.insert(w).second) {
++        r->stack_.push_back(w);
++      }
++    }
++  }
++
++  return 0;
++}
++
++bool GraphCycles::IsReachable(int32 x, int32 y) const {
++  return FindPath(x, y, 0, nullptr) > 0;
++}
++
++bool GraphCycles::IsReachableNonConst(int32 x, int32 y) {
++  if (x == y) return true;
++  Rep* r = rep_;
++  Node* nx = r->nodes_[x];
++  Node* ny = r->nodes_[y];
++
++  bool reachable = false;
++  if (has_cycle_) {
++    // See if x can reach y using a DFS search that is limited to y's rank
++    reachable = !ForwardDFSUnlimitRank(r, x, ny->rank);
++  } else {
++    if (nx->rank >= ny->rank) {
++      // x cannot reach y since it is after it in the topological ordering
++      return false;
++    }
++
++    bool has_cycle = false;
++    // See if x can reach y using a DFS search that is limited to y's rank
++    reachable = !ForwardDFS(r, x, ny->rank, false, has_cycle);
++  }
++
++  // Clear any visited markers left by ForwardDFS.
++  ClearVisitedBits(r, r->deltaf_);
++  return reachable;
++}
++
++bool GraphCycles::CanContractEdge(int32 a, int32 b) {
++  CHECK(HasEdge(a, b)) << "No edge exists from " << a << " to " << b;
++  RemoveEdge(a, b);
++  bool reachable = IsReachableNonConst(a, b);
++  // Restore the graph to its original state.
++  InsertEdge(a, b);
++  // If reachable, then contracting edge will cause cycle.
++  return !reachable;
++}
++
++bool GraphCycles::ContractEdge(int32 a, int32 b) {
++  CHECK(HasEdge(a, b));
++  RemoveEdge(a, b);
++
++  if (IsReachableNonConst(a, b)) {
++    // Restore the graph to its original state.
++    InsertEdge(a, b);
++    return false;
++  }
++
++  Node* nb = rep_->nodes_[b];
++  OrderedNodeSet out = std::move(nb->out);
++  OrderedNodeSet in = std::move(nb->in);
++  for (int32 y : out.GetSequence()) {
++    rep_->nodes_[y]->in.Erase(b);
++  }
++  for (int32 y : in.GetSequence()) {
++    rep_->nodes_[y]->out.Erase(b);
++  }
++  rep_->free_nodes_.push_back(b);
++
++  rep_->nodes_[a]->out.Reserve(rep_->nodes_[a]->out.Size() + out.Size());
++  for (int32 y : out.GetSequence()) {
++    InsertEdge(a, y);
++  }
++
++  rep_->nodes_[a]->in.Reserve(rep_->nodes_[a]->in.Size() + in.Size());
++  for (int32 y : in.GetSequence()) {
++    InsertEdge(y, a);
++  }
++
++  return true;
++}
++
++absl::Span<const int32> GraphCycles::Successors(int32 node) const {
++  return rep_->nodes_[node]->out.GetSequence();
++}
++
++absl::Span<const int32> GraphCycles::Predecessors(int32 node) const {
++  return rep_->nodes_[node]->in.GetSequence();
++}
++
++std::vector<int32> GraphCycles::SuccessorsCopy(int32 node) const {
++  absl::Span<const int32> successors = Successors(node);
++  return std::vector<int32>(successors.begin(), successors.end());
++}
++
++std::vector<int32> GraphCycles::PredecessorsCopy(int32 node) const {
++  absl::Span<const int32> predecessors = Predecessors(node);
++  return std::vector<int32>(predecessors.begin(), predecessors.end());
++}
++
++namespace {
++void SortInPostOrder(absl::Span<Node* const> nodes,
++                     std::vector<int32>* to_sort) {
++  absl::c_sort(*to_sort, [&](int32 a, int32 b) {
++    DCHECK(a == b || nodes[a]->rank != nodes[b]->rank);
++    return nodes[a]->rank > nodes[b]->rank;
++  });
++}
++}  // namespace
++
++std::vector<int32> GraphCycles::AllNodesInPostOrder() const {
++  absl::flat_hash_set<int32> free_nodes_set;
++  absl::c_copy(rep_->free_nodes_,
++               std::inserter(free_nodes_set, free_nodes_set.begin()));
++
++  std::vector<int32> all_nodes;
++  all_nodes.reserve(rep_->nodes_.size() - free_nodes_set.size());
++  for (int64 i = 0, e = rep_->nodes_.size(); i < e; i++) {
++    if (!free_nodes_set.contains(i)) {
++      all_nodes.push_back(i);
++    }
++  }
++
++  SortInPostOrder(rep_->nodes_, &all_nodes);
++  return all_nodes;
++}
++
++string GraphCycles::DebugString() const {
++  absl::flat_hash_set<int32> free_nodes_set;
++  for (int32 free_node : rep_->free_nodes_) {
++    free_nodes_set.insert(free_node);
++  }
++
++  string result = "digraph {\n";
++  for (std::size_t i = 0; i < rep_->nodes_.size(); i++) {
++    if (free_nodes_set.contains(i)) {
++      continue;
++    }
++
++    for (int32 succ : rep_->nodes_[i]->out.GetSequence()) {
++      absl::StrAppend(&result, "  \"", i, "\" -> \"", succ, "\"\n");
++    }
++  }
++
++  absl::StrAppend(&result, "}\n");
++
++  return result;
++}
++}  // namespace tensorflow
+diff --git a/tf_adapter/common/graphcycles.h b/tf_adapter/common/graphcycles.h
+new file mode 100644
+index 0000000..4be2eda
+--- /dev/null
++++ b/tf_adapter/common/graphcycles.h
+@@ -0,0 +1,165 @@
++/* Copyright 2017 The TensorFlow Authors. All Rights Reserved.
++Licensed under the Apache License, Version 2.0 (the "License");
++you may not use this file except in compliance with the License.
++You may obtain a copy of the License at
++
++    http://www.apache.org/licenses/LICENSE-2.0
++
++Unless required by applicable law or agreed to in writing, software
++distributed under the License is distributed on an "AS IS" BASIS,
++WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++See the License for the specific language governing permissions and
++limitations under the License.
++
++Copyright (c) Huawei Technologies Co., Ltd. 2019-2020. All rights reserved.
++
++Licensed under the Apache License, Version 2.0 (the "License");
++you may not use this file except in compliance with the License.
++You may obtain a copy of the License at
++
++http://www.apache.org/licenses/LICENSE-2.0
++
++Unless required by applicable law or agreed to in writing, software
++distributed under the License is distributed on an "AS IS" BASIS,
++WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++See the License for the specific language governing permissions and
++limitations under the License.
++==============================================================================*/
++
++#ifndef TENSORFLOW_COMPILER_JIT_GRAPHCYCLES_GRAPHCYCLES_H_
++#define TENSORFLOW_COMPILER_JIT_GRAPHCYCLES_GRAPHCYCLES_H_
++
++#include <vector>
++
++// GraphCycles detects the introduction of a cycle into a directed
++// graph that is being built up incrementally.
++//
++// Nodes are identified by small integers.  It is not possible to
++// record multiple edges with the same (source, destination) pair;
++// requests to add an edge where one already exists are silently
++// ignored.
++//
++// It is also not possible to introduce a cycle; an attempt to insert
++// an edge that would introduce a cycle fails and returns false.
++//
++// GraphCycles uses no internal locking; calls into it should be
++// serialized externally.
++
++// Performance considerations:
++//   Works well on sparse graphs, poorly on dense graphs.
++//   Extra information is maintained incrementally to detect cycles quickly.
++//   InsertEdge() is very fast when the edge already exists, and reasonably fast
++//   otherwise.
++//   FindPath() is linear in the size of the graph.
++// The current implementation uses O(|V|+|E|) space.
++
++#include "absl/types/span.h"
++#include "tensorflow/core/platform/macros.h"
++#include "tensorflow/core/platform/types.h"
++
++namespace tensorflow {
++
++// NOTE!!!
++// For now a copy of this is forked to net/plaque. If you
++// find a bug or add a feature, please inform the owners of the
++// net/plaque copy in case it should be integrated.
++// NOTE!!!
++class GraphCycles {
++ public:
++  GraphCycles();
++  ~GraphCycles();
++
++  // Allocate an unused node id and return it.
++  // The new node has a null pointer for its node data.
++  // All node identifiers passed to other routines in this interface
++  // must have been allocated by NewNode() and not yet deallocated
++  // by RemoveNode().
++  int32 NewNode();
++
++  // Remove "node" from the graph, deleting all edges to and from it.
++  // After this call the identifier "node" it may no longer be used
++  // as an argument to any routine until it has been reallocated with
++  // NewNode().
++  void RemoveNode(int32 node);
++
++  // Attempt to insert an edge from source_node to dest_node.  If the
++  // edge would introduce a cycle, return false without making any
++  // changes. Otherwise add the edge and return true.
++  bool InsertEdge(int32 source_node, int32 dest_node, bool ignore_cycle = false);
++
++  // Remove any edge that exists from source_node to dest_node.
++  void RemoveEdge(int32 source_node, int32 dest_node);
++
++  // Return whether there is an edge directly from source_node to dest_node.
++  bool HasEdge(int32 source_node, int32 dest_node) const;
++
++  // Contracts the edge from 'a' to node 'b', merging nodes 'a' and 'b'. 'b' is
++  // removed from the graph, and edges to/from 'b' are replaced with edges
++  // to/from 'a'. If contracting the edge would create a cycle, does nothing
++  // and returns false.
++  bool ContractEdge(int32 a, int32 b);
++
++  // Return true if can contract edge, otherwise return false.
++  bool CanContractEdge(int32 a, int32 b);
++
++  // Return whether dest_node is reachable from source_node
++  // by following edges.
++  bool IsReachable(int32 source_node, int32 dest_node) const;
++
++  // A faster non-thread-safe version of IsReachable.
++  bool IsReachableNonConst(int32 source_node, int32 dest_node);
++
++  // Return or set the node data for a node.  This data is unused
++  // by the implementation.
++  void *GetNodeData(int32 node) const;
++  void SetNodeData(int32 node, void *data);
++
++  // Find a path from "source" to "dest".  If such a path exists, place the
++  // node IDs of the nodes on the path in the array path[], and return the
++  // number of nodes on the path.  If the path is longer than max_path_len
++  // nodes, only the first max_path_len nodes are placed in path[].  The client
++  // should compare the return value with max_path_len" to see when this
++  // occurs.  If no path exists, return 0.  Any valid path stored in path[]
++  // will start with "source" and end with "dest".  There is no guarantee that
++  // the path is the shortest, but no node will appear twice in the path,
++  // except the source and destination node if they are identical; therefore,
++  // the return value is at most one greater than the number of nodes in the
++  // graph.
++  int FindPath(int32 source, int32 dest, int max_path_len, int32 path[]) const;
++
++  // Check internal invariants. Crashes on failure, returns true on success.
++  // Expensive: should only be called from graphcycles_test.cc.
++  bool CheckInvariants() const;
++
++  // Warning: Do not use these if iterating over the span and modifying the
++  // GraphCycles at the same time. Instead use SuccessorsCopy/PredecessorsCopy.
++  absl::Span<const int32> Successors(int32 node) const;
++  absl::Span<const int32> Predecessors(int32 node) const;
++
++  // Return a copy of the sucessors set. This is needed for code using the
++  // collection while modifying the GraphCycles.
++  std::vector<int32> SuccessorsCopy(int32 node) const;
++  // Return a copy of the predecessors set. This is needed for code using the
++  // collection while modifying the GraphCycles.
++  std::vector<int32> PredecessorsCopy(int32 node) const;
++
++  // Returns all nodes in post order.
++  //
++  // If there is a path from X to Y then X appears after Y in the
++  // returned vector.
++  std::vector<int32> AllNodesInPostOrder() const;
++
++  // Returns the graph in graphviz format.
++  string DebugString() const;
++
++  // ----------------------------------------------------
++  struct Rep;
++
++ private:
++  Rep *rep_;  // opaque representation
++  bool has_cycle_;
++  TF_DISALLOW_COPY_AND_ASSIGN(GraphCycles);
++};
++
++}  // namespace tensorflow
++#endif  // TENSORFLOW_COMPILER_JIT_GRAPHCYCLES_GRAPHCYCLES_H_
+diff --git a/tf_adapter/kernels/geop_npu.cc b/tf_adapter/kernels/geop_npu.cc
+index 8bb5a27..76c1065 100644
+--- a/tf_adapter/kernels/geop_npu.cc
++++ b/tf_adapter/kernels/geop_npu.cc
+@@ -70,7 +70,8 @@
+ #include "graph/model.h"
+ 
+ namespace tensorflow {
+-Status FunctionalizeControlFlow(Graph *graph, FunctionLibraryDefinition *library);
++// No Idea where this function is supposed to be defined
++//Status FunctionalizeControlFlow(Graph *graph, FunctionLibraryDefinition *library);
+ namespace {
+ using geDataUniquePtr = std::unique_ptr<uint8_t[], std::function<void(uint8_t *)>>;
+ 
+@@ -872,11 +873,11 @@ Status GeOp::BuildGraphDef(FunctionLibraryDefinition &flib_def, const std::vecto
+   if (enable_force_v2_control == "1") {
+     WriteTextProto(Env::Default(), GetDumpPath() + function_.name() + "_v1.pbtxt", graph_def);
+ 
+-    Status status = FunctionalizeControlFlow(&graph, &flib_def);
+-    if (status != Status::OK()) {
+-      LOG(WARNING) << "[GEOP] Failed functionalize control flow: " << status.error_message();
++    //Status status = FunctionalizeControlFlow(&graph, &flib_def);
++    //if (status != Status::OK()) {
++      LOG(WARNING) << "[GEOP] Failed functionalize control flow: FunctionalizeControlFlow() is undefined, so the call was removed";
+       return Status::OK();
+-    }
++    //}
+     graph.ToGraphDef(&graph_def);
+     WriteTextProto(Env::Default(), GetDumpPath() + function_.name() + "_v2.pbtxt", graph_def);
+   }
+diff --git a/tf_adapter/optimizers/om_partition_subgraphs_pass.cc b/tf_adapter/optimizers/om_partition_subgraphs_pass.cc
+index 396afbf..57e47c3 100644
+--- a/tf_adapter/optimizers/om_partition_subgraphs_pass.cc
++++ b/tf_adapter/optimizers/om_partition_subgraphs_pass.cc
+@@ -26,7 +26,7 @@
+ #include <vector>
+ #include <algorithm>
+ 
+-#include "tensorflow/compiler/jit/graphcycles/graphcycles.h"
++#include "tf_adapter/common/graphcycles.h"
+ #include "tensorflow/core/common_runtime/function.h"
+ #include "tensorflow/core/common_runtime/shape_refiner.h"
+ #include "tensorflow/core/framework/graph_def_util.h"
+@@ -998,7 +998,7 @@ Status MarkForPartition(std::unique_ptr<Graph> *graph_in, int &clusterNum, bool
+     if (src->IsNextIteration()) {
+       continue;
+     }
+-    if (!cycles.InsertEdge(cluster_map[src]->index, cluster_map[dst]->index)) {
++    if (!cycles.InsertEdge(cluster_map[src]->index, cluster_map[dst]->index, false)) {
+       ADP_LOG(ERROR) << "Failing due to cycle";
+       LOG(ERROR) << "Failing due to cycle";
+       return errors::Unimplemented("Input graph has a cycle (inserting an edge from ", src->DebugString(), " to ",

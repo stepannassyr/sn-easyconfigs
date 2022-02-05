@@ -1,0 +1,39 @@
+diff --color -urN nsync-1.22.0-unpatched/platform/c++11/atomic.h nsync-1.22.0/platform/c++11/atomic.h
+--- nsync-1.22.0-unpatched/platform/c++11/atomic.h	2022-02-03 09:37:29.403289592 +0000
++++ nsync-1.22.0/platform/c++11/atomic.h	2022-02-03 09:39:49.644194758 +0000
+@@ -65,21 +65,31 @@
+ 
+ NSYNC_CPP_START_
+ 
++#define ATM_CB_() __sync_synchronize()
++
+ static INLINE int atm_cas_nomb_u32_ (nsync_atomic_uint32_ *p, uint32_t o, uint32_t n) {
+-	return (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n,
++	int result = (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n,
+ 					     std::memory_order_relaxed, std::memory_order_relaxed));
++    ATM_CB_();
++    return result;
+ }
+ static INLINE int atm_cas_acq_u32_ (nsync_atomic_uint32_ *p, uint32_t o, uint32_t n) {
+-	return (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n,
++	int result = (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n,
+ 					     std::memory_order_acquire, std::memory_order_relaxed));
++    ATM_CB_();
++    return result;
+ }
+ static INLINE int atm_cas_rel_u32_ (nsync_atomic_uint32_ *p, uint32_t o, uint32_t n) {
+-	return (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n,
++	int result = (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n,
+ 					     std::memory_order_release, std::memory_order_relaxed));
++    ATM_CB_();
++    return result;
+ }
+ static INLINE int atm_cas_relacq_u32_ (nsync_atomic_uint32_ *p, uint32_t o, uint32_t n) {
+-	return (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n,
++	int result = (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n,
+ 					     std::memory_order_acq_rel, std::memory_order_relaxed));
++    ATM_CB_();
++    return result;
+ }
+ 
+ #define ATM_CAS_HELPER_(barrier, p, o, n) (atm_cas_##barrier##_u32_ ((p), (o), (n)))

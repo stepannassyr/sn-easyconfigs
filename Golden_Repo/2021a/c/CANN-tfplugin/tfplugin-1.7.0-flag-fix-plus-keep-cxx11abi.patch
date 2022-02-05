@@ -1,0 +1,17 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6c3c0b0..1b39479 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -10,10 +10,8 @@ option(ENABLE_OPEN_SRC "Enable graphengine compile in opensource." FALSE)
+     include(UseSWIG)
+
+     set(CMAKE_CXX_STANDARD 11)
+-    set(CMAKE_C_FLAGS "-O2 -DNDEBUG -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_C_FLAGS}")
+-    set(CMAKE_CXX_FLAGS "-std=c++11 -O2 -DNDEBUG -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_CXX_FLAGS}")
+-
+-    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
++    set(CMAKE_C_FLAGS "-DNDEBUG -Wfloat-equal -Wextra -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_C_FLAGS}")
++    set(CMAKE_CXX_FLAGS "-DNDEBUG -Wfloat-equal -Wextra -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_CXX_FLAGS}")
+
+     # build external prjects
+     if(DEFINED ENV{D_PKG_SERVER})

@@ -1,0 +1,83 @@
+diff --color -urN TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/lite/tools/make/targets/aarch64_makefile.inc TensorFlow/tensorflow-1.15.0/tensorflow/lite/tools/make/targets/aarch64_makefile.inc
+--- TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/lite/tools/make/targets/aarch64_makefile.inc	2022-02-03 11:56:02.687293394 +0000
++++ TensorFlow/tensorflow-1.15.0/tensorflow/lite/tools/make/targets/aarch64_makefile.inc	2022-02-03 11:57:39.927933499 +0000
+@@ -9,12 +9,16 @@
+     -march=armv8-a \
+     -funsafe-math-optimizations \
+     -ftree-vectorize \
++    -flax-vector-conversions \
++    -fomit-frame-pointer \
+     -fPIC
+ 
+   CFLAGS += \
+     -march=armv8-a \
+     -funsafe-math-optimizations \
+     -ftree-vectorize \
++    -flax-vector-conversions \
++    -fomit-frame-pointer \
+     -fPIC
+ 
+   LDFLAGS := \
+diff --color -urN TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/lite/tools/make/Makefile TensorFlow/tensorflow-1.15.0/tensorflow/lite/tools/make/Makefile
+--- TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/lite/tools/make/Makefile	2022-02-03 12:45:44.026824096 +0000
++++ TensorFlow/tensorflow-1.15.0/tensorflow/lite/tools/make/Makefile	2022-02-03 12:47:12.867404425 +0000
+@@ -55,7 +55,7 @@
+ # There are no rules for compiling objects for the host system (since we don't
+ # generate things like the protobuf compiler that require that), so all of
+ # these settings are for the target compiler.
+-CXXFLAGS := -O3 -DNDEBUG -fPIC
++CXXFLAGS := -O3 -DNDEBUG -fPIC -flax-vector-conversions -fomit-frame-pointer
+ CXXFLAGS += $(EXTRA_CXXFLAGS)
+ CFLAGS := ${CXXFLAGS}
+ CXXFLAGS += --std=c++11
+diff --color -urN TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/lite/build_def.bzl TensorFlow/tensorflow-1.15.0/tensorflow/lite/build_def.bzl
+--- TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/lite/build_def.bzl	2022-02-03 14:16:02.502469933 +0000
++++ TensorFlow/tensorflow-1.15.0/tensorflow/lite/build_def.bzl	2022-02-03 14:19:00.703651438 +0000
+@@ -14,6 +14,8 @@
+     ] + select({
+         str(Label("//tensorflow:android_arm64")): [
+             "-O3",
++            "-flax-vector-conversions",
++            "-fomit-frame-pointer",
+         ],
+         str(Label("//tensorflow:android_arm")): [
+             "-mfpu=neon",
+diff --color -urN TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/tensorflow.bzl TensorFlow/tensorflow-1.15.0/tensorflow/tensorflow.bzl
+--- TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/tensorflow.bzl	2022-02-03 14:40:47.322285097 +0000
++++ TensorFlow/tensorflow-1.15.0/tensorflow/tensorflow.bzl	2022-02-03 14:45:23.934108850 +0000
+@@ -232,6 +232,12 @@
+         "//conditions:default": [],
+     })
+ 
++def if_linux_aarch64(a):
++    return select({
++        clean_dep("//tensorflow:linux_aarch64"): a,
++        "//conditions:default": [],
++    })
++
+ def if_override_eigen_strong_inline(a):
+     return select({
+         clean_dep("//tensorflow:override_eigen_strong_inline"): a,
+@@ -300,6 +306,7 @@
+         if_ngraph(["-DINTEL_NGRAPH=1"]) +
+         if_android_arm([""]) +
+         if_linux_x86_64([""]) +
++        if_linux_aarch64(["-flax-vector-conversions","-fomit-frame-pointer"]) +
+         if_ios_x86_64([""]) +
+         select({
+             clean_dep("//tensorflow:framework_shared_object"): [],
+diff --color -urN TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/lite/build_def.bzl TensorFlow/tensorflow-1.15.0/tensorflow/lite/build_def.bzl
+--- TensorFlow-unpatched/tensorflow-1.15.0/tensorflow/lite/build_def.bzl	2022-02-03 14:57:14.338794705 +0000
++++ TensorFlow/tensorflow-1.15.0/tensorflow/lite/build_def.bzl	2022-02-03 14:58:07.069142683 +0000
+@@ -17,6 +17,11 @@
+             "-flax-vector-conversions",
+             "-fomit-frame-pointer",
+         ],
++        str(Label("//tensorflow:linux_aarch64")): [
++            "-O3",
++            "-flax-vector-conversions",
++            "-fomit-frame-pointer",
++        ],
+         str(Label("//tensorflow:android_arm")): [
+             "-mfpu=neon",
+             "-O3",

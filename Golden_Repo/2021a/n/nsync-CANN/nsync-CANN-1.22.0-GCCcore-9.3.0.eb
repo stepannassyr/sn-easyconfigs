@@ -1,0 +1,28 @@
+easyblock = 'CMakeNinja'
+
+name = 'nsync-CANN'
+version = '1.22.0'
+
+homepage = 'https://github.com/google/nsync'
+description = """nsync is a C library that exports various synchronization primitives, such as mutexes"""
+
+toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
+
+source_urls = ['https://github.com/google/nsync/archive/refs/tags/']
+sources = ['%(version)s.tar.gz']
+patches = ['nsync-cann.patch']
+checksums = ['caf32e6b3d478b78cff6c2ba009c3400f8251f646804bcb65465666a9cea93c4']
+
+builddependencies = [
+    ('binutils', '2.36.1'),
+    ('CMake', '3.20.0'),
+    ('Ninja', '1.10.2'),
+]
+
+sanity_check_paths = {
+    'files': ['include/nsync.h', 'lib/libnsync.a', 'lib/libnsync_cpp.a'],
+    'dirs': [],
+}
+
+moduleclass = 'devel'
+

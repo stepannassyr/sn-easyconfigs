@@ -1,0 +1,40 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6c3c0b0..9889527 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -3,8 +3,11 @@ option(ENABLE_OPEN_SRC "Enable graphengine compile in opensource." FALSE)
+ set(TFADAPTER_DIR ${CMAKE_CURRENT_LIST_DIR})
+ 
+ if (ENABLE_OPEN_SRC)
+-    cmake_minimum_required(VERSION 3.14)
++    cmake_minimum_required(VERSION 3.18)
+     project(TFAdapter)
++    
++    find_package(SWIG 4.0 COMPONENTS python)
++    include(UseSWIG)
+ 
+     set(CMAKE_CXX_STANDARD 11)
+     set(CMAKE_C_FLAGS "-O2 -DNDEBUG -Wfloat-equal -Wextra -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_C_FLAGS}")
+@@ -54,8 +57,10 @@ if (ENABLE_OPEN_SRC)
+     file(COPY ${CMAKE_CURRENT_LIST_DIR}/tf_adapter/python DESTINATION ${CMAKE_BINARY_DIR}/dist)
+     file(COPY ${CMAKE_CURRENT_LIST_DIR}/convert_tf2npu DESTINATION ${CMAKE_BINARY_DIR}/dist/python/npu_bridge)
+     file(COPY ${CMAKE_CURRENT_LIST_DIR}/tf_adapter/swig DESTINATION ${CMAKE_BINARY_DIR}/dist)
+-    execute_process(COMMAND ${SWIG_BIN_PATH} -python -c++ -threads ${CMAKE_BINARY_DIR}/dist/swig/ge_plugin.i)
+-    file(COPY ${CMAKE_BINARY_DIR}/dist/swig/tf_adapter.py DESTINATION ${CMAKE_BINARY_DIR}/dist/python/npu_bridge)
++
++    set_property(SOURCE ${CMAKE_BINARY_DIR}/dist/swig/ge_plugin.i PROPERTY CPLUSPLUS ON)
++    #    execute_process(COMMAND ${SWIG_BIN_PATH} -python -c++ -threads ${CMAKE_BINARY_DIR}/dist/swig/ge_plugin.i)
++    #file(COPY ${CMAKE_BINARY_DIR}/dist/swig/tf_adapter.py DESTINATION ${CMAKE_BINARY_DIR}/dist/python/npu_bridge)
+ 
+     file(GLOB_RECURSE SOURCES
+         ${CMAKE_CURRENT_LIST_DIR}/tf_adapter/common/*.cc
+@@ -64,7 +69,8 @@ if (ENABLE_OPEN_SRC)
+         ${CMAKE_CURRENT_LIST_DIR}/tf_adapter/optimizers/*.cc
+         ${CMAKE_CURRENT_LIST_DIR}/tf_adapter/util/*.cc
+     )
+-    add_library(_tf_adapter SHARED ${SOURCES} ${CMAKE_BINARY_DIR}/dist/swig/ge_plugin_wrap.cxx)
++    swig_add_library(_tf_adapter TYPE SHARED LANGUAGE python SOURCES ${SOURCES} ${CMAKE_BINARY_DIR}/dist/swig/ge_plugin.i OUTPUT_DIR ${CMAKE_BINARY_DIR}/dist/python/npu_bridge)
++    set_property(TARGET _tf_adapter PROPERTY SWIG_COMPILE_OPTIONS -threads)
+ 
+     foreach (COMPILE_FLAG ${COMPILE_FLAGS})
+         target_compile_options(_tf_adapter PUBLIC "${COMPILE_FLAG}")

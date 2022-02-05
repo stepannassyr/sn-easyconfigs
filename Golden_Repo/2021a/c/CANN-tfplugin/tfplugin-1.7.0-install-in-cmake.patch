@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6c3c0b0..9889527 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -88,6 +94,9 @@ if (ENABLE_OPEN_SRC)
+             COMMAND cd ${CMAKE_BINARY_DIR}/dist/python/ && ${PYTHON_BIN_PATH} setup.py bdist_wheel
+             VERBATIM
+             )
++
++    install(DIRECTORY ${CMAKE_BINARY_DIR}/dist/python/build/lib/npu_bridge
++	    DESTINATION lib/python/site-packages)
+ else()
+     set(BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+     set(CMAKE_VERBOSE_MAKEFILE ON)
