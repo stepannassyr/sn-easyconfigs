@@ -1,0 +1,3326 @@
+From 8e9d2071932b49868c76f2aebd3bcad694000414 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Lau=20Mercadal=20Meli=C3=A0?= <lau.mercadal@bsc.es>
+Date: Thu, 25 Mar 2021 11:13:04 +0100
+Subject: [PATCH 1/2] Adds support for HiSilicon Kunpeng 920 core and uncore
+ PMUs
+
+---
+ README                                        |    1 +
+ include/perfmon/pfmlib.h                      |   57 +
+ lib/Makefile                                  |   45 +-
+ lib/events/arm_hisilicon_kunpeng_events.h     | 2316 +++++++++++++++++
+ lib/events/arm_hisilicon_kunpeng_unc_events.h |  228 ++
+ lib/pfmlib_arm_armv8.c                        |  176 ++
+ lib/pfmlib_common.c                           |  114 +
+ lib/pfmlib_kunpeng_unc_perf_event.c           |  134 +
+ lib/pfmlib_priv.h                             |   58 +
+ tests/validate_arm64.c                        |   42 +
+ 10 files changed, 3150 insertions(+), 21 deletions(-)
+ create mode 100644 lib/events/arm_hisilicon_kunpeng_events.h
+ create mode 100644 lib/events/arm_hisilicon_kunpeng_unc_events.h
+ create mode 100644 lib/pfmlib_kunpeng_unc_perf_event.c
+
+diff --git a/README b/README
+index f8cb866..0a265d0 100644
+--- a/README
++++ b/README
+@@ -74,6 +74,7 @@ The library supports many PMUs. The current version can handle:
+ 		Qualcomm Krait
+ 		Fujitsu A64FX
+ 		ARM Neoverse N1
++		Huawei Hisense Kunpeng 920 (core and uncore)
+ 
+ 	- For SPARC
+ 		Ultra I, II
+diff --git a/include/perfmon/pfmlib.h b/include/perfmon/pfmlib.h
+index f943ae9..b7021c3 100644
+--- a/include/perfmon/pfmlib.h
++++ b/include/perfmon/pfmlib.h
+@@ -562,6 +562,63 @@ typedef enum {
+ 
+ 	PFM_PMU_ARM_A64FX,		/* Fujitsu A64FX processor */
+ 	PFM_PMU_ARM_N1,			/* ARM Neoverse N1 */
++	PFM_PMU_ARM_KUNPENG,           /* Hisilicon Kunpeng processor */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_DDRC0, /* Hisilicon Kunpeng SCCL unit 1 DDRC 0 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_DDRC1, /* Hisilicon Kunpeng SCCL unit 1 DDRC 1 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_DDRC2, /* Hisilicon Kunpeng SCCL unit 1 DDRC 2 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_DDRC3, /* Hisilicon Kunpeng SCCL unit 1 DDRC 3 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_DDRC0, /* Hisilicon Kunpeng SCCL unit 3 DDRC 0 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_DDRC1, /* Hisilicon Kunpeng SCCL unit 3 DDRC 1 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_DDRC2, /* Hisilicon Kunpeng SCCL unit 3 DDRC 2 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_DDRC3, /* Hisilicon Kunpeng SCCL unit 3 DDRC 3 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_DDRC0, /* Hisilicon Kunpeng SCCL unit 5 DDRC 0 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_DDRC1, /* Hisilicon Kunpeng SCCL unit 5 DDRC 1 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_DDRC2, /* Hisilicon Kunpeng SCCL unit 5 DDRC 2 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_DDRC3, /* Hisilicon Kunpeng SCCL unit 5 DDRC 3 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_DDRC0, /* Hisilicon Kunpeng SCCL unit 7 DDRC 0 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_DDRC1, /* Hisilicon Kunpeng SCCL unit 7 DDRC 1 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_DDRC2, /* Hisilicon Kunpeng SCCL unit 7 DDRC 2 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_DDRC3, /* Hisilicon Kunpeng SCCL unit 7 DDRC 3 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_HHA2,  /* Hisilicon Kunpeng SCCL unit 1 HHA 2 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_HHA3,  /* Hisilicon Kunpeng SCCL unit 1 HHA 3 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_HHA0,  /* Hisilicon Kunpeng SCCL unit 3 HHA 0 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_HHA1,  /* Hisilicon Kunpeng SCCL unit 3 HHA 1 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_HHA6,  /* Hisilicon Kunpeng SCCL unit 5 HHA 6 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_HHA7,  /* Hisilicon Kunpeng SCCL unit 5 HHA 7 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_HHA4,  /* Hisilicon Kunpeng SCCL unit 7 HHA 4 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_HHA5,  /* Hisilicon Kunpeng SCCL unit 7 HHA 5 uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_L3C10, /* Hisilicon Kunpeng SCCL unit 1 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_L3C11, /* Hisilicon Kunpeng SCCL unit 1 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_L3C12, /* Hisilicon Kunpeng SCCL unit 1 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_L3C13, /* Hisilicon Kunpeng SCCL unit 1 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_L3C14, /* Hisilicon Kunpeng SCCL unit 1 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_L3C15, /* Hisilicon Kunpeng SCCL unit 1 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_L3C8,  /* Hisilicon Kunpeng SCCL unit 1 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL1_L3C9,  /* Hisilicon Kunpeng SCCL unit 1 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_L3C0,  /* Hisilicon Kunpeng SCCL unit 3 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_L3C1,  /* Hisilicon Kunpeng SCCL unit 3 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_L3C2,  /* Hisilicon Kunpeng SCCL unit 3 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_L3C3,  /* Hisilicon Kunpeng SCCL unit 3 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_L3C4,  /* Hisilicon Kunpeng SCCL unit 3 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_L3C5,  /* Hisilicon Kunpeng SCCL unit 3 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_L3C6,  /* Hisilicon Kunpeng SCCL unit 3 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL3_L3C7,  /* Hisilicon Kunpeng SCCL unit 3 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_L3C24, /* Hisilicon Kunpeng SCCL unit 5 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_L3C25, /* Hisilicon Kunpeng SCCL unit 5 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_L3C26, /* Hisilicon Kunpeng SCCL unit 5 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_L3C27, /* Hisilicon Kunpeng SCCL unit 5 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_L3C28, /* Hisilicon Kunpeng SCCL unit 5 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_L3C29, /* Hisilicon Kunpeng SCCL unit 5 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_L3C30, /* Hisilicon Kunpeng SCCL unit 5 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL5_L3C31, /* Hisilicon Kunpeng SCCL unit 5 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_L3C16, /* Hisilicon Kunpeng SCCL unit 7 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_L3C17, /* Hisilicon Kunpeng SCCL unit 7 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_L3C18, /* Hisilicon Kunpeng SCCL unit 7 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_L3C19, /* Hisilicon Kunpeng SCCL unit 7 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_L3C20, /* Hisilicon Kunpeng SCCL unit 7 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_L3C21, /* Hisilicon Kunpeng SCCL unit 7 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_L3C22, /* Hisilicon Kunpeng SCCL unit 7 L3C uncore */
++	PFM_PMU_ARM_KUNPENG_UNC_SCCL7_L3C23, /* Hisilicon Kunpeng SCCL unit 7 L3C uncore */
+ 	/* MUST ADD NEW PMU MODELS HERE */
+ 
+ 	PFM_PMU_MAX			/* end marker */
+diff --git a/lib/Makefile b/lib/Makefile
+index 7afe411..b6ac506 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -179,7 +179,7 @@ SRCS += pfmlib_arm_perf_event.c
+ endif
+ 
+ INCARCH = $(INC_ARM)
+-SRCS   += pfmlib_arm.c pfmlib_arm_armv7_pmuv1.c pfmlib_arm_armv6.c pfmlib_arm_armv8.c pfmlib_tx2_unc_perf_event.c
++SRCS   += pfmlib_arm.c pfmlib_arm_armv7_pmuv1.c pfmlib_arm_armv6.c pfmlib_arm_armv8.c pfmlib_tx2_unc_perf_event.c pfmlib_kunpeng_unc_perf_event.c
+ CFLAGS += -DCONFIG_PFMLIB_ARCH_ARM
+ endif
+ 
+@@ -190,7 +190,7 @@ SRCS += pfmlib_arm_perf_event.c
+ endif
+ 
+ INCARCH = $(INC_ARM64)
+-SRCS   += pfmlib_arm.c pfmlib_arm_armv8.c pfmlib_tx2_unc_perf_event.c
++SRCS   += pfmlib_arm.c pfmlib_arm_armv8.c pfmlib_tx2_unc_perf_event.c pfmlib_kunpeng_unc_perf_event.c
+ CFLAGS += -DCONFIG_PFMLIB_ARCH_ARM64
+ endif
+ 
+@@ -354,25 +354,28 @@ INC_SPARC=events/sparc_ultra12_events.h		\
+ 
+ INC_CELL=events/cell_events.h
+ 
+-INC_ARM=pfmlib_arm_priv.h			\
+-	events/arm_cortex_a7_events.h		\
+-	events/arm_cortex_a8_events.h		\
+-	events/arm_cortex_a9_events.h		\
+-	events/arm_cortex_a15_events.h		\
+-	events/arm_cortex_a57_events.h		\
+-	events/arm_cortex_a53_events.h		\
+-        events/arm_xgene_events.h		\
+-	events/arm_cavium_tx2_events.h		\
+-	events/arm_marvell_tx2_unc_events.h	\
+-	events/arm_neoverse_n1_events.h
+-
+-INC_ARM64=events/arm_cortex_a57_events.h	\
+-	events/arm_cortex_a53_events.h		\
+-        events/arm_xgene_events.h		\
+-	events/arm_cavium_tx2_events.h		\
+-	events/arm_marvell_tx2_unc_events.h	\
+-	events/arm_fujitsu_a64fx_events.h	\
+-	events/arm_neoverse_n1_events.h
++INC_ARM=pfmlib_arm_priv.h                     \
++	events/arm_cortex_a7_events.h             \
++	events/arm_cortex_a8_events.h             \
++	events/arm_cortex_a9_events.h             \
++	events/arm_cortex_a15_events.h            \
++	events/arm_cortex_a57_events.h            \
++	events/arm_cortex_a53_events.h            \
++    events/arm_xgene_events.h                 \
++	events/arm_cavium_tx2_events.h            \
++	events/arm_marvell_tx2_unc_events.h	      \
++	events/arm_neoverse_n1_events.h           \
++	events/arm_hisilicon_kunpeng_events.h     \
++	events/arm_hisilicon_kunpeng_unc_events.h
++
++INC_ARM64=events/arm_cortex_a57_events.h      \
++	events/arm_cortex_a53_events.h            \
++    events/arm_xgene_events.h                 \
++	events/arm_cavium_tx2_events.h            \
++	events/arm_marvell_tx2_unc_events.h       \
++	events/arm_neoverse_n1_events.h           \
++	events/arm_hisilicon_kunpeng_events.h     \
++	events/arm_hisilicon_kunpeng_unc_events.h
+ 
+ INCDEP=$(INC_COMMON) $(INCARCH)
+ 
+diff --git a/lib/events/arm_hisilicon_kunpeng_events.h b/lib/events/arm_hisilicon_kunpeng_events.h
+new file mode 100644
+index 0000000..e52edf9
+--- /dev/null
++++ b/lib/events/arm_hisilicon_kunpeng_events.h
+@@ -0,0 +1,2316 @@
++/*
++ * Copyright (c) 2021 Barcelona Supercomputing Center
++ * Contributed by Estanislao Mercadal Melià <lau.mercadal@bsc.es>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is furnished to do so,
++ * subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in all
++ * copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
++ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
++ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
++ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
++ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
++ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++ *
++ * Hisilicon Kunpeng 920
++ * Based on https://developer.arm.com/documentation/ddi0487/latest/ and
++ * https://github.com/torvalds/linux/blob/master/tools/perf/pmu-events/arch/arm64/hisilicon/hip08/core-imp-def.json
++ */
++
++static const arm_entry_t arm_kunpeng_pe[ ] = {
++/* Common architectural events */
++	{
++		.name = "SW_INCR",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x00,
++		.desc = "Instruction architecturally executed, Condition code check pass, software increment"
++	},
++	{
++		.name = "INST_RETIRED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x08,
++		.desc = "Instruction architecturally executed"
++	},
++	{
++		.name = "EXC_TAKEN",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x09,
++		.desc = "Exception taken"
++	},
++	{
++		.name = "EXC_RETURN",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x0a,
++		.desc = "Instruction architecturally executed, Condition code check pass, exception return"
++	},
++	{
++		.name = "CID_WRITE_RETIRED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x0b,
++		.desc = "Instruction architecturally executed, Condition code check pass, write to CONTEXTIDR"
++	},
++	{
++		.name = "BR_RETURN_RETIRED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x0e,
++		.desc = "Instruction architecturally executed, Condition code check pass, procedure return"
++	},
++	{
++		.name = "TTBR_WRITE_RETIRED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x1c,
++		.desc = "Instruction architecturally executed, Condition code check pass, write to TTBR"
++	},
++	{
++		.name = "CHAIN",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x1e,
++		.desc = "For an odd-numbered counter, increments when an overflow occurs on the preceding even-numbered counter. Even-numbered counters never increment as a result of this event"
++	},
++	{
++		.name = "BR_RETIRED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x21,
++		.desc = "Instruction architecturally executed, branch"
++	},
++//	{
++//		.name = "SIMD_INST_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8000,
++//		.desc = "This event counts SVE instructions, but not non-SIMD SVE instructions, and Advanced SIMD instructions, but not Advanced SIMD scalar instructions.",
++//	},
++//	{
++//		.name = "ASE_INST_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8001,
++//		.desc = "This event counts architecturally executed Advanced SIMD instructions.",
++//	},
++	{
++		.name = "SVE_INST_RETIRED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x8002,
++		.desc = "This event counts architecturally executed SVE instructions.",
++	},
++//	{
++//		.name = "ASE_SVE_INST_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8003,
++//		.desc = "This event counts architecturally executed instructions that are counted by ASE_INST_RETIRED or SVE_INST_RETIRED.",
++//	},
++//	{
++//		.name = "BR_SKIP_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8107,
++//		.desc = "This event counts the each conditional Software change of the PC instruction, on the architecturally executed path, that is not taken.",
++//	},
++//	{
++//		.name = "BR_IMMED_TAKEN_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8108,
++//		.desc = "This event counts the instructions, on the architecturally executed path, counted by both BR_IMMED_RETIRED and PC_WRITE_RETIRED. These are all immediate branch instructions where the branch is taken.",
++//	},
++//	{
++//		.name = "BR_IMMED_SKIP_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8109,
++//		.desc = "This event counts the instructions, on the architecturally executed path, counted by both BR_IMMED_RETIRED and BR_SKIP_RETIRED. These are all immediate branch instructions where the branch is not taken.",
++//	},
++//	{
++//		.name = "BR_IND_TAKEN_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x810a,
++//		.desc = "This event counts the instructions, on the architecturally executed path, counted by both BR_IND_RETIRED and PC_WRITE_RETIRED. These are branch instructions where the branch is taken, but does not include immediate instructions.",
++//	},
++//	{
++//		.name = "BR_IND_SKIP_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x810b,
++//		.desc = "This event counts the instructions, on the architecturally executed path, counted by both BR_IND_RETIRED and BR_SKIP_RETIRED. These are branch instructions where the branch is not taken, but does not include immediate instructions.",
++//	},
++//	{
++//		.name = "BR_INDNR_TAKEN_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x810c,
++//		.desc = "This event counts the instructions, on the architecturally executed path, counted by both BR_IND_RETIRED, PC_WRITE_RETIRED and BR_RETURN_RETIRED. These are branch instructions where the branch is taken, but does not include immediate instructions.",
++//	},
++//	{
++//		.name = "BR_INDNR_SKIP_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x810d,
++//		.desc = "This event counts the instructions, on the architecturally executed path, counted by both BR_INDNR_RETIRED and BR_SKIP_RETIRED. These are branch instructions where the branch is not taken, but does not include immediate instructions.",
++//	},
++//	{
++//		.name = "BR_RETURN_ANY_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x810e,
++//		.desc = "This event counts the instructions, on the architecturally executed path, counted by both BR_IND_RETIRED where, if taken, the branch would be counted by BR_RETURN_RETIRED."
++//	},
++//	{
++//		.name = "BR_RETURN_SKIP_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x810f,
++//		.desc = "This event counts the instructions, of the architecturally executed path, counted by both BR_RETURN_ANY_RETIRED and BR_SKIP_RETIRED. These are branch return instructions, where the branch is not taken.",
++//	},
++//	{
++//		.name = "BR_INDNR_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x811e,
++//		.desc = "This event counts the instructions on the architecturally executed path, counted by BR_RETIRED, but not counted by BR_RETURN_ANY_RETIRED. These are branch instructions but does not include returns or immediate instructions.",
++//	},
++//
++
++/* Common microarchitectural events */
++	{
++		.name = "L1I_CACHE_REFILL",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x01,
++		.desc = "Level 1 instruction cache refill."
++	},
++	{
++		.name = "L1I_TLB_REFILL",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x02,
++		.desc = "Attributable Level 1 instruction TLB refill."
++	},
++	{
++		.name = "L1D_CACHE_REFILL",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x03,
++		.desc = "Level 1 data cache refill."
++	},
++	{
++		.name = "L1D_CACHE",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x04,
++		.desc = "Level 1 data cache access."
++	},
++	{
++		.name = "L1D_TLB_REFILL",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x05,
++		.desc = "Attributable Level 1 data TLB refill."
++	},
++	{
++		.name = "BR_MIS_PRED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x10,
++		.desc = "Mispredicted or not predicted branch. Speculatively executed."
++	},
++	{
++		.name = "CPU_CYCLES",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x11,
++		.desc = "Cycle."
++	},
++	{
++		.name = "BR_PRED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x12,
++		.desc = "Predictable branch. Speculatively executed."
++	},
++	{
++		.name = "MEM_ACCESS",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x13,
++		.desc = "Data memory access."
++	},
++	{
++		.name = "L1I_CACHE",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x14,
++		.desc = "Attributable Level 1 instruction cache access."
++	},
++	{
++		.name = "L1D_CACHE_WB",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x15,
++		.desc = "Attributable Level 1 data cache write-back."
++	},
++	{
++		.name = "L2D_CACHE",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x16,
++		.desc = "Level 2 data cache access."
++	},
++	{
++		.name = "L2D_CACHE_REFILL",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x17,
++		.desc = "Level 2 data cache refill."
++	},
++	{
++		.name = "L2D_CACHE_WB",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x18,
++		.desc = "Attributable Level 2 data cache write-back."
++	},
++	{
++		.name = "BUS_ACCESS",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x19,
++		.desc = "Attributable Bus access."
++	},
++	{
++		.name = "MEMORY_ERROR",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x1a,
++		.desc = "Local memory error."
++	},
++	{
++		.name = "INST_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x001b,
++		.desc = "Operation speculatively executed."
++	},
++	{
++		.name = "BUS_CYCLES",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x1d,
++		.desc = "Bus cycle."
++	},
++	{
++		.name = "BR_MIS_PRED_RETIRED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x22,
++		.desc = "Instruction architecturally executed, mispredicted branch."
++	},
++	{
++		.name = "STALL_FRONTEND",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x23,
++		.desc = "No operation issued due to the frontend."
++	},
++	{
++		.name = "STALL_BACKEND",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x24,
++		.desc = "No operation issued due to the backend."
++	},
++	{
++		.name = "L1D_TLB",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x25,
++		.desc = "Attributable Level 1 data or unified TLB access."
++	},
++	{
++		.name = "L1I_TLB",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x26,
++		.desc = "Attributable Level 1 instruction TLB access."
++	},
++	{
++		.name = "L2I_CACHE",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x27,
++		.desc = "Attributable Level 2 instruction cache access."
++	},
++	{
++		.name = "L2I_CACHE_REFILL",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x28,
++		.desc = "Attributable Level 2 instruction cache refill."
++	},
++	{
++		.name = "L2D_TLB_REFILL",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x2d,
++		.desc = "Attributable Level 2 data TLB refill."
++	},
++	{
++		.name = "L2I_TLB_REFILL",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x2e,
++		.desc = "Attributable Level 2 instruction TLB refill."
++	},
++	{
++		.name = "L2D_TLB",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x2f,
++		.desc = "Attributable Level 2 data or unified TLB access."
++	},
++	{
++		.name = "L2I_TLB",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x30,
++		.desc = "Attributable Level 2 instruction TLB access."
++	},
++	{
++		.name = "REMOTE_ACCESS",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x31,
++		.desc = "Access to another socket in a multi-socket system."
++	},
++	{
++		.name = "LL_CACHE",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x32,
++		.desc = "Last Level cache access."
++	},
++	{
++		.name = "LL_CACHE_MISS",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x33,
++		.desc = "Last Level cache miss."
++	},
++	{
++		.name = "DTLB_WALK",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x34,
++		.desc = "Access to data TLB causes a translation table walk."
++	},
++	{
++		.name = "ITLB_WALK",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x35,
++		.desc = "Access to instruction TLB that causes a translation table walk."
++	},
++	{
++		.name = "LL_CACHE_RD",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x36,
++		.desc = "Attributable Last level cache memory read."
++	},
++	{
++		.name = "LL_CACHE_MISS_RD",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x37,
++		.desc = "Last level cache miss, read."
++	},
++	{
++		.name = "REMOTE_ACCESS_RD",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x38,
++		.desc = "Access to another socket in a multi-socket system, read."
++	},
++//	{
++//		.name = "L1D_CACHE_LMISS_RD",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x0039,
++//		.desc = "Level 1 data cache long-latency read miss.",
++//	},
++//	{
++//		.name = "OP_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x003a,
++//		.desc = "Micro-operation architecturally executed.",
++//	},
++//	{
++//		.name = "OP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x003b,
++//		.desc = "Micro-operation speculatively executed.",
++//	},
++//	{
++//		.name = "STALL",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x003c,
++//		.desc = "No operation sent for execution.",
++//	},
++//	{
++//		.name = "STALL_SLOT_BACKEND",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x003d,
++//		.desc = "No operation sent for execution on a Slot due to the backend.",
++//	},
++//	{
++//		.name = "STALL_SLOT_FRONTEND",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x003e,
++//		.desc = "No operation sent for execution on a Slot due to the frontend.",
++//	},
++//	{
++//		.name = "STALL_SLOT",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x003f,
++//		.desc = "No operation sent for execution on a Slot.",
++//	},
++	{
++		.name = "SAMPLE_POP",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x4000,
++		.desc = "Sample Population."
++	},
++	{
++		.name = "SAMPLE_FEED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x4001,
++		.desc = "Sample Taken."
++	},
++	{
++		.name = "SAMPLE_FILTRATE",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x4002,
++		.desc = "Sample taken and not removed by filtering."
++	},
++	{
++		.name = "SAMPLE_COLLISION",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x4003,
++		.desc = "Sample collided with a previous sample."
++	},
++//	{
++//		.name = "CNT_CYCLES",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x4004,
++//		.desc = "Constant frequency cycles.",
++//	},
++//	{
++//		.name = "STALL_BACKEND_MEM",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x4005,
++//		.desc = "Memory stall cycles.",
++//	},
++//	{
++//		.name = "L1I_CACHE_LMISS",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x4006,
++//		.desc = "Level 1 instruction cache long-latency read miss.",
++//	},
++//	{
++//		.name = "L2D_CACHE_LMISS_RD",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x4009,
++//		.desc = "Level 2 data cache long-latency read miss.",
++//	},
++//	{
++//		.name = "L2I_CACHE_LMISS",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x400a,
++//		.desc = "Level 2 instruction cache long-latency read miss.",
++//	},
++//	{
++//		.name = "L3D_CACHE_LMISS_RD",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x400b,
++//		.desc = "Level 3 data cache long-latency read miss.",
++//	},
++//	{
++//		.name = "LDST_ALIGN_LAT",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x4020,
++//		.desc = "Access with additional latency from alignment.",
++//	},
++//	{
++//		.name = "LD_ALIGN_LAT",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x4021,
++//		.desc = "Load with additional latency from alignment.",
++//	},
++//	{
++//		.name = "ST_ALIGN_LAT",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x4022,
++//		.desc = "Store with additional latency from alignment.",
++//	},
++//	{
++//		.name = "MEM_ACCESS_CHECKED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x4024,
++//		.desc = "Checked data memory access.",
++//	},
++//	{
++//		.name = "MEM_ACCESS_CHECKED_RD",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x4025,
++//		.desc = "Checked data memory access, read.",
++//	},
++//	{
++//		.name = "MEM_ACCESS_CHECKED_WR",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x4026,
++//		.desc = "Checked data memory access, write.",
++//	},
++//	{
++//		.name = "SIMD_INST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8004,
++//		.desc = "SIMD Instructions, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_INST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8005,
++//		.desc = "Advanced SIMD Instructions, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8006,
++//		.desc = "SVE Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_INST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8007,
++//		.desc = "Advanced SIMD and SVE Operations speculatively executed.",
++//	},
++//	{
++//		.name = "UOP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8008,
++//		.desc = "Microarchitectural operation, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_UOP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8009,
++//		.desc = "Advanced SIMD Microarchitectural operation, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_UOP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x800a,
++//		.desc = "SVE micro-operation, Speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_UOP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x800b,
++//		.desc = "Advanced SIMD and SVE Microarchitectural operation, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SIMD_UOP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x800c,
++//		.desc = "SIMD micro-operation, Speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_MATH_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x800e,
++//		.desc = "SVE Math accelerator Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8010,
++//		.desc = "Floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8011,
++//		.desc = "Advanced SIMD floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8012,
++//		.desc = "SVE floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8013,
++//		.desc = "Advanced SIMD and SVE floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_HP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8014,
++//		.desc = "Half-precision floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_HP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8015,
++//		.desc = "Advanced SIMD, Half-precision floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_HP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8016,
++//		.desc = "SVE Half-precision floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_HP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8017,
++//		.desc = "Advanced SIMD and SVE Half-precision floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_SP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8018,
++//		.desc = "Single-precision floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_SP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8019,
++//		.desc = "Advanced SIMD Single-precision floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_SP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x801a,
++//		.desc = "SVE Single-precision floating-point operations, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_SP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x801b,
++//		.desc = "Advanced SIMD and SVE Single-precision floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_DP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x801c,
++//		.desc = "Double-precision floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_DP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x801d,
++//		.desc = "Advanced SIMD Double-precision floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_DP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x801e,
++//		.desc = "SVE Double-precision floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_DP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x801f,
++//		.desc = "Advanced SIMD and SVE Double-precision floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_DIV_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8020,
++//		.desc = "Floating-point divide Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_DIV_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8021,
++//		.desc = "Advanced SIMD Floating-point divide Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_DIV_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8022,
++//		.desc = "SVE Floating-point divide Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_DIV_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8023,
++//		.desc = "Advanced SIMD and SVE Floating-point divide Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_SQRT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8024,
++//		.desc = "Floating-point square-root Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_SQRT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8025,
++//		.desc = "Advanced SIMD Floating-point square-root Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_SQRT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8026,
++//		.desc = "SVE Floating-point square-root Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_SQRT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8027,
++//		.desc = "Advanced SIMD and SVE Floating-point square root Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_FMA_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8028,
++//		.desc = "Floating-point FMA Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_FMA_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8029,
++//		.desc = "Advanced SIMD Floating-point FMA Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_FMA_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x802a,
++//		.desc = "SVE Floating-point FMA Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_FMA_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x802b,
++//		.desc = "Advanced SIMD and SVE Floating-point FMA Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_MUL_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x802c,
++//		.desc = "Floating-point multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_MUL_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x802d,
++//		.desc = "Advanced SIMD Floating-point multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_MUL_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x802e,
++//		.desc = "SVE Floating-point multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_MUL_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x802f,
++//		.desc = "Advanced SIMD and SVE Floating-point multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_ADDSUB_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8030,
++//		.desc = "Floating-point add or subtract Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_ADDSUB_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8031,
++//		.desc = "Advanced SIMD floating-point add or subtract Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_ADDSUB_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8032,
++//		.desc = "SVE floating-point add or subtract Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_ADDSUB_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8033,
++//		.desc = "Advanced SIMD and SVE floating-point add and subtract Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_RECPE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8034,
++//		.desc = "Floating-point reciprocal estimate Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_RECPE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8035,
++//		.desc = "Advanced SIMD floating-point reciprocal estimate Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_RECPE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8036,
++//		.desc = "SVE floating-point reciprocal estimate Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_RECPE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8037,
++//		.desc = "Advanced SIMD and SVE floating-point reciprocal estimate Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_CVT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8038,
++//		.desc = "Floating-point convert Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_CVT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8039,
++//		.desc = "Advanced SIMD floating-point convert Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_CVT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x803a,
++//		.desc = "SVE floating-point convert Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_CVT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x803b,
++//		.desc = "Advanced SIMD and SVE floating-point convert Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_AREDUCE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x803c,
++//		.desc = "SVE floating-point accumulating reduction Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_PREDUCE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x803d,
++//		.desc = "Advanced SIMD floating-point pairwise add step Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_VREDUCE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x803e,
++//		.desc = "SVE floating-point vector reduction Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_VREDUCE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x803f,
++//		.desc = "Advanced SIMD and SVE floating-point vector reduction Operations speculatively executed.",
++//	},
++//	{
++//		.name = "INT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8040,
++//		.desc = "Integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_INT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8041,
++//		.desc = "Advanced SIMD integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8042,
++//		.desc = "SVE integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_INT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8043,
++//		.desc = "Advanced SIMD and SVE integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "INT_DIV_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8044,
++//		.desc = "Integer divide Operations speculatively executed.",
++//	},
++//	{
++//		.name = "INT_DIV64_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8045,
++//		.desc = "64-bit integer divide Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT_DIV_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8046,
++//		.desc = "SVE integer divide Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT_DIV64_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8047,
++//		.desc = "SVE 64-bit integer divide Operations speculatively executed.",
++//	},
++//	{
++//		.name = "INT_MUL_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8048,
++//		.desc = "Integer multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_INT_MUL_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8049,
++//		.desc = "Advanced SIMD integer multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT_MUL_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x804a,
++//		.desc = "SVE integer multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_INT_MUL_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x804b,
++//		.desc = "Advanced SIMD and SVE integer multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "INT_MUL64_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x804c,
++//		.desc = "Integer 64x64 multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT_MUL64_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x804d,
++//		.desc = "SVE integer 64-bit multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "INT_MULH64_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x804e,
++//		.desc = "Integer 64-bit multiply returning high part Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT_MULH64_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x804f,
++//		.desc = "SVE integer 64-bit multiply high part Operations speculatively executed.",
++//	},
++//	{
++//		.name = "NONFP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8058,
++//		.desc = "Non floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_NONFP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8059,
++//		.desc = "Advanced SIMD non-floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_NONFP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x805a,
++//		.desc = "SVE non-floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_NONFP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x805b,
++//		.desc = "Advanced SIMD and SVE non-floating-point Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_INT_VREDUCE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x805d,
++//		.desc = "Advanced SIMD integer reduction Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT_VREDUCE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x805e,
++//		.desc = "SVE integer reduction Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_INT_VREDUCE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x805f,
++//		.desc = "Advanced SIMD and SVE integer reduction Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PERM_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8060,
++//		.desc = "SVE permute Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PERM_IGRANULE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8061,
++//		.desc = "SVE intra-granule permute Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PERM_XGRANULE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8062,
++//		.desc = "SVE cross-granule permute Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PERM_VARIABLE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8063,
++//		.desc = "SVE programmable permute Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_XPIPE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8064,
++//		.desc = "SVE cross-pipe Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_XPIPE_Z2R_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8065,
++//		.desc = "SVE vector to scalar cross-pipe Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_XPIPE_R2Z_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8066,
++//		.desc = "SVE scalar to vector cross-pipe Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PGEN_NVEC_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8067,
++//		.desc = "SVE predicate-only Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PGEN_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8068,
++//		.desc = "SVE predicate generating Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PGEN_FLG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8069,
++//		.desc = "SVE predicate flag setting Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PGEN_CMP_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x806a,
++//		.desc = "SVE vector compare Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PGEN_FCM_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x806b,
++//		.desc = "SVE floating-point vector compare Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PGEN_LOGIC_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x806c,
++//		.desc = "SVE predicate logical Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PPERM_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x806d,
++//		.desc = "SVE predicate permute Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PSCAN_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x806e,
++//		.desc = "SVE predicate scan Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PCNT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x806f,
++//		.desc = "SVE predicate count Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PLOOP_WHILE_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8070,
++//		.desc = "SVE predicate loop while Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PLOOP_TEST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8071,
++//		.desc = "SVE predicate loop test Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PLOOP_ELTS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8072,
++//		.desc = "SVE predicate loop elements Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PLOOP_TERM_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8073,
++//		.desc = "SVE predicate loop termination, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PRED_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8074,
++//		.desc = "SVE predicated Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PRED_EMPTY_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8075,
++//		.desc = "SVE predicated operations with no active predicates, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PRED_FULL_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8076,
++//		.desc = "SVE predicated operations with all active predicates, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PRED_PARTIAL_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8077,
++//		.desc = "SVE predicated operations with partially active predicates, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_UNPRED_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8078,
++//		.desc = "SVE unpredicated Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PRED_NOT_FULL_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8079,
++//		.desc = "SVE predicated operations with empty or partially active predicates, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_MOVPRFX_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x807c,
++//		.desc = "SVE MOVPRFX Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_MOVPRFX_Z_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x807d,
++//		.desc = "SVE MOVPRFX zeroing predication Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_MOVPRFX_M_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x807e,
++//		.desc = "SVE MOVPRFX merging predication Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_MOVPRFX_U_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x807f,
++//		.desc = "SVE MOVPRFX unfused Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8080,
++//		.desc = "SVE load, store, and prefetch Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LD_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8081,
++//		.desc = "SVE load Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_ST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8082,
++//		.desc = "SVE store Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PRF_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8083,
++//		.desc = "SVE prefetch Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_LDST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8084,
++//		.desc = "Advanced SIMD and SVE, load and store Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_LD_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8085,
++//		.desc = "Advanced SIMD and SVE load Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_ST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8086,
++//		.desc = "Advanced SIMD and SVE store Operations speculatively executed.",
++//	},
++//	{
++//		.name = "PRF_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8087,
++//		.desc = "Prefetch Operations speculatively executed.",
++//	},
++//	{
++//		.name = "BASE_LDST_REG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8088,
++//		.desc = "General-purpose register load, store and prefetch Operations speculatively executed.",
++//	},
++//	{
++//		.name = "BASE_LD_REG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8089,
++//		.desc = "General-purpose register load Operations speculatively executed.",
++//	},
++//	{
++//		.name = "BASE_ST_REG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x808a,
++//		.desc = "General-purpose register store Operations speculatively executed.",
++//	},
++//	{
++//		.name = "BASE_PRF_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x808b,
++//		.desc = "General-purpose register prefetch Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FPASE_LDST_REG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x808c,
++//		.desc = "Floating-point and Advanced SIMD register load and store Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FPASE_LD_REG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x808d,
++//		.desc = "Floating-point and Advanced SIMD register load Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FPASE_ST_REG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x808e,
++//		.desc = "Floating-point and Advanced SIMD register store Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDST_REG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8090,
++//		.desc = "SVE unpredicated load and store register Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDR_REG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8091,
++//		.desc = "SVE unpredicated load register Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_STR_REG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8092,
++//		.desc = "SVE unpredicated store register Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDST_PREG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8094,
++//		.desc = "SVE load and store predicate register Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDR_PREG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8095,
++//		.desc = "SVE load predicate register Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_STR_PREG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8096,
++//		.desc = "SVE store predicate register Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDST_ZREG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8098,
++//		.desc = "SVE load and store vector register Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDR_ZREG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8099,
++//		.desc = "SVE load vector register Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_STR_ZREG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x809a,
++//		.desc = "SVE store vector register Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDST_CONTIG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x809c,
++//		.desc = "SVE contiguous load, store, and prefetch element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LD_CONTIG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x809d,
++//		.desc = "SVE contiguous load element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_ST_CONTIG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x809e,
++//		.desc = "SVE contiguous store element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PRF_CONTIG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x809f,
++//		.desc = "SVE contiguous prefetch element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDSTNT_CONTIG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80a0,
++//		.desc = "SVE non-temporal contiguous load and store element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDNT_CONTIG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80a1,
++//		.desc = "SVE non-temporal contiguous load element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_STNT_CONTIG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80a2,
++//		.desc = "SVE non-temporal contiguous store element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_LDST_MULTI_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80a4,
++//		.desc = "Advanced SIMD and SVE contiguous load and store multiple vector Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_LD_MULTI_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80a5,
++//		.desc = "Advanced SIMD and SVE contiguous load multiple vector Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_ST_MULTI_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80a6,
++//		.desc = "Advanced SIMD and SVE contiguous store multiple vector Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDST_MULTI_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80a8,
++//		.desc = "SVE contiguous load and store multiple vector Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LD_MULTI_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80a9,
++//		.desc = "SVE contiguous load multiple vector Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_ST_MULTI_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80aa,
++//		.desc = "SVE contiguous store multiple vector Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDST_NONCONTIG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80ac,
++//		.desc = "SVE non-contiguous load, store, and prefetch Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LD_GATHER_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80ad,
++//		.desc = "SVE gather-load Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_ST_SCATTER_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80ae,
++//		.desc = "SVE scatter-store Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PRF_GATHER_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80af,
++//		.desc = "SVE gather-prefetch Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDST64_NONCONTIG_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80b0,
++//		.desc = "SVE 64-bit non-contiguous load, store, and prefetch Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LD64_GATHER_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80b1,
++//		.desc = "SVE 64-bit gather-load Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_ST64_SCATTER_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80b2,
++//		.desc = "SVE 64-bit scatter-store Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_PRF64_GATHER_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80b3,
++//		.desc = "SVE 64-bit gather-prefetch Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_UNALIGNED_LDST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80b4,
++//		.desc = "Advanced SIMD and SVE unaligned accesses.",
++//	},
++//	{
++//		.name = "ASE_SVE_UNALIGNED_LD_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80b5,
++//		.desc = "Advanced SIMD and SVE unaligned read accesses.",
++//	},
++//	{
++//		.name = "ASE_SVE_UNALIGNED_ST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80b6,
++//		.desc = "Advanced SIMD and SVE unaligned write accesses.",
++//	},
++//	{
++//		.name = "ASE_SVE_UNALIGNED_CONTIG_LDST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80b8,
++//		.desc = "Advanced SIMD and SVE unaligned contiguous accesses.",
++//	},
++//	{
++//		.name = "ASE_SVE_UNALIGNED_CONTIG_LD_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80b9,
++//		.desc = "Advanced SIMD and SVE unaligned contiguous read accesses.",
++//	},
++//	{
++//		.name = "ASE_SVE_UNALIGNED_CONTIG_ST_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80ba,
++//		.desc = "Advanced SIMD and SVE unaligned contiguous write accesses.",
++//	},
++//	{
++//		.name = "SVE_LDFF_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80bc,
++//		.desc = "SVE First-fault load Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_LDFF_FAULT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80bd,
++//		.desc = "SVE First-fault load operations which set FFR bit to 0, Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_SCALE_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80c0,
++//		.desc = "Scalable floating-point element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_FIXED_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80c1,
++//		.desc = "Non-scalable floating-point element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_HP_SCALE_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80c2,
++//		.desc = "Scalable half-precision floating-point element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_HP_FIXED_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80c3,
++//		.desc = "Non-scalable half-precision floating-point element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_SP_SCALE_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80c4,
++//		.desc = "Scalable single-precision floating-point element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_SP_FIXED_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80c5,
++//		.desc = "Non-scalable single-precision floating-point element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_DP_SCALE_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80c6,
++//		.desc = "Scalable double-precision floating-point element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "FP_DP_FIXED_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80c7,
++//		.desc = "Non-scalable double-precision floating-point element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "INT_SCALE_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80c8,
++//		.desc = "Scalable integer element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "INT_FIXED_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80c9,
++//		.desc = "Non-scalable integer element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "LDST_SCALE_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80ca,
++//		.desc = "Scalable load and store element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "LDST_FIXED_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80cb,
++//		.desc = "Non-scalable load and store element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "LD_SCALE_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80cc,
++//		.desc = "Scalable load element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "LD_FIXED_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80cd,
++//		.desc = "Non-scalable load element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ST_SCALE_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80ce,
++//		.desc = "Scalable store element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ST_FIXED_OPS_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80cf,
++//		.desc = "Non-scalable store element Operations speculatively executed.",
++//	},
++//	{
++//		.name = "LDST_SCALE_BYTES_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80da,
++//		.desc = "Scalable load and store bytes, Speculatively executed.",
++//	},
++//	{
++//		.name = "LDST_FIXED_BYTES_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80db,
++//		.desc = "Non-scalable load and store bytes, Speculatively executed.",
++//	},
++//	{
++//		.name = "LD_SCALE_BYTES_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80dc,
++//		.desc = "Scalable load bytes, Speculatively executed.",
++//	},
++//	{
++//		.name = "LD_FIXED_BYTES_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80dd,
++//		.desc = "Non-scalable load bytes, Speculatively executed.",
++//	},
++//	{
++//		.name = "ST_SCALE_BYTES_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80de,
++//		.desc = "Scalable store bytes, Speculatively executed.",
++//	},
++//	{
++//		.name = "ST_FIXED_BYTES_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80df,
++//		.desc = "Non-scalable store bytes, Speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_INT8_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80e1,
++//		.desc = "Advanced SIMD 8-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT8_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80e2,
++//		.desc = "SVE 8-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_INT8_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80e3,
++//		.desc = "Advanced SIMD and SVE 8-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_INT16_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80e5,
++//		.desc = "Advanced SIMD 16-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT16_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80e6,
++//		.desc = "SVE 16-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_INT16_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80e7,
++//		.desc = "Advanced SIMD and SVE 16-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_INT32_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80e9,
++//		.desc = "Advanced SIMD 32-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT32_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80ea,
++//		.desc = "SVE 32-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_INT32_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80eb,
++//		.desc = "Advanced SIMD and SVE 32-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_INT64_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80ed,
++//		.desc = "Advanced SIMD 64-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT64_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80ee,
++//		.desc = "SVE 64-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_INT64_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80ef,
++//		.desc = "Advanced SIMD and SVE 64-bit integer Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_DOT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80f1,
++//		.desc = "Advanced SIMD floating-point dot-product Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_DOT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80f2,
++//		.desc = "SVE floating-point dot-product Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_DOT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80f3,
++//		.desc = "Advanced SIMD and SVE floating-point dot-product Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_FP_MMLA_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80f5,
++//		.desc = "Advanced SIMD floating-point matrix multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_FP_MMLA_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80f6,
++//		.desc = "SVE floating-point matrix multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_FP_MMLA_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80f7,
++//		.desc = "Advanced SIMD and SVE floating-point matrix multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_INT_DOT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80f9,
++//		.desc = "Advanced SIMD integer dot-product Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT_DOT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80fa,
++//		.desc = "SVE integer dot-product Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_INT_DOT_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80fb,
++//		.desc = "Advanced SIMD and SVE integer dot-product Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_INT_MMLA_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80fd,
++//		.desc = "Advanced SIMD integer matrix multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "SVE_INT_MMLA_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80fe,
++//		.desc = "SVE integer matrix multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "ASE_SVE_INT_MMLA_SPEC",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x80ff,
++//		.desc = "Advanced SIMD and SVE integer matrix multiply Operations speculatively executed.",
++//	},
++//	{
++//		.name = "BR_IMMED_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8110,
++//		.desc = "Instruction architecturally executed, predicted immediate branch.",
++//	},
++//	{
++//		.name = "BR_IMMED_MIS_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8111,
++//		.desc = "Instruction architecturally executed, mispredicted immediate branch.",
++//	},
++//	{
++//		.name = "BR_IND_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8112,
++//		.desc = "Instruction architecturally executed, predicted indirect branch.",
++//	},
++//	{
++//		.name = "BR_IND_MIS_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8113,
++//		.desc = "Instruction architecturally executed, mispredicted indirect branch.",
++//	},
++//	{
++//		.name = "BR_RETURN_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8114,
++//		.desc = "Instruction architecturally executed, predicted procedure return.",
++//	},
++//	{
++//		.name = "BR_RETURN_MIS_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8115,
++//		.desc = "Instruction architecturally executed, mispredicted procedure return.",
++//	},
++//	{
++//		.name = "BR_INDNR_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8116,
++//		.desc = "Instruction architecturally executed, predicted indirect branch, excluding return.",
++//	},
++//	{
++//		.name = "BR_INDNR_MIS_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8117,
++//		.desc = "Instruction architecturally executed, mispredicted indirect branch, excluding return.",
++//	},
++//	{
++//		.name = "BR_TAKEN_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8118,
++//		.desc = "Instruction architecturally executed, predicted branch, taken.",
++//	},
++//	{
++//		.name = "BR_TAKEN_MIS_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x8119,
++//		.desc = "Instruction architecturally executed, mispredicted branch, taken.",
++//	},
++//	{
++//		.name = "BR_SKIP_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x811a,
++//		.desc = "Instruction architecturally executed, predicted branch, not taken.",
++//	},
++//	{
++//		.name = "BR_SKIP_MIS_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x811b,
++//		.desc = "Instruction architecturally executed, mispredicted branch, not taken.",
++//	},
++//	{
++//		.name = "BR_PRED_RETIRED",
++//		.modmsk = ARMV8_ATTRS,
++//		.code = 0x811c,
++//		.desc = "Instruction architecturally executed, predicted branch.",
++//	},
++
++	/* ARM recommended Implementation Defined */
++	{
++		.name = "L1D_CACHE_RD",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x40,
++		.desc = "Attributable Level 1 data cache access, read."
++	},
++	{
++		.name = "L1D_CACHE_WR",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x41,
++		.desc = "Attributable Level 1 data cache access, write."
++	},
++	{
++		.name = "L1D_CACHE_REFILL_RD",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x42,
++		.desc = "Attributable Level 1 data cache refill, read."
++	},
++	{
++		.name = "L1D_CACHE_REFILL_WR",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x43,
++		.desc = "Attributable Level 1 data cache refill, write."
++	},
++	{
++		.name = "L1D_CACHE_WB_VICTIM",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x46,
++		.desc = "Attributable Level 1 data cache Write-Back, victim."
++	},
++	{
++		.name = "L1D_CACHE_WB_CLEAN",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x47,
++		.desc = "Level 1 data cache Write-Back, cleaning and coherency."
++	},
++	{
++		.name = "L1D_CACHE_INVAL",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x48,
++		.desc = "Attributable Level 1 data cache invalidate."
++	},
++	{
++		.name = "L1D_TLB_REFILL_RD",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x4c,
++		.desc = "Attributable Level 1 data TLB refill, read."
++	},
++	{
++		.name = "L1D_TLB_REFILL_WR",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x4d,
++		.desc = "Attributable Level 1 data TLB refill, write."
++	},
++	{
++		.name = "L1D_TLB_RD",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x4e,
++		.desc = "Attributable Level 1 data or unified TLB access, read."
++	},
++	{
++		.name = "L1D_TLB_WR",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x4f,
++		.desc = "Attributable Level 1 data or unified TLB access, write."
++	},
++	{
++		.name = "L2D_CACHE_RD",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x50,
++		.desc = "Attributable Level 2 data cache access, read."
++	},
++	{
++		.name = "L2D_CACHE_WR",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x51,
++		.desc = "Attributable Level 2 data cache access, write."
++	},
++	{
++		.name = "L2D_CACHE_REFILL_RD",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x52,
++		.desc = "Attributable Level 2 data cache refill, read."
++	},
++	{
++		.name = "L2D_CACHE_REFILL_WR",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x53,
++		.desc = "Attributable Level 2 data cache refill, write."
++	},
++	{
++		.name = "L2D_CACHE_WB_VICTIM",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x56,
++		.desc = "Attributable Level 2 data cache Write-Back, victim."
++	},
++	{
++		.name = "L2D_CACHE_WB_CLEAN",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x57,
++		.desc = "Level 2 data cache Write-Back, cleaning and coherency."
++	},
++	{
++		.name = "L2D_CACHE_INVAL",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x58,
++		.desc = "Attributable Level 2 data cache invalidate."
++	},
++	{
++		.name = "BUS_ACCESS_RD",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x60,
++		.desc = "Bus access, read."
++	},
++	{
++		.name = "BUS_ACCESS_WR",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x61,
++		.desc = "Bus access, write."
++	},
++	{
++		.name = "BUS_ACCESS_SHARED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x62,
++		.desc = "Bus access, Normal, Cacheable, Shareable."
++	},
++	{
++		.name = "BUS_ACCESS_NOT_SHARED",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x63,
++		.desc = "Bus access, not Normal, Cacheable, Shareable."
++	},
++	{
++		.name = "BUS_ACCESS_NORMAL",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x64,
++		.desc = "Bus access, normal."
++	},
++	{
++		.name = "BUS_ACCESS_PERIPH",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x65,
++		.desc = "Bus access, peripheral."
++	},
++	{
++		.name = "MEM_ACCESS_RD",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x66,
++		.desc = "Data memory access, read."
++	},
++	{
++		.name = "MEM_ACCESS_WR",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x67,
++		.desc = "Data memory access, write."
++	},
++	{
++		.name = "UNALIGNED_LD_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x68,
++		.desc = "Unaligned access, read."
++	},
++	{
++		.name = "UNALIGNED_ST_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x69,
++		.desc = "Unaligned access, write."
++	},
++	{
++		.name = "UNALIGNED_LDST_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x6a,
++		.desc = "Unaligned access."
++	},
++	{
++		.name = "LDREX_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x6c,
++		.desc = "Exclusive operation speculatively executed, Load-Exclusive."
++	},
++	{
++		.name = "STREX_PASS_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x6d,
++		.desc = "Exclusive operation speculatively executed, Store-Exclusive pass."
++	},
++	{
++		.name = "STREX_FAIL_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x6e,
++		.desc = "Exclusive operation speculatively executed, Store-Exclusive fail."
++	},
++	{
++		.name = "STREX_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x6f,
++		.desc = "Exclusive operation speculatively executed, Store-Exclusive."
++	},
++	{
++		.name = "LD_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x70,
++		.desc = "Operation speculatively executed, load."
++	},
++	{
++		.name = "ST_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x71,
++		.desc = "Operation speculatively executed, store."
++	},
++	{
++		.name = "LDST_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x72,
++		.desc = "Operation speculatively executed, load or store."
++	},
++	{
++		.name = "DP_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x73,
++		.desc = "Operation speculatively executed, integer data processing."
++	},
++	{
++		.name = "ASE_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x74,
++		.desc = "Operation speculatively executed, Advanced SIMD."
++	},
++	{
++		.name = "VFP_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x75,
++		.desc = "Operation speculatively executed, floating-point."
++	},
++	{
++		.name = "PC_WRITE_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x76,
++		.desc = "Operation speculatively executed, software change of the PC."
++	},
++	{
++		.name = "CRYPTO_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x77,
++		.desc = "Operation speculatively executed, Cryptographic instruction."
++	},
++	{
++		.name = "BR_IMMED_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x78,
++		.desc = "Branch speculatively executed, immediate branch."
++	},
++	{
++		.name = "BR_RETURN_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x79,
++		.desc = "Branch speculatively executed, procedure return."
++	},
++	{
++		.name = "BR_INDIRECT_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x7a,
++		.desc = "Branch speculatively executed, indirect branch."
++	},
++	{
++		.name = "ISB_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x7c,
++		.desc = "Barrier speculatively executed, ISB."
++	},
++	{
++		.name = "DSB_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x7d,
++		.desc = "Barrier speculatively executed, DSB."
++	},
++	{
++		.name = "DMB_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x7e,
++		.desc = "Barrier speculatively executed, DMB."
++	},
++	{
++		.name = "EXC_UNDEF",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x81,
++		.desc = "Exception taken, other synchronous."
++	},
++	{
++		.name = "EXC_SVC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x82,
++		.desc = "Exception taken, Supervisor Call."
++	},
++	{
++		.name = "EXC_PABORT",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x83,
++		.desc = "Exception taken, Instruction Abort."
++	},
++	{
++		.name = "EXC_DABORT",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x84,
++		.desc = "Exception taken, Data Abort or SError."
++	},
++	{
++		.name = "EXC_IRQ",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x86,
++		.desc = "Exception taken, IRQ."
++	},
++	{
++		.name = "EXC_FIQ",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x87,
++		.desc = "Exception taken, FIQ."
++	},
++	{
++		.name = "EXC_SMC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x88,
++		.desc = "Exception taken, Secure Monitor Call."
++	},
++	{
++		.name = "EXC_HVC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x8a,
++		.desc = "Exception taken, Hypervisor Call."
++	},
++	{
++		.name = "EXC_TRAP_PABORT",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x8b,
++		.desc = "Exception taken, Instruction Abort not Taken locally."
++	},
++	{
++		.name = "EXC_TRAP_DABORT",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x8c,
++		.desc = "Exception taken, Data Abort or SError not Taken locally."
++	},
++	{
++		.name = "EXC_TRAP_OTHER",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x8d,
++		.desc = "Exception taken, other traps not Taken locally."
++	},
++	{
++		.name = "EXC_TRAP_IRQ",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x8e,
++		.desc = "Exception taken, IRQ not Taken locally."
++	},
++	{
++		.name = "EXC_TRAP_FIQ",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x8f,
++		.desc = "Exception taken, FIQ not Taken locally."
++	},
++	{
++		.name = "RC_LD_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x90,
++		.desc = "Release consistency operation speculatively executed, Load-Acquire."
++	},
++	{
++		.name = "RC_ST_SPEC",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x91,
++		.desc = "Release consistency operation speculatively executed, Store-Release."
++	},
++
++	/* Implementation Defined */
++	{
++		.name = "L1I_CACHE_PRF",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x102e,
++		.desc = "Level 1 instruction cache prefetch access count."
++	},
++    {
++        .name = "L1I_CACHE_PRF_REFILL",
++		.modmsk = ARMV8_ATTRS,
++        .code = 0x102f,
++        .desc = "Level 1 instruction cache miss due to prefetch access count"
++    },
++    {
++        .name = "IQ_IS_EMPTY",
++		.modmsk = ARMV8_ATTRS,
++        .code = 0x1043,
++        .desc = "Instruction queue is empty"
++    },
++    {
++        .name = "IF_IS_STALL",
++		.modmsk = ARMV8_ATTRS,
++        .code = 0x1044,
++        .desc = "Instruction fetch stall cycles"
++    },
++    {
++        .name =  "FETCH_BUBBLE",
++		.modmsk = ARMV8_ATTRS,
++        .code = 0x2014,
++        .desc = "Instructions can receive, but not send"
++    },
++    {
++        .name = "PRF_REQ",
++		.modmsk = ARMV8_ATTRS,
++        .code = 0x6013,
++        .desc = "Prefetch request from LSU"
++    },
++    {
++        .name = "HIT_ON_PRF",
++		.modmsk = ARMV8_ATTRS,
++        .code = 0x6014,
++        .desc = "Hit on prefetched data"
++    },
++    {
++        .name = "EXE_STALL_CYCLE",
++		.modmsk = ARMV8_ATTRS,
++        .code = 0x7001,
++        .desc = "Cycles of that the number of issuing micro operations are less than 4"
++    },
++    {
++        .name = "MEM_STALL_ANYLOAD",
++		.modmsk = ARMV8_ATTRS,
++        .code = 0x7004,
++        .desc = "No any micro operation is issued and meanwhile any load operation is not resolved"
++    },
++    {
++        .name = "MEM_STALL_ANYSTORE",
++		.modmsk = ARMV8_ATTRS,
++        .code = 0x7005,
++        .desc = "No any micro operation is issued and meanwhile any store operation is not resolved"
++    },
++    {
++        .name = "MEM_STALL_L1MISS",
++		.modmsk = ARMV8_ATTRS,
++        .code = 0x7006,
++        .desc = "No any micro operation is issued and meanwhile there is any load operation missing L1 cache and pending data refill"
++    },
++    {
++        .name = "MEM_STALL_L2MISS",
++		.modmsk = ARMV8_ATTRS,
++        .code = 0x7007,
++        .desc = "No any micro operation is issued and meanwhile there is any load operation missing both L1 and L2 cache and pending data refill from L3 cache"
++    }
++};
+diff --git a/lib/events/arm_hisilicon_kunpeng_unc_events.h b/lib/events/arm_hisilicon_kunpeng_unc_events.h
+new file mode 100644
+index 0000000..5b8fa7e
+--- /dev/null
++++ b/lib/events/arm_hisilicon_kunpeng_unc_events.h
+@@ -0,0 +1,228 @@
++/*
++ * Copyright (c) 2021 Barcelona Supercomputing Center
++ * Contributed by Estanislao Mercadal Melià <lau.mercadal@bsc.es>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is furnished to do so,
++ * subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in all
++ * copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
++ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
++ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
++ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
++ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
++ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++ *
++ * Hisilicon Kunpeng 920
++ * Based on https://developer.arm.com/documentation/ddi0487/latest/ and
++ * https://github.com/torvalds/linux/blob/master/tools/perf/pmu-events/arch/arm64/hisilicon/hip08/uncore-ddrc.json
++ * https://github.com/torvalds/linux/blob/master/tools/perf/pmu-events/arch/arm64/hisilicon/hip08/uncore-hha.json 
++ * https://github.com/torvalds/linux/blob/master/tools/perf/pmu-events/arch/arm64/hisilicon/hip08/uncore-l3c.json
++ */
++
++static const arm_entry_t arm_kunpeng_unc_ddrc_pe[ ] = {
++	{
++		.name = "flux_wr",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x00,
++		.desc = "DDRC total write operations."
++	},
++	{
++		.name = "flux_rd",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x01,
++		.desc = "DDRC total read operations."
++	},
++	{
++		.name = "flux_wcmd",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x02,
++		.desc = "DDRC write commands."
++	},
++	{
++		.name = "flux_rcmd",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x03,
++		.desc = "DDRC read commands."
++	},
++	{
++		.name = "pre_cmd",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x04,
++		.desc = "DDRC precharge commands."
++	},
++	{
++		.name = "act_cmd",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x05,
++		.desc = "DDRC active commands."
++	},
++	{
++		.name = "rnk_chg",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x06,
++		.desc = "DDRC rank commands."
++	},
++	{
++		.name = "rw_chg",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x07,
++		.desc = "DDRC read and write changes."
++	}
++};
++
++static const arm_entry_t arm_kunpeng_unc_hha_pe[ ] = {
++	{
++		.name = "rx_ops_num",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x00,
++		.desc = "The number of all operations received by the HHA."
++	},
++	{
++		.name = "rx_outer",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x01,
++		.desc = "The number of all operations received by the HHA from another socket."
++	},
++	{
++		.name = "rx_sccl",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x02,
++		.desc = "The number of all operations received by the HHA from another SCCL in this socket."
++	},
++	{
++		.name = "rx_ccix",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x03,
++		.desc = "Count of the number of operations that HHA has received from CCIX."
++	},
++	{
++		.name = "rd_ddr_64b",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x1c,
++		.desc = "The number of read operations sent by HHA to DDRC which size is 64bytes."
++	},
++	{
++		.name = "wr_ddr_64b",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x1d,
++		.desc = "The number of write operations sent by HHA to DDRC which size is 64 bytes."
++	},
++	{
++		.name = "rd_ddr_128b",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x1e,
++		.desc = "The number of read operations sent by HHA to DDRC which size is 128 bytes."
++	},
++	{
++		.name = "wr_ddr_128b",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x1f,
++		.desc = "The number of write operations sent by HHA to DDRC which size is 128 bytes."
++	},
++	{
++		.name = "spill_num",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x20,
++		.desc = "Count of the number of spill operations that the HHA has sent."
++	},
++	{
++		.name = "spill_success",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x21,
++		.desc = "Count of the number of successful spill operations that the HHA has sent."
++	}
++};
++
++static const arm_entry_t arm_kunpeng_unc_l3c_pe[ ] = {
++	{
++		.name = "rd_cpipe",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x00,
++		.desc = "Total read accesses."
++	},
++	{
++		.name = "wr_cpipe",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x01,
++		.desc = "Total write accesses."
++	},
++	{
++		.name = "rd_hit_cpipe",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x02,
++		.desc = "Total read hits."
++	},
++	{
++		.name = "wr_hit_cpipe",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x03,
++		.desc = "Total write hits."
++	},
++	{
++		.name = "victim_num",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x04,
++		.desc = "l3c precharge commands."
++	},
++	{
++		.name = "rd_spipe",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x20,
++		.desc = "Count of the number of read lines that come from this cluster of CPU core in spipe."
++	},
++	{
++		.name = "wr_spipe",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x21,
++		.desc = "Count of the number of write lines that come from this cluster of CPU core in spipe."
++	},
++	{
++		.name = "rd_hit_spipe",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x22,
++		.desc = "Count of the number of read lines that hits in spipe of this L3C."
++	},
++	{
++		.name = "wr_hit_spipe",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x23,
++		.desc = "Count of the number of write lines that hits in spipe of this L3C."
++	},
++	{
++		.name = "back_invalid",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x29,
++		.desc = "Count of the number of L3C back invalid operations."
++	},
++	{
++		.name = "retry_cpu",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x40,
++		.desc = "Count of the number of retry that L3C suppresses the CPU operations."
++	},
++	{
++		.name = "retry_ring",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x41,
++		.desc = "Count of the number of retry that L3C suppresses the ring operations."
++	},
++	{
++		.name = "prefetch_drop",
++		.modmsk = ARMV8_ATTRS,
++		.code = 0x42,
++		.desc = "Count of the number of prefetch drops from this L3C."
++	}
++};
++
++//Uncore accessor functions
++int
++pfm_kunpeng_unc_get_event_encoding(void *this, pfmlib_event_desc_t *e);
++int
++pfm_kunpeng_unc_get_perf_encoding(void *this, pfmlib_event_desc_t *e);
+diff --git a/lib/pfmlib_arm_armv8.c b/lib/pfmlib_arm_armv8.c
+index 00e2e3f..fca44e9 100644
+--- a/lib/pfmlib_arm_armv8.c
++++ b/lib/pfmlib_arm_armv8.c
+@@ -37,6 +37,8 @@
+ #include "events/arm_marvell_tx2_unc_events.h" 	/* Marvell ThunderX2 PMU tables */
+ #include "events/arm_fujitsu_a64fx_events.h"	/* Fujitsu A64FX PMU tables */
+ #include "events/arm_neoverse_n1_events.h"	/* ARM Neoverse N1 table */
++#include "events/arm_hisilicon_kunpeng_events.h"     /* Hisilicon Kunpeng PMU tables */
++#include "events/arm_hisilicon_kunpeng_unc_events.h" /* Hisilicon Kunpeng PMU uncore tables */
+ 
+ static int
+ pfm_arm_detect_n1(void *this)
+@@ -138,6 +140,22 @@ pfm_arm_detect_a64fx(void *this)
+ 	return PFM_ERR_NOTSUPP;
+ }
+ 
++static int
++pfm_arm_detect_hisilicon_kunpeng(void *this)
++{
++	int ret;
++
++	ret = pfm_arm_detect(this);
++	if (ret != PFM_SUCCESS)
++		return PFM_ERR_NOTSUPP;
++
++	if ((pfm_arm_cfg.implementer == 0x48) && /* Hisilicon */
++		(pfm_arm_cfg.part == 0xd01)) { /* Kunpeng */
++			return PFM_SUCCESS;
++	}
++	return PFM_ERR_NOTSUPP;
++}
++
+ /* ARM Cortex A57 support */
+ pfmlib_pmu_t arm_cortex_a57_support={
+ 	.desc			= "ARM Cortex A57",
+@@ -268,6 +286,164 @@ pfmlib_pmu_t arm_fujitsu_a64fx_support={
+ 	.get_event_nattrs	= pfm_arm_get_event_nattrs,
+ };
+ 
++/* Hisilicon Kunpeng support */
++pfmlib_pmu_t arm_hisilicon_kunpeng_support={
++	.desc           = "Hisilicon Kunpeng",
++	.name           = "arm_kunpeng",
++	.pmu            = PFM_PMU_ARM_KUNPENG,
++	.pme_count      = LIBPFM_ARRAY_SIZE(arm_kunpeng_pe),
++	.type           = PFM_PMU_TYPE_CORE,
++	.supported_plm  = ARMV8_PLM,
++	.pe             = arm_kunpeng_pe,
++	.pmu_detect     = pfm_arm_detect_hisilicon_kunpeng,
++	.max_encoding   = 1,
++	.num_cntrs      = 6,
++
++	.get_event_encoding[PFM_OS_NONE] = pfm_arm_get_encoding,
++	 PFMLIB_ENCODE_PERF(pfm_arm_get_perf_encoding),
++	.get_event_first	= pfm_arm_get_event_first,
++	.get_event_next		= pfm_arm_get_event_next,
++	.event_is_valid		= pfm_arm_event_is_valid,
++	.validate_table		= pfm_arm_validate_table,
++	.get_event_info		= pfm_arm_get_event_info,
++	.get_event_attr_info	= pfm_arm_get_event_attr_info,
++	 PFMLIB_VALID_PERF_PATTRS(pfm_arm_perf_validate_pattrs),
++	.get_event_nattrs	= pfm_arm_get_event_nattrs,
++};
++
++// For uncore, each socket has a separate perf name, otherwise they are the same, use macro
++
++#define DEFINE_KUNPENG_DDRC(n,m) \
++pfmlib_pmu_t arm_hisilicon_kunpeng_sccl##n##_ddrc##m##_support={ \
++	.desc           = "Hisilicon Kunpeng SCCL"#n" DDRC"#m, \
++	.name           = "hisi_sccl"#n"_ddrc"#m, \
++	.perf_name      = "hisi_sccl"#n"_ddrc"#m, \
++	.pmu            = PFM_PMU_ARM_KUNPENG_UNC_SCCL##n##_DDRC##m, \
++	.pme_count      = LIBPFM_ARRAY_SIZE(arm_kunpeng_unc_ddrc_pe), \
++	.type           = PFM_PMU_TYPE_UNCORE, \
++	.pe             = arm_kunpeng_unc_ddrc_pe, \
++	.pmu_detect     = pfm_arm_detect_hisilicon_kunpeng, \
++	.max_encoding   = 1, \
++	.num_cntrs      = 4, \
++	.get_event_encoding[PFM_OS_NONE] = pfm_kunpeng_unc_get_event_encoding, \
++	 PFMLIB_ENCODE_PERF(pfm_kunpeng_unc_get_perf_encoding), \
++	.get_event_first	= pfm_arm_get_event_first, \
++	.get_event_next		= pfm_arm_get_event_next, \
++	.event_is_valid		= pfm_arm_event_is_valid, \
++	.validate_table		= pfm_arm_validate_table, \
++	.get_event_info		= pfm_arm_get_event_info, \
++	.get_event_attr_info	= pfm_arm_get_event_attr_info, \
++	 PFMLIB_VALID_PERF_PATTRS(pfm_arm_perf_validate_pattrs), \
++	.get_event_nattrs	= pfm_arm_get_event_nattrs, \
++};
++
++DEFINE_KUNPENG_DDRC(1,0);
++DEFINE_KUNPENG_DDRC(1,1);
++DEFINE_KUNPENG_DDRC(1,2);
++DEFINE_KUNPENG_DDRC(1,3);
++DEFINE_KUNPENG_DDRC(3,0);
++DEFINE_KUNPENG_DDRC(3,1);
++DEFINE_KUNPENG_DDRC(3,2);
++DEFINE_KUNPENG_DDRC(3,3);
++DEFINE_KUNPENG_DDRC(5,0);
++DEFINE_KUNPENG_DDRC(5,1);
++DEFINE_KUNPENG_DDRC(5,2);
++DEFINE_KUNPENG_DDRC(5,3);
++DEFINE_KUNPENG_DDRC(7,0);
++DEFINE_KUNPENG_DDRC(7,1);
++DEFINE_KUNPENG_DDRC(7,2);
++DEFINE_KUNPENG_DDRC(7,3);
++
++#define DEFINE_KUNPENG_HHA(n,m) \
++pfmlib_pmu_t arm_hisilicon_kunpeng_sccl##n##_hha##m##_support={ \
++	.desc           = "Hisilicon Kunpeng SCCL"#n" HHA"#m, \
++	.name           = "hisi_sccl"#n"_hha"#m, \
++	.perf_name      = "hisi_sccl"#n"_hha"#m, \
++	.pmu            = PFM_PMU_ARM_KUNPENG_UNC_SCCL##n##_HHA##m, \
++	.pme_count      = LIBPFM_ARRAY_SIZE(arm_kunpeng_unc_hha_pe), \
++	.type           = PFM_PMU_TYPE_UNCORE, \
++	.pe             = arm_kunpeng_unc_hha_pe, \
++	.pmu_detect     = pfm_arm_detect_hisilicon_kunpeng, \
++	.max_encoding   = 1, \
++	.num_cntrs      = 4, \
++	.get_event_encoding[PFM_OS_NONE] = pfm_kunpeng_unc_get_event_encoding, \
++	 PFMLIB_ENCODE_PERF(pfm_kunpeng_unc_get_perf_encoding), \
++	.get_event_first	= pfm_arm_get_event_first, \
++	.get_event_next		= pfm_arm_get_event_next, \
++	.event_is_valid		= pfm_arm_event_is_valid, \
++	.validate_table		= pfm_arm_validate_table, \
++	.get_event_info		= pfm_arm_get_event_info, \
++	.get_event_attr_info	= pfm_arm_get_event_attr_info, \
++	 PFMLIB_VALID_PERF_PATTRS(pfm_arm_perf_validate_pattrs), \
++	.get_event_nattrs	= pfm_arm_get_event_nattrs, \
++};
++
++DEFINE_KUNPENG_HHA(1,2);
++DEFINE_KUNPENG_HHA(1,3);
++DEFINE_KUNPENG_HHA(3,0);
++DEFINE_KUNPENG_HHA(3,1);
++DEFINE_KUNPENG_HHA(5,6);
++DEFINE_KUNPENG_HHA(5,7);
++DEFINE_KUNPENG_HHA(7,4);
++DEFINE_KUNPENG_HHA(7,5);
++
++#define DEFINE_KUNPENG_L3C(n,m) \
++pfmlib_pmu_t arm_hisilicon_kunpeng_sccl##n##_l3c##m##_support={ \
++	.desc           = "Hisilicon Kunpeng SCCL"#n" L3C"#m, \
++	.name           = "hisi_sccl"#n"_l3c"#m, \
++	.perf_name      = "hisi_sccl"#n"_l3c"#m, \
++	.pmu            = PFM_PMU_ARM_KUNPENG_UNC_SCCL##n##_L3C##m, \
++	.pme_count      = LIBPFM_ARRAY_SIZE(arm_kunpeng_unc_l3c_pe), \
++	.type           = PFM_PMU_TYPE_UNCORE, \
++	.pe             = arm_kunpeng_unc_l3c_pe, \
++	.pmu_detect     = pfm_arm_detect_hisilicon_kunpeng, \
++	.max_encoding   = 1, \
++	.num_cntrs      = 4, \
++	.get_event_encoding[PFM_OS_NONE] = pfm_kunpeng_unc_get_event_encoding, \
++	 PFMLIB_ENCODE_PERF(pfm_kunpeng_unc_get_perf_encoding), \
++	.get_event_first	= pfm_arm_get_event_first, \
++	.get_event_next		= pfm_arm_get_event_next, \
++	.event_is_valid		= pfm_arm_event_is_valid, \
++	.validate_table		= pfm_arm_validate_table, \
++	.get_event_info		= pfm_arm_get_event_info, \
++	.get_event_attr_info	= pfm_arm_get_event_attr_info, \
++	 PFMLIB_VALID_PERF_PATTRS(pfm_arm_perf_validate_pattrs), \
++	.get_event_nattrs	= pfm_arm_get_event_nattrs, \
++};
++
++DEFINE_KUNPENG_L3C(1,10);
++DEFINE_KUNPENG_L3C(1,11);
++DEFINE_KUNPENG_L3C(1,12);
++DEFINE_KUNPENG_L3C(1,13);
++DEFINE_KUNPENG_L3C(1,14);
++DEFINE_KUNPENG_L3C(1,15);
++DEFINE_KUNPENG_L3C(1,8);
++DEFINE_KUNPENG_L3C(1,9);
++DEFINE_KUNPENG_L3C(3,0);
++DEFINE_KUNPENG_L3C(3,1);
++DEFINE_KUNPENG_L3C(3,2);
++DEFINE_KUNPENG_L3C(3,3);
++DEFINE_KUNPENG_L3C(3,4);
++DEFINE_KUNPENG_L3C(3,5);
++DEFINE_KUNPENG_L3C(3,6);
++DEFINE_KUNPENG_L3C(3,7);
++DEFINE_KUNPENG_L3C(5,24);
++DEFINE_KUNPENG_L3C(5,25);
++DEFINE_KUNPENG_L3C(5,26);
++DEFINE_KUNPENG_L3C(5,27);
++DEFINE_KUNPENG_L3C(5,28);
++DEFINE_KUNPENG_L3C(5,29);
++DEFINE_KUNPENG_L3C(5,30);
++DEFINE_KUNPENG_L3C(5,31);
++DEFINE_KUNPENG_L3C(7,16);
++DEFINE_KUNPENG_L3C(7,17);
++DEFINE_KUNPENG_L3C(7,18);
++DEFINE_KUNPENG_L3C(7,19);
++DEFINE_KUNPENG_L3C(7,20);
++DEFINE_KUNPENG_L3C(7,21);
++DEFINE_KUNPENG_L3C(7,22);
++DEFINE_KUNPENG_L3C(7,23);
++
+ // For uncore, each socket has a separate perf name, otherwise they are the same, use macro
+ 
+ #define DEFINE_TX2_DMC(n) \
+diff --git a/lib/pfmlib_common.c b/lib/pfmlib_common.c
+index 5cfd87f..1e0ce88 100644
+--- a/lib/pfmlib_common.c
++++ b/lib/pfmlib_common.c
+@@ -495,6 +495,63 @@ static pfmlib_pmu_t *pfmlib_pmus[]=
+ 	&arm_thunderx2_ccpi0_support,
+ 	&arm_thunderx2_ccpi1_support,
+ 	&arm_fujitsu_a64fx_support,
++	&arm_hisilicon_kunpeng_support,
++	&arm_hisilicon_kunpeng_sccl1_ddrc0_support,
++	&arm_hisilicon_kunpeng_sccl1_ddrc1_support,
++	&arm_hisilicon_kunpeng_sccl1_ddrc2_support,
++	&arm_hisilicon_kunpeng_sccl1_ddrc3_support,
++	&arm_hisilicon_kunpeng_sccl3_ddrc0_support,
++	&arm_hisilicon_kunpeng_sccl3_ddrc1_support,
++	&arm_hisilicon_kunpeng_sccl3_ddrc2_support,
++	&arm_hisilicon_kunpeng_sccl3_ddrc3_support,
++	&arm_hisilicon_kunpeng_sccl5_ddrc0_support,
++	&arm_hisilicon_kunpeng_sccl5_ddrc1_support,
++	&arm_hisilicon_kunpeng_sccl5_ddrc2_support,
++	&arm_hisilicon_kunpeng_sccl5_ddrc3_support,
++	&arm_hisilicon_kunpeng_sccl7_ddrc0_support,
++	&arm_hisilicon_kunpeng_sccl7_ddrc1_support,
++	&arm_hisilicon_kunpeng_sccl7_ddrc2_support,
++	&arm_hisilicon_kunpeng_sccl7_ddrc3_support,
++	&arm_hisilicon_kunpeng_sccl1_hha2_support,
++	&arm_hisilicon_kunpeng_sccl1_hha3_support,
++	&arm_hisilicon_kunpeng_sccl3_hha0_support,
++	&arm_hisilicon_kunpeng_sccl3_hha1_support,
++	&arm_hisilicon_kunpeng_sccl5_hha6_support,
++	&arm_hisilicon_kunpeng_sccl5_hha7_support,
++	&arm_hisilicon_kunpeng_sccl7_hha4_support,
++	&arm_hisilicon_kunpeng_sccl7_hha5_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c10_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c11_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c12_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c13_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c14_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c15_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c8_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c9_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c0_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c1_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c2_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c3_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c4_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c5_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c6_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c7_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c24_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c25_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c26_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c27_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c28_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c29_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c30_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c31_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c16_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c17_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c18_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c19_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c20_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c21_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c22_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c23_support,
+ 	&arm_n1_support,
+ #endif
+ #ifdef CONFIG_PFMLIB_ARCH_ARM64
+@@ -509,6 +566,63 @@ static pfmlib_pmu_t *pfmlib_pmus[]=
+ 	&arm_thunderx2_ccpi0_support,
+ 	&arm_thunderx2_ccpi1_support,
+ 	&arm_fujitsu_a64fx_support,
++	&arm_hisilicon_kunpeng_support,
++	&arm_hisilicon_kunpeng_sccl1_ddrc0_support,
++	&arm_hisilicon_kunpeng_sccl1_ddrc1_support,
++	&arm_hisilicon_kunpeng_sccl1_ddrc2_support,
++	&arm_hisilicon_kunpeng_sccl1_ddrc3_support,
++	&arm_hisilicon_kunpeng_sccl3_ddrc0_support,
++	&arm_hisilicon_kunpeng_sccl3_ddrc1_support,
++	&arm_hisilicon_kunpeng_sccl3_ddrc2_support,
++	&arm_hisilicon_kunpeng_sccl3_ddrc3_support,
++	&arm_hisilicon_kunpeng_sccl5_ddrc0_support,
++	&arm_hisilicon_kunpeng_sccl5_ddrc1_support,
++	&arm_hisilicon_kunpeng_sccl5_ddrc2_support,
++	&arm_hisilicon_kunpeng_sccl5_ddrc3_support,
++	&arm_hisilicon_kunpeng_sccl7_ddrc0_support,
++	&arm_hisilicon_kunpeng_sccl7_ddrc1_support,
++	&arm_hisilicon_kunpeng_sccl7_ddrc2_support,
++	&arm_hisilicon_kunpeng_sccl7_ddrc3_support,
++	&arm_hisilicon_kunpeng_sccl1_hha2_support,
++	&arm_hisilicon_kunpeng_sccl1_hha3_support,
++	&arm_hisilicon_kunpeng_sccl3_hha0_support,
++	&arm_hisilicon_kunpeng_sccl3_hha1_support,
++	&arm_hisilicon_kunpeng_sccl5_hha6_support,
++	&arm_hisilicon_kunpeng_sccl5_hha7_support,
++	&arm_hisilicon_kunpeng_sccl7_hha4_support,
++	&arm_hisilicon_kunpeng_sccl7_hha5_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c10_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c11_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c12_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c13_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c14_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c15_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c8_support,
++	&arm_hisilicon_kunpeng_sccl1_l3c9_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c0_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c1_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c2_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c3_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c4_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c5_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c6_support,
++	&arm_hisilicon_kunpeng_sccl3_l3c7_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c24_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c25_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c26_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c27_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c28_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c29_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c30_support,
++	&arm_hisilicon_kunpeng_sccl5_l3c31_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c16_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c17_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c18_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c19_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c20_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c21_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c22_support,
++	&arm_hisilicon_kunpeng_sccl7_l3c23_support,
+ 	&arm_n1_support,
+ #endif
+ 
+diff --git a/lib/pfmlib_kunpeng_unc_perf_event.c b/lib/pfmlib_kunpeng_unc_perf_event.c
+new file mode 100644
+index 0000000..34c57a5
+--- /dev/null
++++ b/lib/pfmlib_kunpeng_unc_perf_event.c
+@@ -0,0 +1,134 @@
++/*
++ * Copyright (c) 2021 Barcelona Supercomputing Center
++ * Contributed by Estanislao Mercadal Melià <lau.mercadal@bsc.es>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is furnished to do so,
++ * subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in all
++ * copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
++ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
++ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
++ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
++ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
++ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++ *
++ */
++
++#include <sys/types.h>
++#include <string.h>
++#include <stdlib.h>
++#include <stdio.h>
++#include <stdarg.h>
++#include <limits.h>
++
++/* private headers */
++#include "pfmlib_priv.h"
++#include "pfmlib_perf_event_priv.h"
++#include "pfmlib_arm_priv.h"
++
++typedef struct {
++	uint64_t val;
++} kunpeng_unc_data_t;
++
++static void
++display_com(void *this, pfmlib_event_desc_t *e, void *val)
++{
++	const arm_entry_t *pe = this_pe(this);
++	kunpeng_unc_data_t *reg = val;
++
++	__pfm_vbprintf("[UNC=0x%"PRIx64"] %s\n",
++			reg->val,
++			pe[e->event].name);
++}
++
++static void
++display_reg(void *this, pfmlib_event_desc_t *e, kunpeng_unc_data_t reg)
++{
++	pfmlib_pmu_t *pmu = this;
++	if (pmu->display_reg)
++		pmu->display_reg(this, e, &reg);
++	else
++		display_com(this, e, &reg);
++}
++
++int
++pfm_kunpeng_unc_get_event_encoding(void *this, pfmlib_event_desc_t *e)
++{
++	//from pe field in for the uncore, get the array with all the event defs
++	const arm_entry_t *event_list = this_pe(this);
++	kunpeng_unc_data_t reg;
++	//get code for the event from the table
++	reg.val = event_list[e->event].code;
++	//pass the data back to the caller
++	e->codes[0] = reg.val;
++	e->count = 1;
++	evt_strcat(e->fstr, "%s", event_list[e->event].name);
++	display_reg(this, e, reg);
++	return PFM_SUCCESS;
++}
++
++static int
++find_pmu_type_by_name(const char *name)
++{
++	char filename[PATH_MAX];
++	FILE *fp;
++	int ret, type;
++
++	if (!name)
++		return PFM_ERR_NOTSUPP;
++
++	sprintf(filename, "/sys/bus/event_source/devices/%s/type", name);
++
++	fp = fopen(filename, "r");
++	if (!fp)
++		return PFM_ERR_NOTSUPP;
++
++	ret = fscanf(fp, "%d", &type);
++	if (ret != 1)
++		type = PFM_ERR_NOTSUPP;
++
++	fclose(fp);
++
++	return type;
++}
++
++int
++pfm_kunpeng_unc_get_perf_encoding(void *this, pfmlib_event_desc_t *e)
++{
++	pfmlib_pmu_t *pmu = this;
++	struct perf_event_attr *attr = e->os_data;
++	kunpeng_unc_data_t reg;
++	int ret;
++
++	if (!pmu->get_event_encoding[PFM_OS_NONE])
++		return PFM_ERR_NOTSUPP;
++
++	ret = pmu->get_event_encoding[PFM_OS_NONE](this, e);
++	if (ret != PFM_SUCCESS)
++		return ret;
++	//get pmu type to probe
++	ret = find_pmu_type_by_name(pmu->perf_name);
++	if (ret < 0)
++		return ret;
++
++	attr->type = ret;
++	//get code to provide to the uncore pmu probe
++	reg.val = e->codes[0];
++	attr->config = reg.val;
++
++	// if needed, can use attr->config1 or attr->config2 for extra info from event structure defines e->codes[i]
++
++	// uncore measures at all priv levels
++	attr->exclude_hv = 0;
++	attr->exclude_kernel = 0;
++	attr->exclude_user = 0;
++
++	return PFM_SUCCESS;
++}
+diff --git a/lib/pfmlib_priv.h b/lib/pfmlib_priv.h
+index db8b0fd..be846ea 100644
+--- a/lib/pfmlib_priv.h
++++ b/lib/pfmlib_priv.h
+@@ -665,6 +665,64 @@ extern pfmlib_pmu_t arm_thunderx2_ccpi1_support;
+ 
+ extern pfmlib_pmu_t arm_fujitsu_a64fx_support;
+ 
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl1_ddrc0_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl1_ddrc1_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl1_ddrc2_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl1_ddrc3_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl3_ddrc0_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl3_ddrc1_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl3_ddrc2_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl3_ddrc3_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl5_ddrc0_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl5_ddrc1_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl5_ddrc2_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl5_ddrc3_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl7_ddrc0_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl7_ddrc1_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl7_ddrc2_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl7_ddrc3_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl1_hha2_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl1_hha3_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl3_hha0_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl3_hha1_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl5_hha6_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl5_hha7_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl7_hha4_support;
++extern pfmlib_pmu_t arm_hisilicon_kunpeng_sccl7_hha5_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl1_l3c10_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl1_l3c11_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl1_l3c12_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl1_l3c13_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl1_l3c14_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl1_l3c15_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl1_l3c8_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl1_l3c9_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl3_l3c0_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl3_l3c1_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl3_l3c2_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl3_l3c3_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl3_l3c4_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl3_l3c5_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl3_l3c6_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl3_l3c7_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl5_l3c24_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl5_l3c25_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl5_l3c26_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl5_l3c27_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl5_l3c28_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl5_l3c29_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl5_l3c30_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl5_l3c31_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl7_l3c16_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl7_l3c17_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl7_l3c18_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl7_l3c19_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl7_l3c20_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl7_l3c21_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl7_l3c22_support;
++extern pfmlib_pmu_t	arm_hisilicon_kunpeng_sccl7_l3c23_support;
++
+ extern pfmlib_pmu_t mips_74k_support;
+ extern pfmlib_pmu_t s390x_cpum_cf_support;
+ extern pfmlib_pmu_t s390x_cpum_sf_support;
+diff --git a/tests/validate_arm64.c b/tests/validate_arm64.c
+index 4d81fec..cb5ac18 100644
+--- a/tests/validate_arm64.c
++++ b/tests/validate_arm64.c
+@@ -254,6 +254,48 @@ static const test_event_t arm64_test_events[]={
+ 	  .codes[0] = 0x80000a0,
+ 	  .fstr = "arm_n1::L3_CACHE_RD:k=1:u=1:hv=0",
+ 	},
++	{ SRC_LINE,
++	  .name = "arm_kunpeng::CPU_CYCLES",
++	  .ret  = PFM_SUCCESS,
++	  .count = 1,
++	  .codes[0] = 0x8000011,
++	  .fstr = "arm_kunpeng::CPU_CYCLES:k=1:u=1:hv=0",
++	},
++	{ SRC_LINE,
++	  .name = "arm_kunpeng::CPU_CYCLES:k",
++	  .ret  = PFM_SUCCESS,
++	  .count = 1,
++	  .codes[0] = 0x88000011,
++	  .fstr = "arm_kunpeng::CPU_CYCLES:k=1:u=0:hv=0",
++	},
++	{ SRC_LINE,
++	  .name = "arm_kunpeng::INST_RETIRED",
++	  .ret  = PFM_SUCCESS,
++	  .count = 1,
++	  .codes[0] = 0x8000008,
++	  .fstr = "arm_kunpeng::INST_RETIRED:k=1:u=1:hv=0",
++	},
++	{ SRC_LINE,
++	  .name = "hisi_sccl1_l3c8::rd_cpipe",
++	  .ret  = PFM_SUCCESS,
++	  .count = 1,
++	  .codes[0] = 0x8000000,
++	  .fstr = "hisi_sccl1_l3c8::rd_cpipe:k=1:u=1:hv=0",
++	},
++	{ SRC_LINE,
++	  .name = "hisi_sccl1_hha2::rx_ops_num",
++	  .ret  = PFM_SUCCESS,
++	  .count = 1,
++	  .codes[0] = 0x8000000,
++	  .fstr = "hisi_sccl1_hha2::rx_ops_num:k=1:u=1:hv=0",
++	},
++	{ SRC_LINE,
++	  .name = "hisi_sccl1_ddrc0::flux_wr",
++	  .ret  = PFM_SUCCESS,
++	  .count = 1,
++	  .codes[0] = 0x8000000,
++	  .fstr = "hisi_sccl1_ddrc0::flux_wr:k=1:u=1:hv=0",
++	}
+ };
+ #define NUM_TEST_EVENTS (int)(sizeof(arm64_test_events)/sizeof(test_event_t))
+ 
+-- 
+2.27.0
+

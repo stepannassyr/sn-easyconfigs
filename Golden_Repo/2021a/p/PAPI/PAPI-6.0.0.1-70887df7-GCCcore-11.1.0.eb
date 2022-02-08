@@ -39,7 +39,10 @@ sources = [{
         'keep_git_dir': True,
     },
 }]
-patches = ['PAPI-6.0.0.1-add-cortex-a72.patch']
+patches = [
+            'PAPI-6.0.0.1-add-cortex-a72.patch',
+            'PAPI-6.0.0.1-add-kunpeng.patch'
+]
 
 builddependencies = [
     ('binutils', '2.36.1')

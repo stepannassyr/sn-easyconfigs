@@ -500,22 +500,22 @@ diff -urN a/lib/events/arm_cortex_a72_events.h b/lib/events/arm_cortex_a72_event
 diff -urN a/lib/Makefile b/lib/Makefile
 --- a/lib/Makefile	2020-04-10 15:20:27.250855286 +0200
 +++ b/lib/Makefile	2020-04-10 15:22:53.701522052 +0200
-@@ -365,13 +365,15 @@
- 	events/arm_cortex_a57_events.h		\
- 	events/arm_cortex_a53_events.h		\
-         events/arm_xgene_events.h		\
-+ 	events/arm_cortex_a72_events.h		\
- 	events/arm_cavium_tx2_events.h		\
- 	events/arm_marvell_tx2_unc_events.h	\
- 	events/arm_neoverse_n1_events.h
-
- INC_ARM64=events/arm_cortex_a57_events.h	\
- 	events/arm_cortex_a53_events.h		\
-         events/arm_xgene_events.h		\
-+	events/arm_cortex_a72_events.h	\
- 	events/arm_cavium_tx2_events.h		\
- 	events/arm_marvell_tx2_unc_events.h	\
- 	events/arm_fujitsu_a64fx_events.h	\
+@@ -362,6 +362,7 @@
+ 	events/arm_cortex_a57_events.h            \
+ 	events/arm_cortex_a53_events.h            \
+     events/arm_xgene_events.h                 \
++ 	events/arm_cortex_a72_events.h			  \
+ 	events/arm_cavium_tx2_events.h            \
+ 	events/arm_marvell_tx2_unc_events.h	      \
+ 	events/arm_neoverse_n1_events.h           \
+@@ -371,6 +372,7 @@
+ INC_ARM64=events/arm_cortex_a57_events.h      \
+ 	events/arm_cortex_a53_events.h            \
+     events/arm_xgene_events.h                 \
++	events/arm_cortex_a72_events.h			  \
+ 	events/arm_cavium_tx2_events.h            \
+ 	events/arm_marvell_tx2_unc_events.h       \
+ 	events/arm_neoverse_n1_events.h           \
 diff -urN a/lib/pfmlib_arm_armv8.c b/lib/pfmlib_arm_armv8.c
 --- a/lib/pfmlib_arm_armv8.c	2020-04-10 15:20:27.250855286 +0200
 +++ b/lib/pfmlib_arm_armv8.c	2020-04-10 15:28:51.113151852 +0200
