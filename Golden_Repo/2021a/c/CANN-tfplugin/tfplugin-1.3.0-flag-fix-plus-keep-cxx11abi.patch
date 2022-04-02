@@ -1,0 +1,15 @@
+diff --color -urN tensorflow-unpatched/CMakeLists.txt tensorflow/CMakeLists.txt
+--- tensorflow-unpatched/CMakeLists.txt	2022-02-08 16:28:23.458249630 +0000
++++ tensorflow/CMakeLists.txt	2022-02-08 16:29:32.188097198 +0000
+@@ -7,9 +7,8 @@
+     include(UseSWIG)
+ 
+     set(CMAKE_CXX_STANDARD 11)
+-    set(CMAKE_C_FLAGS "-O2 -DNDEBUG -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_C_FLAGS}")
+-    set(CMAKE_CXX_FLAGS "-std=c++11 -O2 -DNDEBUG -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_CXX_FLAGS}")
+-    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
++    set(CMAKE_C_FLAGS "-DNDEBUG -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_C_FLAGS}")
++    set(CMAKE_CXX_FLAGS "-DNDEBUG -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_CXX_FLAGS}")
+     # build external prjects
+     if(DEFINED ENV{D_PKG_SERVER})
+         set(TF_PKG_SERVER $ENV{D_PKG_SERVER})

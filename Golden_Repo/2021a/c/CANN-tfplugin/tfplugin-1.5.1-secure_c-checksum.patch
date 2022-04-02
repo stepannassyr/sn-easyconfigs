@@ -1,0 +1,19 @@
+diff --color -urN tensorflow-unpatched/cmake/secure_c.cmake tensorflow/cmake/secure_c.cmake
+--- tensorflow-unpatched/cmake/secure_c.cmake	2022-02-04 09:27:50.579972570 +0000
++++ tensorflow/cmake/secure_c.cmake	2022-02-04 09:28:34.230256920 +0000
+@@ -5,13 +5,13 @@
+   FetchContent_Declare(
+           secure_c
+           URL ${_json_url}
+-          URL_HASH MD5=193f0ca5246c1dd84920db34d2d8249f
++          URL_HASH MD5=f3db321939ae17527b8939651f7e1c8b
+   )
+ else()
+   FetchContent_Declare(
+           secure_c
+           URL https://gitee.com/openeuler/libboundscheck/repository/archive/v1.1.10.tar.gz
+-          URL_HASH MD5=193f0ca5246c1dd84920db34d2d8249f
++          URL_HASH MD5=f3db321939ae17527b8939651f7e1c8b
+   )
+ endif()
+ FetchContent_GetProperties(secure_c)

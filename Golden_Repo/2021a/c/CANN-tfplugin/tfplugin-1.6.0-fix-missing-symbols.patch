@@ -1,0 +1,43 @@
+diff --git a/tf_adapter/kernels/geop_npu.cc b/tf_adapter/kernels/geop_npu.cc
+index 8bb5a27..76c1065 100644
+--- a/tf_adapter/kernels/geop_npu.cc
++++ b/tf_adapter/kernels/geop_npu.cc
+@@ -70,7 +70,8 @@
+ #include "graph/model.h"
+ 
+ namespace tensorflow {
+-Status FunctionalizeControlFlow(Graph *graph, FunctionLibraryDefinition *library);
++// No Idea where this function is supposed to be defined
++//Status FunctionalizeControlFlow(Graph *graph, FunctionLibraryDefinition *library);
+ namespace {
+ using geDataUniquePtr = std::unique_ptr<uint8_t[], std::function<void(uint8_t *)>>;
+ 
+@@ -872,11 +873,11 @@ Status GeOp::BuildGraphDef(FunctionLibraryDefinition &flib_def, const std::vecto
+   if (enable_force_v2_control == "1") {
+     WriteTextProto(Env::Default(), GetDumpPath() + function_.name() + "_v1.pbtxt", graph_def);
+ 
+-    Status status = FunctionalizeControlFlow(&graph, &flib_def);
+-    if (status != Status::OK()) {
+-      LOG(WARNING) << "[GEOP] Failed functionalize control flow: " << status.error_message();
++    //Status status = FunctionalizeControlFlow(&graph, &flib_def);
++    //if (status != Status::OK()) {
++      LOG(WARNING) << "[GEOP] Failed functionalize control flow: FunctionalizeControlFlow() is undefined, so the call was removed";
+       return Status::OK();
+-    }
++    //}
+     graph.ToGraphDef(&graph_def);
+     WriteTextProto(Env::Default(), GetDumpPath() + function_.name() + "_v2.pbtxt", graph_def);
+   }
+diff --git a/tf_adapter/optimizers/om_partition_subgraphs_pass.cc b/tf_adapter/optimizers/om_partition_subgraphs_pass.cc
+index 396afbf..57e47c3 100644
+--- a/tf_adapter/optimizers/om_partition_subgraphs_pass.cc
++++ b/tf_adapter/optimizers/om_partition_subgraphs_pass.cc
+@@ -998,7 +998,7 @@ Status MarkForPartition(std::unique_ptr<Graph> *graph_in, int &clusterNum, bool
+     if (src->IsNextIteration()) {
+       continue;
+     }
+-    if (!cycles.InsertEdge(cluster_map[src]->index, cluster_map[dst]->index)) {
++    if (!cycles.InsertEdge(cluster_map[src]->index, cluster_map[dst]->index, false)) {
+       ADP_LOG(ERROR) << "Failing due to cycle";
+       LOG(ERROR) << "Failing due to cycle";
+       return errors::Unimplemented("Input graph has a cycle (inserting an edge from ", src->DebugString(), " to ",

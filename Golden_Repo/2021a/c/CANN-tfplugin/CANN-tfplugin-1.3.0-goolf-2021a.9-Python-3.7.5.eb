@@ -3,7 +3,7 @@
 easyblock = 'CMakeNinja'
 
 name = 'CANN-tfplugin'
-version = '1.7.0'
+version = '1.3.0'
 homepage = 'https://e.huawei.com/en/products/cloud-computing-dc/atlas/cann'
 description = 'CANN plugin for TensorFlow'
 versionsuffix = '-Python-%(pyver)s'
@@ -16,19 +16,19 @@ sources = [{
     'git_config': {
         'url': 'https://gitee.com/ascend/',
         'repo_name': 'tensorflow',
-        'commit': '341e07f',
+        'commit': 'dd7616a',
         'recursive': True,
         'keep_git_dir': True,
     },
 }]
 
 patches = [
-    'tfplugin-1.7.0-secure_c-checksum.patch',
-    'tfplugin-1.7.0-use-swig-properly.patch',
+    'tfplugin-1.5.1-secure_c-checksum.patch',
+    'tfplugin-1.3.0-use-swig-properly.patch',
     'tfplugin-1.7.0-install-in-cmake.patch',
-    'tfplugin-1.7.0-flag-fix-plus-keep-cxx11abi.patch',
+    'tfplugin-1.3.0-flag-fix-plus-keep-cxx11abi.patch',
 #    'tfplugin-1.7.0-ge-cxx11abi-shim.patch',
-    'tfplugin-1.7.0-fix-missing-symbols.patch',
+    'tfplugin-1.3.0-fix-missing-symbols.patch',
 ]
 
 builddependencies = [

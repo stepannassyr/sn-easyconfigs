@@ -38,6 +38,7 @@ dependencies = [
     ('CMake', '3.20.0'),
     ('Python', '3.7.5'),
     ('CANN-Toolkit', version, versionsuffix),
+    ('TensorFlow-CANN-Core', '1.15.0', versionsuffix),
     ('SciPy-Stack', '2021a', versionsuffix),
 ]
 
