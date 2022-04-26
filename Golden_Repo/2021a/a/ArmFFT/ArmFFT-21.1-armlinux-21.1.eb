@@ -1,0 +1,22 @@
+# This is a thin wrapper that depends on Modules already being installed and in the MODULEPATH
+import os as local_os
+easyblock = 'Bundle'
+name = 'ArmFFT'
+version = '21.1'
+
+homepage = 'http://www.arm.com'
+description = """
+ARM performance libraries as FFT library
+"""
+
+
+toolchain = {'version': version, 'name': 'armlinux'}
+
+altroot = 'armpl'
+
+dependencies = [
+    ('armpl-AArch64/%s.0' % version,     EXTERNAL_MODULE)
+]
+
+
+moduleclass = 'numlib'

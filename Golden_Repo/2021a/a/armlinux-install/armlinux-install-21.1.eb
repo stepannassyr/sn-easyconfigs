@@ -1,0 +1,48 @@
+# Installs the Arm Linux compiler. The installed modulefiles are then loaded by armlinux
+easyblock = 'Binary'
+name = 'armlinux-install'
+version = '21.1'
+
+homepage = 'http://www.arm.com'
+description = """
+ARM Compiler for Linux (armclang, armclang++, armflang)
+"""
+
+toolchain = SYSTEM
+
+sources = [{
+        'source_urls' : ['https://developer.arm.com/-/media/Files/downloads/hpc/arm-allinea-studio/%s/ACfL/' % version.replace('.','-')],
+        'filename'    : 'arm-compiler-for-linux_%(version)s_RHEL-8_%(arch)s.tar'
+    },
+    {
+        'filename' : 'armlinux-module-fix-dependencies-for-lmod.patch',
+        'extract_cmd' : 'cp %s %(builddir)s'
+    }
+]
+#patches = []
+# Don't patch sources, patch as postinstallcmd instead
+#skipsteps=['patch']
+
+extract_sources = True
+
+install_cmd = '%(builddir)s/arm-compiler-for-linux_%(version)s_RHEL-8/arm-compiler-for-linux_%(version)s_RHEL-8.sh -a -i %(installdir)s'
+
+# Patch modulefiles so they work with LMod
+postinstallcmds = [
+    'cd %(installdir)s/modulefiles && patch -p1 < %(builddir)s/armlinux-module-fix-dependencies-for-lmod.patch'
+]
+
+sanity_check_paths = {
+    'files' : ['arm-linux-compiler-%%(version)s_Generic-AArch64_RHEL-8_%%(arch)s-linux/bin/%s' % bin for bin in ['armclang','armclang++','armflang']],
+    'dirs'  : [
+        'arm-linux-compiler-%(version)s_Generic-AArch64_RHEL-8_%(arch)s-linux',
+        'armpl-%(version)s.0_AArch64_RHEL-8_arm-linux-compiler_%(arch)s-linux',
+        'modulefiles',
+    ]
+}
+
+modextrapaths = {
+    'MODULEPATH' : 'modulefiles'
+}
+
+moduleclass = 'compiler'

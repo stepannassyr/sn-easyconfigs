@@ -1,0 +1,16 @@
+diff --color -urN numpy-1.20.2-unpatched/numpy/f2py/tests/test_callback.py numpy-1.20.2/numpy/f2py/tests/test_callback.py
+--- numpy-1.20.2-unpatched/numpy/f2py/tests/test_callback.py	2022-02-10 08:42:44.817728560 +0000
++++ numpy-1.20.2/numpy/f2py/tests/test_callback.py	2022-02-10 09:05:12.716229099 +0000
+@@ -268,9 +268,9 @@
+     code = textwrap.dedent(
+         """
+         function gh17797(f, y) result(r)
+-          external f
+-          integer(8) :: r, f
+-          integer(8), dimension(:) :: y
++          integer(kind=8), external :: f
++          integer(kind=8) :: r, f
++          integer(kind=8), dimension(:) :: y
+           r = f(0)
+           r = r + sum(y)
+         end function gh17797

@@ -1,0 +1,31 @@
+diff -urN modulefiles-unpatched/arm21/21.1 modulefiles/arm21/21.1
+--- modulefiles-unpatched/arm21/21.1	2022-02-09 14:34:38.930433653 +0000
++++ modulefiles/arm21/21.1	2022-02-09 14:35:39.140823675 +0000
+@@ -45,11 +45,7 @@
+ # Pull in some utility functions
+ source $module_prefix/moduleglobals/compiler_functions/21.1
+ 
+-# Load modules on which this module depends
+-set dependencies [list \
+-    binutils/10.2.0 \
+-  ]
+-depends-on $dependencies
++depends-on binutils/10.2.0
+ 
+ # Install directory of this package
+ set package_prefix   $install_prefix/arm-linux-compiler-21.1_Generic-AArch64_RHEL-8_aarch64-linux
+diff -urN modulefiles-unpatched/gnu10/10.2.0 modulefiles/gnu10/10.2.0
+--- modulefiles-unpatched/gnu10/10.2.0	2022-02-09 14:34:38.930433653 +0000
++++ modulefiles/gnu10/10.2.0	2022-02-09 14:36:13.701047544 +0000
+@@ -46,10 +46,7 @@
+ source $module_prefix/moduleglobals/gcc_functions/10.2.0
+ 
+ # Load modules on which this module depends
+-set dependencies [list \
+-    binutils/10.2.0 \
+-  ]
+-depends-on $dependencies
++depends-on binutils/10.2.0
+ 
+ # Install directory of this package
+ set package_prefix   $install_prefix/gcc-10.2.0_Generic-AArch64_RHEL-8_aarch64-linux

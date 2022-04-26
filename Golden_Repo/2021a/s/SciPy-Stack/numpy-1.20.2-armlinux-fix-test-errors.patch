@@ -1,0 +1,87 @@
+diff --color -urN numpy-1.20.2-unpatched/numpy/ma/tests/test_core.py numpy-1.20.2/numpy/ma/tests/test_core.py
+--- numpy-1.20.2-unpatched/numpy/ma/tests/test_core.py	2022-02-10 07:33:59.841638611 +0000
++++ numpy-1.20.2/numpy/ma/tests/test_core.py	2022-02-10 07:40:39.734163576 +0000
+@@ -2853,6 +2853,8 @@
+ 
+     def test_inplace_floor_division_scalar_type(self):
+         # Test of inplace division
++        # Check for TypeError in case of unsupported types
++        unsupported = {np.dtype(t).type for t in np.typecodes["Complex"]}
+         for t in self.othertypes:
+             with warnings.catch_warnings(record=True) as w:
+                 warnings.filterwarnings("always")
+@@ -2860,15 +2862,24 @@
+                 x = arange(10, dtype=t) * t(2)
+                 xm = arange(10, dtype=t) * t(2)
+                 xm[2] = masked
+-                x //= t(2)
+-                xm //= t(2)
+-                assert_equal(x, y)
+-                assert_equal(xm, y)
++                try:
++                    x //= t(2)
++                    xm //= t(2)
++                    assert_equal(x, y)
++                    assert_equal(xm, y)
+ 
+-                assert_equal(len(w), 0, "Failed on type=%s." % t)
++                    assert_equal(len(w), 0, "Failed on type=%s." % t)
++                except TypeError:
++                    msg = f"Supported type {t} throwing TypeError"
++                    assert t in unsupported, msg
++                except AssertionError:
++                    msg = f"Supported type {t} throwing AssertionError"
++                    assert t in unsupported, msg
+ 
+     def test_inplace_floor_division_array_type(self):
+         # Test of inplace division
++        # Check for TypeError in case of unsupported types
++        unsupported = {np.dtype(t).type for t in np.typecodes["Complex"]}
+         for t in self.othertypes:
+             with warnings.catch_warnings(record=True) as w:
+                 warnings.filterwarnings("always")
+@@ -2876,16 +2884,23 @@
+                 m = xm.mask
+                 a = arange(10, dtype=t)
+                 a[-1] = masked
+-                x //= a
+-                xm //= a
+-                assert_equal(x, y // a)
+-                assert_equal(xm, y // a)
+-                assert_equal(
+-                    xm.mask,
+-                    mask_or(mask_or(m, a.mask), (a == t(0)))
+-                )
++                try:
++                    x //= a
++                    xm //= a
++                    assert_equal(x, y // a)
++                    assert_equal(xm, y // a)
++                    assert_equal(
++                        xm.mask,
++                        mask_or(mask_or(m, a.mask), (a == t(0)))
++                    )
+ 
+-                assert_equal(len(w), 0, f'Failed on type={t}.')
++                    assert_equal(len(w), 0, f'Failed on type={t}.')
++                except TypeError:
++                    msg = f"Supported type {t} throwing TypeError"
++                    assert t in unsupported, msg
++                except AssertionError:
++                    msg = f"Supported type {t} throwing AssertionError"
++                    assert t in unsupported, msg
+ 
+     def test_inplace_division_scalar_type(self):
+         # Test of inplace division
+diff --color -urN numpy-1.20.2-unpatched/numpy/tests/test_public_api.py numpy-1.20.2/numpy/tests/test_public_api.py
+--- numpy-1.20.2-unpatched/numpy/tests/test_public_api.py	2022-02-10 07:33:59.851638674 +0000
++++ numpy-1.20.2/numpy/tests/test_public_api.py	2022-02-10 07:36:16.882502651 +0000
+@@ -330,6 +330,8 @@
+     "numpy.core.cversions",
+     "numpy.core.generate_numpy_api",
+     "numpy.distutils.msvc9compiler",
++    "numpy.distutils.armccompiler",
++    "numpy.distutils.fcompiler.arm",
+ ]
+ 
+ 

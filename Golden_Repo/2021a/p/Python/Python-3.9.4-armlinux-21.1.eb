@@ -1,20 +1,19 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 name = 'Python'
-version = '3.7.5'
-local_vermajmin = '3.7'
+version = '3.9.4'
+local_vermajmin = '3.9'
 
 homepage = 'http://python.org/'
 description = """Python is a programming language that lets you work more quickly and integrate your systems
  more effectively."""
 
 
-toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
+toolchain = {'name': 'armlinux', 'version': '21.1'}
 toolchainopts = {'pic': True}
-
 
 source_urls = ['http://www.python.org/ftp/%(namelower)s/%(version)s/']
 sources = [SOURCE_TGZ]
-checksums = ['8ecc681ea0600bbfb366f2b173f727b205bb825d93d2f0b286bc4e58d37693da']
+checksums = ['66c4de16daa74a825cf9da9ddae1fe020b72c3854b73b1762011cc33f9e4592f']
 
 # python needs bzip2 to build the bz2 package
 dependencies = [
@@ -38,7 +37,6 @@ dependencies = [
     ('gflags', '2.2.2'),
     ('libspatialindex', '1.9.3'), # Needed for rtree
     ('libjpeg-turbo', '2.0.6'),
-    ('gRPC', '1.37.1'),
 ]
 
 builddependencies = [
@@ -51,17 +49,9 @@ builddependencies = [
 
 osdependencies = [OS_PKG_OPENSSL_DEV]
 
-optimized = True
-use_lto = True
-
 # symlink 'pip' command to 'pip3' that is included with Python installation
 # required so we can update pip to version included in extensions, using pip
 installopts = " && ln -s %(installdir)s/bin/pip3 %(installdir)s/bin/pip"
-
-# something is getting messed up with these there
-installopts += " && rm -rf %(installdir)s/lib/python3.7/site-packages/{pip,setuptools}*"
-
-install_pip = False
 
 exts_default_options = {
     'download_dep_fail': True,
@@ -87,36 +77,23 @@ if local_ssl.OPENSSL_VERSION.find('1.0.2') != -1:
 # order is important!
 
 exts_list = [
-    ('setuptools', '57.4.0', {
+    ('pip', '21.1.1', {
         'use_pip' : False,
-        'checksums': ['6bac238ffdf24e8806c61440e755192470352850f3419a52f26ffe0a1a64f465'],
+        'checksums': ['51ad01ddcd8de923533b01a870e7b987c2eb4d83b50b89e1bf102723ff9fed8b'],
     }),
-    ('pip', '21.3.1', {
+    ('setuptools', '56.0.0', {
         'use_pip' : False,
-        'checksums': ['fd11ba3d0fdb4c07fbc5ecbba0b1b719809420f25038f8ee3cd913d3faa3033a'],
+        'checksums': ['08a1c0f99455307c48690f00d5c2ac2c1ccfab04df00454fef854ec145b81302'],
     }),
     ('wheel', '0.36.2', {
         'checksums': ['e11eefd162658ea59a60a0f6c7d493a7190ea4b9a85e335b33489d9f17e0245e'],
     }),
-    ('pyparsing', '3.0.6', {
-        'checksums': ['d9bdec0013ef1eb5a84ab39a3b3868911598afa494f5faa038647101504e2b81'],
+    ('setuptools_scm', '6.0.1', {
+        'checksums': ['d1925a69cb07e9b29416a275b9fadb009a23c148ace905b2fb220649a6c18e92'],
     }),
-    ('packaging', '20.9', {
-        'checksums': ['5b327ac1320dc863dca72f4514ecc086f31186744b84a230374cc1fd776feae5'],
-    }),
-    ('setuptools_scm', '6.3.2', {
-        'checksums': ['a49aa8081eeb3514eb9728fa5040f2eaa962d6c6f4ec9c32f6c1fba88f88a0f2'],
-    }),
-    ('flit-core', '3.6.0', {
-        'source_tmpl': 'flit_core-%(version)s.tar.gz',
-        'checksums': ['5892962ab8b8ea945835b3a288fe9dd69316f1903d5288c3f5cafdcdd04756ad'],
-    }),
-    ('tomli', '2.0.0', {
-        'checksums': ['c292c34f58502a1eb2bbb9f5bbc9a5ebc37bee10ffb8c2d6bbdfa8eb13cc14e1'],
-    }),
-    ('attrs', '21.4.0', {
+    ('attrs', '20.3.0', {
         'modulename': 'attr',
-        'checksums': ['626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd'],
+        'checksums': ['832aa3cde19744e49938b91fea06d69ecb9e649c93ba974535d08ad92164f700'],
     }),
     ('six', '1.15.0', {
         'checksums': ['30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259'],
@@ -131,11 +108,21 @@ exts_list = [
     ('toml', '0.10.2', {
         'checksums': ['b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f'],
     }),
+    ('flit-core', '3.2.0', {
+        'source_tmpl': 'flit_core-%(version)s.tar.gz',
+        'checksums': ['ff87f25c5dbc24ef30ea334074e35030e4885e4c5de3bf4e21f15746f6d99431'],
+    }),
     ('setuptools-rust', '0.12.1', {
         'checksums': ['647009e924f0ae439c7f3e0141a184a69ad247ecb9044c511dabde232d3d570e'],
     }),
     ('zipp', '3.4.1', {
         'checksums': ['3607921face881ba3e026887d8150cca609d517579abe052ac81fc5aeffdbd76'],
+    }),
+    ('pyparsing', '3.0.0b2', {
+        'checksums': ['1c6409312ce2ce2997896af5756753778d5f1603666dba5587804f09ad82ed27'],
+    }),
+    ('packaging', '20.9', {
+        'checksums': ['5b327ac1320dc863dca72f4514ecc086f31186744b84a230374cc1fd776feae5'],
     }),
     ('appdirs', '1.4.4', {
         'checksums': ['7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41'],
@@ -161,14 +148,14 @@ exts_list = [
     ('argparse', '1.4.0', {
         'checksums': ['62b089a55be1d8949cd2bc7e0df0bddb9e028faefc8c32038cc84862aefdd6e4'],
     }),
-    ('pbr', '5.8.1', {
-        'checksums': ['66bc5a34912f408bb3925bf21231cb6f59206267b7f63f3503ef865c1a292e25'],
+    ('pbr', '5.6.0', {
+        'checksums': ['42df03e7797b796625b1029c0400279c7c34fd7df24a7d7818a1abb5b38710dd'],
     }),
     ('lockfile', '0.12.2', {
         'checksums': ['6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799'],
     }),
-    ('Cython', '0.29.23', {
-        'checksums': ['6a0d31452f0245daacb14c979c77e093eb1a546c760816b5eed0047686baad8e'],
+    ('Cython', '0.29.27', {
+        'checksums': ['c6a442504db906dfc13a480e96850cced994ecdc076bcf492c43515b78f70da2'],
     }),
     ('python-dateutil', '2.8.1', {
         'modulename': 'dateutil',
@@ -194,8 +181,8 @@ exts_list = [
     ('pycparser', '2.20', {
         'checksums': ['2d475327684562c3a96cc71adf7dc8c4f0565175cf86b6d7a404ff4c771f15f0'],
     }),
-    ('cffi', '1.12.3', {
-        'checksums': ['041c81822e9f84b1d9c401182e174996f0bae9991f33725d059b771744290774'],
+    ('cffi', '1.14.5', {
+        'checksums': ['fd78e5fee591709f32ef6edb9a015b4aa1a5022598e36227500c8f4e02328d9c'],
     }),
     ('ipaddress', '1.0.23', {
         'checksums': ['b7f8e0369580bb4a24d5ba1d7cc29660a4a6987763faf1d8a8046830e020e7e2'],
@@ -269,9 +256,9 @@ exts_list = [
     ('psycopg2', '2.8.6', {
         'checksums': ['fb23f6c71107c37fd667cb4ea363ddeb936b348bbd6449278eb92c189699f543'],
     }),
-    ('protobuf', '3.19.3', {
+    ('protobuf', '4.0.0rc2', {
         'modulename': 'google.protobuf',
-        'checksums': ['d975a6314fbf5c524d4981e24294739216b5fb81ef3c14b86fb4b045d6690907'],
+        'checksums': ['03346c1fdaaaece437f2b611f3f784114b109985aea65c7d98050f8d38fe671c'],
     }),
     ('python-gflags', '3.1.2', {
         'modulename': 'gflags',
@@ -288,13 +275,13 @@ exts_list = [
         'modulename': 'werkzeug',
         'checksums': ['4158aad4fdfe14d0ffe9f8ae832323e0ed90615b0354c13875f59e8a08e6a6fa'],
     }),
-    ('MarkupSafe', '2.0.1', {
+    ('MarkupSafe', '2.0.0rc2', {
         'modulename': 'markupsafe',
-        'checksums': ['594c67807fb16238b30c44bdf74f36c02cdf22d1c8cda91ef8a0ed8dabf5620a'],
+        'checksums': ['746a22773b02c79ea570cf97f92aad7e58938bcd2670de499e349d8430f989ef'],
     }),
-    ('Jinja2', '3.0.3', {
+    ('Jinja2', '3.0.0rc2', {
         'modulename': 'jinja2',
-        'checksums': ['611bb273cd68f3b993fabdc4064fc858c5b47a973cb5aa7999ec1ba405c87cd7'],
+        'checksums': ['fd581ab32650fec6d24e8f035dd9757f3549ea6e559534d5d2385d4ade7e0fe1'],
     }),
     ('Flask', '2.0.0rc1', {
         'modulename': 'flask',
@@ -489,9 +476,9 @@ exts_list = [
         'modulename': 'xdist',
         'checksums': ['718887296892f92683f6a51f25a3ae584993b06f7076ce1e1fd482e59a8220a2'],
     }),
-    ('TatSu', '4.4.0', {
+    ('TatSu', '5.6.1', {
         'source_tmpl': '%(name)s-%(version)s.zip',
-        'checksums': ['80713413473a009f2081148d0f494884cabaf9d6866b71f2a68a92b6442f343d'],
+        'checksums': ['6a4f07aa7bfe9dfbee8015824feaf13f0b1a89577e2ee5a4a62c18630c309d4e'],
     }),
     ('psutil', '5.8.0', {
         'checksums': ['0c9ccb99ab76025f2f0bbecf341d4656e9c1351db8cc8a03ccd62e318ab4b5c6'],
@@ -548,8 +535,8 @@ exts_list = [
     ('filelock', '3.0.12', {
         'checksums': ['18d82244ee114f543149c66a6e0c14e9c4f8a1044b5cdaadd0f82159d6a6ff59'],
     }),
-    ('importlib_metadata', '4.10.1', {
-        'checksums': ['951f0d8a5b7260e9db5e41d429285b5f451e928479f19d80818878527d36e95e'],
+    ('importlib_metadata', '4.0.1', {
+        'checksums': ['8c501196e49fb9df5df43833bdb1e4328f64847763ec8a50703148b73784d581'],
     }),
     ('virtualenv', '20.4.4', {
         'checksums': ['09c61377ef072f43568207dc8e46ddeac6bcdcaf288d49011bda0e7f4d38c4a2'],
@@ -588,9 +575,9 @@ exts_list = [
     ('SecretStorage', '3.3.1', {
         'checksums': ['fd666c51a6bf200643495a04abb261f83229dcb6fd8472ec393df7ffc8b6f195'],
     }),
-    ('keyring', '23.5.0', {
-#        'modulename' : False,
-        'checksums': ['9012508e141a80bd1c0b6778d5c610dd9f8c464d75ac6774248500503f972fb9'],
+    ('keyring', '23.0.1', {
+        'modulename' : False,
+        'checksums': ['045703609dd3fccfcdb27da201684278823b72af515aedec1a8515719a038cb8'],
     }),
     ('keyrings.alt', '4.0.2', {
         'modulename' : False,
@@ -703,7 +690,6 @@ exts_list = [
         'checksums': ['a9fcc528a0c6f9f5d721292bdf846e5338e4dca7cd6fef1551fbe71564dfe61e'],
     }),
     ('cleo', '1.0.0a4', {
-        #'prebuildopts' : '%(installdir)s/bin/dephell deps convert --from pyproject.toml --to setup.py && ',
         'use_pip': False,
         'checksums': ['a103a065d031b7d936ee88a6b93086a69bd9c1b40fa2ebfe8c056285a66b481d'],
     }),
@@ -730,17 +716,6 @@ exts_list = [
     ('poetry', '1.2.0a2', {
         'patches'  : ['poetry-unrestrict-importlib-version.patch'],
         'checksums': ['4bad54dd1b40fd7b7efe90f05288ebab3d55b091cb682c847eac1d24ff1d1e31'],
-    }),
-    ('cached-property', '1.5.2', {
-        'checksums': ['9fa5755838eecbb2d234c3aa390bd80fbd3ac6b6869109bfc1b499f7bd89a130'],
-    }),
-    ('grpcio', '1.43.0', {
-        'modulename' : 'grpc',
-        'checksums': ['735d9a437c262ab039d02defddcb9f8f545d7009ae61c0114e19dda3843febe5'],
-    }),
-    ('grpcio-tools', '1.43.0', {
-        'modulename' : 'grpc_tools',
-        'checksums': ['f42f1d713096808b1b0472dd2a3749b712d13f0092dab9442d9c096446e860b2'],
     }),
 ]
 

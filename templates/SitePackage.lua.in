@@ -16,7 +16,7 @@ local machines = {%PLATFORMS%}
 local stage_compilers = {
     ["2019b"] = {"GCC 9.2.0", "armhpc 19.2", "armhpc 19.3", "armlinux 20.0", "Clang 8.0.1", "Clang 9.0.0"},
     ["2020a"] = {"GCC 7.5.0", "GCC 8.4.0", "GCC 9.3.0", "armlinux 20.0", "armlinux 20.1", "armlinux 20.2", "Clang 9.0.1", "Clang 10.0.0"},
-    ["2021a"] = {"GCC 9.3.0", "GCC 10.3.0", "GCC 11.1.0", "armlinux 20.3", "armlinux 21.0", "Clang 11.1.0", "Clang 12.0.0"},
+    ["2021a"] = {"GCC 9.3.0", "GCC 10.3.0", "GCC 11.1.0", "armlinux 20.3", "armlinux 21.1", "Clang 11.1.0", "Clang 12.0.0"},
 }
 
 -- What mpis are in which stage
@@ -65,6 +65,9 @@ for idx_m,machine in ipairs(machines) do
                 -- Add modules compiled with this compiler and this MPI
                 generated_map[pathJoin(modules_prefix,"MPI", comp_name, comp_r_version, mpi_name, mpi_r_version)] = "Modules built with " .. compiler .. " and " .. mpi
             end -- for every mpi
+            if "armlinux" == comp_name then
+                generated_map[pathJoin(stage_prefix, 'software/armlinux%-install', comp_r_version, 'modulefiles')] = "ARM modules (Don't load directly, load armlinux instead)"
+            end
         end -- for every compiler
     end -- for every stage
 end -- for every machine

@@ -2,13 +2,11 @@ diff --git a/pyproject.toml b/pyproject.toml
 index 34f02afe..bdfff6eb 100644
 --- a/pyproject.toml
 +++ b/pyproject.toml
-@@ -24,8 +24,8 @@ classifiers = [
- [tool.poetry.dependencies]
+@@ -25,7 +25,7 @@ classifiers = [
  python = "~2.7 || ^3.5"
  
--poetry-core = "~1.0.3"
+ poetry-core = "~1.0.7"
 -cleo = "^0.8.1"
-+poetry-core = ">=1.0.3"
 +cleo = ">=0.8.1"
  clikit = "^0.6.2"
  crashtest = { version = "^0.3.0", python = "^3.6" }
