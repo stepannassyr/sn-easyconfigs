@@ -21,7 +21,7 @@ sources = [SOURCELOWER_TAR_XZ]
 checksums = ['8078f5c25e34ab907ce06905d969dc8ef0ccbec367e1e1707c7ecf8460f4254e']
 
 dependencies = [
-    ('expat', '2.4.2')
+    ('expat', '2.4.8')
 ]
 
 builddependencies = [

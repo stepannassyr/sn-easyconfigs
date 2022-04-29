@@ -21,7 +21,7 @@ dependencies = [
     ('libpng', '1.6.37'),
     ('freetype', '2.10.4'),
     ('libjpeg-turbo', '2.0.6'),
-    ('expat', '2.4.2'),
+    ('expat', '2.4.8'),
     ('GLib', '2.68.0'),
     ('cairo', '1.17.4'),
     ('LibTIFF', '4.2.0'),
