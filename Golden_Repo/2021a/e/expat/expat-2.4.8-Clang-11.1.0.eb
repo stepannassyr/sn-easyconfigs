@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'expat'
-version = '2.4.2'
+version = '2.4.8'
 
 homepage = 'http://expat.sourceforge.net/'
 description = """Expat is an XML parser library written in C. It is a stream-oriented parser in which an application
@@ -10,12 +10,12 @@ description = """Expat is an XML parser library written in C. It is a stream-ori
 """
 
 
-toolchain = {'name': 'armlinux', 'version': '21.1'}
+toolchain = {'name': 'Clang', 'version': '11.1.0'}
 toolchainopts = {'pic': True}
 
 source_urls = [SOURCEFORGE_SOURCE]
 sources = [SOURCELOWER_TAR_BZ2]
-checksums = ['e40737134bdc08b8ea7d23a2c0a5cd11c04d5be152fe562d3253c1e4a0be6686']
+checksums = ['a247a7f6bbb21cf2ca81ea4cbb916bfb9717ca523631675f99b3d4a5678dcd16']
 
 builddependencies = [
     ('binutils', '2.36.1'),
