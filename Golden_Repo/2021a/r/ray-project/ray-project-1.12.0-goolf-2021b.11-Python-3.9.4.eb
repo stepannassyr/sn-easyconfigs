@@ -18,6 +18,9 @@
 #          sudo ldconfig
 #
 #          This is obviously an ugly hack, but I can't invest more time into this right now
+#          Related links:
+#          https://github.com/bazelbuild/bazel/pull/11860
+#          https://github.com/grpc/grpc/pull/23664
 #
 easyblock = 'PythonPackage'
 
