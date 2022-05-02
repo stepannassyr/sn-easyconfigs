@@ -33,7 +33,7 @@ class cann_package(Binary):
     def extra_options():
         """Support for generic 'default' modules with specific real versions"""
         extra_vars = {
-                'cann_installers': [None, "List of tuples: name, path to installation script (after extraction) and additional arguments for each package, i.e [(Ascend-acllib, acllib/scripts/install.sh, ''), ...]", CUSTOM],
+                'cann_installers': [None, "List of tuples: name, path to installation script (after extraction), additional arguments and whetehr --install-username and --install-usergroup are supported for each package, i.e [(Ascend-acllib, acllib/scripts/install.sh, '', True), ...]", CUSTOM],
                 'subdir_symlinks': [None, "List of tuples: symlinks to create, alt_suf will be replaced, i.e ('opp','opp_linux.alt_suf') would create opp_linux.arm64 -> arm64-linux/opp on an aarch64 system", CUSTOM]
         }
         return extra_vars
@@ -51,6 +51,7 @@ class cann_package(Binary):
 
         subs = [
                 (r'`cat /etc/passwd \| cut -f1 -d\':\' \| grep -w "(\$[^"]+)" -c`',r'$(getent passwd \1 | grep -w "\1" -c)'),
+                (r'\$\(cat /etc/passwd \| cut -f1 -d\':\' \| grep -w "(\$[^"]+)" -c\)',r'$(getent passwd \1 | grep -w "\1" -c)'),
                 (r'^(un|)chattrFiles\(\)\s*{',r'\1chattrFiles() {'+'\n'+'return'+'\n'+'}'+'\n'+r'\1chattrFiles_disabled() {'),
                 (r'^(function\s*|)checkEmptyUserAndGroup\(\)\s*{',r'\1checkEmptyUserAndGroup() {'+'\n'+'return'+'\n'+'}'+'\n'+r'\1checkEmptyUserAndGroup_disabled() {'),
                 (r'^checkInstallCondition\(\)\s*{',r'checkInstallCondition() {'+'\n'+'return'+'\n'+'}'+'\n'+r'checkInstallCondition_disabled() {'),
@@ -112,14 +113,18 @@ class cann_package(Binary):
         cann_installers = self.cfg['cann_installers']
         parent_dir = os.getcwd()
 
-        common_args = " --quiet --full --install-username=$USER --install-usergroup=" + hiai_group + " --install-path=" + installdir_toolkit + ' '
+        common_args = " --quiet --full --install-path=" + installdir_toolkit + ' '
+        ug_args = " --install-usergroup="+hiai_group+" --install-username=$USER "
 
         for package in cann_installers:
             package_name   = package[0]
             installer_path = package[1]
             custom_args    = package[2]
+            supports_usrgrp = package[3]
             os.chdir(self.package_dirs[package_name])
-            (out,ret) = run_cmd("/bin/sh " + installer_path + " --placeholder --placeholder " + custom_args + ' ' + common_args)
+            if supports_usrgrp:
+                custom_args += ug_args
+            (out,ret) = run_cmd("/bin/sh " + installer_path + " --placeholder --\"" + os.getcwd() + "\" " + custom_args + ' ' + common_args)
             if 0 != ret:
                 raise EasyBuildError("Installing " + package_name + " failed: " + out)
             os.chdir(parent_dir)
