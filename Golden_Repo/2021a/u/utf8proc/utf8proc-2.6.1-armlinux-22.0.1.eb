@@ -1,0 +1,37 @@
+# JUAWEI/ARM64 EasyConfig files
+# Copyright 2019-2020 Stepan Nassyr @ Forschungszentrum Juelich
+easyblock = 'CMakeMake'
+
+name = 'utf8proc'
+version = '2.6.1'
+
+homepage = 'https://github.com/JuliaStrings/utf8proc'
+description = """utf8proc is a small, clean C library that provides Unicode normalization, case-folding, and other operations for data in the UTF-8 encoding. 
+"""
+
+
+toolchain = {'name': 'armlinux', 'version': '22.0.1'}
+toolchainopts = {'pic': True}
+
+source_urls = ["https://github.com/JuliaStrings/utf8proc/archive/"]
+sources = ["v%(version)s.tar.gz"]
+
+dependencies = [
+    ('libuv', '1.41.0'),
+]
+
+builddependencies = [
+    ('CMake', '3.20.0'),
+    ('binutils', '2.36.1'),
+]
+
+separate_build_dir=True
+
+osdependencies = ['lua']
+
+sanity_check_paths = {
+    'files': ['include/utf8proc.h','lib/libutf8proc.a'],
+    'dirs' : ['include']
+}
+
+moduleclass = 'lib'

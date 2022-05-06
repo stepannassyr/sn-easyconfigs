@@ -1,0 +1,60 @@
+easyblock = 'ConfigureMake'
+
+name = 'OpenMPI'
+version = '4.1.2'
+
+homepage = 'https://www.open-mpi.org/'
+description = """The Open MPI Project is an open source MPI-3 implementation."""
+
+toolchain = {'name': 'armlinux', 'version': '22.0.1'}
+
+source_urls = ['https://www.open-mpi.org/software/ompi/v%(version_major_minor)s/downloads']
+sources = [SOURCELOWER_TAR_GZ]
+#patches = ['OpenMPI-4.0.3-fix-cpp-stdc-version.patch']
+checksums = [
+    'a400719b04375cd704d2ed063a50e42d268497a3dfede342986ab7a8d7e8dcf0',  # openmpi-4.1.0.tar.gz
+#    'f33819e463938df376d2aa06dc1ba245b6f7be585b532595d3c1e5ed7edca9fb',  # OpenMPI-4.0.3-fix-cpp-stdc-version.patch
+]
+
+# needed for --with-verbs
+osdependencies = [('libibverbs-dev', 'libibverbs-devel', 'rdma-core-devel', 'slurm-devel-ohpc', 'slurm-libpmi-ohpc')]
+
+dependencies = [
+    ('zlib', '1.2.11'),
+    ('hwloc', '2.4.1'),
+    ('UCX', '1.11.2'),
+]
+
+# ARM included binutils cause compilation error
+builddependencies = [
+    ('binutils', '2.36.1')
+]
+
+# replace -march=skylake-avx512 option with equivalent -m* flags,
+# to avoid problems when building on systems which don't support AVX-512;
+# cfr. https://github.com/open-mpi/ompi/issues/8306
+preconfigopts = "sed -i 's/-march=skylake-avx512/-mavx512f -mavx512bw -mavx512vl -mavx512dq/g' configure && "
+
+
+configopts = '--enable-shared --enable-static --with-verbs '
+configopts += '--enable-mpirun-prefix-by-default '  # suppress failure modes in relation to mpirun path
+configopts += '--with-hwloc=$EBROOTHWLOC '          # hwloc support
+configopts += '--with-ucx=$EBROOTUCX '              # ucx support
+# disable uct: https://github.com/openucx/ucx/wiki/OpenMPI-and-OpenSHMEM-installation-with-UCX#openmpi-and-openshmem-installation
+configopts += '--enable-mca-no-build=btl-uct '
+
+# to enable SLURM integration (site-specific)
+configopts += '--with-slurm --with-pmi=/usr --with-pmi-libdir=/usr/lib64 '
+
+# need to use the same libevent that was used to build pmix
+configopts += '--with-libevent=/usr --with-libevent-libdir=/usr/lib64 '
+
+local_libs = ["mpi_mpifh", "mpi", "ompitrace", "open-pal", "open-rte"]
+sanity_check_paths = {
+    'files': ["bin/%s" % binfile for binfile in ["ompi_info", "opal_wrapper", "orterun"]] +
+             ["lib/lib%s.%s" % (libfile, SHLIB_EXT) for libfile in local_libs] +
+             ["include/%s.h" % x for x in ["mpi-ext", "mpif-config", "mpif", "mpi", "mpi_portable_platform"]],
+    'dirs': [],
+}
+
+moduleclass = 'mpi'
