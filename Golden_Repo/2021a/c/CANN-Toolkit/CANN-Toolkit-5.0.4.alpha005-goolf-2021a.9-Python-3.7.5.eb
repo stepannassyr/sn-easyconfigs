@@ -77,11 +77,12 @@ subdir_symlinks=[
 
 sanity_check_paths = {
     'files': ['ascend-toolkit/%(version)s/atc/bin/atc'],
-    'dirs' :['ascend-toolkit/%%(version)s/%s' % d[1] for d in subdir_symlinks] + \
+    'dirs' :['ascend-toolkit/%%(version)s/%s' % d[1].replace('alt_suf',local_alt_suf[local_arch_suf]) for d in subdir_symlinks] + \
             ['ascend-toolkit/%%(version)s/atc/%s' % d for d in ['include','lib64','bin']] + \
             ['ascend-toolkit/%%(version)s/acllib/%s' % d for d in ['include','lib64','bin']] + \
             ['ascend-toolkit/%%(version)s/fwkacllib/%s' % d for d in ['lib64','bin']] + \
-            ['ascend-toolkit/%%(version)s/%s/python/site-packages' % d for d in ['toolkit','python','compiler']] + \
+            ['ascend-toolkit/%%(version)s/%s/python/site-packages' % d for d in ['toolkit','compiler']] + \
+            ['ascend-toolkit/%(version)s/python/site-packages'] + \
             ['ascend-toolkit/%(version)s/pyACL/python/site-packages/acl']
 }
 
