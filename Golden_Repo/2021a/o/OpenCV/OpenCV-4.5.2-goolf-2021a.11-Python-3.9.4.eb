@@ -42,7 +42,7 @@ dependencies = [
     ('ant', '1.10.12', '-Java-%(javaver)s', True),
     ('GLib', '2.68.0'),
     ('GTK+', '4.0.3'),
-    ('protobuf', '3.15.6'),
+    ('protobuf', '3.17.3'),
     ('SciPy-Stack', '2021a', versionsuffix, ('goolf', '2021a.11'))
 ]
 

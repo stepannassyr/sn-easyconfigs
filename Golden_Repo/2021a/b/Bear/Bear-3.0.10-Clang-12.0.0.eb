@@ -20,7 +20,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('protobuf', '3.15.6'),
+    ('protobuf', '3.17.3'),
     ('gRPC', '1.37.1'),
     ('SQLite', '3.35.3'),
 ]

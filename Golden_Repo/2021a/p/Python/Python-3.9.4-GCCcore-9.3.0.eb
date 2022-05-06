@@ -33,7 +33,7 @@ dependencies = [
     ('PostgreSQL', '13.2'),
 # Rust -> setuptools_rust -> cryptography
     ('Rust', '1.52.1'),
-    ('protobuf', '3.15.6'),
+    ('protobuf', '3.17.3'),
     ('gflags', '2.2.2'),
     ('libspatialindex', '1.9.3'), # Needed for rtree
     ('libjpeg-turbo', '2.0.6'),
@@ -49,9 +49,7 @@ builddependencies = [
 
 osdependencies = [OS_PKG_OPENSSL_DEV]
 
-# symlink 'pip' command to 'pip3' that is included with Python installation
-# required so we can update pip to version included in extensions, using pip
-installopts = " && ln -s %(installdir)s/bin/pip3 %(installdir)s/bin/pip"
+install_pip = True
 
 exts_default_options = {
     'download_dep_fail': True,
@@ -59,10 +57,6 @@ exts_default_options = {
     'source_urls': [PYPI_SOURCE],
     'use_pip': True,
 }
-
-exts_download_dep_fail = True
-
-local_grakover = '3.99.9'
 
 local_cryptography_version = '3.4.7'
 local_cryptography_sha256  = '3d10de8116d25649631977cb37da6cbdd2d6fa0e0281d014a5b7d337255ca713'
@@ -77,16 +71,14 @@ if local_ssl.OPENSSL_VERSION.find('1.0.2') != -1:
 # order is important!
 
 exts_list = [
-    ('pip', '21.1.1', {
-        'use_pip' : False,
-        'checksums': ['51ad01ddcd8de923533b01a870e7b987c2eb4d83b50b89e1bf102723ff9fed8b'],
-    }),
-    ('setuptools', '56.0.0', {
-        'use_pip' : False,
-        'checksums': ['08a1c0f99455307c48690f00d5c2ac2c1ccfab04df00454fef854ec145b81302'],
-    }),
     ('wheel', '0.36.2', {
         'checksums': ['e11eefd162658ea59a60a0f6c7d493a7190ea4b9a85e335b33489d9f17e0245e'],
+    }),
+    ('setuptools', '57.4.0', {
+        'checksums': ['6bac238ffdf24e8806c61440e755192470352850f3419a52f26ffe0a1a64f465'],
+    }),
+    ('pip', '21.2.2', {
+        'checksums': ['38e9250dfb0d7fa842492bede9259d4b3289a936ce454f7c58f059f28a94c01d'],
     }),
     ('setuptools_scm', '6.0.1', {
         'checksums': ['d1925a69cb07e9b29416a275b9fadb009a23c148ace905b2fb220649a6c18e92'],
@@ -343,10 +335,6 @@ exts_list = [
     ('jedi', '0.18.0', {
         'checksums': ['92550a404bad8afed881a137ec9a461fed49eca661414be45059329614ed0707'],
     }),
-# Apparently no longer required after Py3.6
-#    ('typing', '3.7.4.3', {
-#        'checksums': ['1187fb9c82fd670d10aa07bbb6cfcfe4bdda42d6fab8d5134f04e8c4d0b71cc9'],
-#    }),
     ('backcall', '0.2.0', {
         'checksums': ['5cbdbf27be5e7cfadb448baf0aa95508f91f2bbc6c6437cd9cd06e2a4c215e1e'],
     }),
@@ -617,8 +605,8 @@ exts_list = [
     ('async-timeout', '3.0.1', {
         'checksums': ['0c3c816a028d47f659d6ff5c745cb2acf1f966da1fe5c19c77a70282b25f4c5f'],
     }),
-    ('typing_extensions', '3.7.4.3', {
-        'checksums': ['99d4073b617d30288f569d3f13d2bd7548c3a7e4c8de87db09a9d29bb3a4a60c'],
+    ('typing_extensions', '4.2.0', {
+        'checksums': ['f1c24655a0da0d1b67f07e17a5e6b2a105894e6824b92096378bb3668ef02376'],
     }),
     ('aiohttp', '3.7.4.post0', {
         'patches'  : ['aiohttp-optimistic-dependencies.patch'],
@@ -689,10 +677,10 @@ exts_list = [
         'patches'  : ['dephell-optimistic-dependencies.patch'],
         'checksums': ['a9fcc528a0c6f9f5d721292bdf846e5338e4dca7cd6fef1551fbe71564dfe61e'],
     }),
-    ('cleo', '1.0.0a3', {
+    ('cleo', '1.0.0a4', {
         #'prebuildopts' : '%(installdir)s/bin/dephell deps convert --from pyproject.toml --to setup.py && ',
         'use_pip': False,
-        'checksums': ['9c1c8dd06635c936f45e4649aa2f7581517b4d52c7a9414d1b42586e63c2fe5d'],
+        'checksums': ['a103a065d031b7d936ee88a6b93086a69bd9c1b40fa2ebfe8c056285a66b481d'],
     }),
     ('cachy', '0.3.0', {
         'checksums': ['186581f4ceb42a0bbe040c407da73c14092379b1e4c0e327fdb72ae4a9b269b1'],
@@ -710,21 +698,14 @@ exts_list = [
     ('entrypoints', '0.3', {
         'checksums': ['c70dd71abe5a8c85e55e12c19bd91ccfeec11a6e99044204511f9ed547d48451'],
     }),
-    ('poetry-core', '1.1.0a3', {
+    ('poetry-core', '1.1.0a6', {
         'modulename' : 'poetry.core',
-        'checksums': ['579f35c98b0cdbc4e0fd2f7172de7deca74849a2ccfef05bf1df71d3855aa421'],
+        'checksums': ['e22c8897216216f6344b3d57167a8cd5485a1403934817d7efaf7fb8f6bcffc9'],
     }),
-    ('poetry', '1.1.6', {
-        'patches'  : ['poetry-optimistic-dependencies.patch'],
-        'checksums': ['e7c58a50c14aebc18e7de9df64f1dad74b194f21b8e5257251449f0feb4784fa'],
+    ('poetry', '1.2.0a2', {
+        'patches'  : ['poetry-unrestrict-importlib-version.patch'],
+        'checksums': ['4bad54dd1b40fd7b7efe90f05288ebab3d55b091cb682c847eac1d24ff1d1e31'],
     }),
-]
-
-import platform as local_platform
-
-postinstallcmds = [
-    'chmod o+r %%(installdir)s/lib/python%s/site-packages/grako-%s.dist-info/entry_points.txt' % (local_vermajmin,local_grakover),
-    'ln -s %(installdir)s/bin/python3-config %(installdir)s/bin/python-config'
 ]
 
 moduleclass = 'lang'
