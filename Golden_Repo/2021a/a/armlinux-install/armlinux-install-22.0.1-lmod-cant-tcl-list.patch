@@ -1,0 +1,60 @@
+diff --color -urN a/modulefiles/acfl/22.0.1 b/modulefiles/acfl/22.0.1
+--- a/modulefiles/acfl/22.0.1	2022-05-06 19:48:55.000000000 +0000
++++ b/modulefiles/acfl/22.0.1	2022-05-06 19:49:47.000000000 +0000
+@@ -46,10 +46,7 @@
+ source $module_prefix/moduleglobals/compiler_functions/22.0.1
+ 
+ # Load modules on which this module depends
+-set dependencies [list \
+-    binutils/11.2.0 \
+-  ]
+-depends-on $dependencies
++depends-on binutils/11.2.0
+ 
+ # Install directory of this package
+ set package_prefix   $install_prefix/arm-linux-compiler-22.0.1_Generic-AArch64_RHEL-8_aarch64-linux
+diff --color -urN a/modulefiles/gnu/11.2.0 b/modulefiles/gnu/11.2.0
+--- a/modulefiles/gnu/11.2.0	2022-05-06 19:48:55.000000000 +0000
++++ b/modulefiles/gnu/11.2.0	2022-05-06 19:50:09.000000000 +0000
+@@ -46,10 +46,7 @@
+ source $module_prefix/moduleglobals/gcc_functions/11.2.0
+ 
+ # Load modules on which this module depends
+-set dependencies [list \
+-    binutils/11.2.0 \
+-  ]
+-depends-on $dependencies
++depends-on binutils/11.2.0
+ 
+ # Install directory of this package
+ set package_prefix   $install_prefix/gcc-11.2.0_Generic-AArch64_RHEL-8_aarch64-linux
+diff --color -urN a/moduledeps/acfl/22.0.1/armpl/22.0.1 b/moduledeps/acfl/22.0.1/armpl/22.0.1
+--- a/moduledeps/acfl/22.0.1/armpl/22.0.1	2022-05-06 19:49:00.000000000 +0000
++++ b/moduledeps/acfl/22.0.1/armpl/22.0.1	2022-05-06 19:50:34.000000000 +0000
+@@ -44,10 +44,7 @@
+ source $module_prefix/moduleglobals/compiler_functions/22.0.1
+ 
+ # Load modules on which this module depends
+-set dependencies [list \
+-    acfl/22.0.1 \
+-  ]
+-depends-on $dependencies
++depends-on acfl/22.0.1
+ 
+ # Install directory of this package
+ set package_prefix $install_prefix/armpl-22.0.1_AArch64_RHEL-8_arm-linux-compiler_aarch64-linux
+diff --color -urN a/moduledeps/gnu/11.2.0/armpl/22.0.1 b/moduledeps/gnu/11.2.0/armpl/22.0.1
+--- a/moduledeps/gnu/11.2.0/armpl/22.0.1	2022-05-06 19:49:00.000000000 +0000
++++ b/moduledeps/gnu/11.2.0/armpl/22.0.1	2022-05-06 19:50:57.000000000 +0000
+@@ -44,10 +44,7 @@
+ source $module_prefix/moduleglobals/gcc_functions/11.2.0
+ 
+ # Load modules on which this module depends
+-set dependencies [list \
+-    gnu/11.2.0 \
+-  ]
+-depends-on $dependencies
++depends-on gnu/11.2.0
+ 
+ # Install directory of this package
+ set package_prefix $install_prefix/armpl-22.0.1_AArch64_RHEL-8_gcc_aarch64-linux
