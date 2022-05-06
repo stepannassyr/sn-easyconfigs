@@ -37,7 +37,7 @@ sanity_check_paths = {
     'files' : ['arm-linux-compiler-%%(version)s_Generic-AArch64_RHEL-8_%%(arch)s-linux/bin/%s' % bin for bin in ['armclang','armclang++','armflang']],
     'dirs'  : [
         'arm-linux-compiler-%(version)s_Generic-AArch64_RHEL-8_%(arch)s-linux',
-        'armpl-%(version)s.0_AArch64_RHEL-8_arm-linux-compiler_%(arch)s-linux',
+        'armpl-%(version)s_AArch64_RHEL-8_arm-linux-compiler_%(arch)s-linux',
         'modulefiles',
     ]
 }
