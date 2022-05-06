@@ -1,0 +1,20 @@
+# Shim Easyconfig loading the actual modules
+easyblock = 'Bundle'
+name = 'armlinux'
+version = '22.0.1'
+
+homepage = 'http://www.arm.com'
+description = """
+ARM Compiler for Linux (armclang, armclang++, armflang)
+"""
+
+toolchain = SYSTEM
+
+
+dependencies = [
+    ('armlinux-install', version),
+    ('acfl/%(version)s', EXTERNAL_MODULE)
+]
+
+
+moduleclass = 'compiler'
