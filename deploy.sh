@@ -654,7 +654,7 @@ fi
 # installing repo EasyBuild 
 stages=(2021a)
 declare -A stage_eb_version
-stage_eb_version[2021a]="4.3.4"
+stage_eb_version[2021a]="4.5.2"
 
 echo Installing EasyBuild from repo for all stages and architectures
 for stage in ${stages[@]}
@@ -673,8 +673,10 @@ do
 		module use $installpath/modules/system || exit 1
 		module use $installpath/modules/devel || exit 1
 		export NOEBMODULE=yes
-		module load Stages/$stage Developers/InstallSoftware Architecture/$arch || exit 1
-		eb e/EasyBuild/EasyBuild-${stage_eb_version[$stage]}.eb || exit 1
+        echo Loading $stage modules to build EasyBuild ${stage_eb_version[$stage]}
+        module load Stages/$stage Developers/InstallSoftware Architecture/$arch || exit 1
+        echo Building EasyBuild ${stage_eb_version[$stage]}
+        eb e/EasyBuild/EasyBuild-${stage_eb_version[$stage]}.eb || exit 1
 		cd $olddir
 	done
 done
