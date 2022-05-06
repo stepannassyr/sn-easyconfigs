@@ -1,0 +1,76 @@
+diff --color -urN src-unpatched/distdir_deps.bzl src/distdir_deps.bzl
+--- src-unpatched/distdir_deps.bzl	2022-05-06 16:20:51.705622577 +0000
++++ src/distdir_deps.bzl	2022-05-06 16:30:31.539198755 +0000
+@@ -130,6 +130,7 @@
+         "patch_args": ["-p1"],
+         "patches": [
+             "//third_party/grpc:grpc_1.41.0.patch",
++            "//third_party/grpc:grpc-1.41.0-default-shell-env-everywhere.patch",
+             "//third_party/grpc:grpc_1.41.0.win_arm64.patch",
+         ],
+         "used_in": [
+diff --color -urN src-unpatched/third_party/grpc/BUILD src/third_party/grpc/BUILD
+--- src-unpatched/third_party/grpc/BUILD	2022-05-06 16:20:51.765622947 +0000
++++ src/third_party/grpc/BUILD	2022-05-06 16:31:36.899601728 +0000
+@@ -21,7 +21,8 @@
+ exports_files([
+     "grpc_1.31.1.patch",
+     "grpc_1.41.0.patch",
+-    "grpc_1.41.0.win_arm64.patch"
++    "grpc_1.41.0.win_arm64.patch",
++    "grpc-1.41.0-default-shell-env-everywhere.patch"
+ ])
+ 
+ package(default_visibility = ["//visibility:public"])
+diff --color -urN src-unpatched/third_party/grpc/grpc-1.41.0-default-shell-env-everywhere.patch src/third_party/grpc/grpc-1.41.0-default-shell-env-everywhere.patch
+--- src-unpatched/third_party/grpc/grpc-1.41.0-default-shell-env-everywhere.patch	1970-01-01 00:00:00.000000000 +0000
++++ src/third_party/grpc/grpc-1.41.0-default-shell-env-everywhere.patch	2022-05-06 16:31:16.899478419 +0000
+@@ -0,0 +1,48 @@
++diff --git a/bazel/generate_objc.bzl b/bazel/generate_objc.bzl
++index f6424b383f..8f6d2da3f9 100644
++--- a/bazel/generate_objc.bzl
+++++ b/bazel/generate_objc.bzl
++@@ -96,6 +96,7 @@ def _generate_objc_impl(ctx):
++         outputs = out_files,
++         executable = ctx.executable._protoc,
++         arguments = arguments,
+++	use_default_shell_env = True,
++     )
++ 
++     return struct(files = depset(out_files))
++diff --git a/third_party/upb/bazel/build_defs.bzl b/third_party/upb/bazel/build_defs.bzl
++index acd474d3bb..3c8e19b412 100644
++--- a/third_party/upb/bazel/build_defs.bzl
+++++ b/third_party/upb/bazel/build_defs.bzl
++@@ -150,6 +150,7 @@ def _upb_amalgamation(ctx):
++         arguments = [ctx.bin_dir.path + "/", ctx.attr.prefix] + [f.path for f in srcs] + ["-I" + root for root in _get_real_roots(inputs)],
++         progress_message = "Making amalgamation",
++         executable = ctx.executable.amalgamator,
+++	use_default_shell_env = True,
++     )
++     return []
++ 
++diff --git a/third_party/upb/bazel/upb_proto_library.bzl b/third_party/upb/bazel/upb_proto_library.bzl
++index cc02a9aa43..dafa52b01e 100644
++--- a/third_party/upb/bazel/upb_proto_library.bzl
+++++ b/third_party/upb/bazel/upb_proto_library.bzl
++@@ -205,6 +205,7 @@ def _compile_upb_protos(ctx, generator, proto_info, proto_sources):
++                     ] +
++                     [_get_real_short_path(file) for file in proto_sources],
++         progress_message = "Generating upb protos for :" + ctx.label.name,
+++	use_default_shell_env = True,
++     )
++     return GeneratedSrcsInfo(srcs = srcs, hdrs = hdrs)
++ 
++diff --git a/third_party/upb/upb/bindings/lua/lua_proto_library.bzl b/third_party/upb/upb/bindings/lua/lua_proto_library.bzl
++index fa20cf79f7..ff73d915c4 100644
++--- a/third_party/upb/upb/bindings/lua/lua_proto_library.bzl
+++++ b/third_party/upb/upb/bindings/lua/lua_proto_library.bzl
++@@ -77,6 +77,7 @@ def _compile_upb_protos(ctx, proto_info, proto_sources):
++                     ] +
++                     [_get_real_short_path(file) for file in proto_sources],
++         progress_message = "Generating Lua protos for :" + ctx.label.name,
+++	use_default_shell_env = True,
++     )
++     return files
++ 

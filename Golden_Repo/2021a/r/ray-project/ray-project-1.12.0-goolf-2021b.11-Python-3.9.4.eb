@@ -1,27 +1,5 @@
 # Author: 2022 Stepan Nassyr (Forschungszentrum Juelich)
 #
-# WARNING: This will fail to compile due to use of 'env -' by bazel and not propagating the 
-#          environment to protoc calls The proper solution would be to patch Bazel or ray to
-#          propagate the environment, but I just did the following workaround:
-#
-#          sudo mkdir /usr/libreplace
-#          sudo mkdir /usr/liborig
-#          (as root) cat "/usr/libreplace" >> /etc/ld.so.conf.d/raybuildlibs.conf
-#          module load GCC/<version>
-#          sudo cp $EBROOTGCC/lib64/libstdc++*so* /usr/libreplace/
-#          sudo cp <any other libraries it doesn't find> /usr/libreplace/
-#          sudo mv /usr/lib64/libstdc++*so* /usr/liborig
-#          sudo ldconfig
-#          <build ray>
-#          sudo mv /usr/liborig/libstdc++*so* /usr/lib64
-#          sudo rm /etc/ld.so.conf.d/raybuildlibs.conf
-#          sudo ldconfig
-#
-#          This is obviously an ugly hack, but I can't invest more time into this right now
-#          Related links:
-#          https://github.com/bazelbuild/bazel/pull/11860
-#          https://github.com/grpc/grpc/pull/23664
-#
 easyblock = 'PythonPackage'
 
 name = 'ray-project'
@@ -71,6 +49,8 @@ preinstallopts += 'module unload protobuf && '
 preinstallopts += 'module unload Boost && '
 preinstallopts += 'cd ../../python && BAZEL_LIMIT_CPUS=$EASYBUILD_PARALLEL '
 
+# ray installs a link to the build location, instead of installing properly, which is non-sensical as the build location gets deleted
+# This reads the link and properly installs ray, ray/dashboard and ray/rllib from the location, then deletes the link
 postinstallcmds = [
     """export eggdest=$(cat %(installdir)s/lib/python%(pyshortver)s/site-packages/ray.egg-link | head -n1);
        cp -r $eggdest/ray* %(installdir)s/lib/python%(pyshortver)s/site-packages/;
