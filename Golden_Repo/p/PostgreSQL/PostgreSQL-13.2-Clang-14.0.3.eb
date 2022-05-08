@@ -35,7 +35,7 @@ builddependencies = [
     ('binutils', '2.38'),
     ('Bison', '3.8.2'),
     ('flex', '2.6.4'),
-    ('Perl', '5.32.1'),
+    ('Perl', '5.34.1'),
 ]
 
 configopts = 'LDFLAGS="$LDFLAGS -lpthread"'

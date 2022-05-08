@@ -58,7 +58,10 @@ def main(argv):
             package[2]['source_urls'] = [source_url]
             print(f"{name} has a new source_url: {source_url}")
 
-    pprint.pprint(exts_list,indent=4,sort_dicts=False)
-
+    if sys.version_info >= (3,8):
+        pprint.pprint(exts_list,indent=4,sort_dicts=False)
+    else:
+        pprint.pprint(exts_list,indent=4)
+   
 if __name__ == "__main__":
     main(sys.argv)

@@ -26,7 +26,7 @@ builddependencies = [('binutils', '2.38')]
 
 dependencies = [
     ('Python', '3.9.4'),
-    ('Perl', '5.32.1'),
+    ('Perl', '5.34.1'),
     ('PCRE', '8.44')
 ]
 
