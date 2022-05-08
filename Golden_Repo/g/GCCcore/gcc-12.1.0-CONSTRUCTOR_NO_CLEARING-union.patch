@@ -1,0 +1,12 @@
+--- a/gcc/cp/constexpr.cc
++++ b/gcc/cp/constexpr.cc
+@@ -1886,7 +1886,8 @@ cxx_eval_internal_function (const constexpr_ctx *ctx, tree t,
+ static void
+ clear_no_implicit_zero (tree ctor)
+ {
+-  if (CONSTRUCTOR_NO_CLEARING (ctor))
++  if (CONSTRUCTOR_NO_CLEARING (ctor)
++      || TREE_CODE (TREE_TYPE (ctor)) == UNION_TYPE)
+     {
+       CONSTRUCTOR_NO_CLEARING (ctor) = false;
+       for (auto &e: CONSTRUCTOR_ELTS (ctor))

@@ -1,0 +1,22 @@
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -323,6 +323,8 @@ libprotoc_la_LDFLAGS += -Wl,--version-script=$(srcdir)/libprotoc.map
+ EXTRA_libprotoc_la_DEPENDENCIES = libprotoc.map
+ endif
+ libprotoc_la_SOURCES =                                         \
++  google/protobuf/descriptor.pb.cc                             \
++  google/protobuf/descriptor.pb.h                             \
+   google/protobuf/compiler/code_generator.cc                   \
+   google/protobuf/compiler/command_line_interface.cc           \
+   google/protobuf/compiler/cpp/cpp_enum.cc                     \
+diff --color -urN protobuf-3.20.1-unpatched/src/libprotoc.map protobuf-3.20.1/src/libprotoc.map
+--- protobuf-3.20.1-unpatched/src/libprotoc.map 2022-05-08 19:46:11.327795194 +0000
++++ protobuf-3.20.1/src/libprotoc.map   2022-05-08 19:47:26.418286030 +0000
+@@ -3,6 +3,7 @@
+     extern "C++" {
+       *google*;
+     };
++    descriptor_table_*;
+
+   local:
+     *;
