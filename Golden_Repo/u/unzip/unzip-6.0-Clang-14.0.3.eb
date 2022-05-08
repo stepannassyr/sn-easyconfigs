@@ -1,0 +1,36 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'ConfigureMake'
+
+name = 'unzip'
+version = '6.0'
+
+homepage = 'http://www.info-zip.org/'
+description = """
+UnZip is an extraction utility for archives compressed in .zip format (also called "zipfiles")
+"""
+
+
+toolchain = {'name': 'Clang', 'version': '14.0.3'}
+
+source_urls = ['ftp://ftp.info-zip.org/pub/infozip/src/']
+sources = ['%(name)s%(version_major)s%(version_minor)s.tgz']
+checksums = ['036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37']
+
+skipsteps = ['configure']
+
+builddependencies = [
+    ('binutils', '2.36.1')
+]
+
+prebuildopts = 'ln -s unix/Makefile && '
+
+buildopts = 'generic CC=$CC'
+
+installopts = 'prefix=%(installdir)s'
+
+sanity_check_paths = {
+    'files': ["bin/%s" % x for x in ["unzip"]],
+    'dirs': [],
+}
+
+moduleclass = 'data'
