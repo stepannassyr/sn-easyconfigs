@@ -2,14 +2,14 @@
 easyblock = 'ConfigureMake'
 
 name = 'Rust'
-version = '1.52.1'
+version = '1.60.0'
 
 homepage = 'https://www.rust-lang.org'
 description = """Rust is a systems programming language that runs blazingly fast, prevents segfaults,
  and guarantees thread safety."""
 
 
-toolchain = {'name': 'armlinux', 'version': '22.0.1'}
+toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 
 source_urls = ['https://static.rust-lang.org/dist/']
 sources = ['rustc-%(version)s-src.tar.gz']
@@ -19,7 +19,7 @@ builddependencies = [
     ('CMake', '3.23.1'),
 ]
 
-configopts =  "--enable-extended --sysconfdir=%(installdir)s/etc "
+configopts = "--enable-extended --sysconfdir=%(installdir)s/etc"
 # Rust downloads precompiled packages that otherwise require the 'armar' binary
 configopts += "--set=target.aarch64-unknown-linux-gnu.ar=`which ar` "
 # Requiring Ninja would create a circular dependency

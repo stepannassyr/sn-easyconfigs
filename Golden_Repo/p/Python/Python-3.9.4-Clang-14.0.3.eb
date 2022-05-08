@@ -32,7 +32,7 @@ dependencies = [
     ('libyaml', '0.2.5'),
     ('PostgreSQL', '14.2'),
 # Rust -> setuptools_rust -> cryptography
-    ('Rust', '1.52.1'),
+    ('Rust', '1.60.0'),
     ('protobuf', '3.17.3'),
     ('gflags', '2.2.2'),
     ('libspatialindex', '1.9.3'), # Needed for rtree
