@@ -18,7 +18,7 @@ builddependencies = [
     ('binutils', '2.38'),
     ('Automake', '1.16.5'),
     ('Autoconf', '2.71'),
-    ('libtool', '2.4.6'),
+    ('libtool', '2.4.7'),
 ]
 
 dependencies = [
