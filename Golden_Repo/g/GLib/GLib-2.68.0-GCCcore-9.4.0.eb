@@ -27,7 +27,7 @@ dependencies = [
     ('gettext', '0.21'),
     ('libxml2', '2.9.14'),
     ('PCRE', '8.44'),
-    ('util-linux', '2.35.1')
+    ('util-linux', '2.38')
 ]
 
 configopts = '-Ddefault_library=both -Dselinux=disabled'

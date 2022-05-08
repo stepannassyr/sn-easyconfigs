@@ -24,7 +24,7 @@ dependencies = [
     ('expat', '2.4.8'),
     ('freetype', '2.12.1'),
     ('gperf', '3.1'),
-    ('util-linux', '2.35.1'),
+    ('util-linux', '2.38'),
 ]
 
 configopts = '--disable-docs '

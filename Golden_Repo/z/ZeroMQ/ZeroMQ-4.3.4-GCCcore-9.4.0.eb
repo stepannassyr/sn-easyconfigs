@@ -25,7 +25,7 @@ builddependencies = [
 dependencies = [
     ('OpenPGM', '5.2.122'),
     ('libsodium', '1.0.18'),
-    ('util-linux', '2.35.1'),
+    ('util-linux', '2.38'),
 ]
 
 # Compialtion warnings in GCC 11, cf. https://github.com/zeromq/libzmq/issues/4178
