@@ -46,7 +46,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
     ('XZ', '5.2.5'),
     ('libxml2', version),
     ('libiconv', '1.16'),

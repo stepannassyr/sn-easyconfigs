@@ -33,7 +33,7 @@ builddependencies = [
 
 dependencies = [
     ('ncurses', '6.2'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 
 sanity_check_paths = {

@@ -22,7 +22,7 @@ builddependencies = [
     ('M4', '1.4.19'),
     ('Bison', '3.8.2'),
     # zlib required, but being linked instatically, so not a runtime dep
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 
 # statically link with zlib, to avoid runtime dependency on zlib

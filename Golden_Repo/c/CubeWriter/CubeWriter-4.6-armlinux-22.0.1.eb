@@ -43,7 +43,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 
 configopts = '--enable-shared'

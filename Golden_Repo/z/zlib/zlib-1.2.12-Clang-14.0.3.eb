@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'zlib'
-version = '1.2.11'
+version = '1.2.12'
 
 homepage = 'http://www.zlib.net/'
 description = """zlib is designed to be a free, general-purpose, legally unencumbered -- that is,
@@ -14,9 +14,13 @@ description = """zlib is designed to be a free, general-purpose, legally unencum
 toolchain = {'name': 'Clang', 'version': '14.0.3'}
 toolchainopts = {'pic': True}
 
-source_urls = [('http://sourceforge.net/projects/libpng/files/zlib/%(version)s', 'download')]
+source_urls = ['http://zlib.net/']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1']
+patches = ['zlib-%(version)s_fix-CC-logic-in-configure.patch']
+checksums = [
+    '91844808532e5ce316b3c010929493c0244f3d37593afd6de04f71821d5136d9',  # zlib-1.2.12.tar.gz
+    'f35eb05334a4f8d7b40b6c5610a6369f654863b5fa1a19c2507888f918025238',  # zlib-1.2.12_fix-CC-logic-in-configure.patch
+]
 
 # use same binutils version that was used when building GCC toolchain
 builddependencies = [('binutils', '2.36.1', '', True)]

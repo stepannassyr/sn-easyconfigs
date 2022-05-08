@@ -27,7 +27,7 @@ dependencies = [
     ('gperf', '3.1'),
     ('gperftools', '2.9.1'),
     ('protobuf', '3.17.3'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 builddependencies = [
     ('SCons', '4.1.0.post1'),

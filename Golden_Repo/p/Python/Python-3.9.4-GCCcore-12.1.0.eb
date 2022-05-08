@@ -18,7 +18,7 @@ checksums = ['66c4de16daa74a825cf9da9ddae1fe020b72c3854b73b1762011cc33f9e4592f']
 # python needs bzip2 to build the bz2 package
 dependencies = [
     ('bzip2', '1.0.8'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
     ('libreadline', '8.1'),
     ('ncurses', '6.2'),
     ('SQLite', '3.35.3'),

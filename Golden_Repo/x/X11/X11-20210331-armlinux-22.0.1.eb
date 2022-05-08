@@ -80,7 +80,7 @@ dependencies = [
     ('bzip2', '1.0.8'),
     ('fontconfig', '2.13.93'),
     ('freetype', '2.10.4'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 builddependencies = [
     ('binutils', '2.36.1'),

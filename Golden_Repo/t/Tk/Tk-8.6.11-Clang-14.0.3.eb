@@ -27,7 +27,7 @@ dependencies = [
     ('Tcl', version),
     ('X11', '20210331'),
     # Wrong zlib getting linked without this
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 
 configopts = '--disable-xss --enable-threads --with-tcl=$EBROOTTCL/lib CFLAGS="-I$EBROOTTCL/include"'

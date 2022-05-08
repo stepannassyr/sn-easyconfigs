@@ -20,7 +20,7 @@ dependencies = [
     ('Python', '3.9.4'),
     ('libjpeg-turbo', '2.0.6'),
     ('libpng', '1.6.37'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
     ('LibTIFF', '4.2.0'),
     ('freetype', '2.10.4')
 ]

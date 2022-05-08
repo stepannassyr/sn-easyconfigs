@@ -16,7 +16,7 @@ sources = [SOURCELOWER_TAR_GZ]
 checksums = ['a62dcb276658cb78e6795dd29bf926ed7a9bc4edf6e77025cd2c689a8f97c17a']
 
 dependencies = [
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
     ('Szip', '2.1.1'),
 ]
 

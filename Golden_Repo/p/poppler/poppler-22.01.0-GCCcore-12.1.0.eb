@@ -25,7 +25,7 @@ dependencies = [
     ('Boost', '1.78.0'),
     ('cairo', '1.17.4'),
     ('OpenJPEG', '2.4.0'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 
 default_easyblock = 'CMakeMake'

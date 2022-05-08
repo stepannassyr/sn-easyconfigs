@@ -33,7 +33,7 @@ dependencies = [
     ('LibTIFF', '4.2.0'),
     ('libxml2', '2.9.10-babe7503'),
     ('XZ', '5.2.5'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
     ('Ghostscript', '9.54.0'),
 ]
 

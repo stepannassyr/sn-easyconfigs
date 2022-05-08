@@ -31,7 +31,7 @@ builddependencies = [
 
 dependencies = [
     ('Python', '3.9.4'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
     ('Eigen', '3.3.9'),
     ('FFmpeg', '4.3.2'),
     ('libjpeg-turbo', '2.0.6'),

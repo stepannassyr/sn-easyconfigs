@@ -19,7 +19,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
     ('x264', 'r3048-b86ae3c'),
     ('x265', '3.5'),
 ]

@@ -25,7 +25,7 @@ checksums = [
 builddependencies = [('binutils', '2.36.1')]
 dependencies = [
     ('NSPR', '4.30'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 
 # building in parallel fails

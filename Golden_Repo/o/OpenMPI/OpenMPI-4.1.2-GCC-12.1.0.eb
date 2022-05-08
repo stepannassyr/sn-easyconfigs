@@ -20,7 +20,7 @@ checksums = [
 osdependencies = [('libibverbs-dev', 'libibverbs-devel', 'rdma-core-devel', 'slurm-devel-ohpc', 'slurm-libpmi-ohpc')]
 
 dependencies = [
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
     ('hwloc', '2.4.1'),
     ('UCX', '1.11.2'),
 ]

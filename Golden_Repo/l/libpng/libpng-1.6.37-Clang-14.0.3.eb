@@ -22,7 +22,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 
 configopts = "-DPNG_BUILD_ZLIB=ON -DZLIB_INCLUDE_DIR=$EBROOTZLIB/include -DZLIB_LIBRARY=$EBROOTZLIB/lib/libz.so"

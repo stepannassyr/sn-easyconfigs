@@ -26,7 +26,7 @@ builddependencies = [
 
 # for running the binary of openjpeg like opj_compress you need the libraries like zlib etc.
 dependencies = [
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
     ('libpng', '1.6.37'),
     ('LibTIFF', '4.2.0')
 ]

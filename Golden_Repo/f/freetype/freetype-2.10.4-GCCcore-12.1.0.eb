@@ -22,7 +22,7 @@ builddependencies = [
 dependencies = [
     ('bzip2', '1.0.8'),
     ('libpng', '1.6.37'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 
 configopts = '--enable-freetype-config --with-harfbuzz=no'

@@ -21,7 +21,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 
 configopts = '--enable-threads EXTRA_INSTALL="install-private-headers"'

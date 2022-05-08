@@ -24,7 +24,7 @@ dependencies = [
     ('expat', '2.4.8'),
     ('JasPer', '2.0.28'),
     ('libxml2', '2.9.10-babe7503'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
     ('SQLite', '3.35.3'),
 ]
 

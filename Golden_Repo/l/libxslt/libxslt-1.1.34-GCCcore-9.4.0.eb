@@ -24,7 +24,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 # Requires the libxml2 python module, so relying on system python for that
     ('libxml2', '2.9.10-babe7503'),
 ]

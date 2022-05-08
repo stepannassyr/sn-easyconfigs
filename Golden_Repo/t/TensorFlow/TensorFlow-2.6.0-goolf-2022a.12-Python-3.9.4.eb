@@ -39,7 +39,7 @@ dependencies = [
 #    ('typing-extensions', '3.10.0.0'),
     ('libpng', '1.6.37'),
     ('snappy', '1.1.8'),
-    ('zlib', '1.2.11'),
+    ('zlib', '1.2.12'),
 ]
 
 use_pip = True
