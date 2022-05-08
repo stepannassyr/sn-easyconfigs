@@ -21,7 +21,7 @@ dependencies = [
     ('bzip2', '1.0.8'),
     ('zlib', '1.2.12'),
     ('libreadline', '8.1'),
-    ('ncurses', '6.2'),
+    ('ncurses', '6.3'),
     ('SQLite', '3.35.3'),
 # split Tk/tkinter from python to break X11 dependency
 #    ('Tk', '8.6.11'),

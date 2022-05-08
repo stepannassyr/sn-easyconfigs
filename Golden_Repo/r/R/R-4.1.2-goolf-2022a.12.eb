@@ -23,7 +23,7 @@ dependencies = [
     ('cairo', '1.17.4'),
     ('libreadline', '8.1'),
     ('elfutils', '0.183'), # something linked against /usr/lib/libdebuginfod.so.1
-    ('ncurses', '6.2'),
+    ('ncurses', '6.3'),
     ('bzip2', '1.0.8'),
     ('XZ', '5.2.5'),
     ('zlib', '1.2.12'),

@@ -21,7 +21,7 @@ configopts = '--without-emacs --with-libxml2-prefix=$EBROOTLIBXML2'
 
 dependencies = [
     ('libxml2', '2.9.10-babe7503'),
-    ('ncurses', '6.2'),
+    ('ncurses', '6.3'),
 ]
 
 builddependencies = [

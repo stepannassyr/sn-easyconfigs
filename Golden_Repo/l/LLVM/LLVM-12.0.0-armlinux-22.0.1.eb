@@ -27,7 +27,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('ncurses', '6.2'),
+    ('ncurses', '6.3'),
     ('zlib', '1.2.12'),
 ]
 
