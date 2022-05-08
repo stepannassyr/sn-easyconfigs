@@ -78,7 +78,7 @@ checksums = [
 
 dependencies = [
     ('bzip2', '1.0.8'),
-    ('fontconfig', '2.13.93'),
+    ('fontconfig', '2.13.96'),
     ('freetype', '2.12.1'),
     ('zlib', '1.2.12'),
 ]
