@@ -26,7 +26,7 @@ dependencies = [
     ('X11', '20210331'),
     ('GLib', '2.68.0'),
     ('cairo', '1.17.4'),
-    ('freetype', '2.10.4'),
+    ('freetype', '2.12.1'),
 ]
 
 configopts = "--enable-introspection=yes --with-gobject=yes --enable-static --enable-shared --with-cairo "

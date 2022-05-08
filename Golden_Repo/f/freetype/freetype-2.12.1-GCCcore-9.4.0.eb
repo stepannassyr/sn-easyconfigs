@@ -1,6 +1,6 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 name = 'freetype'
-version = '2.10.4'
+version = '2.12.1'
 
 homepage = 'http://freetype.org'
 description = """FreeType 2 is a software font engine that is designed to be small, efficient, highly customizable, and
@@ -13,7 +13,7 @@ toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 
 source_urls = [GNU_SAVANNAH_SOURCE]
 sources = [SOURCE_TAR_GZ]
-checksums = ['5eab795ebb23ac77001cfb68b7d4d50b5d6c7469247b0b01b2c953269f658dac']
+checksums = ['efe71fd4b8246f1b0b1b9bfca13cfff1c9ad85930340c27df469733bbb620938']
 
 builddependencies = [
     ('binutils', '2.38'),

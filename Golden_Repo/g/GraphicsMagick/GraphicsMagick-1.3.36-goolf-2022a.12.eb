@@ -27,7 +27,7 @@ builddependencies = [('Autotools', '20220509')]
 dependencies = [
     ('X11', '20210331'),
     ('bzip2', '1.0.8'),
-    ('freetype', '2.10.4'),
+    ('freetype', '2.12.1'),
     ('libpng', '1.6.37'),
     ('libjpeg-turbo', '2.0.6'),
     ('LibTIFF', '4.2.0'),

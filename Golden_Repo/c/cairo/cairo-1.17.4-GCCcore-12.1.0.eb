@@ -26,7 +26,7 @@ builddependencies = [
 
 dependencies = [
     ('X11', '20210331'),
-    ('freetype', '2.10.4'),
+    ('freetype', '2.12.1'),
     ('bzip2', '1.0.8'),
     ('zlib', '1.2.12'),
     ('libpng', '1.6.37'),

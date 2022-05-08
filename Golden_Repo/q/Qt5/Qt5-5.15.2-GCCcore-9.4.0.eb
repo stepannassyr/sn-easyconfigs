@@ -57,7 +57,7 @@ builddependencies = [
 dependencies = [
     ('bzip2', '1.0.8'),
     ('double-conversion', '3.1.5'),
-    ('freetype', '2.10.4'),
+    ('freetype', '2.12.1'),
     ('fontconfig', '2.13.93'),
     ('GLib', '2.68.0'),
     ('GTK+', '4.0.3'),

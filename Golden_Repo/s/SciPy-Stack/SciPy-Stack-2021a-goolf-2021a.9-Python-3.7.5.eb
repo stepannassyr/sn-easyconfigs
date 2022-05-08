@@ -25,7 +25,7 @@ dependencies = [
     ('pybind11', '2.6.2', versionsuffix),
     ('OpenBLAS', '0.3.19'),
     ('FFTW', '3.3.9'),
-    ('freetype', '2.10.4'),
+    ('freetype', '2.12.1'),
     ('libpng', '1.6.37'),
     ('libreadline', '8.1'),
     ('SQLite', '3.35.3'),

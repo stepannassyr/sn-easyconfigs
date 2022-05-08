@@ -15,7 +15,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('freetype', '2.10.4'),
+    ('freetype', '2.12.1'),
     ('fontconfig', '2.13.93'),
     ('libjpeg-turbo', '2.0.6'),
     ('libpng', '1.6.37'),
