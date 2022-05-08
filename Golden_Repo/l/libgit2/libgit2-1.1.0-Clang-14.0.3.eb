@@ -17,7 +17,7 @@ checksums = ['41a6d5d740fd608674c7db8685685f45535323e73e784062cf000a633d420d1e']
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('CMake', '3.20.0'),
+    ('CMake', '3.23.1'),
     ('pkg-config', '0.29.2'),
 ]
 

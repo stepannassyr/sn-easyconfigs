@@ -16,7 +16,7 @@ checksums = ['47d8779e32477b330e46b62fb7e62cb812caee5d8e684c35cb635a42a749f3fc']
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('CMake', '3.20.0')
+    ('CMake', '3.23.1')
 ]
 
 sanity_check_paths = {

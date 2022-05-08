@@ -14,7 +14,7 @@ sources = ['%(version)s.zip']
 checksums = ['36e15981af3bf7a3ca3daf53295c8ffde04cf7d163e3474e4d0836e2728b4149']
 
 builddependencies = [
-    ('CMake', '3.20.0'),
+    ('CMake', '3.23.1'),
     ('binutils', '2.38'),
 ]
 

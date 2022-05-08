@@ -19,7 +19,7 @@ sources = ["%(version)s.tar.gz"]
 
 osdependencies=[('rapidjson-devel')]
 builddependencies = [
-    ('CMake', '3.20.0'),
+    ('CMake', '3.23.1'),
     ('binutils', '2.38'),
 ]
 

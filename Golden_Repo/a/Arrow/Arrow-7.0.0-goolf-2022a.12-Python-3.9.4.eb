@@ -16,7 +16,7 @@ sources = ['apache-arrow-%(version)s.tar.gz']
 checksums = ['e8f49b149a15ecef4e40fcfab1b87c113c6b1ee186005c169e5cdf95d31a99de']
 
 builddependencies = [
-    ('CMake', '3.20.0'),
+    ('CMake', '3.23.1'),
     ('Ninja', '1.10.2'),
     ('Autotools', '20220509'),
     ('flex', '2.6.4'),

@@ -21,7 +21,7 @@ checksums = ['34af2f15cf7367513b352bdcd2493ab14ce43692d2dcd9dfc499492966c64dcf']
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('CMake', '3.20.0'),
+    ('CMake', '3.23.1'),
 ]
 
 configopts = '-DBUILD_SHARED_LIBS=on -DBUILD_STATIC_LIBS=on'

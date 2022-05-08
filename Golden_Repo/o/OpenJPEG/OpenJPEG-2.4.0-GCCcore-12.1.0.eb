@@ -21,7 +21,7 @@ separate_build_dir = True
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('CMake', '3.20.0')
+    ('CMake', '3.23.1')
 ]
 
 # for running the binary of openjpeg like opj_compress you need the libraries like zlib etc.

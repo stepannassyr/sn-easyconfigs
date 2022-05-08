@@ -16,7 +16,7 @@ source_urls = [GITHUB_LOWER_SOURCE]
 sources = ['v%(version)s.tar.gz']
 
 builddependencies = [
-    ('CMake', '3.20.0'),
+    ('CMake', '3.23.1'),
     ('Ninja', '1.10.2'),
     ('binutils', '2.38'),
     ('Autotools', '20220509'),

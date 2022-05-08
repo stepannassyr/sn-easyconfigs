@@ -30,7 +30,7 @@ patches = [
 ]
 
 builddependencies = [
-    ('CMake', '3.20.0'),
+    ('CMake', '3.23.1'),
     ('Ninja', '1.10.2'),
     ('binutils', '2.38'),
     ('Autoconf', '2.71'),

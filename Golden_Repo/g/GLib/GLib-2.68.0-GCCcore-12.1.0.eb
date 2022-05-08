@@ -19,7 +19,7 @@ builddependencies = [
     ('binutils', '2.38'),
     ('Python', '3.9.4'),
     ('Meson', '0.57.1', '-Python-%s' % '3.9.4'),
-    ('CMake', '3.20.0'),
+    ('CMake', '3.23.1'),
     ('Ninja', '1.10.2'),
 ]
 

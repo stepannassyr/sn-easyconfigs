@@ -23,7 +23,7 @@ configopts = " -DTBB_STRICT=OFF "
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('CMake', '3.20.0')
+    ('CMake', '3.23.1')
 ]
 sanity_check_paths = {
     'files': ['include/oneapi/tbb.h', 'include/tbb/tbb.h', 'lib64/libtbbmalloc.%s' % SHLIB_EXT, 'lib/libtbb.%s' % SHLIB_EXT],

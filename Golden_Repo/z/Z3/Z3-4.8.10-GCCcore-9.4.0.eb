@@ -15,7 +15,7 @@ sources = [SOURCELOWER_TAR_GZ]
 checksums = ['12cce6392b613d3133909ce7f93985d2470f0d00138837de06cf7eb2992886b4']
 
 builddependencies = [
-    ('CMake', '3.20.0'),
+    ('CMake', '3.23.1'),
     ('binutils', '2.38'),
 ]
 

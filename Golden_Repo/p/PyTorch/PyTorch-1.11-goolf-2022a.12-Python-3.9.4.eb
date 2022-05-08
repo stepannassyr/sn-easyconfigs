@@ -99,7 +99,7 @@ checksums = [
 osdependencies = [OS_PKG_IBVERBS_DEV]
 
 builddependencies = [
-    ('CMake', '3.20.0'),
+    ('CMake', '3.23.1'),
 #    ('hypothesis', '6.14.6'),
 ]
 
