@@ -29,7 +29,7 @@ dependencies = [
     ('bzip2', '1.0.8'),
     ('freetype', '2.12.1'),
     ('libpng', '1.6.37'),
-    ('libjpeg-turbo', '2.0.6'),
+    ('libjpeg-turbo', '2.1.3'),
     ('LibTIFF', '4.2.0'),
     ('libxml2', '2.9.14'),
     ('XZ', '5.2.5'),

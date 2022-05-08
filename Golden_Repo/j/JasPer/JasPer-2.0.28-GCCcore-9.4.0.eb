@@ -27,7 +27,7 @@ builddependencies = [
 dependencies = [
     ('Mesa', '21.0.3'),
     ('freeglut', '3.2.1'),
-    ('libjpeg-turbo', '2.0.6'),
+    ('libjpeg-turbo', '2.1.3'),
 ]
 
 separate_build_dir = True

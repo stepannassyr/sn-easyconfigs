@@ -18,7 +18,7 @@ builddependencies = [
     ('binutils', '2.38'),
 ]
 
-dependencies = [('libjpeg-turbo', '2.0.6')]
+dependencies = [('libjpeg-turbo', '2.1.3')]
 
 sanity_check_paths = {
     'files': ['bin/jpgicc', 'bin/linkicc', 'bin/psicc', 'bin/transicc', 'include/lcms2.h', 'include/lcms2_plugin.h',

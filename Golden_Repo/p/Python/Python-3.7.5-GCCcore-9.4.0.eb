@@ -37,7 +37,7 @@ dependencies = [
     ('protobuf', '3.20.1'),
     ('gflags', '2.2.2'),
     ('libspatialindex', '1.9.3'), # Needed for rtree
-    ('libjpeg-turbo', '2.0.6'),
+    ('libjpeg-turbo', '2.1.3'),
     ('gRPC', '1.37.1'),
 ]
 
