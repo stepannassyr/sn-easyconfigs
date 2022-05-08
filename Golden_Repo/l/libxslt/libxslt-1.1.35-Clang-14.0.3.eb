@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'libxslt'
-version = '1.1.34'
+version = '1.1.35'
 
 homepage = 'http://xmlsoft.org/'
 description = """Libxslt is the XSLT C library developed for the GNOME project
@@ -10,14 +10,21 @@ description = """Libxslt is the XSLT C library developed for the GNOME project
 """
 
 
-toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchain = {'name': 'Clang', 'version': '14.0.3'}
 
-source_urls = [
-    'http://xmlsoft.org/sources/',
-    'http://xmlsoft.org/sources/old/'
+sources = [
+    {
+        'filename': '%(name)s-%(version)s.tar.gz',
+        'git_config': {
+            'url': 'https://gitlab.gnome.org/GNOME/',
+            'repo_name': 'libxslt',
+            'commit': 'v%(version)s',
+        },
+    }
 ]
-sources = [SOURCELOWER_TAR_GZ]
-checksums = ['98b1bd46d6792925ad2dfe9a87452ea2adebf69dcb9919ffd55bf926a7f93f7f']
+checksums = ['1ef2ee20ea3b9205d21f4f436d606f428a82c6cfae3bfed9c12cd1430d7d07db']
+
+preconfigopts = "./autogen.sh && "
 
 builddependencies = [
     ('binutils', '2.38'),
