@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'zsh'
-version = '5.8'
+version = '5.8.1'
 
 homepage = 'http://www.zsh.org/'
 description = """
