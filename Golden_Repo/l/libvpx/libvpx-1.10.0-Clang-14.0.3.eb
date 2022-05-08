@@ -16,7 +16,7 @@ source_urls = ['https://github.com/webmproject/%(name)s/archive/']
 sources = ['v%(version)s.tar.gz']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 dependencies = [

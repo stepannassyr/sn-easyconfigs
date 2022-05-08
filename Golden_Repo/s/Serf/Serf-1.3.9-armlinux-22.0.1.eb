@@ -16,7 +16,7 @@ sources = [SOURCELOWER_TAR_BZ2]
 
 builddependencies = [
     ('SCons', '4.1.0.post1'),
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 dependencies = [

@@ -13,7 +13,7 @@ toolchain = {'name': 'Clang', 'version': '14.0.3'}
 source_urls = [GNU_SOURCE]
 sources = [SOURCE_TAR_GZ]
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 sanity_check_paths = {
     'files': ["bin/gunzip", "bin/gzip", "bin/uncompress"],

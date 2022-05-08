@@ -22,7 +22,7 @@ checksums = ['cee20b0a71d977416f3e3b4ec643ee4f38cedeb2a9ff015303431dd9d8d79854']
 configopts = " -DTBB_STRICT=OFF "
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('CMake', '3.20.0')
 ]
 sanity_check_paths = {

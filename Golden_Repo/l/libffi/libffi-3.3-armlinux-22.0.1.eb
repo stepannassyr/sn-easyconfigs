@@ -19,7 +19,7 @@ source_urls = [
 sources = [SOURCELOWER_TAR_GZ]
 checksums = ['72fba7922703ddfa7a028d513ac15a85c8d54c8d67f55fa5a4802885dc652056']
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 sanity_check_paths = {
     'files': [('lib/libffi.%s' % SHLIB_EXT, 'lib64/libffi.%s' % SHLIB_EXT), ('lib/libffi.a', 'lib64/libffi.a')],

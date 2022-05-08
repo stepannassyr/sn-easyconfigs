@@ -25,7 +25,7 @@ source_urls = ['https://www.tortall.net/projects/yasm/releases/']
 sources = [SOURCELOWER_TAR_GZ]
 checksums = ['3dce6601b495f5b3d45b59f7d2492a340ee7e84b5beca17e48f862502bd5603f']
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 sanity_check_paths = {
     'files': ['bin/yasm'],

@@ -15,7 +15,7 @@ toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
 
 builddependencies = [
    ('CMake', '3.20.0'),
-   ('binutils', '2.36.1'),
+   ('binutils', '2.38'),
 ]
 
 dependencies = [

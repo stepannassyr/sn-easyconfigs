@@ -16,7 +16,7 @@ sources = [SOURCELOWER_TAR_XZ]
 source_urls = ['http://prdownloads.sourceforge.net/%(namelower)s']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 dependencies = [

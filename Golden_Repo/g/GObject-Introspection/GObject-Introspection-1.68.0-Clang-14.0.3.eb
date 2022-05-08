@@ -19,7 +19,7 @@ source_urls = [FTPGNOME_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('Python', '3.9.4'),
     ('Meson', '0.57.1','-Python-3.9.4'),
     ('Ninja', '1.10.2'),

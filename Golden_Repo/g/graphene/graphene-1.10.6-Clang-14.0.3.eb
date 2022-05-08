@@ -19,7 +19,7 @@ sources = ['%(version)s.tar.gz']
 checksums = ['7eba972751d404316a9b59a7c1e0782de263c3cf9dd5ebf1503ba9b8354cc948']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('Meson', '0.57.1', '-Python-3.9.4'),
     ('Ninja', '1.10.2'),
 ]

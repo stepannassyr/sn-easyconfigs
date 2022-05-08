@@ -15,7 +15,7 @@ download_dep_fail = True
 use_pip = True
 sanity_pip_check = True
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 dependencies = [('Python', '3.9.4')]
 
 sanity_check_paths = {

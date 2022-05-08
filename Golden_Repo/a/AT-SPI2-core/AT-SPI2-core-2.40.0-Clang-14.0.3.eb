@@ -21,7 +21,7 @@ sources = [SOURCELOWER_TAR_XZ]
 #patches = ['atspi_meson_fullpath.patch']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('GObject-Introspection', '1.68.0'),
     ('Meson', '0.57.1', '-Python-3.9.4'),
     ('Ninja', '1.10.2'),

@@ -15,7 +15,7 @@ checksums = ['18663985e864100455ac3e507625c438c3710354d85e5cbb7cd4043e11fe10f5']
 
 builddependencies = [
     # use same binutils version that was used when building GCCcore toolchain
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 dependencies = [('libjpeg-turbo', '2.0.6')]

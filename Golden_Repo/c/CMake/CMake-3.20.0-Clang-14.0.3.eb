@@ -19,7 +19,7 @@ checksums = ['9c06b2ddf7c337e31d8201f6ebcd3bba86a9a033976a9aee207fe0c6971f4755']
 configopts = '-- -DCMAKE_USE_OPENSSL=1 -DCMAKE_PREFIX_PATH=$EBROOTNCURSES'
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 dependencies = [

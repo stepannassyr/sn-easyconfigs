@@ -16,7 +16,7 @@ source_urls = ['https://download.sourceforge.net/pcre']
 sources = [SOURCELOWER_TAR_GZ]
 checksums = ['b95ddb9414f91a967a887d69617059fb672b914f56fa3d613812c1ee8e8a1a37']
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 configopts = "--enable-shared --enable-jit --enable-pcre2-16 --enable-unicode"
 

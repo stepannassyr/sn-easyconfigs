@@ -19,7 +19,7 @@ sources = [SOURCELOWER_TAR_GZ]
 checksums = ['588546b945bba4b70b6a3a616e80b4ab466e3f33024a352fc2198112cdbb3ae2']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 sanity_check_paths = {

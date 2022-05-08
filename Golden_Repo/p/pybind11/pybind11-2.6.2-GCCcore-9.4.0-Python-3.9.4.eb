@@ -14,7 +14,7 @@ sources = ['v%(version)s.tar.gz']
 checksums = ['8ff2fff22df038f5cd02cea8af56622bc67f5b64534f1b83b9f133b8366acff2']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('CMake', '3.20.0'),
     ('Eigen', '3.3.9'),
 ]

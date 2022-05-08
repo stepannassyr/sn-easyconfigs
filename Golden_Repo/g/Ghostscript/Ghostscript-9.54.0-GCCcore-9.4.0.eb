@@ -29,7 +29,7 @@ dependencies = [
 
 builddependencies = [
     # use same binutils version that was used when building GCCcore toolchain
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 # Do not use local copies of zlib, jpeg, freetype, and png

@@ -22,7 +22,7 @@ checksums = ['849ca081545fd1895613c7be01467d7562c427991e35e48721ade829379da183']
 # this dependencies are required for --enable-pythoninterp=yes and --enable-perlinterp=yes to work
 # check enabled features running "vim --version" after compilation
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 dependencies = [
     ('Python', '3.9.4'),

@@ -17,7 +17,7 @@ sources = ['rustc-%(version)s-src.tar.gz']
 patches = ['Rust-1.52.1-lld-macho-include-dir.patch']
 
 builddependencies = [
-#    ('binutils', '2.36.1'),
+#    ('binutils', '2.38'),
     ('CMake', '3.20.0'),
 ]
 

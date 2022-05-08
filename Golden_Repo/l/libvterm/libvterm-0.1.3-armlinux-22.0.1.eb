@@ -23,7 +23,7 @@ sources = [{
 
 builddependencies= [
 	('libtool','2.4.6'),
-	('binutils', '2.36.1'),
+	('binutils', '2.38'),
 ]
 
 

@@ -40,7 +40,7 @@ dependencies = [
 ]
 
 builddependencies = [
-#    ('binutils', '2.36.1'),
+#    ('binutils', '2.38'),
     # Needed just for unzipping zip files in systems without unzip
     ('unzip', '6.0'),
     # Needs llvm-profdata and llvm-ar, so use LLVM here

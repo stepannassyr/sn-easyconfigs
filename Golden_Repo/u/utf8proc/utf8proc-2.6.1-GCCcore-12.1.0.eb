@@ -22,7 +22,7 @@ dependencies = [
 
 builddependencies = [
     ('CMake', '3.20.0'),
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 separate_build_dir=True

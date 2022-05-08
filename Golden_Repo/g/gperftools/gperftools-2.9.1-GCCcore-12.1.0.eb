@@ -15,7 +15,7 @@ sources = [SOURCELOWER_TAR_GZ]
 source_urls = [GITHUB_SOURCE]
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('Automake', '1.16.3'),
     ('Autoconf', '2.71'),
     ('libtool', '2.4.6'),

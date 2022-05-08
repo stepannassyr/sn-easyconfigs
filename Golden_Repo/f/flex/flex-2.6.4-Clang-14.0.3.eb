@@ -23,7 +23,7 @@ dependencies = [
 builddependencies = [
     ('Bison', '3.8.2'),
     ('help2man', '1.49.2'),
-    ('binutils', '2.36.1', '', True)
+    ('binutils', '2.38', '', True)
 ]
 
 # glibc 2.26 requires _GNU_SOURCE defined to expose reallocarray in the correct

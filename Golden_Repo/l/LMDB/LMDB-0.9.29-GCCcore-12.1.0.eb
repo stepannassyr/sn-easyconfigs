@@ -13,7 +13,7 @@ source_urls = ['https://github.com/LMDB/lmdb/archive/']
 sources = ['%(name)s_%(version)s.tar.gz']
 checksums = ['22054926b426c66d8f2bc22071365df6e35f3aacf19ad943bc6167d4cae3bebb']
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 buildopts = 'CC="$CC" OPT="$CFLAGS"'
 

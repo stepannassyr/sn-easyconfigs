@@ -14,7 +14,7 @@ sources = [
     {'download_filename': 'protobuf-%(version)s.tar.gz', 'filename': SOURCE_TAR_GZ}]
 checksums = ['72804ea5eaa9c22a090d2803813e280fb273b62d5ae497aaf3553d141c4fdd7b']
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 dependencies = [
     ('Python', '3.9.4'),

@@ -39,7 +39,7 @@ checksums = [
 local_pyver = '3.9.4'
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('flex', '2.6.4'),
     ('Bison', '3.8.2'),
     ('Autotools', '20210330'),

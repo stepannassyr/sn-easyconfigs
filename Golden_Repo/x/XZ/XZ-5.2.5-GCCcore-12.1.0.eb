@@ -23,7 +23,7 @@ checksums = [
 builddependencies = [
     ('Autotools', '20210330'),
     ('gettext', '0.21', '', True),
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 # may become useful in non-x86 archs

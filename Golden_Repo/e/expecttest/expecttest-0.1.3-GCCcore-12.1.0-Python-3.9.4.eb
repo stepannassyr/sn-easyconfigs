@@ -16,7 +16,7 @@ toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
 sources = [SOURCE_TAR_GZ]
 checksums = ['83057695811d94128aed13ed094a070db90e0a92ea40071f8ee073cbab57149a']
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 dependencies = [('Python', '3.9.4')]
 

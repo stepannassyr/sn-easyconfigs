@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'binutils'
-version = '2.36.1'
+version = '2.38'
 
 homepage = 'http://directory.fsf.org/project/binutils/'
 description = """
@@ -15,7 +15,7 @@ toolchainopts = {'pic': True}
 
 source_urls = [GNU_SOURCE]
 sources = [SOURCE_TAR_GZ]
-checksums = ['e68edeaaeb6ca9687b6dcbaedd1b376506baad2d48de26a885fc5ab6acb839da']
+checksums = ['b3f1dc5b17e75328f19bd88250bee2ef9f91fc8cbb7bd48bdb31390338636052']
 
 builddependencies = [
     ('flex', '2.6.4'),

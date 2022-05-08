@@ -14,7 +14,7 @@ sources = [SOURCELOWER_TAR_BZ2]
 source_urls = ['http://ffmpeg.org/releases/']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 dependencies = [

@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'binutils'
-version = '2.36.1'
+version = '2.38'
 
 homepage = 'http://directory.fsf.org/project/binutils/'
 description = """
@@ -10,35 +10,45 @@ description = """
 """
 
 
-toolchain = SYSTEM
+toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 toolchainopts = {'pic': True}
 
 source_urls = [GNU_SOURCE]
 sources = [SOURCE_TAR_GZ]
-checksums = ['e68edeaaeb6ca9687b6dcbaedd1b376506baad2d48de26a885fc5ab6acb839da']
+checksums = ['b3f1dc5b17e75328f19bd88250bee2ef9f91fc8cbb7bd48bdb31390338636052']
 
 builddependencies = [
     ('flex', '2.6.4'),
     ('M4', '1.4.19'),
     ('Bison', '3.8.2'),
-    # zlib required, but being linked instatically, so not a runtime dep
+    # zlib required, but being linked in statically, so not a runtime dep
     ('zlib', '1.2.12'),
+    # use same binutils version that was used when building GCC toolchain, to 'bootstrap' this binutils
+    ('binutils', version, '', True)
 ]
 
 # statically link with zlib, to avoid runtime dependency on zlib
-# further, add the system library path in the rpath: this should 'harden' the
-# resulting binutils to bootstrap GCC (no trouble when other libstdc++ is build etc)
-preconfigopts = 'CFLAGS="$CFLAGS -fPIC" LIBS="$EBROOTZLIB/lib/libz.a -Wl,-rpath=/lib64 -Wl,-rpath=/usr/lib64 -Wl,-rpath=/lib -Wl,-rpath=/usr/lib"'
-prebuildopts = preconfigopts
+preconfigopts = 'LIBS="$EBROOTZLIB/lib/libz.a"'
+prebuildopts = 'LIBS="$EBROOTZLIB/lib/libz.a"'
 
 # make sure that system libraries are also considered by ld and ld.gold is also built
 # --enable-plugins should be used whenever --enable-gold is used, see http://llvm.org/docs/GoldPlugin.html
-configopts = '--with-sysroot=/ --enable-gold --enable-ld=default --enable-plugins'
+configopts = '--with-sysroot=/ --enable-gold --enable-ld=default --enable-plugins  --enable-shared --enable-static'
+
+postinstallcmds = [
+    "cp libiberty/libiberty.a %(installdir)s/lib/",
+    "cp include/libiberty.h %(installdir)s/include",
+    "cp include/demangle.h %(installdir)s/include/",
+    "mkdir %(installdir)s/info",
+    "cp libiberty/libiberty.texi %(installdir)s/info/"
+]
 
 local_binlist = ['addr2line', 'ar', 'as', 'c++filt', 'elfedit', 'gprof', 'ld', 'ld.bfd', 'ld.gold', 'nm',
            'objcopy', 'objdump', 'ranlib', 'readelf', 'size', 'strings', 'strip']
+
 sanity_check_paths = {
-    'files': ['bin/%s' % x for x in local_binlist] + ['lib/libbfd.a', 'lib/libopcodes.a'] +
+    'files': ['bin/%s' % x for x in local_binlist] +
+             ['lib/lib%s.%s' % (l, x) for l in ['bfd', 'opcodes'] for x in ['a', SHLIB_EXT]] +
              ['include/%s' % x for x in ['ansidecl.h', 'bfd.h', 'bfdlink.h', 'dis-asm.h', 'symcat.h']],
     'dirs': [],
 }

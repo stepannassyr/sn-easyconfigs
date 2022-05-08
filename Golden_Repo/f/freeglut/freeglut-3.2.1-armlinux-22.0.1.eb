@@ -17,7 +17,7 @@ patches = ['freeglut-3.2.1-extern-fg-gl2-fptrs.patch']
 checksums = ['d4000e02102acaf259998c870e25214739d1f16f67f99cb35e4f46841399da68']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('CMake', '3.20.0'),
 ]
 

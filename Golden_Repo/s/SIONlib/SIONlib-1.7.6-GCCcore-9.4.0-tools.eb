@@ -23,7 +23,7 @@ source_urls = ['http://apps.fz-juelich.de/jsc/sionlib/download.php?version=%(ver
 patches = ['SIONlib-1.7.6-m64-only-on-x86.patch']
 
 builddependencies = [
-    ('binutils', '2.36.1')
+    ('binutils', '2.38')
 ]
 
 hidden = True

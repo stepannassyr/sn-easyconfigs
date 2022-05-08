@@ -12,7 +12,7 @@ description = """JupyterLab is the next-generation user interface for Project Ju
 
 toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 dependencies = [
     ('Python', '3.7.5'),

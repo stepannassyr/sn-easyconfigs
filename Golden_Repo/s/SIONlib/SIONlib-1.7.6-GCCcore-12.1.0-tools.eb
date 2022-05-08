@@ -26,7 +26,7 @@ patches = [
 ]
 
 builddependencies = [
-    ('binutils', '2.36.1')
+    ('binutils', '2.38')
 ]
 
 hidden = True

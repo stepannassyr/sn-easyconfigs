@@ -22,7 +22,7 @@ patches = [
 ]
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('CMake', '3.20.0'),
 # Why would this need Bazel?
 #    ('Bazel', '3.7.2'),

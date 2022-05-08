@@ -16,7 +16,7 @@ checksums = ['d66ad8b5c2441015ac1333e40137bb803c3bde3612ff040286fcc12158ea1bcb']
 toolchain = {'name': 'armlinux', 'version': '22.0.1'}
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('Meson', '0.57.1', '-Python-3.9.4'),
     ('Ninja', '1.10.2')
 ]

@@ -32,7 +32,7 @@ sources = [SOURCELOWER_TAR_GZ]
 
 builddependencies = [
     # use same binutils version that was used when building GCCcore
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 sanity_check_paths = {

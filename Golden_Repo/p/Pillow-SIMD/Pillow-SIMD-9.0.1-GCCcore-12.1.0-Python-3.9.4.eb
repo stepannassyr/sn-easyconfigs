@@ -15,7 +15,7 @@ source_urls = ['https://github.com/uploadcare/pillow-simd/archive/']
 sources = ['%(version)s.tar.gz']
 checksums = ['4f91ab5ede15bfc71075941b62a7db3eee337fe810588a57e3c0dc103ac1bb45']
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 dependencies = [
     ('Python', '3.9.4'),

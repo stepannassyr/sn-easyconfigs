@@ -24,7 +24,7 @@ patches = ['SIONlib-1.7.6-m64-only-on-x86.patch',
            'SIONlib-1.7.6-add-armlinux.patch']
 
 builddependencies = [
-    ('binutils', '2.36.1')
+    ('binutils', '2.38')
 ]
 
 hidden = True

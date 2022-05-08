@@ -27,7 +27,7 @@ source_urls = ['http://www.nasm.us/pub/nasm/releasebuilds/%(version)s']
 sources = [SOURCELOWER_TAR_BZ2]
 checksums = ['3c4b8339e5ab54b1bcb2316101f8985a5da50a3f9e504d43fa6f35668bee2fd0']
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 sanity_check_paths = {
     'files': ['bin/nasm'],

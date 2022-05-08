@@ -20,7 +20,7 @@ sources = [SOURCE_TAR_GZ]
 checksums = ['90337653d92d4a13de590781371c604f9031cdb50520366aa1e3a91e1efb1017']
 
 builddependencies = [
-    ('binutils', '2.36.1')
+    ('binutils', '2.38')
 ]
 
 dependencies = [

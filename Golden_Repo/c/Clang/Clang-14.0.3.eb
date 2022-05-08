@@ -37,7 +37,7 @@ checksums = [
 
 dependencies = [
     # since Clang is a compiler, binutils is a runtime dependency too
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('libedit', '20210216'),
     ('ncurses', '6.2'),
 ]

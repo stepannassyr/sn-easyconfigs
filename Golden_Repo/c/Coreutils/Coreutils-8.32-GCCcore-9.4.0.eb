@@ -21,7 +21,7 @@ checksums = [
     '8c093c8e24b7f221d22718c18681f31ade7c5fbd88ca865a24bddb1b6fc7ad54',  # Coreutils-8.32-getdents64.patch
 ]
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 sanity_check_paths = {
     'files': ['bin/sort', 'bin/echo', 'bin/du', 'bin/date', 'bin/true'],

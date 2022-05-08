@@ -83,7 +83,7 @@ dependencies = [
     ('zlib', '1.2.12'),
 ]
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('Autotools', '20210330'),
     ('Bison', '3.8.2'),
     ('gettext', '0.21'),

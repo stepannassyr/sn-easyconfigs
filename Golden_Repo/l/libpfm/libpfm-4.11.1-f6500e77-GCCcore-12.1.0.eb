@@ -34,7 +34,7 @@ patches = [
 ]
 
 dependencies = [
-    ('binutils', '2.36.1')
+    ('binutils', '2.38')
 ]
 
 configure_cmd = "echo nothing to configure"

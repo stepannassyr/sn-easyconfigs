@@ -14,7 +14,7 @@ source_urls = [GITHUB_SOURCE]
 sources = ['v%(version)s.tar.gz']
 checksums = ['030644df4611007ff7dc962d981f390361e6c97a34e5cbc393ddfbe019ffe2c1']
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 skipsteps = ['configure']
 

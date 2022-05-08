@@ -13,7 +13,7 @@ source_urls = [PYPI_LOWER_SOURCE]
 sources = [SOURCELOWER_TAR_GZ]
 checksums = ['8eddc033e716f8c91c6a2112f0a8ebc5e00532b4a6ae1eb0ccc48e027f9c671c']
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 dependencies = [
     ('Python', '3.7.5'),

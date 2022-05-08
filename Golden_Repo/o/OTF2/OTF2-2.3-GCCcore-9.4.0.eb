@@ -34,7 +34,7 @@ checksums = [
 
 builddependencies = [
     # use same binutils version that was used when building GCCcore
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     # SIONlib container support (optional):
     ('SIONlib', '1.7.6', '-tools'),
 ]

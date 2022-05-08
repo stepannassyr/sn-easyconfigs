@@ -24,7 +24,7 @@ sources = [{
 }]
 
 
-builddependencies = [('binutils', '2.36.1')]
+builddependencies = [('binutils', '2.38')]
 
 dependencies = [('NASM', '2.15.05')]
 

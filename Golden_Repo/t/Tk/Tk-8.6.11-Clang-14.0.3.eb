@@ -20,7 +20,7 @@ checksums = ['5228a8187a7f70fa0791ef0f975270f068ba9557f57456f51eb02d9d4ea31282']
 #patches = ['Tk-8.6.8_different-prefix-with-tcl.patch']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 dependencies = [

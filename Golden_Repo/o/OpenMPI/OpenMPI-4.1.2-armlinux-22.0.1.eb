@@ -27,7 +27,7 @@ dependencies = [
 
 # ARM included binutils cause compilation error
 builddependencies = [
-    ('binutils', '2.36.1')
+    ('binutils', '2.38')
 ]
 
 # replace -march=skylake-avx512 option with equivalent -m* flags,

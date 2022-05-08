@@ -18,7 +18,7 @@ source_urls = ['http://www.%(namelower)s.org/%(namelower)s-%(version)s/']
 #patches = ['mpfr-3.1.3-allpatches-20151029.patch']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
 ]
 
 dependencies = [

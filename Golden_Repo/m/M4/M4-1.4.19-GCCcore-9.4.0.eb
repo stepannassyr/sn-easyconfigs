@@ -20,7 +20,7 @@ checksums = [
 ]
 
 # use same binutils version that was used when building GCC toolchain
-builddependencies = [('binutils', '2.36.1', '', True)]
+builddependencies = [('binutils', '2.38', '', True)]
 
 configopts = "--enable-c++"
 

@@ -18,7 +18,7 @@ sources = [SOURCELOWER_TAR_BZ2]
 checksums = ['a247a7f6bbb21cf2ca81ea4cbb916bfb9717ca523631675f99b3d4a5678dcd16']
 
 #builddependencies = [
-#    ('binutils', '2.36.1'),
+#    ('binutils', '2.38'),
 #]
 
 moduleclass = 'tools'

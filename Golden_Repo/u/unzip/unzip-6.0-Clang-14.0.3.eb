@@ -19,7 +19,7 @@ checksums = ['036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37']
 skipsteps = ['configure']
 
 builddependencies = [
-    ('binutils', '2.36.1')
+    ('binutils', '2.38')
 ]
 
 prebuildopts = 'ln -s unix/Makefile && '

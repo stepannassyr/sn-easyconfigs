@@ -14,7 +14,7 @@ sources = [{'download_filename': 'v%(version)s.tar.gz', 'filename': SOURCELOWER_
 checksums = ['98e6b7f77d277235ef43023a8eee37745d1bc315c138481ed1b054cff158e817']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('Autotools', '20210330'),
 ]
 

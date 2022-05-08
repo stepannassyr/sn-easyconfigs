@@ -20,7 +20,7 @@ sources = [SOURCELOWER_TAR_XZ]
 checksums = ['d229242481a201b84a0c66716de1752bca41db4133672cfcfb37c93eb6e54a27']
 
 builddependencies = [
-    ('binutils', '2.36.1'),
+    ('binutils', '2.38'),
     ('Python', '3.9.4'),
     ('Meson', '0.57.1','-Python-3.9.4'),
     ('Ninja', '1.10.2'),
