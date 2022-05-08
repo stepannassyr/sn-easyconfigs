@@ -652,9 +652,10 @@ fi
 
 
 # installing repo EasyBuild 
-stages=(2021a)
+stages=(2022a)
 declare -A stage_eb_version
 stage_eb_version[2021a]="4.5.2"
+stage_eb_version[2022a]="4.5.4"
 
 echo Installing EasyBuild from repo for all stages and architectures
 for stage in ${stages[@]}

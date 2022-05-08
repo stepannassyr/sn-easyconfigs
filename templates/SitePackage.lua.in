@@ -7,7 +7,7 @@ local hook = require("Hook")
 local prefix = "%SOFTWAREPREFIX%"
 
 -- What stages are available
-local stages = {"2019b","2020a","2021a"}
+local stages = {"2019b","2020a","2021a","2022a"}
 
 -- What systems exist
 local machines = {%PLATFORMS%}
@@ -17,6 +17,7 @@ local stage_compilers = {
     ["2019b"] = {"GCC 9.2.0", "armhpc 19.2", "armhpc 19.3", "armlinux 20.0", "Clang 8.0.1", "Clang 9.0.0"},
     ["2020a"] = {"GCC 7.5.0", "GCC 8.4.0", "GCC 9.3.0", "armlinux 20.0", "armlinux 20.1", "armlinux 20.2", "Clang 9.0.1", "Clang 10.0.0"},
     ["2021a"] = {"GCC 9.3.0", "GCC 10.3.0", "GCC 11.1.0", "armlinux 20.3", "armlinux 21.1", "Clang 11.1.0", "Clang 12.0.0"},
+    ["2022a"] = {"GCC 9.4.0", "GCC 12.1.0", "armlinux 22.0.1", "Clang 14.0.3"},
 }
 
 -- What mpis are in which stage
@@ -24,6 +25,7 @@ local stage_mpis = {
     ["2019b"] = {"OpenMPI 4.0.1", "OpenMPI 4.0.2"},
     ["2020a"] = {"OpenMPI 4.0.3"},
     ["2021a"] = {"OpenMPI 4.1.2"},
+    ["2022a"] = {"OpenMPI 4.1.3"},
 }
 
 generated_map = {}
@@ -99,6 +101,7 @@ Currently the available stages are:\
 - 2019b \
 - 2020a \
 - 2021a \
+- 2022a \
 \
 Please load a compiler (%{bright green blackbg}armlinux%{reset}, %{bright green blackbg}GCC%{reset}, %{bright green blackbg}Clang%{reset}), and an MPI library (currently only %{bright green blackbg}OpenMPI%{reset}). Once both are loaded module av will list all software available with this Compiler/MPI combination. Please contact %{bright yellow blackbg}%SITECONTACT%%{reset} if you require additional software."))
    LmodMessage("\n")
