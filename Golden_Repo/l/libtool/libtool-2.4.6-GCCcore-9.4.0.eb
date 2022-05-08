@@ -21,7 +21,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('M4', '1.4.18'),
+    ('M4', '1.4.19'),
 ]
 
 moduleclass = 'lib'

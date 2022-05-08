@@ -16,7 +16,7 @@ sources = [SOURCELOWER_TAR_GZ]
 checksums = ['e87aae032bf07c26f85ac0ed3250998c37621d95f8bd748b31f15b33c45ee995']
 
 dependencies = [
-    ('M4', '1.4.18')
+    ('M4', '1.4.19')
 ]
 
 # use same binutils version that was used when building GCC toolchain
