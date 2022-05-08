@@ -34,7 +34,7 @@ builddependencies = [
     ('Ninja', '1.10.2'),
     ('binutils', '2.38'),
     ('Autoconf', '2.71'),
-    ('Automake', '1.16.3'),
+    ('Automake', '1.16.5'),
     ('pkg-config', '0.29.2'),
     ('unzip',      '6.0'),
 ]

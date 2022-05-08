@@ -14,7 +14,7 @@ toolchain = {'name': 'armlinux', 'version': '22.0.1'}
 
 dependencies = [
     ('Autoconf', '2.71'),    # 20120424
-    ('Automake', '1.16.3'),  # 20180311
+    ('Automake', '1.16.5'),  # 20180311
     ('libtool', '2.4.6'),    # 20150215
 ]
 
