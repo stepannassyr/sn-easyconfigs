@@ -21,7 +21,7 @@ dependencies = [
     ('ncurses', '6.3'),
     ('SQLite', '3.35.3'),
     ('GMP', '6.2.1'),  # required for pycrypto
-    ('libffi', '3.3'),  # required for cryptography
+    ('libffi', '3.4.2'),  # required for cryptography
 ]
 
 osdependencies = [OS_PKG_OPENSSL_DEV]

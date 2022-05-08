@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'libffi'
-version = '3.3'
+version = '3.4.2'
 
 homepage = 'http://sourceware.org/libffi/'
 description = """The libffi library provides a portable, high level programming interface to various calling
@@ -10,14 +10,11 @@ conventions. This allows a programmer to call any function specified by a call i
 """
 
 
-toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 
-source_urls = [
-    'ftp://sourceware.org/pub/libffi/',
-    'http://www.mirrorservice.org/sites/sourceware.org/pub/libffi/',
-]
+source_urls = ['https://github.com/libffi/libffi/releases/download/v%(version)s/']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['72fba7922703ddfa7a028d513ac15a85c8d54c8d67f55fa5a4802885dc652056']
+checksums = ['540fb721619a6aba3bdeef7d940d8e9e0e6d2c193595bc243241b77ff9e93620']
 
 builddependencies = [('binutils', '2.38')]
 

@@ -1,7 +1,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'libffi'
-version = '3.3'
+version = '3.4.2'
 
 homepage = 'http://sourceware.org/libffi/'
 
@@ -14,17 +14,9 @@ description = """
 toolchain = SYSTEM
 toolchainopts = {'pic': True}
 
-source_urls = [
-    'ftp://sourceware.org/pub/libffi/',
-    'http://www.mirrorservice.org/sites/sourceware.org/pub/libffi/',
-]
+source_urls = ['https://github.com/libffi/libffi/releases/download/v%(version)s/']
 sources = [SOURCELOWER_TAR_GZ]
-#patches = ['libffi-%(version)s_fix-include-location.patch']
-checksums = ['72fba7922703ddfa7a028d513ac15a85c8d54c8d67f55fa5a4802885dc652056']
-#checksums = [
-#    'd06ebb8e1d9a22d19e38d63fdb83954253f39bedc5d46232a05645685722ca37',  # libffi-3.2.1.tar.gz
-#    '078bec207fc3d5a0581f2a952d1c014b76a6e84a93a6a089ff9b9fe5b3908cb9',  # libffi-3.2.1_fix-include-location.patch
-#]
+checksums = ['540fb721619a6aba3bdeef7d940d8e9e0e6d2c193595bc243241b77ff9e93620']
 
 sanity_check_paths = {
     'files': [('lib/libffi.%s' % SHLIB_EXT, 'lib64/libffi.%s' % SHLIB_EXT), ('lib/libffi.a', 'lib64/libffi.a')],
