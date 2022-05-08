@@ -38,14 +38,6 @@ if stage == nil then
     stage = "current"
 end
 
---if (stage == "Stage1" or stage == "Stage2" or stage == "2016a" or stage == "2016b") and 
---    (architecture == "KNL" or architecture == ".KNL") then
---    LmodError("\027[00;31mThe loaded stage is incompatible with the "..architecture.." architecture\027[00m")
---end
---if architecture == "KNL" then
---    conflict("Stages/2015a","Stages/2015b","Stages/2016a","Stages/2016b","Stages/Legacy")
---end
-
 if not isloaded("Developers") then
     if isloaded("Stages") then
         LmodError("Loading this module while having the Stages module loaded might result in a broken environment!")

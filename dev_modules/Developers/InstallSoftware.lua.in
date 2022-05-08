@@ -25,11 +25,11 @@ end
 local stage_path = pathJoin(software_root, "Stages", stage)
 local common_eb_path = os.getenv("EASYCONFIGREPO")
 
-local gr_path = pathJoin(common_eb_path, "Golden_Repo", stage)
+local gr_path = pathJoin(common_eb_path, "Golden_Repo")
 local sources_path = pathJoin(common_eb_path, "sources")
-local custom_easyblocks_path = pathJoin(common_eb_path, "Custom_EasyBlocks", stage)
-local custom_toolchains_path = pathJoin(common_eb_path, "Custom_Toolchains", stage)
-local custom_mns_path = pathJoin(common_eb_path, "Custom_MNS", stage)
+local custom_easyblocks_path = pathJoin(common_eb_path, "Custom_EasyBlocks")
+local custom_toolchains_path = pathJoin(common_eb_path, "Custom_Toolchains")
+local custom_mns_path = pathJoin(common_eb_path, "Custom_MNS")
 
 local contact = "%SITECONTACT%"
 
