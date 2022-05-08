@@ -85,7 +85,7 @@ dependencies = [
 builddependencies = [
     ('binutils', '2.36.1'),
     ('Autotools', '20210330'),
-    ('Bison', '3.7.6'),
+    ('Bison', '3.8.2'),
     ('gettext', '0.21'),
     ('Meson', '0.57.1', '-Python-3.9.4'),
     ('Ninja', '1.10.2'),
