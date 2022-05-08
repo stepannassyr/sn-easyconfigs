@@ -15,7 +15,7 @@ source_urls = ['http://dlcdn.apache.org//ant/binaries']
 sources = ['apache-%(name)s-%(version)s-bin.tar.gz']
 checksums = ['4b3b557279bae4fb80210a5679180fdae3498b44cfd13368e3386e2a21dd853b']
 
-dependencies = [('Java', '11.0.10')]
+dependencies = [('Java', '17.0.3')]
 
 sanity_check_paths = {
     'files': ['bin/ant', 'lib/ant.jar'],

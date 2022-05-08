@@ -25,7 +25,7 @@ toolchain = {'name': 'armlinux', 'version': '22.0.1'}
 osdependencies = [('openssl-devel', 'libssl-dev')]
 
 dependencies = [
-    ('Java', '11.0.10', '', True),
+    ('Java', '17.0.3', '', True),
     ('libreadline', '8.1'),
     ('zlib', '1.2.12'),
 #    ('OpenSSL', '1.0.1i'), # OS dependency should be preferred for security reasons

@@ -30,7 +30,7 @@ builddependencies = [
     ('Zip', '3.0'),
 ]
 
-dependencies = [('Java', '11.0.10', '', True)]
+dependencies = [('Java', '17.0.3', '', True)]
 
 runtest = True
 testopts = "-- //examples/cpp:hello-success_test //examples/py/... //examples/py_native:test //examples/shell/..."
