@@ -1,0 +1,35 @@
+easyblock = 'CMakeNinja'
+
+name = 'OpenCL-ICD-Loader'
+version = '2022.01.04'
+
+homepage = 'https://github.com/KhronosGroup/OpenCL-ICD-Loader'
+description = "OpenCL defines an Installable Client Driver (ICD) mechanism to allow developers to build applications against an Installable Client Driver loader (ICD loader) rather than linking their applications against a specific OpenCL implementation."
+
+toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchainopts = {'pic': True}
+
+github_account = 'KhronosGroup'
+
+source_urls = [GITHUB_SOURCE]
+sources = ['v%(version)s.tar.gz']
+checksums = ['9f21d958af68c1b625a03c2befddd79da95d610614ddab6c291f26f01a947dd8']
+
+builddependencies = [
+    ('CMake', '3.20.0'),
+    ('Ninja', '1.10.2'),
+    ('binutils', '2.36.1')
+]
+
+dependencies = [
+    ('OpenCL-Headers', version)
+]
+
+separate_build_dir = True
+
+sanity_check_paths = {
+    'files': ['lib/libOpenCL.%s' % SHLIB_EXT],
+    'dirs': [],
+}
+
+moduleclass = 'lib'

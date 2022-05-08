@@ -2,7 +2,7 @@
 easyblock = "Toolchain"
 
 name = 'gompi'
-version = '2021a.9'
+version = '2021a.12'
 
 homepage = '(none)'
 description = """gcc and GFortran based compiler toolchain,
@@ -13,8 +13,8 @@ description = """gcc and GFortran based compiler toolchain,
 toolchain = SYSTEM
 
 dependencies = [
-    ('GCC', '9.4.0'),
-    ('OpenMPI', '4.1.2', '', ('GCC', '9.4.0')),
+    ('GCC', '12.1.0'),
+    ('OpenMPI', '4.1.2', '', ('GCC', '12.1.0')),
 ]
 
 moduleclass = 'toolchain'

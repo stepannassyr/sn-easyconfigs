@@ -1,7 +1,7 @@
 easyblock = 'Toolchain'
 
 name = 'goolf'
-version = '2021a.9'
+version = '2021a.12'
 
 homepage = 'https://easybuild.readthedocs.io/en/master/Common-toolchains.html#foss-toolchain'
 description = """GNU Compiler Collection (GCC) based compiler toolchain, including
@@ -12,9 +12,9 @@ toolchain = SYSTEM
 # we need GCC and OpenMPI as explicit dependencies instead of gompi toolchain
 # because of toolchain preparation functions
 dependencies = [
-    ('GCC', '9.4.0'),
-    ('OpenMPI', '4.1.2', '', ('GCC', '9.4.0')),
-    ('OpenBLAS', '0.3.19', '', ('GCC', '9.4.0')),
+    ('GCC', '12.1.0'),
+    ('OpenMPI', '4.1.2', '', ('GCC', '12.1.0')),
+    ('OpenBLAS', '0.3.19', '', ('GCC', '12.1.0')),
     ('FFTW', '3.3.9', '', ('gompi', version)),
     ('ScaLAPACK', '2.1.0', '-OpenBLAS-0.3.19', ('gompi', version)),
 ]
