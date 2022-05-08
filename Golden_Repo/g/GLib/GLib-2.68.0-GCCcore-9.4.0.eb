@@ -25,7 +25,7 @@ builddependencies = [
 dependencies = [
     ('libffi', '3.3'),
     ('gettext', '0.21'),
-    ('libxml2', '2.9.10-babe7503'),
+    ('libxml2', '2.9.14'),
     ('PCRE', '8.44'),
     ('util-linux', '2.35.1')
 ]

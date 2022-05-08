@@ -31,7 +31,7 @@ dependencies = [
     ('libpng', '1.6.37'),
     ('libjpeg-turbo', '2.0.6'),
     ('LibTIFF', '4.2.0'),
-    ('libxml2', '2.9.10-babe7503'),
+    ('libxml2', '2.9.14'),
     ('XZ', '5.2.5'),
     ('zlib', '1.2.12'),
     ('Ghostscript', '9.54.0'),

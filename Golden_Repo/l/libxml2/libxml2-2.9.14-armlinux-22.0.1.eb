@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'libxml2'
-version = '2.9.10-babe7503'
+version = '2.9.14'
 
 homepage = 'http://xmlsoft.org/'
 description = """Libxml2 is the XML C parser and 
@@ -20,7 +20,7 @@ sources = [
         'git_config': {
             'url': 'https://gitlab.gnome.org/GNOME/',
             'repo_name': 'libxml2',
-            'commit': 'babe75030c7f64a37826bb3342317134568bef61',
+            'commit': 'v%(version)s',
         },
     }
 ]

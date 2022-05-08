@@ -53,7 +53,7 @@ builddependencies = [
     ('Doxygen', '1.9.1','',('GCCcore',local_gccver)),
     ('SWIG', '4.0.2','',('GCCcore',local_gccver)),
 #    ('Python', local_pyver,'',('GCCcore',local_gccver)),
-#    ('libxml2', '2.9.10-babe7503','',('GCCcore',local_gccver)),
+#    ('libxml2', '2.9.14','',('GCCcore',local_gccver)),
 #    ('GMP', '6.2.1','',('GCCcore',local_gccver)),
 #    ('hwloc', '2.4.1','',('GCCcore',local_gccver)),
 #    ('Z3', '4.8.10','',('GCCcore',local_gccver)),

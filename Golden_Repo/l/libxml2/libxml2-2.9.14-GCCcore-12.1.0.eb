@@ -1,42 +1,32 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'ConfigureMake'
+
 name = 'libxml2'
-version = '2.9.10-babe7503'
-versionsuffix = '-Python-%(pyver)s'
+version = '2.9.14'
 
 homepage = 'http://xmlsoft.org/'
-description = """Libxml2 is the XML C parser and toolchain developed for the Gnome project (but usable
- outside of the Gnome platform).
+description = """Libxml2 is the XML C parser and 
+toolchain developed for the Gnome project
+ (but usable outside of the Gnome platform).
 """
 
 
-toolchain = {'name': 'Clang', 'version': '14.0.3'}
+toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
 toolchainopts = {'pic': True}
 
-source_urls = [
-#    'http://xmlsoft.org/sources/',
-#    'http://xmlsoft.org/sources/old/',
-    'http://www.w3.org/XML/Test/'
-]
 sources = [
     {
         'filename': '%(name)s-%(version)s.tar.gz',
         'git_config': {
             'url': 'https://gitlab.gnome.org/GNOME/',
             'repo_name': 'libxml2',
-            'commit': 'babe75030c7f64a37826bb3342317134568bef61',
+            'commit': 'v%(version)s',
         },
-    },
-    'xmlts20080827.tar.gz'
+    }
 ]
 
-patches = ['libxml2-2.9.7_fix-hardcoded-paths.patch']
-
 preconfigopts = "./autogen.sh && "
-
-#tests failing
-runtest = ""
-
-prebuildopts= "mv ../xmlconf ./ && "
+configopts = 'CC="$CC" CXX="$CXX" --with-pic --without-python --with-zlib=$EBROOTZLIB'
 
 builddependencies = [
     ('binutils', '2.38'),
@@ -48,11 +38,12 @@ builddependencies = [
 dependencies = [
     ('zlib', '1.2.12'),
     ('XZ', '5.2.5'),
-    ('libxml2', version),
-    ('libiconv', '1.16'),
-    ('Python', '3.9.4'),
 ]
 
+sanity_check_paths = {
+    'files': [('lib/libxml2.a', 'lib64/libxml2.a'), ('lib/libxml2.%s' % SHLIB_EXT, 'lib64/libxml2.%s' % SHLIB_EXT)],
+    'dirs': ['bin', 'include/libxml2/libxml'],
+}
 
 modextrapaths = {'CPATH': ['include/libxml2']}
 
