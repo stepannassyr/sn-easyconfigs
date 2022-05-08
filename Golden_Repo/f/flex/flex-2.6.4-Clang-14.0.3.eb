@@ -22,7 +22,7 @@ dependencies = [
 # use same binutils version that was used when building GCC toolchain
 builddependencies = [
     ('Bison', '3.8.2'),
-    ('help2man', '1.48.3'),
+    ('help2man', '1.49.2'),
     ('binutils', '2.36.1', '', True)
 ]
 
