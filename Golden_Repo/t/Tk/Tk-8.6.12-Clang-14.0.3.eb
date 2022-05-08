@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'Tk'
-version = '8.6.11'
+version = '8.6.12'
 
 homepage = 'http://www.tcl.tk/'
 description = """

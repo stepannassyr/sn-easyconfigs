@@ -35,7 +35,7 @@ builddependencies = [
 
 dependencies = [
     ('libreadline', '8.1'),
-    ('Tcl', '8.6.11'),
+    ('Tcl', '8.6.12'),
 ]
 
 parallel = 1
