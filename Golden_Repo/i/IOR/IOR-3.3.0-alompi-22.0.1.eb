@@ -18,7 +18,7 @@ source_urls = [('https://github.com/hpc/ior/archive')]
 sources = ['%(version)s.tar.gz']
 checksums = ['701f2167f81ef963e227d4c036c4a947a98b5642b7c14c87c8ae657849891528']
 
-builddependencies = [('Autotools', '20210330')]
+builddependencies = [('Autotools', '20220509')]
 
 preconfigopts = "./bootstrap && "
 

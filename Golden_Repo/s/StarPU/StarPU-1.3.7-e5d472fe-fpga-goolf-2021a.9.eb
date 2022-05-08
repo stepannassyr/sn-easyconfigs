@@ -22,7 +22,7 @@ dependencies = [
 ]
 
 builddependencies = [
-	('Autotools','20210330'),
+	('Autotools', '20220509'),
 	('libtool', '2.4.7'),
 	('Perl','5.32.1'),
 ]

@@ -40,7 +40,7 @@ prebuildopts= "mv ../xmlconf ./ && "
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('Autotools', '20210330'),
+    ('Autotools', '20220509'),
     ('pkg-config', '0.29.2'),
     ('libtool', '2.4.7'),
 ]

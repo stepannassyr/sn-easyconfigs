@@ -26,7 +26,7 @@ checksums = ['c642ae9b75fee120b2d96c712538bd2cf283228d2337df2cf2988e3c02678ef4']
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('Autotools', '20210330'),
+    ('Autotools', '20220509'),
 ]
 
 #preconfigopts = './bootstrap && '

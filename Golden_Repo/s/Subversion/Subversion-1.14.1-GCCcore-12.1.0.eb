@@ -20,7 +20,7 @@ sources = [SOURCELOWER_TAR_BZ2]
 builddependencies = [
     ('binutils', '2.38'),
     # Needed just to recreate the configure script after patching
-    ('Autotools', '20210330'),
+    ('Autotools', '20220509'),
 ]
 
 dependencies = [

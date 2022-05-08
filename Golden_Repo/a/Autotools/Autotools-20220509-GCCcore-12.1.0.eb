@@ -2,7 +2,7 @@
 easyblock = 'Bundle'
 
 name = 'Autotools'
-version = '20210330'  # date of the most recent change
+version = '20220509'  # date of the most recent change
 
 homepage = 'http://autotools.io'
 description = """
@@ -13,9 +13,9 @@ description = """
 toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
 
 dependencies = [
-    ('Autoconf', '2.71'),    # 20120424
-    ('Automake', '1.16.5'),  # 20180311
-    ('libtool', '2.4.7'),    # 20150215
+    ('Autoconf', '2.71'),
+    ('Automake', '1.16.5'),
+    ('libtool', '2.4.7'),
 ]
 
 moduleclass = 'devel'

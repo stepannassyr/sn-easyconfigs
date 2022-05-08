@@ -15,7 +15,7 @@ checksums = ['98e6b7f77d277235ef43023a8eee37745d1bc315c138481ed1b054cff158e817']
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('Autotools', '20210330'),
+    ('Autotools', '20220509'),
 ]
 
 configure_cmd = "echo no configure "

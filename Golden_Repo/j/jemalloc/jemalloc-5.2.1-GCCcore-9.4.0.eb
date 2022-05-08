@@ -15,7 +15,7 @@ source_urls = ['https://github.com/jemalloc/jemalloc/archive']
 sources = ['%(version)s.tar.gz']
 
 builddependencies = [
-    ('Autotools', '20210330'),
+    ('Autotools', '20220509'),
     ('binutils', '2.38'),
 ]
 

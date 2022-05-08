@@ -30,7 +30,7 @@ source_urls = ['https://github.com/git/git/archive']
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('Autotools', '20210330'),
+    ('Autotools', '20220509'),
 ]
 
 dependencies = [

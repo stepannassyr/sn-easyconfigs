@@ -15,7 +15,7 @@ checksums = ['6cfeb5f4bab271462b4a2cc77d4ecec847fdbdc26b72019c27ae21509e6f94fa']
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('Autotools', '20210330'),
+    ('Autotools', '20220509'),
 ]
 
 preconfigopts = './autogen.sh; '
