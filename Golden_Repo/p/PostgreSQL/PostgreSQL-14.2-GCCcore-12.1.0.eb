@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'PostgreSQL'
-version = '13.2'
+version = '14.2'
 
 homepage = 'http://www.mysql.com/'
 description = """PostgreSQL is a powerful, open source object-relational database system.
@@ -18,9 +18,9 @@ description = """PostgreSQL is a powerful, open source object-relational databas
 
 source_urls = ['http://ftp.postgresql.org/pub/source/v%(version)s/']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['3386a40736332aceb055c7c9012ecc665188536d874d967fcc5a33e7992f8080']
+checksums = ['934d122ebabd6dce3e09937dc99585876dd089925be5a230dafd1445ac195878']
 
-toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
+toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
 
 osdependencies = [('openssl-devel', 'libssl-dev')]
 

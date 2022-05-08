@@ -30,7 +30,7 @@ dependencies = [
     ('libxslt', '1.1.35'),
     ('libffi', '3.4.2'),
     ('libyaml', '0.2.5'),
-    ('PostgreSQL', '13.2'),
+    ('PostgreSQL', '14.2'),
 # Rust -> setuptools_rust -> cryptography
     ('Rust', '1.52.1'),
     ('protobuf', '3.17.3'),
