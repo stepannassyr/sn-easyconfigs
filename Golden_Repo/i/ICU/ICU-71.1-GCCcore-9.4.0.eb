@@ -2,19 +2,19 @@
 easyblock = 'ConfigureMake'
 
 name = 'ICU'
-version = '68.2'
+version = '71.1'
 
 homepage = 'http://site.icu-project.org/home'
 description = """ICU is a mature, widely used set of C/C++ and Java libraries providing Unicode and Globalization
  support for software applications."""
 
-toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 toolchainopts = {'pic': True}
 
 
 source_urls = ['https://github.com/unicode-org/icu/releases/download/release-%(version_major)s-%(version_minor)s/']
 sources = ['icu4c-%(version_major)s_%(version_minor)s-src.tgz']
-checksums = ['c79193dee3907a2199b8296a93b52c5cb74332c26f3d167269487680d479d625']
+checksums = ['67a7e6e51f61faf1306b6935333e13b2c48abd8da6d2f46ce6adca24b1e21ebf']
 
 builddependencies = [('binutils', '2.38')]
 

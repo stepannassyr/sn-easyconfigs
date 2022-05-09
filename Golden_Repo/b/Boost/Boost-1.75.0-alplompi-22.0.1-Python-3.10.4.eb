@@ -23,7 +23,7 @@ dependencies = [
     ('bzip2', '1.0.8'),
     ('zlib', '1.2.12'),
     ('Python', '3.10.4'),
-    ('ICU', '68.2'),
+    ('ICU', '71.1'),
 ]
 
 toolset='clang'
