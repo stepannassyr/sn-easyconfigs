@@ -23,7 +23,7 @@ builddependencies = [
 dependencies = [
     ('Python', '3.10.4'),
     ('pybind11', '2.6.2', versionsuffix),
-    ('OpenBLAS', '0.3.19'),
+    ('OpenBLAS', '0.3.20'),
     ('FFTW', '3.3.9'),
     ('freetype', '2.12.1'),
     ('libpng', '1.6.37'),

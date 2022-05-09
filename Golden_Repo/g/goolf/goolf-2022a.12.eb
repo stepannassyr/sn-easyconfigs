@@ -14,9 +14,9 @@ toolchain = SYSTEM
 dependencies = [
     ('GCC', '12.1.0'),
     ('OpenMPI', '4.1.3', '', ('GCC', '12.1.0')),
-    ('OpenBLAS', '0.3.19', '', ('GCC', '12.1.0')),
+    ('OpenBLAS', '0.3.20', '', ('GCC', '12.1.0')),
     ('FFTW', '3.3.9', '', ('gompi', version)),
-    ('ScaLAPACK', '2.1.0', '-OpenBLAS-0.3.19', ('gompi', version)),
+    ('ScaLAPACK', '2.1.0', '-OpenBLAS-0.3.20', ('gompi', version)),
 ]
 
 moduleclass = 'toolchain'
