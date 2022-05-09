@@ -1,7 +1,7 @@
 easyblock = "CMakeNinja"
 
 name = 'JsonCpp'
-version = '1.9.4'
+version = '1.9.5'
 
 homepage = 'https://open-source-parsers.github.io/jsoncpp-docs/doxygen/index.html'
 description = """ JsonCpp is a C++ library that allows manipulating JSON values,
@@ -12,7 +12,7 @@ toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
 
 source_urls = ['https://github.com/open-source-parsers/jsoncpp/archive']
 sources = ['%(version)s.tar.gz']
-checksums = ['e34a628a8142643b976c7233ef381457efad79468c67cb1ae0b83a33d7493999']
+checksums = ['f409856e5920c18d0c2fb85276e24ee607d2a09b5e7d5f0a371368903c275da2']
 
 builddependencies = [
     ('Python', '3.10.4'),

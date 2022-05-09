@@ -28,7 +28,7 @@ dependencies = [
     ('giflib', '5.2.1'),
     ('hwloc', '2.7.1'),
     ('ICU', '71.1'),
-    ('JsonCpp', '1.9.4'),
+    ('JsonCpp', '1.9.5'),
     ('libjpeg-turbo', '2.1.3'),
     ('LMDB', '0.9.29'),
     ('NASM', '2.15.05'),
