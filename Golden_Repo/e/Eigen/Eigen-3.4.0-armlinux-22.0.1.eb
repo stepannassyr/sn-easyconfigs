@@ -1,6 +1,6 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 name = 'Eigen'
-version = '3.3.9'
+version = '3.4.0'
 
 homepage = 'http://eigen.tuxfamily.org/index.php?title=Main_Page'
 description = """Eigen is a C++ template library for linear algebra:
@@ -8,10 +8,11 @@ description = """Eigen is a C++ template library for linear algebra:
 """
 
 
-toolchain = {'name': 'Clang', 'version': '14.0.3'}
+toolchain = {'name': 'armlinux', 'version': '22.0.1'}
 
 source_urls = ['https://gitlab.com/libeigen/eigen/-/archive/%(version)s/']
 sources = ['%(namelower)s-%(version)s.tar.bz2']
+checksums = ['b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626']
 
 builddependencies = [
     ('binutils', '2.38'),
