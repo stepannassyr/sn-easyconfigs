@@ -47,7 +47,7 @@ dependencies = [
     ('GMP', '6.2.1'),  # for igraph
     ('GSL', '2.6'),  # for gsl
     ('NLopt', '2.6.2'),  # for nloptr
-    ('FFTW', '3.3.9','',('gompi','2021a.9')),  # for fftw
+    ('FFTW', '3.3.9','',('gompi','2022a.9')),  # for fftw
     ('GLPK', '5.0'),  # for Rglpk
     ('nodejs', '15.12.0'),  # for V8/rstan
     ('libsndfile', '1.0.28'),  # for seewave

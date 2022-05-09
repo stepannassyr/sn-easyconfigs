@@ -10,7 +10,7 @@ versionsuffix = '-Python-%(pyver)s'
 homepage = "https://www.ray.io/"
 description = "An open source framework that provides a simple, universal API for building distributed applications. Ray is packaged with RLlib, a scalable reinforcement learning library, and Tune, a scalable hyperparameter tuning library."
 
-toolchain = {'name': 'goolf', 'version': '2021a.11'}
+toolchain = {'name': 'goolf', 'version': '2022a.12'}
 toolchainopts = {'usempi': True}
 
 source_urls = ['https://github.com/%(name)s/ray/archive/refs/tags/']
