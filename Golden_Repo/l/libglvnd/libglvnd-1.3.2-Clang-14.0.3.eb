@@ -19,7 +19,7 @@ builddependencies = [
     ('Ninja', '1.10.2'),
 ]
 
-dependencies = [('X11', '20210331')]
+dependencies = [('X11', '20220509')]
 
 # Let EGL find system-installed vendor files in /etc/glvnd/egl_vendor.d etc.
 allow_prepend_abs_path = True

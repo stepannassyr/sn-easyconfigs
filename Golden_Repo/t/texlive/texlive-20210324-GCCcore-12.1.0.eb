@@ -26,7 +26,7 @@ sources = [
 checksums = ['74eac0855e1e40c8db4f28b24ef354bd7263c1f76031bdc02b52156b572b7a1d']
 
 dependencies = [
-    ('X11', '20210331'),
+    ('X11', '20220509'),
     ('libpng', '1.6.37'),
     ('libGLU', '9.0.1'),
     ('Perl', '5.34.1'),

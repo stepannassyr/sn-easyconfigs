@@ -25,7 +25,7 @@ builddependencies = [
 
 dependencies = [
     ('Tcl', version),
-    ('X11', '20210331'),
+    ('X11', '20220509'),
 ]
 
 configopts = '--disable-xss --enable-threads --with-tcl=$EBROOTTCL/lib CFLAGS="-I$EBROOTTCL/include"'

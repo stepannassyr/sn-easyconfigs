@@ -21,7 +21,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('X11', '20210331'),
+    ('X11', '20220509'),
 ]
 
 sanity_check_paths = {

@@ -32,7 +32,7 @@ builddependencies = [
 dependencies = [
     ('DBus', '1.13.18'),
     ('intltool', '0.51.0', '-Perl-5.34.1'),
-    ('X11', '20210331'),
+    ('X11', '20220509'),
 ]
 
 # without this, pkg-config can't find gio-2.0, because libselinux.pc is not found at the end of the dependency chain

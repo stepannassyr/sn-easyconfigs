@@ -18,7 +18,7 @@ checksums = ['98ae45b0f904a733bd126132395864a913a57304e77994a5c83414c31feda549']
 
 dependencies = [
     ('bzip2', '1.0.8'),
-    ('X11', '20210331'),
+    ('X11', '20220509'),
     ('Ghostscript', '9.54.0'),
     ('JasPer', '2.0.28'),
     ('libjpeg-turbo', '2.1.3'),
