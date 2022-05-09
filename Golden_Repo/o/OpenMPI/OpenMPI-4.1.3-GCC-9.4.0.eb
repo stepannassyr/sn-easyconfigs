@@ -21,7 +21,7 @@ osdependencies = [('libibverbs-dev', 'libibverbs-devel', 'rdma-core-devel', 'slu
 
 dependencies = [
     ('zlib', '1.2.12'),
-    ('hwloc', '2.4.1'),
+    ('hwloc', '2.7.1'),
     ('UCX', '1.12.1'),
 ]
 

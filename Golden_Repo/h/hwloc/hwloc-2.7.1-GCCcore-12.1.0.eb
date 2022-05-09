@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'hwloc'
-version = '2.4.1'
+version = '2.7.1'
 
 homepage = 'http://www.open-mpi.org/projects/hwloc/'
 
@@ -25,7 +25,7 @@ toolchainopts = {'vectorize': False}
 
 source_urls = ['https://www.open-mpi.org/software/hwloc/v%(version_major_minor)s/downloads/']
 sources = [SOURCE_TAR_GZ]
-checksums = ['4267fe1193a8989f3ab7563a7499e047e77e33fed8f4dec16822a7aebcf78459']
+checksums = ['4cb0a781ed980b03ad8c48beb57407aa67c4b908e45722954b9730379bc7f6d5']
 
 builddependencies = [
     ('binutils', '2.38'),

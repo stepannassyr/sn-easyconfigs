@@ -26,7 +26,7 @@ dependencies = [
     ('double-conversion', '3.1.5'),
     ('flatbuffers', '2.0.0'),
     ('giflib', '5.2.1'),
-    ('hwloc', '2.4.1'),
+    ('hwloc', '2.7.1'),
     ('ICU', '68.2'),
     ('JsonCpp', '1.9.4'),
     ('libjpeg-turbo', '2.1.3'),
