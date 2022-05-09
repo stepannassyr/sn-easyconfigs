@@ -15,7 +15,7 @@ builddependencies = [
     ('protobuf', '3.20.1'),
     # git 2.x required, see also https://github.com/tensorflow/tensorflow/issues/29053
     ('git', '2.36.1'),
-    ('pybind11', '2.6.2', versionsuffix),
+    ('pybind11', '2.9.2', versionsuffix),
     ('unzip', '6.0'),
 ]
 dependencies = [

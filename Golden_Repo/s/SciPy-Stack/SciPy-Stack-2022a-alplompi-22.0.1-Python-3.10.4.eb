@@ -22,7 +22,7 @@ builddependencies = [
 
 dependencies = [
     ('Python', '3.10.4'),
-    ('pybind11', '2.6.2', versionsuffix),
+    ('pybind11', '2.9.2', versionsuffix),
     ('ArmBLAS', '22.0.1'),
     ('ArmFFT', '22.0.1'),
     ('freetype', '2.12.1'),
