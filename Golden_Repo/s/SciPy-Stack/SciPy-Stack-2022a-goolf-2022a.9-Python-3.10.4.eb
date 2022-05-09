@@ -1,7 +1,7 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 easyblock = 'PythonBundle'
 name = 'SciPy-Stack'
-version = '2021a'
+version = '2022a'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'http://www.scipy.org'
@@ -21,7 +21,7 @@ builddependencies = [
 ###########################################################################
 
 dependencies = [
-    ('Python', '3.7.5'),
+    ('Python', '3.10.4'),
     ('pybind11', '2.6.2', versionsuffix),
     ('OpenBLAS', '0.3.20'),
     ('FFTW', '3.3.9'),
@@ -57,14 +57,14 @@ exts_list = [
     ('sortedcontainers', '2.3.0', {
         'checksums': ['59cc937650cf60d677c16775597c89a960658a09cf7c1a668f86e1e4464b10a1'],
     }),
-    ('numpy', '1.19.5', {
+    ('numpy', '1.20.2', {
         'buildopts': " -j$EASYBUILD_PARALLEL",
         'patches': ['numpy-1.14.2-xhost.patch',
                     'numpy-1.22.0-disable-linalg-test_nan.patch'],
         'source_tmpl': 'numpy-%(version)s.zip',
         'source_urls': ['https://github.com/numpy/numpy/releases/download/v1.20.2/'],
         'checksums': [
-            'a76f502430dd98d7546e1ea2250a7360c065a5fdea52b2dffe8ae7180909b6f4',  # numpy-1.19.5.zip
+            '878922bf5ad7550aa044aa9301d417e2d3ae50f0f577de92051d739ac6096cee',  # numpy-1.20.2.zip
             'e1fbb2a4152bacabdd9ab1d9a74202a0ac4950355efcfe250e4f77927cf7491b',  # numpy-1.14.2-xhost.patch
             'c43cf2904382d7c40ea20ba0980f5ecf85835ba6212b6604e6fdc90b61a46271',  # numpy-1.22.0-disable-linalg-test_nan.patch
         ],
@@ -91,8 +91,8 @@ exts_list = [
         #    'a72e2df066dfce1abf311cbab76022804aa6dd2f520fc5da190c22fb37f2a8b8',
         ],
     }),
-    ('sympy', '1.4', {
-        'checksums': ['71a11e5686ae7ab6cb8feb5bd2651ef4482f8fd43a7c27e645a165e4353b23e1'],
+    ('sympy', '1.8', {
+        'checksums': ['1ca588a9f6ce6a323c5592f9635159c2093572826668a1022c75c75bdf0297cb'],
     }),
     ('pandas', '1.2.4', {
         'checksums': ['649ecab692fade3cbfcf967ff936496b0cfba0af00a55dfaacd82bdda5cb2279'],

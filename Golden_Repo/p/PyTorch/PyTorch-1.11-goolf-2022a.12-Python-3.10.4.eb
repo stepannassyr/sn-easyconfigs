@@ -109,7 +109,7 @@ dependencies = [
     ('protobuf', '3.20.1'),
     ('protobuf-python', '3.20.1', versionsuffix),
     ('pybind11',        '2.6.2',  versionsuffix),
-    ('SciPy-Stack',     '2021a',  versionsuffix),
+    ('SciPy-Stack', '2022a',  versionsuffix),
 #    ('typing-extensions', '3.10.0.0'),
     ('PyYAML',          '5.4.1',  versionsuffix),
     ('MPFR', '4.1.0'),

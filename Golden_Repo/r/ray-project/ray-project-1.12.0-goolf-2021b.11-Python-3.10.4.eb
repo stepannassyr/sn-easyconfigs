@@ -26,7 +26,7 @@ dependencies = [
     ('Python', '3.10.4'),
     ('Arrow', '7.0.0', versionsuffix),
     ('ray-deps', version, versionsuffix),
-    ('SciPy-Stack', '2021a', versionsuffix),
+    ('SciPy-Stack', '2022a', versionsuffix),
     ('PyYAML', '5.4.1', versionsuffix),
     ('dm-tree', '0.1.7', versionsuffix),
     ('protobuf', '3.16.0'),

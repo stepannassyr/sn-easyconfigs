@@ -20,7 +20,7 @@ builddependencies = [
 
 dependencies = [
     ('Python', '3.10.4'),
-#    ('SciPy-Stack', '2021a', versionsuffix),
+#    ('SciPy-Stack', '2022a', versionsuffix),
     ('protobuf', '3.16.0'),
 ]
 

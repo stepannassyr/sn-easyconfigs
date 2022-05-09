@@ -42,7 +42,7 @@ cann_version = "5.0.2.alpha005"
 dependencies = [
     ('Python', '3.7.5'),
     ('CANN-Toolkit', cann_version, versionsuffix),
-    ('SciPy-Stack', '2021a', versionsuffix),
+    ('SciPy-Stack', '2022a', versionsuffix),
     ('TensorFlow-CANN-Core', '1.15.0', versionsuffix),
 ]
 

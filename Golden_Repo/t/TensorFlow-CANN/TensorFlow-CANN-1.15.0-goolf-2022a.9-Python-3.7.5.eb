@@ -11,7 +11,7 @@ toolchain = {'name': 'goolf', 'version': '2022a.9'}
 
 dependencies = [
     ('Python', '3.7.5'),
-    ('SciPy-Stack', '2021a', versionsuffix),
+    ('SciPy-Stack', '2022a', versionsuffix),
     ('protobuf-CANN', '3.15.6'),
     ('TensorFlow-CANN-Core', version, versionsuffix),
     ('CANN-tfplugin', '1.7.0', versionsuffix),

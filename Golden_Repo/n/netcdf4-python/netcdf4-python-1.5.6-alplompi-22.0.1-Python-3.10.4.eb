@@ -18,7 +18,7 @@ exts_filter = ('python -c "import %(ext_name)s"', '')
 
 dependencies = [
     ('Python', '3.10.4'),
-    ('SciPy-Stack', '2021a', versionsuffix),
+    ('SciPy-Stack', '2022a', versionsuffix),
     ('HDF5', '1.12.0'),
     ('netCDF', '4.7.4'),
     ('cURL', '7.83.0'),

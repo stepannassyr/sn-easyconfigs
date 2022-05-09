@@ -20,7 +20,7 @@ builddependencies = [
 
 dependencies = [
     ('Python', '3.7.5'),
-    ('SciPy-Stack', '2021a', versionsuffix),
+    ('SciPy-Stack', '2022a', versionsuffix),
     ('h5py', '3.5.0', versionsuffix),
     ('nsync-CANN', '1.22.0'),
 ]
