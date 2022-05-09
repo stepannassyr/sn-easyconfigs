@@ -1,7 +1,7 @@
 easyblock = 'Toolchain'
 
 name = 'goolf'
-version = '2021a.12'
+version = '2022a.12'
 
 homepage = 'https://easybuild.readthedocs.io/en/master/Common-toolchains.html#foss-toolchain'
 description = """GNU Compiler Collection (GCC) based compiler toolchain, including
