@@ -1,0 +1,128 @@
+# Stepan Nassyr (JSC)
+#easyblock = 'Binary'
+easyblock = 'cann_package'
+
+name = 'CANN-Toolkit'
+version = '5.0.4.alpha005'
+homepage = 'https://e.huawei.com/en/products/cloud-computing-dc/atlas/cann'
+description = 'CANN (Compute Architecture for Neural Networks) is the development kit for Huaweis Atlas/Ascend AI/ML products'
+versionsuffix = '-Python-%(pyver)s'
+
+
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
+
+import platform as local_platform
+
+local_arch_suf = local_platform.machine()
+
+local_alt_suf = {
+    'x86_64'  : 'x64',
+    'aarch64' : 'arm64'
+}
+
+local_arch_sums = {
+    'x86_64'  : '916f3aea0fbad4d22bc9fe6ac2f19f8f17a73812cbc2f557e50d8b9f32d140f4',
+    'aarch64' : '968e537ff414bfc8cb29190d4ef939b61fbb89cfd3c18b51e2eb2de6e210aa1b',
+}
+
+sources = [{
+    'source_urls' : ['https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/%(version)s/'],
+    'filename': 'Ascend-cann-toolkit_%%(version)s_linux-%s.run' % local_arch_suf,
+}]
+
+#patches = [('cann-toolkit-getuserinfo.patch','run_package')]
+checksums = [
+    local_arch_sums[local_arch_suf],
+#    '9c6e7cd4e543b0b23de1472a63c8a1b5b83f2ff60918a313ffe526c1131b71ff',
+]
+
+dependencies = [
+    ('CMake', '3.23.1'),
+    ('Python', '3.7.5'),
+    ('SciPy-Stack', '2021a', versionsuffix),
+]
+
+cann_installers=[
+    ('CANN-runtime','runtime/scripts/install.sh','',True),
+    ('CANN-compiler','compiler/scripts/install.sh','--pylocal',False),
+    ('CANN-opp','opp/script/install.sh','',False),
+    ('CANN-toolkit','toolkit/scripts/install.sh','--pylocal',False),
+    ('Ascend-mindstudio-toolkit','mindstudio-toolkit/script/install.sh','',False),
+    ('Ascend-test-ops','script/install.sh','',True),
+    ('Ascend-pyACL','script/install.sh','',False),
+]
+subdir_symlinks=[
+    ('acllib','acllib'),
+    ('acllib','acllib_linux.alt_suf'),
+    ('atc','atc'),
+    ('bin','bin'),
+    ('compiler','compiler'),
+    ('conf','conf'),
+    ('fwkacllib','fwkacllib'),
+    ('include','include'),
+    ('lib64','lib64'),
+    ('mindstudio-toolkit','mindstudio-toolkit'),
+    ('opp','opp'),
+    ('opp','opp_linux.alt_suf'),
+    ('pyACL','pyACL'),
+    ('python','python'),
+    ('runtime','runtime'),
+    ('runtime','runtime_linux.alt_suf'),
+    ('toolkit','toolkit'),
+    ('tools','tools'),
+    ('var','var'),
+]
+
+
+
+sanity_check_paths = {
+    'files': ['ascend-toolkit/%(version)s/atc/bin/atc'],
+    'dirs' :['ascend-toolkit/%%(version)s/%s' % d[1].replace('alt_suf',local_alt_suf[local_arch_suf]) for d in subdir_symlinks] + \
+            ['ascend-toolkit/%%(version)s/atc/%s' % d for d in ['include','lib64','bin']] + \
+            ['ascend-toolkit/%%(version)s/acllib/%s' % d for d in ['include','lib64','bin']] + \
+            ['ascend-toolkit/%%(version)s/fwkacllib/%s' % d for d in ['lib64','bin']] + \
+            ['ascend-toolkit/%%(version)s/%s/python/site-packages' % d for d in ['toolkit','compiler']] + \
+            ['ascend-toolkit/%(version)s/python/site-packages'] + \
+            ['ascend-toolkit/%(version)s/pyACL/python/site-packages/acl']
+}
+
+modextrapaths = {
+    'PATH'       : ['ascend-toolkit/%(version)s/compiler/ccec_compiler/bin',
+                    'ascend-toolkit/%(version)s/bin',
+                    'ascend-toolkit/%(version)s/atc/bin',
+                    'ascend-toolkit/%(version)s/fwkacllib/bin',
+                    'ascend-toolkit/%(version)s/toolkit/bin',
+                    'ascend-toolkit/%(version)s/atc/bin',
+                    'ascend-toolkit/%(version)s/runtime/bin',
+                    'ascend-toolkit/%(version)s/compiler/bin'],
+    'PYTHONPATH' : ['ascend-toolkit/%(version)s/toolkit/python/site-packages',
+                    'ascend-toolkit/%(version)s/compiler/python/site-packages',
+                    'ascend-toolkit/%(version)s/python/site-packages',
+                    'ascend-toolkit/%(version)s/opp/op_impl/built-in/ai_core/tbe',
+                    'ascend-toolkit/%(version)s/pyACL/python/site-packages/acl'],
+    'LD_LIBRARY_PATH' : ['ascend-toolkit/%(version)s/lib64',
+                         'ascend-toolkit/%(version)s/fwkacllib/lib64',
+                         'ascend-toolkit/%(version)s/atc/lib64',
+                         'ascend-toolkit/%(version)s/runtime/lib64',
+                         'ascend-toolkit/%(version)s/compiler/lib64/plugin/opskernel',
+                         'ascend-toolkit/%(version)s/compiler/lib64/plugin/nnengine'],
+    'LIBRARY_PATH'    : ['ascend-toolkit/%(version)s/lib64',
+                         'ascend-toolkit/%(version)s/fwkacllib/lib64',
+                         'ascend-toolkit/%(version)s/atc/lib64',
+                         'ascend-toolkit/%(version)s/runtime/lib64'],
+    'CPATH'           : ['ascend-toolkit/%(version)s/fwkacllib/include',
+                         'ascend-toolkit/%(version)s/atc/include',
+                         'ascend-toolkit/%(version)s/runtime/include',
+                         'ascend-toolkit/%(version)s/compiler/include',
+                         'ascend-toolkit/%(version)s/include']
+}
+
+modextravars = {
+    'ASCEND_AICPU_PATH'  : '%(installdir)s/ascend-toolkit/%(version)s',
+    'ASCEND_OPP_PATH'    : '%(installdir)s/ascend-toolkit/%(version)s/opp',
+    'TOOLCHAIN_HOME'     : '%(installdir)s/ascend-toolkit/%(version)s/toolkit',
+    'ASCEND_AUTOML_PATH' : '%(installdir)s/ascend-toolkit/%(version)s/tools',
+}
+
+moduleclass = 'lib'
+

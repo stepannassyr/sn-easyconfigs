@@ -1,0 +1,61 @@
+# Copyright 2021 Stepan Nassyr (s.nassyr@fz-juelich.de) @ Forschungszentrum Juelich GmbH
+easyblock = 'ConfigureMake'
+
+name = 'StarPU'
+version = '1.3.7-e5d472fe-fpga'
+
+homepage = 'https://starpu.gitlabpages.inria.fr/'
+description = """StarPU is a task programming library for hybrid architectures"""
+
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
+toolchainopts = {'pic': True}
+
+dependencies = [
+	('vivado/2020.1', EXTERNAL_MODULE),
+	('maxcompiler/2020.2', EXTERNAL_MODULE),
+	('OpenBLAS', '0.3.20'),
+	('GLPK','5.0'),
+	('PAPI','6.0.0.1-70887df7'),
+	('hwloc', '2.7.1'),
+	('HDF5','1.12.0'),
+	('Valgrind','3.17.0'),
+]
+
+builddependencies = [
+	('Autotools', '20220509'),
+	('libtool', '2.4.7'),
+	('Perl', '5.34.1'),
+]
+
+sources = [{ 'filename'   : 'starpu-%(version)s-fpga.tar.gz',
+	    'git_config' : {
+	        'url'       : 'https://gitlab.inria.fr/starpu',
+                'repo_name' : 'starpu',
+                'commit'    : 'e5d472fe'
+	}
+}]
+
+patches = [
+        "starpu-1.3.7-openblas.patch",
+        "starpu-1.3.7-slic_maxeler_include.patch",
+]
+
+preconfigopts = "./autogen.sh && "
+
+buildopts = 'CC="$CC" FC="$FC" CFLAGS="$CFLAGS" FFLAGS="$FFLAGS"'
+
+configopts = "BLAS_OPENBLAS_LIBS=\"-libopenblas\""\
+             " --enable-openmp "\
+             " --disable-cuda "\
+             " --disable-opencl "\
+             " --enable-hdf5 "\
+             " --enable-blas-lib=openblas "\
+             " --with-fpga=\"$MAXCOMPILERDIR\" "\
+             " --disable-link-with-riffa "
+
+sanity_check_paths = {
+    'files': ['bin/starpu_env', 'lib/libstarpu-1.3.so', 'lib/libstarpufft-1.3.so'],
+    'dirs': ['bin','lib/starpu','share/starpu']
+}
+
+moduleclass = 'tools'
