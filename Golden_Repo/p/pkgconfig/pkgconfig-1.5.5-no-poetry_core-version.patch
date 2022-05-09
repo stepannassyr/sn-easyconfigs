@@ -1,0 +1,10 @@
+diff --color -urN pkgconfig-1.5.5-unpatched/pyproject.toml pkgconfig-1.5.5/pyproject.toml
+--- pkgconfig-1.5.5-unpatched/pyproject.toml	2022-05-09 21:38:25.347323375 +0000
++++ pkgconfig-1.5.5/pyproject.toml	2022-05-09 21:38:49.517480565 +0000
+@@ -1,5 +1,5 @@
+ [build-system]
+-requires = ["poetry_core>=1.0.0"]
++requires = ["poetry_core>=1.0.0a"]
+ build-backend = "poetry.core.masonry.api"
+ 
+ [tool.poetry]

@@ -2,24 +2,25 @@
 easyblock = 'PythonPackage'
 
 name = 'pkgconfig'
-version = '1.5.2'
+version = '1.5.5'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'http://github.com/matze/pkgconfig'
 description = """pkgconfig is a Python module to interface with the pkg-config command line tool"""
 
 
-toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 
 source_urls = [PYPI_SOURCE]
 sources = [SOURCE_TAR_GZ]
+patches = ['pkgconfig-1.5.5-no-poetry_core-version.patch']
 
 builddependencies = [
     ('binutils', '2.38'),
 ]
 
 dependencies = [
-    ('Python', '3.10.4'),
+    ('Python', '3.7.5'),
     ('pkg-config', '0.29.2'),
 ]
 
