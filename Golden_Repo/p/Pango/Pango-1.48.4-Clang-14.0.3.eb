@@ -20,7 +20,7 @@ builddependencies = [
     ('binutils', '2.38'),
     ('Coreutils', '8.32'),
     ('GObject-Introspection', '1.68.0'),
-    ('Meson', '0.57.1', '-Python-3.10.4'),
+    ('Meson', '0.62.1', '-Python-3.10.4'),
     ('CMake', '3.23.1'),
     ('Ninja', '1.10.2'),
     ('git', '2.31.1'),

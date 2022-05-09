@@ -21,7 +21,7 @@ sources = [SOURCELOWER_TAR_XZ]
 builddependencies = [
     ('binutils', '2.38'),
     ('Python', '3.10.4'),
-    ('Meson', '0.57.1','-Python-3.10.4'),
+    ('Meson', '0.62.1','-Python-3.10.4'),
     ('Ninja', '1.10.2'),
 ]
 

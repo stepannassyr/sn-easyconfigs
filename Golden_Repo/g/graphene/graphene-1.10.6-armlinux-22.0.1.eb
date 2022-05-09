@@ -20,7 +20,7 @@ checksums = ['7eba972751d404316a9b59a7c1e0782de263c3cf9dd5ebf1503ba9b8354cc948']
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('Meson', '0.57.1', '-Python-3.10.4'),
+    ('Meson', '0.62.1', '-Python-3.10.4'),
     ('Ninja', '1.10.2'),
 ]
 

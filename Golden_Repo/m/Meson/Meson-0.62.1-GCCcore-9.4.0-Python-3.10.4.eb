@@ -2,22 +2,18 @@
 easyblock = 'PythonPackage'
 
 name = 'Meson'
-version = '0.57.1'
+version = '0.62.1'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'https://mesonbuild.com'
 description = "Meson is a cross-platform build system designed to be both as fast and as user friendly as possible."
 
 
-toolchain = {'name': 'armlinux', 'version': '22.0.1'}
+toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 
 source_urls = [PYPI_LOWER_SOURCE]
 sources = [SOURCELOWER_TAR_GZ]
-patches = ['meson-0.57.1-armlinux.patch']
-checksums = [
-    '72e1c782ba9bda204f4a1ed57f98d027d7b6eb9414c723eebbd6ec7f1955c8a6',  # meson-0.57.1.tar.gz
-    '3778bf51653986772e42d8abfda0e9e8ae26c9273fad74cfe745f776b8d56451',  # meson-0.57.1-armlinux.patch
-]
+checksums = ['a0f5caa1e70da12d5e63aa6a9504273759b891af36c8d87de381a4ed1380e845']  # meson-0.62.1.tar.gz
 
 builddependencies = [
     ('binutils', '2.38'),
