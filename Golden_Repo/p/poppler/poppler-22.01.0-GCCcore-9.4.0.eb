@@ -11,7 +11,7 @@ toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 builddependencies = [
     ('CMake', '3.23.1'),
     ('pkgconf', '1.8.0'),
-    ('Python', '3.9.4'),
+    ('Python', '3.10.4'),
 ]
 
 dependencies = [

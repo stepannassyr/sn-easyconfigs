@@ -29,7 +29,7 @@ def main(argv):
         if sys.version_info[0] < 3:
             pip_bin = 'pip'
         elif sys.version_info[0] < 4:
-            pip_bin = 'pip3'
+            pip_bin = 'pip'
         if sys.version_info >= (3,7):
             latest_version = str(subprocess.run([sys.executable, '-m', pip_bin, 'install', '{}==random'.format(name)], capture_output=True, text=True))
         else:

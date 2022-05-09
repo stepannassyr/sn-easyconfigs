@@ -13,7 +13,7 @@ checksums = ['ecb062482b9d80319b56758c0341eb717735437f86a575bac3552804428bd73e']
 
 builddependencies = [('binutils', '2.38')]
 
-dependencies = [('Python', '3.9.4')]
+dependencies = [('Python', '3.10.4')]
 
 download_dep_fail = True
 use_pip = True

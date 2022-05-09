@@ -16,7 +16,7 @@ toolchain = {'name': 'Clang', 'version': '14.0.3'}
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('Meson', '0.57.1', '-Python-3.9.4'),
+    ('Meson', '0.57.1', '-Python-3.10.4'),
     ('Ninja', '1.10.2')
 ]
 

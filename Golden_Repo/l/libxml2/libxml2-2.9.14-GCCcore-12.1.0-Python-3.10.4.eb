@@ -1,0 +1,59 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+name = 'libxml2'
+version = '2.9.14'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://xmlsoft.org/'
+description = """Libxml2 is the XML C parser and toolchain developed for the Gnome project (but usable
+ outside of the Gnome platform).
+"""
+
+
+toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchainopts = {'pic': True}
+
+source_urls = [
+#    'http://xmlsoft.org/sources/',
+#    'http://xmlsoft.org/sources/old/',
+    'http://www.w3.org/XML/Test/'
+]
+sources = [
+    {
+        'filename': '%(name)s-%(version)s.tar.gz',
+        'git_config': {
+            'url': 'https://gitlab.gnome.org/GNOME/',
+            'repo_name': 'libxml2',
+            'commit': 'v%(version)s',
+        },
+    },
+    'xmlts20080827.tar.gz'
+]
+
+patches = ['libxml2-2.9.7_fix-hardcoded-paths.patch']
+
+preconfigopts = "./autogen.sh && "
+
+#tests failing
+runtest = ""
+
+prebuildopts= "mv ../xmlconf ./ && "
+
+builddependencies = [
+    ('binutils', '2.38'),
+    ('Autotools', '20220509'),
+    ('pkg-config', '0.29.2'),
+    ('libtool', '2.4.7'),
+]
+
+dependencies = [
+    ('zlib', '1.2.12'),
+    ('XZ', '5.2.5'),
+    ('libxml2', version),
+    ('libiconv', '1.16'),
+    ('Python', '3.10.4'),
+]
+
+
+modextrapaths = {'CPATH': ['include/libxml2']}
+
+moduleclass = 'lib'

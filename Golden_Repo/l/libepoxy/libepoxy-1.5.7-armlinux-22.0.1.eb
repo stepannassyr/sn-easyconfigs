@@ -19,7 +19,7 @@ checksums = ['b9e22ba707d0e723e9665c67a2b2974a86f4c4c27e3009dde24a988d1aadf643']
 builddependencies = [
     ('binutils', '2.38'),
     ('pkg-config', '0.29.2'),
-    ('Meson', '0.57.1', '-Python-3.9.4'),
+    ('Meson', '0.57.1', '-Python-3.10.4'),
     ('Ninja', '1.10.2'),
 ]
 

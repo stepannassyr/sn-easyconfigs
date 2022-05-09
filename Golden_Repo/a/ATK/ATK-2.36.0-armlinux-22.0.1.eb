@@ -21,7 +21,7 @@ checksums = ['fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788']
 builddependencies = [
     ('binutils', '2.38'),
     ('GObject-Introspection', '1.68.0'),
-    ('Meson', '0.57.1', '-Python-3.9.4'),
+    ('Meson', '0.57.1', '-Python-3.10.4'),
     ('Ninja', '1.10.2')
 ]
 

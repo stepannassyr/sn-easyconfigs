@@ -16,7 +16,7 @@ use_pip = True
 sanity_pip_check = True
 
 builddependencies = [('binutils', '2.38')]
-dependencies = [('Python', '3.9.4')]
+dependencies = [('Python', '3.10.4')]
 
 sanity_check_paths = {
     'files': ['bin/mako-render'],

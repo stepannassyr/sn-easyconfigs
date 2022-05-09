@@ -20,7 +20,7 @@ builddependencies = [
     ('binutils', '2.38'),
     ('CMake', '3.23.1'),
     ('Ninja', '1.10.2'),
-    ('Python', '3.9.4'),
+    ('Python', '3.10.4'),
 ]
 
 configopts = '-DFLATBUFFERS_ENABLE_PCH=ON '

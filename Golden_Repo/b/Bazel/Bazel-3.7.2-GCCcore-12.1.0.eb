@@ -25,7 +25,7 @@ checksums = [
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('Python', '3.9.4'),
+    ('Python', '3.10.4'),
     ('Zip', '3.0'),
 ]
 

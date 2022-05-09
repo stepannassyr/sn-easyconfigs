@@ -20,7 +20,7 @@ dependencies = [
     ('libmicrohttpd', '0.9.72'),
     ('libarchive', '3.5.1'),
     ('pkg-config', '0.29.2'),
-    ('SQLite', '3.35.3'),
+    ('SQLite', '3.38.5'),
 ]
 
 sanity_check_paths = {

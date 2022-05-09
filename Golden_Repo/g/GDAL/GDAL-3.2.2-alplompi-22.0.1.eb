@@ -25,7 +25,7 @@ dependencies = [
     ('JasPer', '2.0.28'),
     ('libxml2', '2.9.14'),
     ('zlib', '1.2.12'),
-    ('SQLite', '3.35.3'),
+    ('SQLite', '3.38.5'),
 ]
 
 prebuildopts= "sed -i -e 's#wl=\"\"#wl=\"-Wl,\"#g' libtool &&"
