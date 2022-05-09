@@ -16,7 +16,7 @@ checksums = ['c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5']
 
 builddependencies = [('binutils', '2.38')]
 dependencies = [
-    ('cURL', '7.75.0'),
+    ('cURL', '7.83.0'),
     ('libmicrohttpd', '0.9.72'),
     ('libarchive', '3.5.1'),
     ('pkg-config', '0.29.2'),

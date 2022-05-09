@@ -23,7 +23,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('cURL', '7.75.0'),
+    ('cURL', '7.83.0'),
 ]
 
 sanity_check_paths = {

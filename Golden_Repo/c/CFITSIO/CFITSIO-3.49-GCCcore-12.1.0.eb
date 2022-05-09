@@ -21,7 +21,7 @@ checksums = [
 ]
 
 # curl for HTTPs support
-dependencies = [('cURL', '7.75.0')]
+dependencies = [('cURL', '7.83.0')]
 
 builddependencies = [('binutils', '2.38')]
 

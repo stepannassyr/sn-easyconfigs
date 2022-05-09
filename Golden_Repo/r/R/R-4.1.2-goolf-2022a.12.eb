@@ -37,7 +37,7 @@ dependencies = [
     ('ImageMagick', '7.0.11-11'),
     ('Java', '17.0.3', '', True),  # Java bindings are built if Java is found, might as well provide it
     ('Tk', '8.6.12'),  # for tcltk
-    ('cURL', '7.75.0'),  # for RCurl
+    ('cURL', '7.83.0'),  # for RCurl
     ('libxml2', '2.9.14'),  # for XML
     ('GDAL', '3.2.2'),  # for rgdal
     ('CFITSIO', '3.49'),  # for rgdal
