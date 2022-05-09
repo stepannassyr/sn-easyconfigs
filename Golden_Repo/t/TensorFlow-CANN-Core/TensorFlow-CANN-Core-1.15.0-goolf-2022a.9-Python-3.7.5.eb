@@ -15,7 +15,7 @@ builddependencies = [
     ('Bazel', '0.26.1'),
     ('protobuf-CANN', '3.15.6'),
     # git 2.x required, see also https://github.com/tensorflow/tensorflow/issues/29053
-    ('git', '2.31.1'),
+    ('git', '2.36.1'),
 ]
 
 dependencies = [

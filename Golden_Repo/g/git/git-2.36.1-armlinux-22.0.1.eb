@@ -15,7 +15,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'git'
-version = '2.31.1'
+version = '2.36.1'
 
 homepage = 'http://git-scm.com/'
 description = """Git is a free and open source distributed version control system designed
@@ -23,11 +23,11 @@ to handle everything from small to very large projects with speed and efficiency
 """
 
 
-toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
+toolchain = {'name': 'armlinux', 'version': '22.0.1'}
 
 source_urls = ['https://github.com/git/git/archive']
 sources = ['v%(version)s.tar.gz']
-checksums = ['b1c0e95e9861b5d1b9ad3d8deaa2d8c7f02304ffc1b5e8869dd9fb98f9a0d436']
+checksums = ['cbaac97b2bd4a5beb8b81b7bd009415eed4faec9f799d6bb1be61be907e39cf7']
 
 builddependencies = [
     ('binutils', '2.38'),
