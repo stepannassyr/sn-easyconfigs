@@ -107,7 +107,7 @@ dependencies = [
     ('Ninja',           '1.10.2'),  # Required for JIT compilation of C++ extensions
     ('Python', '3.10.4'),
     ('protobuf', '3.20.1'),
-    ('protobuf-python', '3.17.3', versionsuffix),
+    ('protobuf-python', '3.20.1', versionsuffix),
     ('pybind11',        '2.6.2',  versionsuffix),
     ('SciPy-Stack',     '2021a',  versionsuffix),
 #    ('typing-extensions', '3.10.0.0'),

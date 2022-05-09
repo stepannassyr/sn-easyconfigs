@@ -34,7 +34,7 @@ dependencies = [
     ('NASM', '2.15.05'),
     ('nsync', '1.24.0'),
     ('SQLite', '3.38.5'),
-    ('protobuf-python', '3.17.3', versionsuffix),
+    ('protobuf-python', '3.20.1', versionsuffix),
     ('flatbuffers-python', '2.0', versionsuffix),
 #    ('typing-extensions', '3.10.0.0'),
     ('libpng', '1.6.37'),

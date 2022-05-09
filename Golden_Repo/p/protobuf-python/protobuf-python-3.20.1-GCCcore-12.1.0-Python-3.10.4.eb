@@ -1,7 +1,7 @@
 easyblock = 'PythonPackage'
 
 name = 'protobuf-python'
-version = '3.17.3'
+version = '3.20.1'
 versionsuffix = "-Python-%(pyver)s"
 
 homepage = 'https://github.com/google/protobuf/'
@@ -12,7 +12,7 @@ toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
 source_urls = ['https://pypi.python.org/packages/source/p/protobuf']
 sources = [
     {'download_filename': 'protobuf-%(version)s.tar.gz', 'filename': SOURCE_TAR_GZ}]
-checksums = ['72804ea5eaa9c22a090d2803813e280fb273b62d5ae497aaf3553d141c4fdd7b']
+checksums = ['adc31566d027f45efe3f44eeb5b1f329da43891634d61c75a5944e9be6dd42c9']
 
 builddependencies = [('binutils', '2.38')]
 
