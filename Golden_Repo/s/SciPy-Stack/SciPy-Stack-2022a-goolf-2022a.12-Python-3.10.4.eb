@@ -24,7 +24,7 @@ dependencies = [
     ('Python', '3.10.4'),
     ('pybind11', '2.9.2', versionsuffix),
     ('OpenBLAS', '0.3.20'),
-    ('FFTW', '3.3.9'),
+    ('FFTW', '3.3.10'),
     ('freetype', '2.12.1'),
     ('libpng', '1.6.37'),
     ('libreadline', '8.1'),
