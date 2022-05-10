@@ -1,7 +1,7 @@
 easyblock = "PythonPackage"
 
 name = 'h5py'
-version = '3.5.0'
+version = '3.6.0'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'http://www.h5py.org/'
@@ -10,19 +10,19 @@ description = """HDF5 for Python (h5py) is a general-purpose Python interface to
  amounts of data.
 """
 
-toolchain = {'name': 'goolf', 'version': '2022a.12'}
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
 
 sources = [SOURCE_TAR_GZ]
-checksums = ['77c7be4001ac7d3ed80477de5b6942501d782de1bbe4886597bdfec2a7ab821f']
+checksums = ['8752d2814a92aba4e2b2a5922d2782d0029102d99caaf3c201a566bc0b40db29']
 
 builddependencies = [
-    ('pkgconfig', '1.5.5', '-Python-3.10.4'),
+    ('pkgconfig', '1.5.5', '-Python-3.7.5'),
     ('binutils', '2.38'),
 ]
 
 dependencies = [
-    ('Python', '3.10.4'),
-    ('SciPy-Stack', '2022a', '-Python-3.10.4'),
+    ('Python', '3.7.5'),
+    ('SciPy-Stack', '2022a', '-Python-3.7.5'),
     ('HDF5', '1.12.2'),
 ]
 
