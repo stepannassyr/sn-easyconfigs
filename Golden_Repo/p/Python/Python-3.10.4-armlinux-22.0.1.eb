@@ -13,7 +13,7 @@ toolchainopts = {'pic': True}
 
 source_urls = ['http://www.python.org/ftp/%(namelower)s/%(version)s/']
 sources = [SOURCE_TGZ]
-checksums = ['66c4de16daa74a825cf9da9ddae1fe020b72c3854b73b1762011cc33f9e4592f']
+checksums = ['f3bcc65b1d5f1dc78675c746c98fcee823c038168fc629c5935b044d0911ad28']
 
 # python needs bzip2 to build the bz2 package
 dependencies = [
@@ -58,8 +58,8 @@ exts_default_options = {
     'use_pip': True,
 }
 
-local_cryptography_version = '3.4.7'
-local_cryptography_sha256  = '3d10de8116d25649631977cb37da6cbdd2d6fa0e0281d014a5b7d337255ca713'
+local_cryptography_version = '37.0.2'
+local_cryptography_sha256  = 'f224ad253cc9cea7568f49077007d2263efa57396a2f2f78114066fd54b5c68e'
 
 # RHEL/CentOS 7 has OpenSSL 1.0.2 which is no longer supported
 import ssl as local_ssl
@@ -159,8 +159,8 @@ exts_list = [
     ('lockfile', '0.12.2', {
         'checksums': ['6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799'],
     }),
-    ('Cython', '3.0.0a10', {
-        'checksums': ['342e95121a3d1a67cbcf7b340391eb40cc5ce3d2a79d7873e005e8783353d89d'],
+    ('Cython', '0.29.28', {
+        'checksums': ['d6fac2342802c30e51426828fe084ff4deb1b3387367cf98976bb2e64b6f8e45'],
     }),
     ('python-dateutil', '2.8.2', {
         'modulename': 'dateutil',
