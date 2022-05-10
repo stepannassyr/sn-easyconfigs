@@ -23,7 +23,7 @@ builddependencies = [
 dependencies = [
     ('Python', '3.10.4'),
     ('SciPy-Stack', '2022a', '-Python-3.10.4', ('goolf', '2022a.9')),
-    ('HDF5', '1.12.0', '-serial'),
+    ('HDF5', '1.12.2', '-serial'),
 ]
 
 use_pip = True

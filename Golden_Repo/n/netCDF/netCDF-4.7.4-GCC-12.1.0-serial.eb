@@ -21,7 +21,7 @@ sources = ['v%s.tar.gz' % (version)]
 source_urls = ['https://github.com/Unidata/netcdf-c/archive/']
 
 dependencies = [
-    ('HDF5', '1.12.0', '-serial'),
+    ('HDF5', '1.12.2', '-serial'),
     ('cURL', '7.83.0'),
     ('Szip', '2.1.1'),
 ]

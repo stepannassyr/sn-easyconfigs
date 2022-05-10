@@ -1,6 +1,6 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 name = 'HDF5'
-version = '1.12.0'
+version = '1.12.2'
 
 homepage = 'http://www.hdfgroup.org/HDF5/'
 description = """HDF5 is a unique technology suite that makes possible the management of
@@ -8,23 +8,16 @@ description = """HDF5 is a unique technology suite that makes possible the manag
 """
 
 
-toolchain = {'name': 'alplompi', 'version': '22.0.1'}
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
 toolchainopts = {'optarch': True, 'pic': True, 'usempi': True}
 
 source_urls = ['https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-%(version_major)s.%(version_minor)s/hdf5-%(version)s/src']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['a62dcb276658cb78e6795dd29bf926ed7a9bc4edf6e77025cd2c689a8f97c17a']
-
-builddependencies = [
-    ('binutils', '2.38')
-]
+checksums = ['2a89af03d56ce7502dcae18232c241281ad1773561ec00c0f0e8ee2463910f14']
 
 dependencies = [
     ('zlib', '1.2.12'),
     ('Szip', '2.1.1'),
 ]
-
-prebuildopts  = "sed -i -e 's#wl=\"\"#wl=\"-Wl,\"#g' libtool &&"
-prebuildopts += "sed -i -e 's#pic_flag=\"\"#pic_flag=\" -fPIC -DPIC\"#g' libtool &&"
 
 moduleclass = 'data'
