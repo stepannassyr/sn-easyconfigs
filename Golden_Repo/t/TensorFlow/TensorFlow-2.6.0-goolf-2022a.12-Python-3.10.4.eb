@@ -38,7 +38,7 @@ dependencies = [
     ('flatbuffers-python', '2.0', versionsuffix),
 #    ('typing-extensions', '3.10.0.0'),
     ('libpng', '1.6.37'),
-    ('snappy', '1.1.8'),
+    ('snappy', '1.1.9'),
     ('zlib', '1.2.12'),
 ]
 

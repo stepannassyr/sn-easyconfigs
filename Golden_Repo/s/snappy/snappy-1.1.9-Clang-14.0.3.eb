@@ -1,7 +1,7 @@
 easyblock = 'CMakeMake'
 
 name = 'snappy'
-version = '1.1.8'
+version = '1.1.9'
 
 homepage = 'https://github.com/google/snappy'
 description = """Snappy is a compression/decompression library. It does not aim
@@ -12,14 +12,18 @@ toolchain = {'name': 'Clang', 'version': '14.0.3'}
 
 source_urls = ['https://github.com/google/snappy/archive/']
 sources = ['%(version)s.tar.gz']
-checksums = ['16b677f07832a612b0836178db7f374e414f94657c138e6993cbfc5dcc58651f']
+patches = [
+    'https://github.com/google/snappy/commit/0c716d435abe65250100c2caea0e5126ac4e14bd.patch'
+]
+checksums = ['75c1fbb3d618dd3a0483bff0e26d0a92b495bbe5059c8b4f1c962b478b6e06e7']
 
 builddependencies = [
     ('binutils', '2.38'),
     ('CMake', '3.23.1'),
 ]
 
-configopts = ['', '-DBUILD_SHARED_LIBS=ON']
+configopts = '-DSNAPPY_BUILD_TESTS=OFF -DSNAPPY_BUILD_BENCHMARKS=OFF '
+configopts = [configopts, configopts+'-DBUILD_SHARED_LIBS=ON']
 
 sanity_check_paths = {
     'files': ['lib64/libsnappy.a', 'lib64/libsnappy.%s' % SHLIB_EXT, 'include/snappy.h'],
