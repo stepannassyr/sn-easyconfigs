@@ -3,7 +3,7 @@
 easyblock = 'PythonPackage'
 
 name = 'PyYAML'
-version = '5.4.1'
+version = '6.0'
 
 versionsuffix="-Python-%(pyver)s"
 

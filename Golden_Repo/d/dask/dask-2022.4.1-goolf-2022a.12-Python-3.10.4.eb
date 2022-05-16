@@ -13,7 +13,7 @@ toolchain = {'name': 'goolf', 'version': '2022a.12'}
 
 dependencies = [
     ('Python', '3.10.4'),
-    ('PyYAML',      '5.4.1', versionsuffix),
+    ('PyYAML', '6.0', versionsuffix),
     ('SciPy-Stack', '2022a', versionsuffix),
     ('bokeh',       '2.4.2', versionsuffix),
 ]

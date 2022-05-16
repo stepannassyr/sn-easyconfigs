@@ -262,7 +262,7 @@ exts_list = [
     ('prompt_toolkit', '3.0.18', {
         'checksums': ['e1b4f11b9336a28fa11810bc623c357420f69dfdb6d2dac41ca2c21a55c033bc'],
     }),
-    ('PyYAML', '5.4.1', {
+    ('PyYAML', '6.0', {
         'modulename': 'yaml',
         'checksums': ['607774cbba28732bfa802b54baa7484215f530991055bb562efbed5b2f20a45e'],
     }),

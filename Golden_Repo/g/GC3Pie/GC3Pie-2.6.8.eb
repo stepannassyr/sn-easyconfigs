@@ -16,7 +16,7 @@ allow_system_deps = [('Python', SYS_PYTHON_VERSION)]
 
 builddependencies = [('pkg-config', '0.29.2')]
 dependencies = [
-    ('PyYAML', '5.4.1'),
+    ('PyYAML', '6.0'),
     ('libffi', '3.4.2'),  # required dep for PyNaCl
 ]
 

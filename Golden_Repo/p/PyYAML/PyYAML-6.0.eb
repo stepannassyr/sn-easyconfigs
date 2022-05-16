@@ -1,7 +1,7 @@
 easyblock = 'PythonPackage'
 
 name = 'PyYAML'
-version = '5.4.1'
+version = '6.0'
 
 homepage = "https://pypi.python.org/pypi/PyYAML/"
 description = """PyYAML is a YAML parser and emitter for the Python programming language."""
