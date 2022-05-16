@@ -1,0 +1,22 @@
+diff --color -urN src-unpatched/third_party/ijar/zlib_client.h src/third_party/ijar/zlib_client.h
+--- src-unpatched/third_party/ijar/zlib_client.h	2022-05-12 20:28:16.355716033 +0000
++++ src/third_party/ijar/zlib_client.h	2022-05-12 20:29:04.826030030 +0000
+@@ -16,6 +16,7 @@
+ #define THIRD_PARTY_IJAR_ZLIB_CLIENT_H_
+ 
+ #include <limits.h>
++#include <limits>
+ 
+ #include "third_party/ijar/common.h"
+ 
+diff --color -urN src-unpatched/third_party/ijar/mapped_file_unix.cc src/third_party/ijar/mapped_file_unix.cc
+--- src-unpatched/third_party/ijar/mapped_file_unix.cc	2022-05-12 20:43:58.971821653 +0000
++++ src/third_party/ijar/mapped_file_unix.cc	2022-05-12 20:44:17.161939410 +0000
+@@ -19,6 +19,7 @@
+ #include <sys/mman.h>
+ 
+ #include <algorithm>
++#include <limits>
+ 
+ #include "third_party/ijar/mapped_file.h"
+ 

@@ -1,0 +1,84 @@
+diff --color -urN tensorboard-2.8.0-unpatched/WORKSPACE tensorboard-2.8.0/WORKSPACE
+--- tensorboard-2.8.0-unpatched/WORKSPACE	2022-05-13 18:38:32.875311317 +0000
++++ tensorboard-2.8.0/WORKSPACE	2022-05-13 18:42:00.676628615 +0000
+@@ -13,6 +13,11 @@
+         "https://github.com/bazelbuild/java_tools/releases/download/javac11_v10.7/java_tools_javac11_linux-v10.7.zip",
+     ],
+ )
++http_archive(
++    name = "com_google_protobuf",
++    strip_prefix = "protobuf-3.20.1",
++    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.20.1.zip"],
++)
+ 
+ http_archive(
+     name = "io_bazel_rules_webtesting",
+--- tensorboard-2.8.0-unpatched/WORKSPACE	2022-05-13 19:33:59.906363076 +0000
++++ tensorboard-2.8.0/WORKSPACE	2022-05-13 19:37:09.997567259 +0000
+@@ -14,10 +14,48 @@
+     ],
+ )
+ http_archive(
+-    name = "com_google_protobuf",
+-    strip_prefix = "protobuf-3.20.1",
+-    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.20.1.zip"],
++    name = "rules_pkg",
++    urls = [
++        "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/0.7.0/rules_pkg-0.7.0.tar.gz",
++        "https://github.com/bazelbuild/rules_pkg/releases/download/0.7.0/rules_pkg-0.7.0.tar.gz",
++    ],
++    sha256 = "8a298e832762eda1830597d64fe7db58178aa84cd5926d76d5b744d6558941c2",
+ )
++load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
++rules_pkg_dependencies()
++
++RULES_JVM_EXTERNAL_TAG = "4.2"
++RULES_JVM_EXTERNAL_SHA = "cd1a77b7b02e8e008439ca76fd34f5b07aecb8c752961f9640dea15e9e5ba1ca"
++
++http_archive(
++    name = "rules_jvm_external",
++    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
++    sha256 = RULES_JVM_EXTERNAL_SHA,
++    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
++)
++
++load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
++
++rules_jvm_external_deps()
++
++load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
++
++rules_jvm_external_setup()
++
++load("@rules_jvm_external//:defs.bzl", "maven_install")
++
++maven_install(
++    artifacts = [
++        "junit:junit:4.13.2",
++        "androidx.test.espresso:espresso-core:3.1.1",
++        "org.hamcrest:hamcrest-library:2.2",
++    ],
++    repositories = [
++        "https://maven.google.com",
++        "https://repo1.maven.org/maven2",
++    ],
++)
++
+ 
+ http_archive(
+     name = "io_bazel_rules_webtesting",
+@@ -91,6 +129,14 @@
+ )
+ 
+ http_archive(
++    name = "com_google_protobuf",
++    strip_prefix = "protobuf-3.20.1",
++    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.20.1.zip"],
++)
++
++
++
++http_archive(
+     name = "org_tensorflow",
+     patches = [
+         # Patch TF's python_configure.bzl to ensure it reconfigures its python

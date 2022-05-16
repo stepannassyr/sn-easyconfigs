@@ -1,12 +1,12 @@
 easyblock = 'CMakeNinja'
 
 name = 'c-ares'
-version = '1.17.1'
+version = '1.18.1'
 
 homepage = 'https://c-ares.haxx.se/'
 description = "c-ares is a C library for asynchronous DNS requests (including name resolves)"
 
-toolchain = {'name': 'Clang', 'version': '14.0.3'}
+toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 
 github_account = 'c-ares'
 source_urls = [GITHUB_SOURCE]
@@ -15,6 +15,7 @@ sources = ['cares-1_17_1.tar.gz']
 checksums = ['61f7cf09605f5e38d4828f82d0e2ddb9de8e355ecfd6819b740691c644583b8f']
 
 builddependencies = [
+    ('binutils', '2.38'),
     ('CMake', '3.23.1'),
     ('Ninja', '1.10.2'),
 ]

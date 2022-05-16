@@ -1,0 +1,61 @@
+diff --git a/src/main/java/com/google/devtools/build/lib/bazel/rules/java/jdk.WORKSPACE b/src/main/java/com/google/devtools/build/lib/bazel/rules/java/jdk.WORKSPACE
+index cf516886b7..c620ed2c99 100644
+--- a/src/main/java/com/google/devtools/build/lib/bazel/rules/java/jdk.WORKSPACE
++++ b/src/main/java/com/google/devtools/build/lib/bazel/rules/java/jdk.WORKSPACE
+@@ -207,6 +207,8 @@ http_archive(
+ http_archive(
+     name = "remote_java_tools_linux",
+     sha256 = "b93e7c556b01815afb6c248aa73f06b7ec912805bde8898eedac1e20d08f2e67",
++    patches = ['//third_party:java_tools-limits.patch'],
++    patch_args = ['-p0'],
+     urls = [
+         "https://mirror.bazel.build/bazel_java_tools/releases/javac10/v3.2/java_tools_javac10_linux-v3.2.zip",
+     ],
+diff --git a/third_party/java_tools-limits.patch b/third_party/java_tools-limits.patch
+new file mode 100644
+index 0000000000..5ac7c09815
+--- /dev/null
++++ b/third_party/java_tools-limits.patch
+@@ -0,0 +1,22 @@
++diff --color -urN java_tools/ijar/mapped_file_unix.cc java_tools/ijar/mapped_file_unix.cc
++--- java_tools/ijar/mapped_file_unix.cc
+++++ java_tools/ijar/mapped_file_unix.cc
++@@ -19,6 +19,7 @@
++ #include <sys/mman.h>
++ 
++ #include <algorithm>
+++#include <limits>
++ 
++ #include "third_party/ijar/mapped_file.h"
++ 
++diff --color -urN java_tools/ijar/zlib_client.h java_tools/ijar/zlib_client.h
++--- java_tools/ijar/zlib_client.h
+++++ java_tools/ijar/zlib_client.h
++@@ -16,6 +16,7 @@
++ #define THIRD_PARTY_IJAR_ZLIB_CLIENT_H_
++ 
++ #include <limits.h>
+++#include <limits>
++ 
++ #include "third_party/ijar/common.h"
++ 
+diff --git a/tools/jdk/default_java_toolchain.bzl b/tools/jdk/default_java_toolchain.bzl
+index 3fdcfc1c7b..27d29c3ec0 100644
+--- a/tools/jdk/default_java_toolchain.bzl
++++ b/tools/jdk/default_java_toolchain.bzl
+@@ -139,6 +139,7 @@ def _bootclasspath(ctx):
+         inputs = [ctx.file.src] + ctx.files.host_javabase,
+         outputs = class_outputs,
+         arguments = [args],
++       use_default_shell_env = True,
+     )
+ 
+     bootclasspath = ctx.outputs.jar
+@@ -165,6 +166,7 @@ def _bootclasspath(ctx):
+         inputs = inputs,
+         outputs = [bootclasspath],
+         arguments = [args],
++       use_default_shell_env = True,
+     )
+ 
+ bootclasspath = rule(

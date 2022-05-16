@@ -1,0 +1,58 @@
+diff --color -urN tensorboard-2.8.0-unpatched/WORKSPACE tensorboard-2.8.0/WORKSPACE
+--- tensorboard-2.8.0-unpatched/WORKSPACE	2022-05-13 10:57:29.929405371 +0000
++++ tensorboard-2.8.0/WORKSPACE	2022-05-13 10:58:20.879728945 +0000
+@@ -3,6 +3,15 @@
+ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+ 
+ http_archive(
++    name = "remote_java_tools_linux",
++    sha256 = "cf57fc238ed5c24c718436ab4178ade5eb838fe56e7c32c4fafe0b6fbdaec51f",
++    urls = [
++        "https://mirror.bazel.build/bazel_java_tools/releases/javac11/v10.7/java_tools_javac11_linux-v10.7.zip",
++        "https://github.com/bazelbuild/java_tools/releases/download/javac11_v10.7/java_tools_javac11_linux-v10.7.zip",
++    ],
++)
++
++http_archive(
+     name = "io_bazel_rules_webtesting",
+     sha256 = "9bb461d5ef08e850025480bab185fd269242d4e533bca75bfb748001ceb343c3",
+     urls = [
+diff --color -urN tensorboard-2.8.0-unpatched/third_party/java_tools-limits.patch tensorboard-2.8.0/third_party/java_tools-limits.patch
+--- tensorboard-2.8.0-unpatched/third_party/java_tools-limits.patch	1970-01-01 00:00:00.000000000 +0000
++++ tensorboard-2.8.0/third_party/java_tools-limits.patch	2022-05-13 11:11:19.494673763 +0000
+@@ -0,0 +1,22 @@
++diff --color -urN java_tools/ijar/zlib_client.h java_tools/ijar/zlib_client.h
++--- java_tools/ijar/zlib_client.h
+++++ java_tools/ijar/zlib_client.h
++@@ -16,6 +16,7 @@
++ #define THIRD_PARTY_IJAR_ZLIB_CLIENT_H_
++
++ #include <limits.h>
+++#include <limits>
++
++ #include "third_party/ijar/common.h"
++
++diff --color -urN java_tools/ijar/mapped_file_unix.cc java_tools/ijar/mapped_file_unix.cc
++--- java_tools/ijar/mapped_file_unix.cc
+++++ java_tools/ijar/mapped_file_unix.cc
++@@ -19,6 +19,7 @@
++ #include <sys/mman.h>
++
++ #include <algorithm>
+++#include <limits>
++
++ #include "third_party/ijar/mapped_file.h"
++
+diff --color -urN tensorboard-2.8.0-unpatched/WORKSPACE tensorboard-2.8.0/WORKSPACE
+--- tensorboard-2.8.0-unpatched/WORKSPACE	2022-05-13 11:07:41.113286867 +0000
++++ tensorboard-2.8.0/WORKSPACE	2022-05-13 11:10:49.734484762 +0000
+@@ -5,6 +5,9 @@
+ http_archive(
+     name = "remote_java_tools_linux",
+     sha256 = "cf57fc238ed5c24c718436ab4178ade5eb838fe56e7c32c4fafe0b6fbdaec51f",
++    patches = [
++        "//third_party:java_tools-limits.patch",
++    ],
+     urls = [
+         "https://mirror.bazel.build/bazel_java_tools/releases/javac11/v10.7/java_tools_javac11_linux-v10.7.zip",
+         "https://github.com/bazelbuild/java_tools/releases/download/javac11_v10.7/java_tools_javac11_linux-v10.7.zip",

@@ -1,0 +1,54 @@
+diff --color -urN io-0.25.0-unpatched/WORKSPACE io-0.25.0/WORKSPACE
+--- io-0.25.0-unpatched/WORKSPACE       2022-05-16 12:31:30.121232425 +0000
++++ io-0.25.0/WORKSPACE 2022-05-16 12:32:25.681577783 +0000
+@@ -94,11 +94,9 @@
+ # Note rules_python is placed earlier as tensorflow's version is older
+ http_archive(
+     name = "rules_python",
+-    sha256 = "aa96a691d3a8177f3215b14b0edc9641787abaaa30363a080165d06ab65e1161",
+-    urls = [
+-        "https://storage.googleapis.com/mirror.tensorflow.org/github.com/bazelbuild/rules_python/releases/download/0.0.1/rules_python-0.0.1.tar.gz",
+-        "https://github.com/bazelbuild/rules_python/releases/download/0.0.1/rules_python-0.0.1.tar.gz",
+-    ],
++    sha256 = "cdf6b84084aad8f10bf20b46b77cb48d83c319ebe6458a18e9d2cebf57807cdd",
++    strip_prefix = "rules_python-0.8.1",
++    url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.8.1.tar.gz",
+ )
+
+ load("@rules_python//python:pip.bzl", "pip_import")
+diff --color -urN io-0.25.0-unpatched/WORKSPACE io-0.25.0/WORKSPACE
+--- io-0.25.0-unpatched/WORKSPACE	2022-05-16 15:51:38.747026222 +0000
++++ io-0.25.0/WORKSPACE	2022-05-16 15:51:54.977129010 +0000
+@@ -99,16 +99,16 @@
+     url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.8.1.tar.gz",
+ )
+ 
+-load("@rules_python//python:pip.bzl", "pip_import")
++load("@rules_python//python:pip.bzl", "pip_install")
+ 
+-pip_import(
++pip_install(
+     name = "lint_dependencies",
+     requirements = "//tools/lint:requirements.txt",
+ )
+ 
+-load("@lint_dependencies//:requirements.bzl", "pip_install")
++#load("@lint_dependencies//:requirements.bzl", "pip_install")
+ 
+-pip_install()
++#pip_install()
+ 
+ http_archive(
+     name = "org_tensorflow",
+diff --color -urN io-0.25.0-unpatched/tensorflow_io_gcs_filesystem/core/BUILD io-0.25.0/tensorflow_io_gcs_filesystem/core/BUILD
+--- io-0.25.0-unpatched/tensorflow_io_gcs_filesystem/core/BUILD	2022-05-16 16:29:56.401756118 +0000
++++ io-0.25.0/tensorflow_io_gcs_filesystem/core/BUILD	2022-05-16 16:30:19.551903363 +0000
+@@ -27,7 +27,7 @@
+             "@local_config_tf//:stub/libtensorflow_framework.so",
+         ],
+     }),
+-    copts = tf_io_copts(),
++    copts = tf_io_copts() + ['-std=c++17'],
+     linkstatic = True,
+     deps = [
+         "@com_github_googleapis_google_cloud_cpp//:storage_client",

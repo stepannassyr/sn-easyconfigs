@@ -1,0 +1,21 @@
+diff --color -urN tensorflow-2.8.0-unpatched/tensorflow/core/framework/tensor.cc tensorflow-2.8.0/tensorflow/core/framework/tensor.cc
+--- tensorflow-2.8.0-unpatched/tensorflow/core/framework/tensor.cc	2022-05-13 04:35:38.242755434 +0000
++++ tensorflow-2.8.0/tensorflow/core/framework/tensor.cc	2022-05-13 04:36:21.813032101 +0000
+@@ -341,7 +341,7 @@
+ template <>
+ struct ProtoHelper<int64_t> {
+   static const int64_t* Begin(const TensorProto& proto) {
+-    return reinterpret_cast<const int64_t*>(proto.int64_val().begin());
++    return reinterpret_cast<const int64_t*>(proto.int64_val().data());
+   }
+   static size_t NumElements(const TensorProto& proto) {
+     return proto.int64_val().size();
+@@ -355,7 +355,7 @@
+ template <>
+ struct ProtoHelper<uint64> {
+   static const uint64* Begin(const TensorProto& proto) {
+-    return reinterpret_cast<const uint64*>(proto.uint64_val().begin());
++    return reinterpret_cast<const uint64*>(proto.uint64_val().data());
+   }
+   static size_t NumElements(const TensorProto& proto) {
+     return proto.uint64_val().size();

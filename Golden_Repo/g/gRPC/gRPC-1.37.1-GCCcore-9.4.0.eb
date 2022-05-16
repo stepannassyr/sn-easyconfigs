@@ -27,7 +27,7 @@ builddependencies = [
 dependencies = [
     ('protobuf', '3.20.1'),
     ('abseil-cpp', '20210324.1'),
-    ('c-ares', '1.17.1'),
+    ('c-ares', '1.18.1'),
     ('re2', '2021-04-01'),
     ('zlib', '1.2.12'),
 ]

@@ -1,5 +1,6 @@
-# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
-easyblock = 'ConfigureMake'
+# cURL easyconfig using CMake instead of autotools
+
+easyblock = 'CMakeNinja'
 
 name = 'cURL'
 version = '7.83.0'
@@ -16,18 +17,22 @@ description = """libcurl is a free and easy-to-use client-side URL transfer libr
 
 toolchain = {'name': 'Clang', 'version': '14.0.3'}
 
-sources = [SOURCELOWER_TAR_GZ]
 source_urls = ['http://%(namelower)s.haxx.se/download/']
+sources = [SOURCELOWER_TAR_GZ]
 checksums = ['c0e64302a33d2fb79e0fc4e674260a22941e92ee2f11b894bf94d32b8f5531af']
 
-#dependencies = [('OpenSSL', '1.0.1p')]
+dependencies = [('nghttp2', '1.47.0')]
+
 builddependencies = [
     ('binutils', '2.38'),
+    ('CMake', '3.23.1'),
+    ('Ninja', '1.10.2'),
 ]
 
 osdependencies = [('openssl-devel', 'libssl-dev', 'libopenssl-devel')]
 
-configopts = "--with-openssl"
+configopts = "-DUSE_OPENSSL=ON -DUSE_NGHTTP2=ON"
+configopts = ['-DBUILD_SHARED_LIBS=OFF '+configopts, '-DBUILD_SHARED_LIBS=ON '+configopts]
 
 modextravars = {'CURL_INCLUDES': '%(installdir)s/include'}
 

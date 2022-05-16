@@ -1,0 +1,506 @@
+diff --color -urN what-if-tool-1.8.1/.bazelrc what-if-tool-1.8.1-patched/.bazelrc
+--- what-if-tool-1.8.1/.bazelrc	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/.bazelrc	2022-05-15 21:40:16.272910119 +0000
+@@ -0,0 +1,4 @@
++build --host_javabase=@bazel_tools//tools/jdk:absolute_javabase
++build --javabase=@bazel_tools//tools/jdk:absolute_javabase
++build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
++build --java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
+diff --color -urN what-if-tool-1.8.1/external/defaultshellenv.patch what-if-tool-1.8.1-patched/external/defaultshellenv.patch
+--- what-if-tool-1.8.1/external/defaultshellenv.patch	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/external/defaultshellenv.patch	2022-05-15 21:40:16.268909930 +0000
+@@ -0,0 +1,12 @@
++diff --git a/tensorboard/defs/web.bzl b/tensorboard/defs/web.bzl
++index dfca0bfd21b5..fb981493b25d 100644
++--- a/tensorboard/defs/web.bzl
+++++ b/tensorboard/defs/web.bzl
++@@ -180,6 +180,7 @@ def _tf_web_library(ctx):
++         tools=ctx.files._tsc,
++         inputs=ts_inputs,
++         outputs=ts_outputs,
+++       use_default_shell_env=True,
++         executable=ctx.executable._execrooter,
++         arguments=(
++             [er_config.path] +
+diff --color -urN what-if-tool-1.8.1/tboard_shellenv.patch what-if-tool-1.8.1-patched/tboard_shellenv.patch
+--- what-if-tool-1.8.1/tboard_shellenv.patch	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/tboard_shellenv.patch	2022-05-15 21:40:16.264909741 +0000
+@@ -0,0 +1,31 @@
++diff --git a/WORKSPACE b/WORKSPACE
++index 48227b5d8439..5ce04e1097eb 100644
++--- a/WORKSPACE
+++++ b/WORKSPACE
++@@ -97,6 +97,8 @@ http_archive(
++     name = "org_tensorflow_tensorboard",
++     sha256 = "528afecdcc551c31baa6c7c3f702439cb6a52b711a12f9773177d0a9221f0620",
++     strip_prefix = "tensorboard-22b1f7413a917249245ab63a33d1f03514039294",
+++    patch_args = ["-p1"],
+++    patches = ["defaultshellenv.patch"],
++     urls = [
++         "https://github.com/tensorflow/tensorboard/archive/22b1f7413a917249245ab63a33d1f03514039294.tar.gz",  # 2019-12-04
++     ],
++diff --git a/external/defaultshellenv.patch b/external/defaultshellenv.patch
++new file mode 100644
++index 000000000000..d22faf5662b6
++--- /dev/null
+++++ b/external/defaultshellenv.patch
++@@ -0,0 +1,12 @@
+++diff --git a/tensorboard/defs/web.bzl b/tensorboard/defs/web.bzl
+++index dfca0bfd21b5..fb981493b25d 100644
+++--- a/tensorboard/defs/web.bzl
++++++ b/tensorboard/defs/web.bzl
+++@@ -180,6 +180,7 @@ def _tf_web_library(ctx):
+++         tools=ctx.files._tsc,
+++         inputs=ts_inputs,
+++         outputs=ts_outputs,
++++       use_default_shell_env=True,
+++         executable=ctx.executable._execrooter,
+++         arguments=(
+++             [er_config.path] +
+diff --color -urN what-if-tool-1.8.1/third_party/ibrc_zlib.patch what-if-tool-1.8.1-patched/third_party/ibrc_zlib.patch
+--- what-if-tool-1.8.1/third_party/ibrc_zlib.patch	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/third_party/ibrc_zlib.patch	2022-05-15 21:40:10.570640871 +0000
+@@ -0,0 +1,14 @@
++diff --color -urN io_bazel_rules_closure-unpatched/closure/repositories.bzl io_bazel_rules_closure/closure/repositories.bzl
++--- io_bazel_rules_closure-unpatched/closure/repositories.bzl
+++++ io_bazel_rules_closure/closure/repositories.bzl
++@@ -1026,7 +1026,7 @@
++     http_archive(
++         name = "zlib",
++         build_file = "@io_bazel_rules_closure//:third_party/zlib.BUILD",
++-        sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
++-        strip_prefix = "zlib-1.2.11",
++-        urls = ["https://zlib.net/zlib-1.2.11.tar.gz"],
+++        sha256 = "91844808532e5ce316b3c010929493c0244f3d37593afd6de04f71821d5136d9",
+++        strip_prefix = "zlib-1.2.12",
+++        urls = ["https://zlib.net/zlib-1.2.12.tar.gz"],
++     )
+diff --color -urN what-if-tool-1.8.1/third_party/io_bazel_rules_closure-java_template-shell-env.patch what-if-tool-1.8.1-patched/third_party/io_bazel_rules_closure-java_template-shell-env.patch
+--- what-if-tool-1.8.1/third_party/io_bazel_rules_closure-java_template-shell-env.patch	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/third_party/io_bazel_rules_closure-java_template-shell-env.patch	2022-05-15 21:40:10.579641296 +0000
+@@ -0,0 +1,59 @@
++diff --color -urN a/closure/templates/closure_java_template_library.bzl b/closure/templates/closure_java_template_library.bzl
++--- a/closure/templates/closure_java_template_library.bzl
+++++ b/closure/templates/closure_java_template_library.bzl
++@@ -15,6 +15,8 @@
++ """Utilities for compiling Closure Templates to Java.
++ """
++
+++load("@rules_java//java:defs.bzl", "java_library")
+++
++ _SOY_COMPILER_BIN = "@com_google_template_soy//:SoyParseInfoGenerator"
++ _SOY_LIBRARY = "@com_google_template_soy//:com_google_template_soy"
++
++@@ -77,7 +77,7 @@
++
++     # Now, wrap them in a Java library, and expose the Soy files as resources.
++     java_srcs = outs + extra_outs
++-    native.java_library(
+++    java_library(
++         name = name,
++         srcs = java_srcs or None,
++         exports = [str(Label(_SOY_LIBRARY))],
++diff --color -urN a/closure/repositories.bzl b/closure/repositories.bzl
++--- a/closure/repositories.bzl
+++++ b/closure/repositories.bzl
++@@ -92,6 +92,7 @@
++         omit_org_ow2_asm_tree = False,
++         omit_org_ow2_asm_util = False,
++         omit_phantomjs = False,
+++        omit_rules_java = False,
++         omit_zlib = False):
++     """Imports dependencies for Closure Rules."""
++     if omit_com_google_protobuf_java:
++@@ -194,6 +195,8 @@
++         org_ow2_asm_util()
++     if not omit_phantomjs:
++         phantomjs()
+++    if not omit_rules_java:
+++        rules_java()
++     if not omit_zlib:
++         zlib()
++
++@@ -1022,6 +1025,17 @@
++         macos_sha256 = "538cf488219ab27e309eafc629e2bcee9976990fe90b1ec334f541779150f8c1",
++     )
++
+++def rules_java():
+++    http_archive(
+++        name = "rules_java",
+++        sha256 = "f5a3e477e579231fca27bf202bb0e8fbe4fc6339d63b38ccb87c2760b533d1c3",
+++        strip_prefix = "rules_java-981f06c3d2bd10225e85209904090eb7b5fb26bd",
+++        urls = [
+++            "https://mirror.bazel.build/github.com/bazelbuild/rules_java/archive/981f06c3d2bd10225e85209904090eb7b5fb26bd.tar.gz",
+++            "https://github.com/bazelbuild/rules_java/archive/981f06c3d2bd10225e85209904090eb7b5fb26bd.tar.gz",
+++        ],
+++    )
+++
++ def zlib():
++     http_archive(
++         name = "zlib",
+diff --color -urN what-if-tool-1.8.1/third_party/io_bazel_rules_closure-js_template-shell-env.patch what-if-tool-1.8.1-patched/third_party/io_bazel_rules_closure-js_template-shell-env.patch
+--- what-if-tool-1.8.1/third_party/io_bazel_rules_closure-js_template-shell-env.patch	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/third_party/io_bazel_rules_closure-js_template-shell-env.patch	2022-05-15 21:40:10.583641485 +0000
+@@ -0,0 +1,11 @@
++diff --color -urN a/closure/templates/closure_js_template_library.bzl b/closure/templates/closure_js_template_library.bzl
++--- a/closure/templates/closure_js_template_library.bzl
+++++ b/closure/templates/closure_js_template_library.bzl
++@@ -53,6 +53,7 @@
++         executable = ctx.executable.compiler,
++         arguments = args,
++         mnemonic = "SoyCompiler",
+++        use_default_shell_env = True,
++         progress_message = "Generating %d SOY v2 JS file(s)" % len(
++             ctx.attr.outputs,
++         ),
+diff --color -urN what-if-tool-1.8.1/third_party/io_bazel_rules_closure-proto-shell-env.patch what-if-tool-1.8.1-patched/third_party/io_bazel_rules_closure-proto-shell-env.patch
+--- what-if-tool-1.8.1/third_party/io_bazel_rules_closure-proto-shell-env.patch	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/third_party/io_bazel_rules_closure-proto-shell-env.patch	2022-05-15 21:40:10.577641201 +0000
+@@ -0,0 +1,11 @@
++diff --color -urN a/closure/protobuf/closure_proto_library.bzl b/closure/protobuf/closure_proto_library.bzl
++--- a/closure/protobuf/closure_proto_library.bzl
+++++ b/closure/protobuf/closure_proto_library.bzl
++@@ -80,6 +80,7 @@
++         arguments = args,
++         progress_message =
++             _generate_closure_js_progress_message(ctx.rule.attr.name),
+++        use_default_shell_env = True,
++     )
++
++     return js
+diff --color -urN what-if-tool-1.8.1/third_party/java_tools-limits.patch what-if-tool-1.8.1-patched/third_party/java_tools-limits.patch
+--- what-if-tool-1.8.1/third_party/java_tools-limits.patch	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/third_party/java_tools-limits.patch	2022-05-15 21:40:10.571640918 +0000
+@@ -0,0 +1,22 @@
++diff --color -urN java_tools-unpatched/ijar/mapped_file_unix.cc java_tools/ijar/mapped_file_unix.cc
++--- java_tools-unpatched/ijar/mapped_file_unix.cc	2022-05-15 10:25:49.678719364 +0200
+++++ java_tools/ijar/mapped_file_unix.cc	2022-05-15 10:26:20.855864955 +0200
++@@ -19,6 +19,7 @@
++ #include <sys/mman.h>
++ 
++ #include <algorithm>
+++#include <limits>
++ 
++ #include "third_party/ijar/mapped_file.h"
++ 
++diff --color -urN java_tools-unpatched/ijar/zlib_client.h java_tools/ijar/zlib_client.h
++--- java_tools-unpatched/ijar/zlib_client.h	2022-05-15 10:25:49.678719364 +0200
+++++ java_tools/ijar/zlib_client.h	2022-05-15 10:26:07.855387062 +0200
++@@ -16,6 +16,7 @@
++ #define THIRD_PARTY_IJAR_ZLIB_CLIENT_H_
++ 
++ #include <limits.h>
+++#include <limits>
++ 
++ #include "third_party/ijar/common.h"
++ 
+diff --color -urN what-if-tool-1.8.1/third_party/rules_nodejs-0.34.0-armify.patch what-if-tool-1.8.1-patched/third_party/rules_nodejs-0.34.0-armify.patch
+--- what-if-tool-1.8.1/third_party/rules_nodejs-0.34.0-armify.patch	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/third_party/rules_nodejs-0.34.0-armify.patch	2022-05-15 21:40:10.568640776 +0000
+@@ -0,0 +1,196 @@
++diff --git a/internal/common/os_name.bzl b/internal/common/os_name.bzl
++index 8b629b97..f49eb6e8 100644
++--- a/internal/common/os_name.bzl
+++++ b/internal/common/os_name.bzl
++@@ -19,6 +19,7 @@ OS_ARCH_NAMES = [
++     ("darwin", "amd64"),
++     ("windows", "amd64"),
++     ("linux", "amd64"),
+++    ("linux", "arm64"),
++ ]
++ 
++ OS_NAMES = ["_".join(os_arch_name) for os_arch_name in OS_ARCH_NAMES]
++@@ -33,12 +34,17 @@ def os_name(rctx):
++       A string describing the os for a repository rule
++     """
++     os_name = rctx.os.name.lower()
+++    if os_name.find("windows") != -1:
+++        return OS_NAMES[1]
+++
+++    arch = rctx.execute(["uname", "-m"]).stdout.strip()
++     if os_name.startswith("mac os"):
++         return OS_NAMES[0]
++-    elif os_name.find("windows") != -1:
++-        return OS_NAMES[1]
++     elif os_name.startswith("linux"):
++-        return OS_NAMES[2]
+++        if arch == "x86_64":
+++            return OS_NAMES[2]
+++        elif arch == "aarch64":
+++            return OS_NAMES[3]
++     else:
++         fail("Unsupported operating system: " + os_name)
++ 
++@@ -49,4 +55,4 @@ def is_windows_os(rctx):
++     return os_name(rctx) == OS_NAMES[1]
++ 
++ def is_linux_os(rctx):
++-    return os_name(rctx) == OS_NAMES[2]
+++    return os_name(rctx) == OS_NAMES[2] or os_name(rctx) == OS_NAMES[3]
++diff --git a/internal/node/node_repositories.bzl b/internal/node/node_repositories.bzl
++index 5380fff5..ca41c76c 100644
++--- a/internal/node/node_repositories.bzl
+++++ b/internal/node/node_repositories.bzl
++@@ -35,38 +35,47 @@ NODE_REPOSITORIES = {
++     # 10.10.0
++     "10.10.0-darwin_amd64": ("node-v10.10.0-darwin-x64.tar.gz", "node-v10.10.0-darwin-x64", "00b7a8426e076e9bf9d12ba2d571312e833fe962c70afafd10ad3682fdeeaa5e"),
++     "10.10.0-linux_amd64": ("node-v10.10.0-linux-x64.tar.xz", "node-v10.10.0-linux-x64", "686d2c7b7698097e67bcd68edc3d6b5d28d81f62436c7cf9e7779d134ec262a9"),
+++    "10.10.0-linux_arm64": ("node-v10.10.0-linux-arm64.tar.xz", "node-v10.10.0-linux-arm64", "7d57961d18ea70b4e99906d87f9de1a2defc45a36fcd8cd84295e9ae5c4281da"),
++     "10.10.0-windows_amd64": ("node-v10.10.0-win-x64.zip", "node-v10.10.0-win-x64", "70c46e6451798be9d052b700ce5dadccb75cf917f6bf0d6ed54344c856830cfb"),
++     # 10.13.0
++     "10.13.0-darwin_amd64": ("node-v10.13.0-darwin-x64.tar.gz", "node-v10.13.0-darwin-x64", "815a5d18516934a3963ace9f0574f7d41f0c0ce9186a19be3d89e039e57598c5"),
++     "10.13.0-linux_amd64": ("node-v10.13.0-linux-x64.tar.xz", "node-v10.13.0-linux-x64", "0dc6dba645550b66f8f00541a428c29da7c3cde32fb7eda2eb626a9db3bbf08d"),
+++    "10.13.0-linux_arm64": ("node-v10.13.0-linux-arm64.tar.xz", "node-v10.13.0-linux-arm64", "1537ebe64dc34a2a9b8ab6254213079789e9d59ed0ed26987afb1da37b6a8f87"),
++     "10.13.0-windows_amd64": ("node-v10.13.0-win-x64.zip", "node-v10.13.0-win-x64", "eb09c9e9677f1919ec1ca78623c09b2a718ec5388b72b7662d5c41e5f628a52c"),
++     # 10.16.0
++     "10.16.0-darwin_amd64": ("node-v10.16.0-darwin-x64.tar.gz", "node-v10.16.0-darwin-x64", "6c009df1b724026d84ae9a838c5b382662e30f6c5563a0995532f2bece39fa9c"),
++     "10.16.0-linux_amd64": ("node-v10.16.0-linux-x64.tar.xz", "node-v10.16.0-linux-x64", "1827f5b99084740234de0c506f4dd2202a696ed60f76059696747c34339b9d48"),
+++    "10.16.0-linux_arm64": ("node-v10.16.0-linux-arm64.tar.xz", "node-v10.16.0-linux-arm64", "ae2e74ab2f5dbff96bf0b7d8457004bf3538233916f8834740bbe2d5a35442e5"),
++     "10.16.0-windows_amd64": ("node-v10.16.0-win-x64.zip", "node-v10.16.0-win-x64", "aa22cb357f0fb54ccbc06b19b60e37eefea5d7dd9940912675d3ed988bf9a059"),
++     # 10.3.0
++     "10.3.0-darwin_amd64": ("node-v10.3.0-darwin-x64.tar.gz", "node-v10.3.0-darwin-x64", "0bb5b7e3fe8cccda2abda958d1eb0408f1518a8b0cb58b75ade5d507cd5d6053"),
++     "10.3.0-linux_amd64": ("node-v10.3.0-linux-x64.tar.xz", "node-v10.3.0-linux-x64", "eb3c3e2585494699716ad3197c8eedf4003d3f110829b30c5a0dc34414c47423"),
+++    "10.3.0-linux_arm64": ("node-v10.3.0-linux-arm64.tar.xz", "node-v10.3.0-linux-arm64", "6811b7b9807135902990508143605c0c758d07f7726092ed1b2e27cc60111bd0"),
++     "10.3.0-windows_amd64": ("node-v10.3.0-win-x64.zip", "node-v10.3.0-win-x64", "65d586afb087406a2800d8e51f664c88b26d510f077b85a3b177a1bb79f73677"),
++     # 10.9.0
++     "10.9.0-darwin_amd64": ("node-v10.9.0-darwin-x64.tar.gz", "node-v10.9.0-darwin-x64", "3c4fe75dacfcc495a432a7ba2dec9045cff359af2a5d7d0429c84a424ef686fc"),
++     "10.9.0-linux_amd64": ("node-v10.9.0-linux-x64.tar.xz", "node-v10.9.0-linux-x64", "c5acb8b7055ee0b6ac653dc4e458c5db45348cecc564b388f4ed1def84a329ff"),
+++    "10.9.0-linux_arm64": ("node-v10.9.0-linux-arm64.tar.xz", "node-v10.9.0-linux-arm64", "3d6aa717d98bbf901c5325a02a81048eb47212bdc44963ef8d59c6e52e987b7c"),
++     "10.9.0-windows_amd64": ("node-v10.9.0-win-x64.zip", "node-v10.9.0-win-x64", "6a75cdbb69d62ed242d6cbf0238a470bcbf628567ee339d4d098a5efcda2401e"),
++     # 8.11.1
++     "8.11.1-darwin_amd64": ("node-v8.11.1-darwin-x64.tar.gz", "node-v8.11.1-darwin-x64", "5c7b05899ff56910a2b8180f139d48612f349ac2c5d20f08dbbeffbed9e3a089"),
++     "8.11.1-linux_amd64": ("node-v8.11.1-linux-x64.tar.xz", "node-v8.11.1-linux-x64", "6617e245fa0f7fbe0e373e71d543fea878315324ab31dc64b4eba10e42d04c11"),
+++    "8.11.1-linux_arm64": ("node-v8.11.1-linux-arm64.tar.xz", "node-v8.11.1-linux-arm64", "ff518f33751baa8ea4f18853d446357c2edecd930a1526ac9b2eaa79baddc1bf"),
++     "8.11.1-windows_amd64": ("node-v8.11.1-win-x64.zip", "node-v8.11.1-win-x64", "7d49b59c2b5d73a14c138e8a215d558a64a5241cd5035d9824f608e7bba097b1"),
++     # 8.12.0
++     "8.12.0-darwin_amd64": ("node-v8.12.0-darwin-x64.tar.gz", "node-v8.12.0-darwin-x64", "ca131b84dfcf2b6f653a6521d31f7a108ad7d83f4d7e781945b2eca8172064aa"),
++     "8.12.0-linux_amd64": ("node-v8.12.0-linux-x64.tar.xz", "node-v8.12.0-linux-x64", "29a20479cd1e3a03396a4e74a1784ccdd1cf2f96928b56f6ffa4c8dae40c88f2"),
+++    "8.12.0-linux_arm64": ("node-v8.12.0-linux-arm64.tar.xz", "node-v8.12.0-linux-arm64", "0fbdcfd8cf0cb5e8f5beff84ba091fd47126ba44c628e3a351501419b211aa1a"),
++     "8.12.0-windows_amd64": ("node-v8.12.0-win-x64.zip", "node-v8.12.0-win-x64", "9b22c9b23148b61ea0052826b3ac0255b8a3a542c125272b8f014f15bf11b091"),
++     # 8.9.1
++     "8.9.1-darwin_amd64": ("node-v8.9.1-darwin-x64.tar.gz", "node-v8.9.1-darwin-x64", "05c992a6621d28d564b92bf3051a5dc0adf83839237c0d4653a8cdb8a1c73b94"),
++     "8.9.1-linux_amd64": ("node-v8.9.1-linux-x64.tar.xz", "node-v8.9.1-linux-x64", "8be82805f7c1ab3e64d4569fb9a90ded2de78dd27cadbb91bad1bf975dae1e2d"),
+++    "8.9.1-linux_arm64": ("node-v8.9.1-linux-arm64.tar.xz", "node-v8.9.1-linux-arm64", "f774660980dcf931bf29847a5f26317823a063fa4a56f85f37c3222d77cce7c1"),
++     "8.9.1-windows_amd64": ("node-v8.9.1-win-x64.zip", "node-v8.9.1-win-x64", "db89c6e041da359561fbe7da075bb4f9881a0f7d3e98c203e83732cfb283fa4a"),
++     # 9.11.1
++     "9.11.1-darwin_amd64": ("node-v9.11.1-darwin-x64.tar.gz", "node-v9.11.1-darwin-x64", "7b1fb394aa41a62b477e36df16644bd383cc9084808511f6cd318b835a06aac6"),
++     "9.11.1-linux_amd64": ("node-v9.11.1-linux-x64.tar.xz", "node-v9.11.1-linux-x64", "4d27a95d5c2f1c8ef99118794c9c4903e63963418d3e16ca7576760cff39879b"),
+++    "9.11.1-linux_arm64": ("node-v9.11.1-linux-arm64.tar.xz", "node-v9.11.1-linux-arm64", "dba2de106fbde2013a204ca9fafdfe67c0426b4e63d186f888e59432ad2dbb03"),
++     "9.11.1-windows_amd64": ("node-v9.11.1-win-x64.zip", "node-v9.11.1-win-x64", "0a3566d57ccb7fed95d18fc6c3bc1552a1b1e4753f9bc6c5d45e04f325e1ee53"),
++ }
++ 
++diff --git a/internal/rollup/rollup_bundle.bzl b/internal/rollup/rollup_bundle.bzl
++index b424a139..63ec47ce 100644
++--- a/internal/rollup/rollup_bundle.bzl
+++++ b/internal/rollup/rollup_bundle.bzl
++@@ -231,6 +231,7 @@ def _run_rollup(ctx, sources, config, output, map_output = None):
++         inputs = depset(direct_inputs, transitive = [sources]),
++         outputs = outputs,
++         arguments = [args],
+++	use_default_shell_env = True,
++     )
++ 
++ def _run_tsc(ctx, input, output):
++@@ -255,6 +256,7 @@ def _run_tsc(ctx, input, output):
++         inputs = [input],
++         outputs = [output],
++         arguments = [args],
+++	use_default_shell_env = True,
++     )
++ 
++ def _run_tsc_on_directory(ctx, input_dir, output_dir):
++@@ -271,6 +273,7 @@ def _run_tsc_on_directory(ctx, input_dir, output_dir):
++         inputs = [input_dir],
++         outputs = [output_dir, config],
++         arguments = [args],
+++	use_default_shell_env = True,
++     )
++ 
++ def run_uglify(**kwargs):
++@@ -344,6 +347,7 @@ def _run_terser(ctx, input, output, map_output, debug = False, comments = True,
++         inputs = inputs,
++         outputs = outputs,
++         arguments = [args],
+++	use_default_shell_env = True,
++     )
++ 
++ def run_sourcemapexplorer(ctx, js, map, output):
++@@ -370,6 +374,7 @@ def run_sourcemapexplorer(ctx, js, map, output):
++             map.path,
++             output.path,
++         ],
+++	use_default_shell_env = True,
++     )
++ 
++ def _generate_toplevel_entry(ctx, bundles_folder, output):
++diff --git a/package.bzl b/package.bzl
++index 8ecb7e50..4383836a 100644
++--- a/package.bzl
+++++ b/package.bzl
++@@ -62,9 +62,9 @@ def rules_nodejs_dev_dependencies():
++     http_archive(
++         name = "zlib",
++         build_file = "@com_google_protobuf//:third_party/zlib.BUILD",
++-        sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
++-        strip_prefix = "zlib-1.2.11",
++-        urls = ["https://zlib.net/zlib-1.2.11.tar.gz"],
+++        sha256 = "91844808532e5ce316b3c010929493c0244f3d37593afd6de04f71821d5136d9",
+++        strip_prefix = "zlib-1.2.12",
+++        urls = ["https://zlib.net/zlib-1.2.12.tar.gz"],
++     )
++ 
++     http_archive(
++diff --git a/toolchains/node/BUILD.bazel b/toolchains/node/BUILD.bazel
++index b7cc85f1..43d4bc2d 100644
++--- a/toolchains/node/BUILD.bazel
+++++ b/toolchains/node/BUILD.bazel
++@@ -24,6 +24,13 @@ platform(
++         "@bazel_tools//platforms:x86_64",
++     ],
++ )
+++platform(
+++    name = "linux_arm64",
+++    constraint_values = [
+++        "@bazel_tools//platforms:linux",
+++        "@bazel_tools//platforms:aarch64",
+++    ],
+++)
++ 
++ platform(
++     name = "linux_amd64",
++@@ -57,7 +64,7 @@ filegroup(
++ toolchain_type(name = "toolchain_type")
++ 
++ toolchain(
++-    name = "node_linux_toolchain",
+++    name = "node_linux_x86_toolchain",
++     target_compatible_with = [
++         "@bazel_tools//platforms:linux",
++         "@bazel_tools//platforms:x86_64",
++@@ -66,6 +73,16 @@ toolchain(
++     toolchain_type = ":toolchain_type",
++ )
++ 
+++toolchain(
+++    name = "node_linux_toolchain",
+++    target_compatible_with = [
+++        "@bazel_tools//platforms:linux",
+++        "@bazel_tools//platforms:aarch64",
+++    ],
+++    toolchain = "@nodejs_linux_arm64_config//:toolchain",
+++    toolchain_type = ":toolchain_type",
+++)
+++
++ toolchain(
++     name = "node_darwin_toolchain",
++     target_compatible_with = [
+diff --color -urN what-if-tool-1.8.1/third_party/tensorboard-arm-node.patch what-if-tool-1.8.1-patched/third_party/tensorboard-arm-node.patch
+--- what-if-tool-1.8.1/third_party/tensorboard-arm-node.patch	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/third_party/tensorboard-arm-node.patch	2022-05-15 21:40:10.573641012 +0000
+@@ -0,0 +1,24 @@
++diff --color -urN a/third_party/js.bzl b/third_party/js.bzl
++--- a/third_party/js.bzl
+++++ b/third_party/js.bzl
++@@ -57,9 +57,9 @@
++           ],
++       },
++       sha256_urls_extract = {
++-          "d4eb161e4715e11bbef816a6c577974271e2bddae9cf008744627676ff00036a": [
++-              "http://mirror.tensorflow.org/nodejs.org/dist/v6.9.1/node-v6.9.1-linux-x64.tar.xz",
++-              "http://nodejs.org/dist/v6.9.1/node-v6.9.1-linux-x64.tar.xz",
+++          "7aa69b6c8cff578d0d97d5bd4f76941b2fade5476f0408d53828666ee427dd4e": [
+++              "http://mirror.tensorflow.org/nodejs.org/dist/v6.9.1/node-v6.9.1-linux-arm64.tar.xz",
+++              "http://nodejs.org/dist/v6.9.1/node-v6.9.1-linux-arm64.tar.xz",
++           ],
++       },
++       sha256_urls_extract_ppc64le = {
++@@ -70,6 +70,7 @@
++       strip_prefix = {
++           "node-v6.9.1-darwin-x64.tar.xz": "node-v6.9.1-darwin-x64",
++           "node-v6.9.1-linux-x64.tar.xz": "node-v6.9.1-linux-x64",
+++          "node-v6.9.1-linux-arm64.tar.xz": "node-v6.9.1-linux-arm64",
++           "node-v6.9.1-linux-ppc64le.tar.xz": "node-v6.9.1-linux-ppc64le",
++       },
++       executable = [
+diff --color -urN what-if-tool-1.8.1/third_party/tensorboard-clutz-shell-env.patch what-if-tool-1.8.1-patched/third_party/tensorboard-clutz-shell-env.patch
+--- what-if-tool-1.8.1/third_party/tensorboard-clutz-shell-env.patch	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/third_party/tensorboard-clutz-shell-env.patch	2022-05-15 21:40:10.581641390 +0000
+@@ -0,0 +1,23 @@
++diff --color -urN a/tensorboard/defs/web.bzl b/tensorboard/defs/web.bzl
++--- a/tensorboard/defs/web.bzl
+++++ b/tensorboard/defs/web.bzl
++@@ -180,7 +180,7 @@
++         tools=ctx.files._tsc,
++         inputs=ts_inputs,
++         outputs=ts_outputs,
++-       use_default_shell_env=True,
+++        use_default_shell_env=True,
++         executable=ctx.executable._execrooter,
++         arguments=(
++             [er_config.path] +
++diff --color -urN a/third_party/clutz.bzl b/third_party/clutz.bzl
++--- a/third_party/clutz.bzl
+++++ b/third_party/clutz.bzl
++@@ -66,6 +66,7 @@
++       executable=ctx.executable._clutz,
++       arguments=args,
++       mnemonic="Clutz",
+++      use_default_shell_env = True,
++       progress_message="Running Clutz on %d JS files %s" % (
++           len(srcs.to_list()), ctx.label))
++   return js_typings
+diff --color -urN what-if-tool-1.8.1/third_party/tensorboard-vulcanize-shell-env.patch what-if-tool-1.8.1-patched/third_party/tensorboard-vulcanize-shell-env.patch
+--- what-if-tool-1.8.1/third_party/tensorboard-vulcanize-shell-env.patch	1970-01-01 00:00:00.000000000 +0000
++++ what-if-tool-1.8.1-patched/third_party/tensorboard-vulcanize-shell-env.patch	2022-05-15 21:40:10.575641107 +0000
+@@ -0,0 +1,11 @@
++diff --color -urN a/tensorboard/defs/vulcanize.bzl b/tensorboard/defs/vulcanize.bzl
++--- a/tensorboard/defs/vulcanize.bzl
+++++ b/tensorboard/defs/vulcanize.bzl
++@@ -67,6 +67,7 @@
++                   ignore_regexs_file_path] +
++                  [f.path for f in jslibs.to_list()] +
++                  [f.path for f in manifests.to_list()]),
+++      use_default_shell_env = True,
++       mnemonic="Vulcanize",
++       progress_message="Vulcanizing %s" % ctx.attr.input_path)
++
+diff --color -urN what-if-tool-1.8.1/WORKSPACE what-if-tool-1.8.1-patched/WORKSPACE
+--- what-if-tool-1.8.1/WORKSPACE	2021-10-12 17:32:29.000000000 +0000
++++ what-if-tool-1.8.1-patched/WORKSPACE	2022-05-15 21:40:16.275910260 +0000
+@@ -38,6 +38,13 @@
+     name = "io_bazel_rules_closure",
+     sha256 = "9b99615f73aa574a2947226c6034a6f7c319e1e42905abc4dc30ddbbb16f4a31",
+     strip_prefix = "rules_closure-4a79cc6e6eea5e272fe615db7c98beb8cf8e7eb5",
++    patches = [
++            '//third_party:ibrc_zlib.patch',
++            '//third_party:io_bazel_rules_closure-proto-shell-env.patch',
++            '//third_party:io_bazel_rules_closure-js_template-shell-env.patch',
++            '//third_party:io_bazel_rules_closure-java_template-shell-env.patch'
++    ],
++    patch_args = ['-p1'],
+     urls = [
+         "http://mirror.tensorflow.org/github.com/bazelbuild/rules_closure/archive/4a79cc6e6eea5e272fe615db7c98beb8cf8e7eb5.tar.gz",
+         "https://github.com/bazelbuild/rules_closure/archive/4a79cc6e6eea5e272fe615db7c98beb8cf8e7eb5.tar.gz",  # 2019-09-16
+@@ -53,6 +60,8 @@
+ http_archive(
+     name = "build_bazel_rules_nodejs",
+     sha256 = "7c4a690268be97c96f04d505224ec4cb1ae53c2c2b68be495c9bd2634296a5cd",
++    patch_args = ["-p1"],
++    patches = ["//third_party:rules_nodejs-0.34.0-armify.patch"],
+     urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.34.0/rules_nodejs-0.34.0.tar.gz"],
+ )
+ 
+@@ -97,6 +106,13 @@
+     name = "org_tensorflow_tensorboard",
+     sha256 = "528afecdcc551c31baa6c7c3f702439cb6a52b711a12f9773177d0a9221f0620",
+     strip_prefix = "tensorboard-22b1f7413a917249245ab63a33d1f03514039294",
++    patch_args = ["-p1"],
++    patches = [
++        "defaultshellenv.patch",
++        "//third_party:tensorboard-arm-node.patch",
++        "//third_party:tensorboard-vulcanize-shell-env.patch",
++        "//third_party:tensorboard-clutz-shell-env.patch",
++    ],
+     urls = [
+         "https://github.com/tensorflow/tensorboard/archive/22b1f7413a917249245ab63a33d1f03514039294.tar.gz",  # 2019-12-04
+     ],

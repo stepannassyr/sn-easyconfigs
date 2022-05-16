@@ -1,0 +1,11 @@
+--- src/compiler/python_generator.cc
++++ src/compiler/python_generator.cc
+@@ -879,7 +879,7 @@
+   return true;
+ }
+
+-uint64_t PythonGrpcGenerator::GetSupportedFeatures() const {
++uint64_t PythonGrpcGenerator::GetSupportedFeatures() const override {
+   return FEATURE_PROTO3_OPTIONAL;
+ }
+

@@ -1,0 +1,20 @@
+--- tensorflow/workspace0.bzl	2022-05-12 08:59:20.478507284 +0000
++++ tensorflow/workspace0.bzl	2022-05-12 08:59:45.828669293 +0000
+@@ -5,7 +5,7 @@
+ load("@bazel_toolchains//repositories:repositories.bzl", bazel_toolchains_repositories = "repositories")
+ load("@build_bazel_rules_swift//swift:repositories.bzl", "swift_rules_dependencies")
+ load("@com_github_grpc_grpc//bazel:grpc_extra_deps.bzl", "grpc_extra_deps")
+-load("@local_config_android//:android.bzl", "android_workspace")
++#load("@local_config_android//:android.bzl", "android_workspace")
+ load("@rules_cc//cc:repositories.bzl", "rules_cc_toolchains")
+ 
+ def _tf_bind():
+@@ -111,7 +111,7 @@
+     # `git_repository` rules above, the following call will skip redefining them.
+     swift_rules_dependencies()
+ 
+-    android_workspace()
++#    android_workspace()
+ 
+     # If a target is bound twice, the later one wins, so we have to do tf bindings
+     # at the end of the WORKSPACE file.

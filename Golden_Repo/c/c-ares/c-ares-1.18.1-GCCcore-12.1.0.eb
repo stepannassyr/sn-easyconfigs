@@ -1,7 +1,7 @@
 easyblock = 'CMakeNinja'
 
 name = 'c-ares'
-version = '1.17.1'
+version = '1.18.1'
 
 homepage = 'https://c-ares.haxx.se/'
 description = "c-ares is a C library for asynchronous DNS requests (including name resolves)"

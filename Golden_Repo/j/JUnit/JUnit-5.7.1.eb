@@ -44,7 +44,7 @@ source_urls = ['http://search.maven.org/remotecontent?filepath=org/junit/jupiter
                'http://search.maven.org/remotecontent?filepath=org/junit/platform/junit-platform-commons/1.6.1/',
               ]
 
-dependencies = [('Java', '17.0.3')]
+dependencies = [('Java', '11.0.15')]
 
 sanity_check_paths = {
     'files': sources,

@@ -1,0 +1,14 @@
+diff --color -urN what-if-tool-1.8.1-unpatched/WORKSPACE what-if-tool-1.8.1/WORKSPACE
+--- what-if-tool-1.8.1-unpatched/WORKSPACE	2022-05-14 14:46:34.757120529 +0000
++++ what-if-tool-1.8.1/WORKSPACE	2022-05-14 14:47:49.577596323 +0000
+@@ -52,8 +52,8 @@
+ 
+ http_archive(
+     name = "build_bazel_rules_nodejs",
+-    sha256 = "7c4a690268be97c96f04d505224ec4cb1ae53c2c2b68be495c9bd2634296a5cd",
+-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.34.0/rules_nodejs-0.34.0.tar.gz"],
++    sha256 = "a54b2511d6dae42c1f7cdaeb08144ee2808193a088004fc3b464a04583d5aa2e",
++    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.42.3/rules_nodejs-0.42.3.tar.gz"],
+ )
+ 
+ load("@build_bazel_rules_nodejs//:defs.bzl", "node_repositories", "yarn_install")

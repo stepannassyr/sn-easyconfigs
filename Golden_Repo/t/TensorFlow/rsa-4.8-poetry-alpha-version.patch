@@ -1,0 +1,12 @@
+diff --color -urN rsa-4.8-unpatched/pyproject.toml rsa-4.8/pyproject.toml
+--- rsa-4.8-unpatched/pyproject.toml	2022-05-11 11:07:42.492722865 +0000
++++ rsa-4.8/pyproject.toml	2022-05-11 11:08:01.112845609 +0000
+@@ -42,7 +42,7 @@
+ flake8 = "^3.8.4"
+ 
+ [build-system]
+-requires = ["poetry-core>=1.0.0"]
++requires = ["poetry-core>=1.0.0a"]
+ build-backend = "poetry.core.masonry.api"
+ 
+ [tool.poetry.scripts]
