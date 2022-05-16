@@ -28,7 +28,7 @@ builddependencies = [
 dependencies = [
     ('Python', '3.10.4'),
     ('SciPy-Stack', '2022a', versionsuffix),
-    ('Boost', '1.75.0', versionsuffix),
+    ('Boost', '1.79.0', versionsuffix),
 ]
 
 start_dir = 'cpp'

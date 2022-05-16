@@ -1,13 +1,13 @@
 # This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
 name = 'Boost'
-version = '1.75.0'
+version = '1.79.0'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'http://www.boost.org/'
 description = """Boost provides free peer-reviewed portable C++ source libraries."""
 
 
-toolchain = {'name': 'goolf', 'version': '2022a.12'}
+toolchain = {'name': 'alplompi', 'version': '22.0.1'}
 toolchainopts = {'pic': True, 'usempi': True}
 
 source_urls = ["https://boostorg.jfrog.io/artifactory/main/release/%(version)s/source/"]
@@ -15,8 +15,9 @@ sources = ['%%(namelower)s_%s.tar.gz' % '_'.join(version.split('.'))]
 patches = [
 # No 'm' for 3.8.0
 #    'Boost-1.65.1_fix-Python3.patch',
+    'Boost-1.75.0_fix-armclang.patch'
 ]
-checksums = ['aeb26f80e80945e82ee93e5939baebdca47b9dee80a07d3144be1e1a6a66dd6a']
+checksums = ['273f1be93238a068aba4f9735a4a2b003019af067b9c183ed227780b8f36062c']
 
 dependencies = [
     ('bzip2', '1.0.8'),
@@ -24,6 +25,8 @@ dependencies = [
     ('Python', '3.10.4'),
     ('ICU', '71.1'),
 ]
+
+toolset='clang'
 
 # also build boost_mpi
 boost_mpi = True

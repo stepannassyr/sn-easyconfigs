@@ -2,21 +2,17 @@
 # Authors::   Denis Kristak <thenis@inuits.eu>
 ##
 name = 'Boost'
-version = '1.78.0'
+version = '1.79.0'
 
 homepage = 'https://www.boost.org/'
 description = """Boost provides free peer-reviewed portable C++ source libraries."""
 
-toolchain = {'name': 'armlinux', 'version': '22.0.1'}
+toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 toolchainopts = {'pic': True}
 
 source_urls = ['https://boostorg.jfrog.io/artifactory/main/release/%(version)s/source/']
 sources = ['%%(namelower)s_%s.tar.gz' % '_'.join(version.split('.'))]
-checksums = ['94ced8b72956591c4775ae2207a9763d3600b30d9d7446562c552f0a14a63be7']
-
-patches = [
-    'Boost-1.75.0_fix-armclang.patch'
-]
+checksums = ['273f1be93238a068aba4f9735a4a2b003019af067b9c183ed227780b8f36062c']
 
 dependencies = [
     ('bzip2', '1.0.8'),
@@ -26,8 +22,6 @@ dependencies = [
 ]
 
 configopts = '--without-libraries=python,mpi'
-
-toolset='clang'
 
 # disable MPI, build Boost libraries with tagged layout
 boost_mpi = False

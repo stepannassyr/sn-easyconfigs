@@ -29,7 +29,7 @@ dependencies = [
     ('SciPy-Stack', '2022a', versionsuffix),
     ('PyYAML', '5.4.1', versionsuffix),
     ('dm-tree', '0.1.7', versionsuffix),
-    ('protobuf', '3.16.0'),
+    ('protobuf', '3.20.1'),
     ('nodejs', '16.15.0'),
 #    ('gRPC', '1.37.1'),
     ('lz4', '1.9.3'),
