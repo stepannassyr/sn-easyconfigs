@@ -28,7 +28,7 @@ builddependencies = [
 dependencies = [
     ('zlib', '1.2.12'),
     ('libpng', '1.6.37'),
-    ('LibTIFF', '4.2.0')
+    ('LibTIFF', '4.3.0')
 ]
 
 sanity_check_paths = {

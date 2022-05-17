@@ -13,20 +13,21 @@
 easyblock = 'ConfigureMake'
 
 name = 'LibTIFF'
-version = '4.2.0'
+version = '4.3.0'
 
 homepage = 'http://www.remotesensing.org/libtiff/'
 description = """tiff: Library and tools for reading and writing TIFF data files
 """
 
 
-toolchain = {'name': 'Clang', 'version': '14.0.3'}
+toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 
 source_urls = [
     'http://download.osgeo.org/libtiff/',
     'ftp://ftp.remotesensing.org/pub/libtiff/',
 ]
 sources = ['tiff-%(version)s.tar.gz']
+checksums = ['0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8']
 
 builddependencies = [('binutils', '2.38')]
 

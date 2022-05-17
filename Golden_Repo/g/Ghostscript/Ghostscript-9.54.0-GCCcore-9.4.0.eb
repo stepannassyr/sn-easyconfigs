@@ -24,7 +24,7 @@ dependencies = [
     ('expat', '2.4.8'),
     ('GLib', '2.68.0'),
     ('cairo', '1.17.4'),
-    ('LibTIFF', '4.2.0'),
+    ('LibTIFF', '4.3.0'),
 ]
 
 builddependencies = [
