@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'FFmpeg'
-version = '4.3.2'
+version = '5.0.1'
 
 homepage = 'https://www.ffmpeg.org/'
 description = """A complete, cross-platform solution to record, convert and stream audio and video."""
@@ -12,6 +12,7 @@ toolchain = {'name': 'Clang', 'version': '14.0.3'}
 
 sources = [SOURCELOWER_TAR_BZ2]
 source_urls = ['http://ffmpeg.org/releases/']
+checksums = ['28df33d400a1c1c1b20d07a99197809a3b88ef765f5f07dc1ff067fac64c59d6']
 
 builddependencies = [
     ('binutils', '2.38'),

@@ -31,7 +31,7 @@ dependencies = [
     ('Gdk-Pixbuf', '2.42.0'),
     ('graphene', '1.10.6'),
     ('Pango', '1.48.4'),
-    ('FFmpeg', '4.3.2'),
+    ('FFmpeg', '5.0.1'),
     ('X11', '20220509'),
     ('libepoxy', '1.5.7'),
 ]
