@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'x264'
-version = 'r3048-b86ae3c'
+version = 'r3094-bfc87b7'
 
 homepage = 'http://www.videolan.org/developers/x264.html'
 description = """x264 is a free software library and application for encoding video streams into the H.264/MPEG-4
@@ -10,19 +10,18 @@ description = """x264 is a free software library and application for encoding vi
 """
 
 
-toolchain = {'name': 'Clang', 'version': '14.0.3'}
+toolchain = {'name': 'armlinux', 'version': '22.0.1'}
 
 sources = [{
     'filename': '%(name)s-%(version)s.tar.gz',
     'git_config': {
         'url': 'https://code.videolan.org/videolan/',
         'repo_name': 'x264',
-        'commit': 'b86ae3c',
+        'commit': 'bfc87b7',
         'recursive': True,
         'keep_git_dir': True,
     },
 }]
-
 
 builddependencies = [('binutils', '2.38')]
 
