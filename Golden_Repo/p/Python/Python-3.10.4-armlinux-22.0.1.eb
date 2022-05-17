@@ -423,9 +423,9 @@ exts_list = [
     ('cloudpickle', '2.0.0', {
         'checksums': ['5cd02f3b417a783ba84a4ec3e290ff7929009fe51f6405423cfccfadd43ba4a4'],
     }),
-    ('Pillow', '9.1.0', {
+    ('Pillow', '9.1.1', {
         'modulename': 'PIL',
-        'checksums': ['f401ed2bbb155e1ade150ccc63db1a4f6c1909d3d378f7d1235a44e90d75fb97'],
+        'checksums': ['7502539939b53d7565f3d11d87c78e7ec900d3c72945d4ee0e2f250d598309a0'],
     }),
     ('toolz', '0.11.2', {
         'checksums': ['6b312d5e15138552f1bda8a4e66c30e236c831b612b2bf0005f8a1df10a4bc33'],
