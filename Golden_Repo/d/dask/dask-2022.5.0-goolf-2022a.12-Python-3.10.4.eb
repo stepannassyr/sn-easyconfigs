@@ -1,7 +1,7 @@
 easyblock = 'PythonBundle'
 
 name = 'dask'
-version = '2022.4.1'
+version = '2022.5.0'
 
 versionsuffix="-Python-%(pyver)s"
 
@@ -46,10 +46,10 @@ exts_list = [
         'checksums': ['fd582cc4aa0db5968bad9317cae513450eddd08b2193c4428d9349265a995523'],
     }),
     (name, version, {
-        'checksums': ['f3f4344edb8169f5040225f6a41dbc3042db886ed7546f11bab1270a5cd38454'],
+        'checksums': ['0afd69dd0cd9f838fc0710eda1f3e3333d6603b37e93ded7fac4a51d77566a0f'],
     }),
     ('distributed', version, {
-        'checksums': ['93a02050ecb365cfd3a7c39e0ca32d07c241e6781b2625923f5e2030a2973d1c'],
+        'checksums': ['bc8df614fb51c046875478e647c01539f5f41a00abf3d87ef2c6af00932dc509'],
     }),
     ('dask-mpi', '2022.4.0', {
         'checksums': ['0a04f1d7d35a06cdff506593330d4414ea242c9172498ce191f5742eac499e17'],

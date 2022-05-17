@@ -1,0 +1,82 @@
+diff --color -urN ray-ray-1.12.0-unpatched/bazel/ray_deps_setup.bzl ray-ray-1.12.0/bazel/ray_deps_setup.bzl
+--- ray-ray-1.12.0-unpatched/bazel/ray_deps_setup.bzl	2022-05-17 13:09:52.041107666 +0000
++++ ray-ray-1.12.0/bazel/ray_deps_setup.bzl	2022-05-17 13:10:36.481435109 +0000
+@@ -244,6 +244,7 @@
+             "@com_github_ray_project_ray//thirdparty/patches:grpc-cython-copts.patch",
+             "@com_github_ray_project_ray//thirdparty/patches:grpc-python.patch",
+             "@com_github_ray_project_ray//thirdparty/patches:grpc-1.46.2-bazel-shell-env.patch",
++            "@com_github_ray_project_ray//thirdparty/patches:grpc-1.46.2-upb-shell-env.patch",
+         ],
+     )
+ 
+diff --color -urN ray-ray-1.12.0-unpatched/thirdparty/patches/grpc-1.46.2-upb-shell-env.patch ray-ray-1.12.0/thirdparty/patches/grpc-1.46.2-upb-shell-env.patch
+--- ray-ray-1.12.0-unpatched/thirdparty/patches/grpc-1.46.2-upb-shell-env.patch	1970-01-01 00:00:00.000000000 +0000
++++ ray-ray-1.12.0/thirdparty/patches/grpc-1.46.2-upb-shell-env.patch	2022-05-17 13:10:18.241300712 +0000
+@@ -0,0 +1,67 @@
++diff --git bazel/grpc_deps.bzl bazel/grpc_deps.bzl
++index 40292ca657..9ee4f7d32a 100644
++--- bazel/grpc_deps.bzl
+++++ bazel/grpc_deps.bzl
++@@ -346,6 +346,8 @@ def grpc_deps():
++             name = "upb",
++             sha256 = "d0fe259d650bf9547e75896a1307bfc7034195e4ae89f5139814d295991ba681",
++             strip_prefix = "upb-bef53686ec702607971bd3ea4d4fefd80c6cc6e8",
+++	    patches = ['@com_github_grpc_grpc//third_party:upb-shell-env.patch'],
+++	    patch_args = ['-p1'],
++             urls = [
++                 "https://storage.googleapis.com/grpc-bazel-mirror/github.com/protocolbuffers/upb/archive/bef53686ec702607971bd3ea4d4fefd80c6cc6e8.tar.gz",
++                 "https://github.com/protocolbuffers/upb/archive/bef53686ec702607971bd3ea4d4fefd80c6cc6e8.tar.gz",
++diff --git third_party/upb-shell-env.patch third_party/upb-shell-env.patch
++new file mode 100644
++index 0000000000..7778d31b8d
++--- /dev/null
+++++ third_party/upb-shell-env.patch
++@@ -0,0 +1,48 @@
+++diff --git a/bazel/build_defs.bzl b/bazel/build_defs.bzl
+++index b5bc64f..3417b3d 100644
+++--- a/bazel/build_defs.bzl
++++++ b/bazel/build_defs.bzl
+++@@ -140,6 +140,7 @@ def _upb_amalgamation(ctx):
+++         arguments = [ctx.bin_dir.path + "/", ctx.attr.prefix] + [f.path for f in srcs] + ["-I" + root for root in _get_real_roots(inputs)],
+++         progress_message = "Making amalgamation",
+++         executable = ctx.executable._amalgamator,
++++        use_default_shell_env = True,
+++     )
+++     return []
+++ 
+++diff --git a/bazel/py_proto_library.bzl b/bazel/py_proto_library.bzl
+++index 7235125..7f1d370 100644
+++--- a/bazel/py_proto_library.bzl
++++++ b/bazel/py_proto_library.bzl
+++@@ -103,6 +103,7 @@ def _py_proto_library_aspect_impl(target, ctx):
+++                     ] +
+++                     [_get_real_short_path(file) for file in proto_sources],
+++         progress_message = "Generating Python protos for :" + ctx.label.name,
++++        use_default_shell_env = True,
+++     )
+++     outs_depset = depset(srcs)
+++     return [
+++diff --git a/bazel/upb_proto_library.bzl b/bazel/upb_proto_library.bzl
+++index 82af0e6..ab9a96a 100644
+++--- a/bazel/upb_proto_library.bzl
++++++ b/bazel/upb_proto_library.bzl
+++@@ -210,6 +210,7 @@ def _compile_upb_protos(ctx, generator, proto_info, proto_sources):
+++                     ] +
+++                     [_get_real_short_path(file) for file in proto_sources],
+++         progress_message = "Generating upb protos for :" + ctx.label.name,
++++        use_default_shell_env = True,
+++     )
+++     return GeneratedSrcsInfo(srcs = srcs, hdrs = hdrs)
+++ 
+++diff --git a/upb/bindings/lua/lua_proto_library.bzl b/upb/bindings/lua/lua_proto_library.bzl
+++index 3f34fc1..98d9473 100644
+++--- a/upb/bindings/lua/lua_proto_library.bzl
++++++ b/upb/bindings/lua/lua_proto_library.bzl
+++@@ -77,6 +77,7 @@ def _compile_upb_protos(ctx, proto_info, proto_sources):
+++                     ] +
+++                     [_get_real_short_path(file) for file in proto_sources],
+++         progress_message = "Generating Lua protos for :" + ctx.label.name,
++++        use_default_shell_env = True,
+++     )
+++     return files
+++ 

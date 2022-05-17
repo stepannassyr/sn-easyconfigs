@@ -1,0 +1,80 @@
+diff --git a/src/embedded_tools.bzl b/src/embedded_tools.bzl
+index 3abe906b49..ad5ceff1bd 100644
+--- a/src/embedded_tools.bzl
++++ b/src/embedded_tools.bzl
+@@ -26,6 +26,7 @@ def _embedded_tools(ctx):
+         arguments = [ctx.outputs.out.path, args_file.path],
+         progress_message = "Creating embedded tools: %s" % ctx.outputs.out.short_path,
+         executable = ctx.executable.tool,
++        use_default_shell_env = True,
+     )
+ 
+ embedded_tools = rule(
+diff --git a/src/main/starlark/builtins_bzl/common/java/android_lint.bzl b/src/main/starlark/builtins_bzl/common/java/android_lint.bzl
+index 7bcea33b4d..88ed8aa579 100644
+--- a/src/main/starlark/builtins_bzl/common/java/android_lint.bzl
++++ b/src/main/starlark/builtins_bzl/common/java/android_lint.bzl
+@@ -109,6 +109,7 @@ def _impl(ctx, java_info, source_files, source_jars, compilation_info):
+         outputs = [android_lint_out],
+         tools = tools,
+         arguments = args_list,
++        use_default_shell_env = True,
+         execution_requirements = {"supports-workers": "1"},
+     )
+     return android_lint_out
+diff --git a/src/main/starlark/builtins_bzl/common/java/proguard_validation.bzl b/src/main/starlark/builtins_bzl/common/java/proguard_validation.bzl
+index 6b6be9015e..e83216d232 100644
+--- a/src/main/starlark/builtins_bzl/common/java/proguard_validation.bzl
++++ b/src/main/starlark/builtins_bzl/common/java/proguard_validation.bzl
+@@ -54,6 +54,7 @@ def _validate_spec(ctx, spec_file):
+         arguments = [args],
+         inputs = [spec_file],
+         outputs = [validated_proguard_spec],
++        use_default_shell_env = True,
+     )
+ 
+     return validated_proguard_spec
+diff --git a/src/main/starlark/builtins_bzl/common/objc/apple_static_library.bzl b/src/main/starlark/builtins_bzl/common/objc/apple_static_library.bzl
+index 36287b22de..e239829599 100644
+--- a/src/main/starlark/builtins_bzl/common/objc/apple_static_library.bzl
++++ b/src/main/starlark/builtins_bzl/common/objc/apple_static_library.bzl
+@@ -154,6 +154,7 @@ def _register_combine_architectures_action(ctx, artifacts, output_binary, platfo
+             execution_requirements = execution_requirements,
+             arguments = [arguments],
+             executable = ctx.executable._xcrunwrapper,
++            use_default_shell_env = True,
+         )
+     else:
+         ctx.actions.symlink(
+diff --git a/tools/android/defs.bzl b/tools/android/defs.bzl
+index 61f33ab82e..729f23f763 100644
+--- a/tools/android/defs.bzl
++++ b/tools/android/defs.bzl
+@@ -47,6 +47,7 @@ def _run_singlejar(ctx):
+         outputs = [ctx.outputs.out],
+         executable = ctx.attr._java_toolchain[java_common.JavaToolchainInfo].single_jar,
+         arguments = [args],
++        use_default_shell_env = True,
+     )
+ 
+     return [DefaultInfo(files = depset([ctx.outputs.out]))]
+diff --git a/tools/jdk/default_java_toolchain.bzl b/tools/jdk/default_java_toolchain.bzl
+index ac8ed5d882..3a46169d1a 100644
+--- a/tools/jdk/default_java_toolchain.bzl
++++ b/tools/jdk/default_java_toolchain.bzl
+@@ -232,6 +232,7 @@ def _bootclasspath_impl(ctx):
+         inputs = [ctx.file.src] + ctx.files.host_javabase,
+         outputs = class_outputs,
+         arguments = [args],
++        use_default_shell_env = True,
+     )
+ 
+     bootclasspath = ctx.outputs.output_jar
+@@ -261,6 +262,7 @@ def _bootclasspath_impl(ctx):
+         inputs = inputs,
+         outputs = [bootclasspath],
+         arguments = [args],
++        use_default_shell_env = True,
+     )
+     return [
+         DefaultInfo(files = depset([bootclasspath])),

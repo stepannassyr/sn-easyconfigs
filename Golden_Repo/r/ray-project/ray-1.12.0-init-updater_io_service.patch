@@ -1,0 +1,29 @@
+diff --color -urN ray-ray-1.12.0-unpatched/src/ray/core_worker/gcs_server_address_updater.cc ray-ray-1.12.0/src/ray/core_worker/gcs_server_address_updater.cc
+--- ray-ray-1.12.0-unpatched/src/ray/core_worker/gcs_server_address_updater.cc	2022-05-17 13:55:12.891144825 +0000
++++ ray-ray-1.12.0/src/ray/core_worker/gcs_server_address_updater.cc	2022-05-17 13:57:34.312232255 +0000
+@@ -21,7 +21,8 @@
+     const std::string raylet_ip_address,
+     const int port,
+     std::function<void(std::string, int)> update_func)
+-    : client_call_manager_(updater_io_service_),
++    : updater_io_service_(),
++      client_call_manager_(updater_io_service_),
+       raylet_client_(rpc::NodeManagerWorkerClient::make(
+           raylet_ip_address, port, client_call_manager_)),
+       update_func_(update_func),
+diff --color -urN ray-ray-1.12.0-unpatched/src/ray/core_worker/gcs_server_address_updater.h ray-ray-1.12.0/src/ray/core_worker/gcs_server_address_updater.h
+--- ray-ray-1.12.0-unpatched/src/ray/core_worker/gcs_server_address_updater.h	2022-05-17 14:12:21.488986093 +0000
++++ ray-ray-1.12.0/src/ray/core_worker/gcs_server_address_updater.h	2022-05-17 14:12:35.689093334 +0000
+@@ -38,11 +38,11 @@
+   /// Update gcs server address.
+   void UpdateGcsServerAddress();
+ 
++  instrumented_io_context updater_io_service_;
+   rpc::ClientCallManager client_call_manager_;
+   /// A client connection to the raylet.
+   raylet::RayletClient raylet_client_;
+   std::function<void(std::string, int)> update_func_;
+-  instrumented_io_context updater_io_service_;
+   PeriodicalRunner updater_runner_;
+   std::thread updater_thread_;
+   int32_t failed_ping_count_ = 0;

@@ -13,6 +13,7 @@ patches = [
 #    'Bazel-3.4.1-fix-grpc-protoc.patch',
     'Bazel-3.7.1_fix-protobuf-env.patch',
     'Bazel-5.1.1-grpc-protoc-env.patch',
+    'bazel-5.1.1-even-more-shell-env.patch',
 #    'Bazel-3.7.2_fix-GCC-11.patch',
 #    'Bazel-3.7.2_fix-Java-15.patch',
 ]

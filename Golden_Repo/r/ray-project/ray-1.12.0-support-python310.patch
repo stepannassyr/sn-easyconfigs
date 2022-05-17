@@ -1,0 +1,99 @@
+From 2e53f481880e248262690bcf972bb4ee3fee25cc Mon Sep 17 00:00:00 2001
+From: Chen Shen <scv119@gmail.com>
+Date: Mon, 16 May 2022 12:36:33 -0700
+Subject: [PATCH] [python3.10] build python310 wheels (#24829)
+
+build python3.10 wheels for linux windows and mac.
+---
+ python/build-wheel-macos-arm64.sh   |  6 ++++--
+ python/build-wheel-macos.sh         | 12 ++++++++----
+ python/build-wheel-manylinux2014.sh |  6 ++++--
+ python/build-wheel-windows.sh       |  3 ++-
+ python/setup.py                     |  2 +-
+ 5 files changed, 19 insertions(+), 10 deletions(-)
+
+diff --git a/python/build-wheel-macos-arm64.sh b/python/build-wheel-macos-arm64.sh
+index 1a30d501d71e..d9726ed2e77b 100755
+--- a/python/build-wheel-macos-arm64.sh
++++ b/python/build-wheel-macos-arm64.sh
+@@ -10,9 +10,11 @@ DOWNLOAD_DIR=python_downloads
+ 
+ NODE_VERSION="14"
+ PY_VERSIONS=("3.8.2"
+-             "3.9.1")
++             "3.9.1"
++             "3.10.4")
+ PY_MMS=("3.8"
+-        "3.9")
++        "3.9"
++        "3.10")
+ 
+ 
+ if [[ -n "${SKIP_DEP_RES}" ]]; then
+diff --git a/python/build-wheel-macos.sh b/python/build-wheel-macos.sh
+index c12394e43399..0acf469be19c 100755
+--- a/python/build-wheel-macos.sh
++++ b/python/build-wheel-macos.sh
+@@ -17,20 +17,24 @@ NODE_VERSION="14"
+ PY_VERSIONS=("3.6.2"
+              "3.7.0"
+              "3.8.2"
+-             "3.9.1")
++             "3.9.1"
++             "3.10.4")
+ PY_INSTS=("python-3.6.2-macosx10.6.pkg"
+           "python-3.7.0-macosx10.6.pkg"
+           "python-3.8.2-macosx10.9.pkg"
+-          "python-3.9.1-macosx10.9.pkg")
++          "python-3.9.1-macosx10.9.pkg"
++          "python-3.10.4-macos11.pkg")
+ PY_MMS=("3.6"
+         "3.7"
+         "3.8"
+-        "3.9")
++        "3.9"
++        "3.10")
+ 
+ NUMPY_VERSIONS=("1.14.5"
+                 "1.14.5"
+                 "1.14.5"
+-                "1.19.3")
++                "1.19.3"
++                "1.22.0")
+ 
+ ./ci/env/install-bazel.sh
+ 
+diff --git a/python/build-wheel-manylinux2014.sh b/python/build-wheel-manylinux2014.sh
+index bee59123ffb5..23e3f53f99cf 100755
+--- a/python/build-wheel-manylinux2014.sh
++++ b/python/build-wheel-manylinux2014.sh
+@@ -15,12 +15,14 @@ NODE_VERSION="14"
+ PYTHONS=("cp36-cp36m"
+          "cp37-cp37m"
+          "cp38-cp38"
+-         "cp39-cp39")
++         "cp39-cp39"
++         "cp310-cp310")
+ 
+ NUMPY_VERSIONS=("1.14.5"
+                 "1.14.5"
+                 "1.14.5"
+-                "1.19.3")
++                "1.19.3"
++                "1.22.0")
+ 
+ yum -y install unzip zip sudo
+ yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel xz
+diff --git a/python/setup.py b/python/setup.py
+index 8077681b8bb6..e20cd6523dd6 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -21,7 +21,7 @@
+ 
+ logger = logging.getLogger(__name__)
+ 
+-SUPPORTED_PYTHONS = [(3, 6), (3, 7), (3, 8), (3, 9)]
++SUPPORTED_PYTHONS = [(3, 6), (3, 7), (3, 8), (3, 9), (3, 10)]
+ # When the bazel version is updated, make sure to update it
+ # in WORKSPACE file as well.
+ SUPPORTED_BAZEL = (4, 2, 1)

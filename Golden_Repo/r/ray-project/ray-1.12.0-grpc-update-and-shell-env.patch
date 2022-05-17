@@ -1,0 +1,231 @@
+diff --color -urN ray-ray-1.12.0-unpatched/bazel/ray_deps_setup.bzl ray-ray-1.12.0/bazel/ray_deps_setup.bzl
+--- ray-ray-1.12.0-unpatched/bazel/ray_deps_setup.bzl	2022-05-17 07:02:17.459703641 +0000
++++ ray-ray-1.12.0/bazel/ray_deps_setup.bzl	2022-05-17 07:05:25.661060351 +0000
+@@ -238,13 +238,12 @@
+     auto_http_archive(
+         name = "com_github_grpc_grpc",
+         # NOTE: If you update this, also update @boringssl's hash.
+-        url = "https://github.com/grpc/grpc/archive/refs/tags/v1.43.2.tar.gz",
+-        sha256 = "b74ce7d26fe187970d1d8e2c06a5d3391122f7bc1fdce569aff5e435fb8fe780",
++        url = "https://github.com/grpc/grpc/archive/refs/tags/v1.46.2.tar.gz",
++        sha256 = "64b791c3dad387230f8b46cbd0c474b6ae751f7f805d05cb3bae36ac0ff2a7e7",
+         patches = [
+             "@com_github_ray_project_ray//thirdparty/patches:grpc-cython-copts.patch",
+             "@com_github_ray_project_ray//thirdparty/patches:grpc-python.patch",
+-            # Delete after upgrading from 1.44.0
+-            "@com_github_ray_project_ray//thirdparty/patches:grpc-remove-distutils.patch",
++            "@com_github_ray_project_ray//thirdparty/patches:grpc-1.46.2-bazel-shell-env.patch",
+         ],
+     )
+ 
+@@ -254,11 +253,11 @@
+         # https://github.com/grpc/grpc/blob/1ff1feaa83e071d87c07827b0a317ffac673794f/bazel/grpc_deps.bzl#L189
+         # Ensure this rule matches the rule used by grpc's bazel/grpc_deps.bzl
+         name = "boringssl",
+-        sha256 = "e168777eb0fc14ea5a65749a2f53c095935a6ea65f38899a289808fb0c221dc4",
+-        strip_prefix = "boringssl-4fb158925f7753d80fb858cb0239dff893ef9f15",
++        sha256 = "534fa658bd845fd974b50b10f444d392dfd0d93768c4a51b61263fd37d851c40",
++        strip_prefix = "boringssl-b9232f9e27e5668bc0414879dcdedb2a59ea75f2",
+         urls = [
+-            "https://storage.googleapis.com/grpc-bazel-mirror/github.com/google/boringssl/archive/4fb158925f7753d80fb858cb0239dff893ef9f15.tar.gz",
+-            "https://github.com/google/boringssl/archive/4fb158925f7753d80fb858cb0239dff893ef9f15.tar.gz",
++            "https://storage.googleapis.com/grpc-bazel-mirror/github.com/google/boringssl/archive/b9232f9e27e5668bc0414879dcdedb2a59ea75f2.tar.gz",
++            "https://github.com/google/boringssl/archive/b9232f9e27e5668bc0414879dcdedb2a59ea75f2.tar.gz",
+         ],
+     )
+ 
+diff --color -urN ray-ray-1.12.0-unpatched/thirdparty/patches/grpc-1.46.2-bazel-shell-env.patch ray-ray-1.12.0/thirdparty/patches/grpc-1.46.2-bazel-shell-env.patch
+--- ray-ray-1.12.0-unpatched/thirdparty/patches/grpc-1.46.2-bazel-shell-env.patch	1970-01-01 00:00:00.000000000 +0000
++++ ray-ray-1.12.0/thirdparty/patches/grpc-1.46.2-bazel-shell-env.patch	2022-05-17 07:02:38.349854234 +0000
+@@ -0,0 +1,60 @@
++diff --git bazel/generate_objc.bzl bazel/generate_objc.bzl
++index b0e9211480..0017f65d8f 100644
++--- bazel/generate_objc.bzl
+++++ bazel/generate_objc.bzl
++@@ -102,6 +102,7 @@ def _generate_objc_impl(ctx):
++         outputs = out_files,
++         executable = ctx.executable._protoc,
++         arguments = arguments,
+++	use_default_shell_env = True,
++     )
++ 
++     return struct(files = depset(out_files))  # buildifier: disable=rule-impl-return
++diff --git third_party/upb/bazel/build_defs.bzl third_party/upb/bazel/build_defs.bzl
++index b5bc64f071..842d60ffc2 100644
++--- third_party/upb/bazel/build_defs.bzl
+++++ third_party/upb/bazel/build_defs.bzl
++@@ -140,6 +140,7 @@ def _upb_amalgamation(ctx):
++         arguments = [ctx.bin_dir.path + "/", ctx.attr.prefix] + [f.path for f in srcs] + ["-I" + root for root in _get_real_roots(inputs)],
++         progress_message = "Making amalgamation",
++         executable = ctx.executable._amalgamator,
+++	use_default_shell_env = True,
++     )
++     return []
++ 
++diff --git third_party/upb/bazel/upb_proto_library.bzl third_party/upb/bazel/upb_proto_library.bzl
++index 82af0e6af4..ac86ed6640 100644
++--- third_party/upb/bazel/upb_proto_library.bzl
+++++ third_party/upb/bazel/upb_proto_library.bzl
++@@ -210,6 +210,7 @@ def _compile_upb_protos(ctx, generator, proto_info, proto_sources):
++                     ] +
++                     [_get_real_short_path(file) for file in proto_sources],
++         progress_message = "Generating upb protos for :" + ctx.label.name,
+++	use_default_shell_env = True,
++     )
++     return GeneratedSrcsInfo(srcs = srcs, hdrs = hdrs)
++ 
++diff --git third_party/upb/bazel/py_proto_library.bzl third_party/upb/bazel/py_proto_library.bzl
++index 72351256cd..b8ad3de4ed 100644
++--- third_party/upb/bazel/py_proto_library.bzl
+++++ third_party/upb/bazel/py_proto_library.bzl
++@@ -103,6 +103,7 @@ def _py_proto_library_aspect_impl(target, ctx):
++                     ] +
++                     [_get_real_short_path(file) for file in proto_sources],
++         progress_message = "Generating Python protos for :" + ctx.label.name,
+++       use_default_shell_env = True,
++     )
++     outs_depset = depset(srcs)
++     return [
++diff --git third_party/upb/upb/bindings/lua/lua_proto_library.bzl third_party/upb/upb/bindings/lua/lua_proto_library.bzl
++index 3f34fc18a1..8392aefa7b 100644
++--- third_party/upb/upb/bindings/lua/lua_proto_library.bzl
+++++ third_party/upb/upb/bindings/lua/lua_proto_library.bzl
++@@ -77,6 +77,7 @@ def _compile_upb_protos(ctx, proto_info, proto_sources):
++                     ] +
++                     [_get_real_short_path(file) for file in proto_sources],
++         progress_message = "Generating Lua protos for :" + ctx.label.name,
+++	use_default_shell_env = True,
++     )
++     return files
++ 
+ -- 
+diff --color -urN ray-ray-1.12.0-unpatched/thirdparty/patches/grpc-python.patch ray-ray-1.12.0/thirdparty/patches/grpc-python.patch
+--- ray-ray-1.12.0-unpatched/thirdparty/patches/grpc-python.patch	2022-05-17 08:39:58.912112939 +0000
++++ ray-ray-1.12.0/thirdparty/patches/grpc-python.patch	2022-05-17 08:40:09.172188244 +0000
+@@ -1,63 +1,12 @@
+ diff --git third_party/py/python_configure.bzl third_party/py/python_configure.bzl
+ --- third_party/py/python_configure.bzl
+ +++ third_party/py/python_configure.bzl
+-@@ -177,7 +177,7 @@ def _get_bash_bin(repository_ctx):
+-     if bash_bin != None:
+-         return bash_bin
+-     else:
+--        bash_bin_path = repository_ctx.which("bash")
+-+        bash_bin_path = repository_ctx.which("bash" if not _is_windows(repository_ctx) else "sh.exe")
+-         if bash_bin_path != None:
+-             return str(bash_bin_path)
+-         else:
+-@@ -208,7 +208,7 @@ def _get_python_lib(repository_ctx, python_bin, lib_path_key):
+-         "    paths.append(path)\n" + "if len(paths) >=1:\n" +
+-         "  print(paths[0])\n" + "END"
+-     )
+--    cmd = "%s - %s" % (python_bin, print_lib)
+-+    cmd = '"%s" - %s' % (python_bin, print_lib)
+-     result = repository_ctx.execute([_get_bash_bin(repository_ctx), "-c", cmd])
+-     return result.stdout.strip("\n")
+- 
+-@@ -293,11 +293,13 @@ def _create_single_version_package(
+- 
+-     python_bin = _get_python_bin(repository_ctx, bin_path_key, default_bin_path, allow_absent)
+-     if (python_bin == None or
+--        _check_python_bin(repository_ctx,
+--                          python_bin,
+--                          bin_path_key,
+--                          allow_absent) == None) and allow_absent:
+--            python_include_rule = empty_include_rule
+-+        _check_python_bin(
+-+            repository_ctx,
+-+            python_bin,
+-+            bin_path_key,
+-+            allow_absent,
+-+        ) == None) and allow_absent:
+-+        python_include_rule = empty_include_rule
+-     else:
+-         python_lib = _get_python_lib(repository_ctx, python_bin, lib_path_key)
+-         _check_python_lib(repository_ctx, python_lib)
+-@@ -348,17 +350,17 @@ def _python_autoconf_impl(repository_ctx):
+-         repository_ctx,
+-         "_python2",
+-         _PYTHON2_BIN_PATH,
+--        "python2",
+-+        "python" if not _is_windows(repository_ctx) else "python.exe",
+-         _PYTHON2_LIB_PATH,
+--        True
+-+        True,
+-     )
+-     _create_single_version_package(
++@@ -345,7 +345,7 @@ def _python_autoconf_impl(repository_ctx):
+          repository_ctx,
+          "_python3",
+          _PYTHON3_BIN_PATH,
+ -        "python3",
+ +        "python3" if not _is_windows(repository_ctx) else "python.exe",
+          _PYTHON3_LIB_PATH,
+--        False
+-+        False,
++         False
+      )
+-     _tpl(repository_ctx, "BUILD")
+- 
+--- 
+diff --color -urN ray-ray-1.12.0-unpatched/bazel/ray_deps_setup.bzl ray-ray-1.12.0/bazel/ray_deps_setup.bzl
+--- ray-ray-1.12.0-unpatched/bazel/ray_deps_setup.bzl	2022-05-17 12:01:04.460652620 +0000
++++ ray-ray-1.12.0/bazel/ray_deps_setup.bzl	2022-05-17 12:06:09.832903597 +0000
+@@ -261,9 +261,12 @@
+         ],
+     )
+ 
+-    auto_http_archive(
++    http_archive(
+         name = "rules_proto_grpc",
+         url = "https://github.com/rules-proto-grpc/rules_proto_grpc/archive/a74fef39c5fe636580083545f76d1eab74f6450d.tar.gz",
++        patches = ['@com_github_ray_project_ray//thirdparty/patches:rules_proto_grpc-shell-env.patch'],
++        patch_args = ['-p1'],
++        strip_prefix = 'rules_proto_grpc-a74fef39c5fe636580083545f76d1eab74f6450d',
+         sha256 = "2f6606151ec042e23396f07de9e7dcf6ca9a5db1d2b09f0cc93a7fc7f4008d1b",
+     )
+ 
+diff --color -urN ray-ray-1.12.0-unpatched/thirdparty/patches/rules_proto_grpc-shell-env.patch ray-ray-1.12.0/thirdparty/patches/rules_proto_grpc-shell-env.patch
+--- ray-ray-1.12.0-unpatched/thirdparty/patches/rules_proto_grpc-shell-env.patch	1970-01-01 00:00:00.000000000 +0000
++++ ray-ray-1.12.0/thirdparty/patches/rules_proto_grpc-shell-env.patch	2022-05-17 12:06:31.583063610 +0000
+@@ -0,0 +1,40 @@
++diff --git a/aspect.bzl b/aspect.bzl
++index 9dced9cf..b4c177ec 100644
++--- a/aspect.bzl
+++++ b/aspect.bzl
++@@ -108,6 +108,7 @@ def proto_compile_impl(ctx):
++             outputs = [new_dir],
++             command = " && ".join(command_parts),
++             progress_message = 'copying directories and files to {}'.format(new_dir.path),
+++            use_default_shell_env = True,
++         )
++ 
++     else:
++@@ -402,6 +403,7 @@ def proto_compile_aspect_impl(target, ctx):
++             outputs = plugin_outputs,
++             input_manifests = plugin_input_manifests if plugin_input_manifests else [],
++             progress_message = "Compiling protoc outputs for {} plugin".format(plugin.name),
+++            use_default_shell_env = True,
++         )
++ 
++ 
++diff --git a/rust/raze/rustc_resolve.bzl b/rust/raze/rustc_resolve.bzl
++index 26d29e25..d0db7d34 100644
++--- a/rust/raze/rustc_resolve.bzl
+++++ b/rust/raze/rustc_resolve.bzl
++@@ -8,6 +8,7 @@ def _rustc_resolve_impl(ctx):
++         inputs = [rust_toolchain.rustc],
++         outputs = [rustc],
++         command = "cp '{}' '{}'".format(rust_toolchain.rustc.path, rustc.path),
+++        use_default_shell_env = True,
++     )
++ 
++     # Copy minimal lib files required to get rustc to work
++@@ -18,6 +19,7 @@ def _rustc_resolve_impl(ctx):
++             inputs = [f],
++             outputs = [new_f],
++             command = "cp '{}' '{}'".format(f.path, new_f.path),
+++            use_default_shell_env = True,
++         )
++         lib_files.append(new_f)
++ 

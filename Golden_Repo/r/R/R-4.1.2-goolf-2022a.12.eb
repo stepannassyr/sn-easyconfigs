@@ -49,7 +49,7 @@ dependencies = [
     ('NLopt', '2.6.2'),  # for nloptr
     ('FFTW', '3.3.10','',('gompi','2022a.11')),  # for fftw
     ('GLPK', '5.0'),  # for Rglpk
-    ('nodejs', '15.12.0'),  # for V8/rstan
+    ('nodejs', '16.15.0'),  # for V8/rstan
     ('libsndfile', '1.0.28'),  # for seewave
     ('ICU', '71.1'),  # for rJava & gdsfmt
     ('HDF5', '1.12.2'),  # for hdf5r

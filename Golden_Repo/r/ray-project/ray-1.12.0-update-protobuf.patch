@@ -1,0 +1,44 @@
+diff --color -urN ray-ray-1.12.0-unpatched/bazel/ray_deps_setup.bzl ray-ray-1.12.0/bazel/ray_deps_setup.bzl
+--- ray-ray-1.12.0-unpatched/bazel/ray_deps_setup.bzl   2022-05-17 06:38:03.469259584 +0000
++++ ray-ray-1.12.0/bazel/ray_deps_setup.bzl     2022-05-17 06:39:53.000051421 +0000
+@@ -88,9 +88,11 @@
+     # https://github.com/ray-project/ray/issues/14117
+     http_archive(
+         name = "com_google_protobuf",
+-        strip_prefix = "protobuf-3.16.0",
+-        urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.16.0.tar.gz"],
+-        sha256 = "7892a35d979304a404400a101c46ce90e85ec9e2a766a86041bb361f626247f5",
++        strip_prefix = "protobuf-3.20.1",
++        urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.20.1.tar.gz"],
++        patches = ["@com_github_ray_project_ray//thirdparty/patches:protobuf-3.20.1-libprotoc-descriptor.patch"],
++        patch_args = ["-p1"],
++        sha256 = "8b28fdd45bab62d15db232ec404248901842e5340299a57765e48abe8a80d930",
+     )
+
+     # NOTE(lingxuan.zlx): 3rd party dependencies could be accessed, so it suggests
+diff --color -urN ray-ray-1.12.0-unpatched/thirdparty/patches/protobuf-3.20.1-libprotoc-descriptor.patch ray-ray-1.12.0/thirdparty/patches/protobuf-3.20.1-libprotoc-descriptor.patch
+--- ray-ray-1.12.0-unpatched/thirdparty/patches/protobuf-3.20.1-libprotoc-descriptor.patch      1970-01-01 00:00:00.000000000 +0000
++++ ray-ray-1.12.0/thirdparty/patches/protobuf-3.20.1-libprotoc-descriptor.patch        2022-05-17 06:40:24.080276111 +0000
+@@ -0,0 +1,22 @@
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -323,6 +323,8 @@ libprotoc_la_LDFLAGS += -Wl,--version-script=$(srcdir)/libprotoc.map
++ EXTRA_libprotoc_la_DEPENDENCIES = libprotoc.map
++ endif
++ libprotoc_la_SOURCES =                                         \
+++  google/protobuf/descriptor.pb.cc                             \
+++  google/protobuf/descriptor.pb.h                             \
++   google/protobuf/compiler/code_generator.cc                   \
++   google/protobuf/compiler/command_line_interface.cc           \
++   google/protobuf/compiler/cpp/cpp_enum.cc                     \
++diff --color -urN a/src/libprotoc.map b/src/libprotoc.map
++--- a/src/libprotoc.map
+++++ b/src/libprotoc.map
++@@ -3,6 +3,7 @@
++     extern "C++" {
++       *google*;
++     };
+++    descriptor_table_*;
++
++   local:
++     *;
