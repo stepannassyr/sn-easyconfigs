@@ -2,7 +2,7 @@
 easyblock = 'MesonNinja'
 
 name = 'Pango'
-version = '1.48.4'
+version = '1.50.7'
 
 homepage = 'http://www.pango.org/'
 description = """Pango is a library for laying out and rendering of text, with an emphasis on internationalization.
@@ -11,12 +11,12 @@ context of the GTK+ widget toolkit. Pango forms the core of text and font handli
 """
 
 
-toolchain = {'name': 'armlinux', 'version': '22.0.1'}
+toolchain = {'name': 'Clang', 'version': '14.0.3'}
 
 source_urls = [FTPGNOME_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
 checksums = [
-    '418913fb062071a075846244989d4a67aa5c80bf0eae8ee4555a092fd566a37a',  # pango-1.48.4.tar.xz
+    '0477f369a3d4c695df7299a6989dc004756a7f4de27eecac405c6790b7e3ad33',  # pango-1.50.7.tar.xz
 ]
 
 builddependencies = [

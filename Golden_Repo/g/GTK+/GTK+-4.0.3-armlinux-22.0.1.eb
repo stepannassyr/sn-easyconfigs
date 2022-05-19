@@ -30,7 +30,7 @@ dependencies = [
     ('AT-SPI2-ATK', '2.38.0'),
     ('Gdk-Pixbuf', '2.42.8'),
     ('graphene', '1.10.8'),
-    ('Pango', '1.48.4'),
+    ('Pango', '1.50.7'),
     ('FFmpeg', '5.0.1'),
     ('X11', '20220509'),
     ('libepoxy', '1.5.10'),
