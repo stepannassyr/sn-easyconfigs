@@ -23,7 +23,7 @@ checksums = ['4196a7d30a0051e52a67b8ce4283fe79ae5e4e14a725719934565adf1d333429']
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('GObject-Introspection', '1.68.0'),
+    ('GObject-Introspection', '1.72.0'),
     ('Meson', '0.62.1', '-Python-3.10.4'),
     ('Ninja', '1.10.2'),
     ('pkg-config', '0.29.2'),
