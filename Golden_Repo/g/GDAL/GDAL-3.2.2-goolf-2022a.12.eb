@@ -22,7 +22,7 @@ dependencies = [
     ('PROJ', '8.0.0'),
     ('netCDF', '4.7.4'),
     ('expat', '2.4.8'),
-    ('JasPer', '2.0.28'),
+    ('JasPer', '3.0.3'),
     ('libxml2', '2.9.14'),
     ('zlib', '1.2.12'),
     ('SQLite', '3.38.5'),

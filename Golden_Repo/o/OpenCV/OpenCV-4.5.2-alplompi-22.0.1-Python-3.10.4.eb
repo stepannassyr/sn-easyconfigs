@@ -37,7 +37,7 @@ dependencies = [
     ('libjpeg-turbo', '2.1.3'),
     ('libpng', '1.6.37'),
     ('LibTIFF', '4.3.0'),
-    ('JasPer', '2.0.28'),
+    ('JasPer', '3.0.3'),
     ('Java', '11.0.15', '', True),
     ('ant', '1.10.12', '-Java-%(javaver)s', True),
     ('GLib', '2.72.1'),

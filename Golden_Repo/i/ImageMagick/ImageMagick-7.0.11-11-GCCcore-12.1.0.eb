@@ -20,7 +20,7 @@ dependencies = [
     ('bzip2', '1.0.8'),
     ('X11', '20220509'),
     ('Ghostscript', '9.54.0'),
-    ('JasPer', '2.0.28'),
+    ('JasPer', '3.0.3'),
     ('libjpeg-turbo', '2.1.3'),
     ('LibTIFF', '4.3.0'),
     ('LittleCMS', '2.12'),
