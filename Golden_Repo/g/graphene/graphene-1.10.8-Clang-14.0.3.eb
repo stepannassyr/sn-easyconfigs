@@ -2,7 +2,7 @@
 easyblock = 'MesonNinja'
 
 name = 'graphene'
-version = '1.10.6'
+version = '1.10.8'
 
 homepage = 'https://ebassi.github.io/graphene/'
 description = """
@@ -16,7 +16,7 @@ source_urls = [GITHUB_SOURCE]
 
 github_account = 'ebassi'
 sources = ['%(version)s.tar.gz']
-checksums = ['7eba972751d404316a9b59a7c1e0782de263c3cf9dd5ebf1503ba9b8354cc948']
+checksums = ['922dc109d2dc5dc56617a29bd716c79dd84db31721a8493a13a5f79109a4a4ed']
 
 builddependencies = [
     ('binutils', '2.38'),
