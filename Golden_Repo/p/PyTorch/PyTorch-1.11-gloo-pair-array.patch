@@ -1,0 +1,23 @@
+diff --color -urN pytorch-unpatched/third_party/gloo/gloo/transport/ibverbs/pair.h pytorch/third_party/gloo/gloo/transport/ibverbs/pair.h
+--- pytorch-unpatched/third_party/gloo/gloo/transport/ibverbs/pair.h	2022-05-17 18:55:07.286388105 +0000
++++ pytorch/third_party/gloo/gloo/transport/ibverbs/pair.h	2022-05-17 18:55:57.656775020 +0000
+@@ -8,6 +8,7 @@
+ 
+ #pragma once
+ 
++#include <array>
+ #include <atomic>
+ #include <condition_variable>
+ #include <exception>
+diff --color -urN pytorch-unpatched/third_party/gloo/gloo/transport/tcp/device.cc pytorch/third_party/gloo/gloo/transport/tcp/device.cc
+--- pytorch-unpatched/third_party/gloo/gloo/transport/tcp/device.cc	2022-05-17 19:01:27.009267447 +0000
++++ pytorch/third_party/gloo/gloo/transport/tcp/device.cc	2022-05-17 19:01:57.589500302 +0000
+@@ -8,6 +8,8 @@
+ 
+ #include "gloo/transport/tcp/device.h"
+ 
++#include <array>
++
+ #include <ifaddrs.h>
+ #include <netdb.h>
+ #include <netinet/in.h>
