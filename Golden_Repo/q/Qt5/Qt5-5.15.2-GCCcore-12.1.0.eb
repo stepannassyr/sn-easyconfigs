@@ -61,7 +61,7 @@ dependencies = [
     ('fontconfig', '2.13.96'),
     ('GLib', '2.72.1'),
     ('GTK+', '4.0.3'),
-    ('HarfBuzz', '2.8.0'),
+    ('HarfBuzz', '4.2.1'),
     ('PCRE2', '10.40'),
     ('libpng', '1.6.37'),
     ('SQLite', '3.38.5'),

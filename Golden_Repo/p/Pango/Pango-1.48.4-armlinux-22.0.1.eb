@@ -34,7 +34,7 @@ dependencies = [
     ('X11', '20220509'),
     ('GLib', '2.72.1'),
     ('cairo', '1.17.4'),
-    ('HarfBuzz', '2.8.0'),
+    ('HarfBuzz', '4.2.1'),
 ]
 
 configopts = "--buildtype=release --default-library=both "

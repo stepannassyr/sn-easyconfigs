@@ -30,7 +30,7 @@ dependencies = [
     ('libpng', '1.6.37'),
     ('libGLU', '9.0.2'),
     ('Perl', '5.34.1'),
-    ('HarfBuzz', '2.8.0'),
+    ('HarfBuzz', '4.2.1'),
     ('poppler', '22.01.0'),
     ('cairo', '1.17.4'),
     ('fontconfig', '2.13.96'),
