@@ -28,7 +28,7 @@ builddependencies = [
 
 dependencies = [
     ('DBus', '1.13.18'),
-    ('ATK', '2.36.0'),
+    ('ATK', '2.38.0'),
     ('AT-SPI2-core', '2.40.0')
 ]
 

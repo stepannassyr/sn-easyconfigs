@@ -26,7 +26,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('ATK', '2.36.0'),
+    ('ATK', '2.38.0'),
     ('AT-SPI2-ATK', '2.38.0'),
     ('Gdk-Pixbuf', '2.42.0'),
     ('graphene', '1.10.6'),
