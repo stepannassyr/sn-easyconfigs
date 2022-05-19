@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = "Coreutils"
-version = "8.32"
+version = '9.1'
 
 homepage = 'http://www.gnu.org/software/coreutils/'
 description = """The GNU Core Utilities are the basic file, shell and text manipulation utilities of the
@@ -10,15 +10,14 @@ description = """The GNU Core Utilities are the basic file, shell and text manip
 """
 
 
-toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchain = {'name': 'Clang', 'version': '14.0.3'}
 toolchainopts = { 'pic': True}
 
 source_urls = [GNU_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
-patches = ['Coreutils-8.32-getdents64.patch']
+#patches = ['Coreutils-8.32-getdents64.patch']
 checksums = [
-    '4458d8de7849df44ccab15e16b1548b285224dbba5f08fac070c1c0e0bcc4cfa',  # coreutils-8.32.tar.xz
-    '8c093c8e24b7f221d22718c18681f31ade7c5fbd88ca865a24bddb1b6fc7ad54',  # Coreutils-8.32-getdents64.patch
+    '61a1f410d78ba7e7f37a5a4f50e6d1320aca33375484a3255eddf17a38580423',  # coreutils-9.1.tar.xz
 ]
 
 builddependencies = [('binutils', '2.38')]

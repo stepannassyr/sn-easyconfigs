@@ -17,7 +17,7 @@ checksums = ['a1079fd021adaf5683351f34587a255975cc3bcadba31246ae40ebebb95ecd42']
 
 builddependencies = [
     ('binutils', '2.38'),
-    ('Coreutils', '8.32'),
+    ('Coreutils', '9.1'),
     ('pkg-config', '0.29.2'),
     ('GObject-Introspection', '1.68.0')
 ]
