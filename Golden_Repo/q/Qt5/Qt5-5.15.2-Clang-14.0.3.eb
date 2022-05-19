@@ -59,7 +59,7 @@ dependencies = [
     ('double-conversion', '3.2.0'),
     ('freetype', '2.12.1'),
     ('fontconfig', '2.13.96'),
-    ('GLib', '2.68.0'),
+    ('GLib', '2.72.1'),
     ('GTK+', '4.0.3'),
     ('HarfBuzz', '2.8.0'),
     ('PCRE2', '10.40'),

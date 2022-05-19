@@ -27,7 +27,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('GLib', '2.68.0'),
+    ('GLib', '2.72.1'),
     ('flex', '2.6.4'),
     ('Bison', '3.8.2'),
     ('cairo', '1.17.4'),

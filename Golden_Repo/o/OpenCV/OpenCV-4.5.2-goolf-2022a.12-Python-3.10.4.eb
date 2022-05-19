@@ -40,7 +40,7 @@ dependencies = [
     ('JasPer', '2.0.28'),
     ('Java', '11.0.15', '', True),
     ('ant', '1.10.12', '-Java-%(javaver)s', True),
-    ('GLib', '2.68.0'),
+    ('GLib', '2.72.1'),
     ('GTK+', '4.0.3'),
     ('protobuf', '3.20.1'),
     ('SciPy-Stack', '2022a', versionsuffix, ('goolf', '2022a.12'))
