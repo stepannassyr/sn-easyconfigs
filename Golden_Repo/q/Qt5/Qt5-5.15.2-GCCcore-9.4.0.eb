@@ -62,7 +62,7 @@ dependencies = [
     ('GLib', '2.68.0'),
     ('GTK+', '4.0.3'),
     ('HarfBuzz', '2.8.0'),
-    ('PCRE2', '10.36'),
+    ('PCRE2', '10.40'),
     ('libpng', '1.6.37'),
     ('SQLite', '3.38.5'),
     # deps for QtWebEngine

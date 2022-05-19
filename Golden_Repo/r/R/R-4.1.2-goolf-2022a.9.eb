@@ -28,7 +28,7 @@ dependencies = [
     ('XZ', '5.2.5'),
     ('zlib', '1.2.12'),
     ('SQLite', '3.38.5'),
-    ('PCRE2', '10.36'),
+    ('PCRE2', '10.40'),
     ('texlive', '20210324'),
     ('libgit2', '1.1.0'),
     ('libpng', '1.6.37'),  # for plotting in R

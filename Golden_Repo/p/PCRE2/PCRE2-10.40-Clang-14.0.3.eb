@@ -1,7 +1,7 @@
-easyblock = 'ConfigureMake'
+easyblock = 'CMakeNinja'
 
 name = 'PCRE2'
-version = '10.36'
+version = '10.40'
 
 homepage = 'https://www.pcre.org/'
 description = """
@@ -9,16 +9,23 @@ description = """
  and semantics as Perl 5.
 """
 
-toolchain = {'name': 'armlinux', 'version': '22.0.1'}
+toolchain = {'name': 'Clang', 'version': '14.0.3'}
 toolchainopts = {'pic': True}
 
-source_urls = ['https://download.sourceforge.net/pcre']
+github_account = 'PCRE2Project'
+
+source_urls = [GITHUB_SOURCE]
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['b95ddb9414f91a967a887d69617059fb672b914f56fa3d613812c1ee8e8a1a37']
+checksums = ['a057381270857d01a1a8b2c2fcf176b1c3c6aea595d586649755c33a5843d52f']
 
 builddependencies = [('binutils', '2.38')]
 
-configopts = "--enable-shared --enable-jit --enable-pcre2-16 --enable-unicode"
+dependencies = [
+    ('CMake', '3.23.1'),
+    ('Ninja', '1.10.2'),
+]
+
+configopts = "-DPCRE2_BUILD_PCRE2_16=ON -DBUILD_SHARED_LIBS=ON"
 
 sanity_check_paths = {
     'files': ["bin/pcre2-config", "bin/pcre2grep", "bin/pcre2test", "lib/libpcre2-8.a", "lib/libpcre2-16.a"],
