@@ -26,7 +26,7 @@ builddependencies = [
 dependencies = [
     ('libjpeg-turbo', '2.1.3'),
     ('libglvnd', '1.4.0'),
-    ('libGLU', '9.0.1'),
+    ('libGLU', '9.0.2'),
     ('OpenCL-Headers', '2022.01.04'),
     ('OpenCL-ICD-Loader', '2022.01.04'),
 #    ('pocl', '1.8'),

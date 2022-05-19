@@ -28,7 +28,7 @@ checksums = ['74eac0855e1e40c8db4f28b24ef354bd7263c1f76031bdc02b52156b572b7a1d']
 dependencies = [
     ('X11', '20220509'),
     ('libpng', '1.6.37'),
-    ('libGLU', '9.0.1'),
+    ('libGLU', '9.0.2'),
     ('Perl', '5.34.1'),
     ('HarfBuzz', '2.8.0'),
     ('poppler', '22.01.0'),

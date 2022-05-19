@@ -74,7 +74,7 @@ dependencies = [
     ('opus', '1.3.1-7b05f44f'),
     ('libwebp', '1.2.0'),
     ('FFmpeg', '5.0.1'),
-    ('libGLU', '9.0.1'),
+    ('libGLU', '9.0.2'),
     ('libvpx', '1.10.0'),
     ('libjpeg-turbo', '2.1.3'),
     ('NSS', '3.63'),

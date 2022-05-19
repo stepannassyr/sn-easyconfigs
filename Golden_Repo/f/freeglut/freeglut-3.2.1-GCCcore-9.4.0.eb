@@ -24,7 +24,7 @@ builddependencies = [
 
 dependencies = [
     ('X11', '20220509'),
-    ('libGLU', '9.0.1'),
+    ('libGLU', '9.0.2'),
     ('Mesa', '21.0.3'),
 ]
 
