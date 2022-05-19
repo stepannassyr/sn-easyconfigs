@@ -57,7 +57,7 @@ dependencies = [
     ('zlib', '1.2.12'),
     ('nettle', '3.7.2'),
     ('libdrm', '2.4.104'),
-    ('libglvnd', '1.3.2'),
+    ('libglvnd', '1.4.0'),
 #    ('LLVM', '12.0.0'),
     ('X11', '20220509'),
 #    ('libunwind', '1.5.0'),
