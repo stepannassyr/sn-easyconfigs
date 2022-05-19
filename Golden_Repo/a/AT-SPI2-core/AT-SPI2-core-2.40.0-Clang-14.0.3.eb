@@ -29,7 +29,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('DBus', '1.13.18'),
+    ('DBus', '1.14.0'),
     ('intltool', '0.51.0', '-Perl-5.34.1'),
     ('X11', '20220509'),
 ]

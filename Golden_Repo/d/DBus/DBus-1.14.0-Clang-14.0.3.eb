@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'DBus'
-version = '1.13.18'
+version = '1.14.0'
 
 homepage = 'http://dbus.freedesktop.org/doc/dbus-glib'
 description = """D-Bus is a message bus system, a simple way for applications to talk
@@ -13,12 +13,12 @@ description = """D-Bus is a message bus system, a simple way for applications to
 """
 
 
-toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchain = {'name': 'Clang', 'version': '14.0.3'}
 toolchainopts = {'pic':True}
 
 source_urls = ['http://dbus.freedesktop.org/releases/dbus']
 sources = [SOURCELOWER_TAR_XZ]
-checksums = ['8078f5c25e34ab907ce06905d969dc8ef0ccbec367e1e1707c7ecf8460f4254e']
+checksums = ['ccd7cce37596e0a19558fd6648d1272ab43f011d80c8635aea8fd0bad58aebd4']
 
 dependencies = [
     ('expat', '2.4.8')

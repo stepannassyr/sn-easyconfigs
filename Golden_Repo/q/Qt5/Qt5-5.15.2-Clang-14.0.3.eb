@@ -67,7 +67,7 @@ dependencies = [
     ('SQLite', '3.38.5'),
     # deps for QtWebEngine
     ('X11', '20220509'),
-    ('DBus', '1.13.18'),
+    ('DBus', '1.14.0'),
     ('ICU', '71.1'),
     ('libxml2', '2.9.14','-Python-3.10.4'),
     ('libxslt', '1.1.35'),
