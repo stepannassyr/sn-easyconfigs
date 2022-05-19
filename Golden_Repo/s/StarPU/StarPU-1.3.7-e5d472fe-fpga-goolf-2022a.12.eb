@@ -18,7 +18,7 @@ dependencies = [
 	('PAPI','6.0.0.1-70887df7'),
 	('hwloc', '2.7.1'),
 	('HDF5', '1.12.2'),
-	('Valgrind','3.17.0'),
+	('Valgrind', '3.19.0'),
 ]
 
 builddependencies = [

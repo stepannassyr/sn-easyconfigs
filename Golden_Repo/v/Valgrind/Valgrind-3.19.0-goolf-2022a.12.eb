@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'Valgrind'
-version = '3.17.0'
+version = '3.19.0'
 
 homepage = 'http://valgrind.org/downloads/'
 description = "Valgrind: Debugging and profiling tools"
@@ -10,7 +10,7 @@ description = "Valgrind: Debugging and profiling tools"
 source_urls = ['ftp://sourceware.org/pub/valgrind/']
 sources = [SOURCELOWER_TAR_BZ2]
 checksums = [
-    'ad3aec668e813e40f238995f60796d9590eee64a16dff88421430630e69285a2',  # valgrind-3.17.0.tar.bz2
+    'dd5e34486f1a483ff7be7300cc16b4d6b24690987877c3278d797534d6738f02',  # valgrind-3.19.0.tar.bz2
 ]
 
 toolchain = {'name': 'goolf', 'version': '2022a.12'}
