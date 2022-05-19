@@ -2,7 +2,7 @@
 easyblock = 'MesonNinja'
 
 name = 'libepoxy'
-version = '1.5.7'
+version = '1.5.10'
 
 homepage = 'https://github.com/anholt/libepoxy'
 description = """
@@ -10,11 +10,11 @@ description = """
 """
 
 
-toolchain = {'name': 'armlinux', 'version': '22.0.1'}
+toolchain = {'name': 'Clang', 'version': '14.0.3'}
 
 source_urls = ['https://github.com/anholt/%(name)s/archive/']
 sources = ['%(version)s.tar.gz']
-checksums = ['b9e22ba707d0e723e9665c67a2b2974a86f4c4c27e3009dde24a988d1aadf643']
+checksums = ['a7ced37f4102b745ac86d6a70a9da399cc139ff168ba6b8002b4d8d43c900c15']
 
 builddependencies = [
     ('binutils', '2.38'),
@@ -24,7 +24,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('Mesa', '21.0.3'),
+    ('libglvnd', '1.4.0'),
 ]
 
 sanity_check_paths = {

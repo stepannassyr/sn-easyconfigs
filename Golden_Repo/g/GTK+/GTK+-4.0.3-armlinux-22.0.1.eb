@@ -33,7 +33,7 @@ dependencies = [
     ('Pango', '1.48.4'),
     ('FFmpeg', '5.0.1'),
     ('X11', '20220509'),
-    ('libepoxy', '1.5.7'),
+    ('libepoxy', '1.5.10'),
 ]
 
 # without this, pkg-config can't find gio-2.0, because libselinux.pc is not found at the end of the dependency chain
