@@ -27,7 +27,7 @@ builddependencies = [('binutils', '2.38')]
 dependencies = [
     ('Python', '3.10.4'),
     ('Perl', '5.34.1'),
-    ('PCRE', '8.44')
+    ('PCRE', '8.45')
 ]
 
 configopts = '--with-features=huge --enable-python3interp=yes --enable-perlinterp=yes'
