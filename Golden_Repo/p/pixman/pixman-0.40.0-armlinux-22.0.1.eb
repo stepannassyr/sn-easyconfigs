@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = "pixman"
-version = '0.38.4'
+version = '0.40.0'
 
 homepage = 'http://www.pixman.org/'
 description = """Pixman is a low-level software library for pixel manipulation, providing features such as image
@@ -10,10 +10,11 @@ compositing and trapezoid rasterization. Important users of pixman are the cairo
 """
 
 
-toolchain = {'name': 'Clang', 'version': '14.0.3'}
+toolchain = {'name': 'armlinux', 'version': '22.0.1'}
 
 source_urls = ['http://cairographics.org/releases/']
 sources = [SOURCE_TAR_GZ]
+checksums = ['6d200dec3740d9ec4ec8d1180e25779c00bc749f94278c8b9021f5534db223fc']
 
 builddependencies = [
     ('binutils', '2.38')
