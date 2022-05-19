@@ -2,7 +2,7 @@
 easyblock = 'MesonNinja'
 
 name = 'Gdk-Pixbuf'
-version = '2.42.0'
+version = '2.42.8'
 
 homepage = 'https://developer.gnome.org/gdk-pixbuf/stable/'
 description = """
@@ -13,12 +13,15 @@ description = """
  """
 
 
-toolchain = {'name': 'Clang', 'version': '14.0.3'}
+toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
 
 source_urls = [FTPGNOME_SOURCE]
 sources = [SOURCELOWER_TAR_XZ]
-
 #patches = ['gdk-pixbuf_postinstall.patch']
+checksums = [
+    '84acea3acb2411b29134b32015a5b1aaa62844b19c4b1ef8b8971c6b0759f4c6',  # gdk-pixbuf-2.42.8.tar.xz
+#    'fdb99f490adbdd3430e742919691287138e65c2be65712aca8bb654bbc5fed49',  # gdk-pixbuf_postinstall.patch
+]
 
 builddependencies = [
     ('binutils', '2.38'),
