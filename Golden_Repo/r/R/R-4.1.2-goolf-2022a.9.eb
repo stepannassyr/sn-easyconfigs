@@ -22,7 +22,7 @@ dependencies = [
     ('libGLU', '9.0.2'),
     ('cairo', '1.17.4'),
     ('libreadline', '8.1'),
-    ('elfutils', '0.183'), # something linked against /usr/lib/libdebuginfod.so.1
+    ('elfutils', '0.187'), # something linked against /usr/lib/libdebuginfod.so.1
     ('ncurses', '6.3'),
     ('bzip2', '1.0.8'),
     ('XZ', '5.2.5'),
@@ -45,7 +45,7 @@ dependencies = [
     ('PROJ', '8.0.0'), # for rgdal
     ('GEOS', '3.9.1'),  # for sf
     ('GMP', '6.2.1'),  # for igraph
-    ('GSL', '2.6'),  # for gsl
+    ('GSL', '2.7'),  # for gsl
     ('NLopt', '2.6.2'),  # for nloptr
     ('FFTW', '3.3.10','',('gompi','2022a.9')),  # for fftw
     ('GLPK', '5.0'),  # for Rglpk

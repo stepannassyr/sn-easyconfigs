@@ -1,7 +1,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'libmicrohttpd'
-version = '0.9.72'
+version = '0.9.75'
 
 homepage = 'https://www.gnu.org/software/libmicrohttpd/'
 
@@ -9,11 +9,11 @@ description = """
 GNU libmicrohttpd is a small C library that is supposed to make it easy to run an HTTP server as part of another application.
 """
 
-toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
+toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
 
 source_urls = [GNU_SOURCE]
 sources = [SOURCE_TAR_GZ]
-checksums = ['0ae825f8e0d7f41201fd44a0df1cf454c1cb0bc50fe9d59c26552260264c2ff8']
+checksums = ['9278907a6f571b391aab9644fd646a5108ed97311ec66f6359cebbedb0a4e3bb']
 
 builddependencies = [
     ('binutils', '2.38'),

@@ -3,7 +3,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'libarchive'
-version = '3.5.1'
+version = '3.6.1'
 
 homepage = 'https://www.libarchive.org/'
 
@@ -11,11 +11,11 @@ description = """
  Multi-format archive and compression library
 """
 
-toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
 
 source_urls = ['https://www.libarchive.org/downloads/']
 sources = [SOURCE_TAR_GZ]
-checksums = ['9015d109ec00bb9ae1a384b172bf2fc1dff41e2c66e5a9eeddf933af9db37f5a']
+checksums = ['c676146577d989189940f1959d9e3980d28513d74eedfbc6b7f15ea45fe54ee2']
 
 builddependencies = [
     ('binutils', '2.38'),

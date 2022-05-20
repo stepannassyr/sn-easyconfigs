@@ -60,7 +60,7 @@ dependencies = [
     ('libglvnd', '1.4.0'),
 #    ('LLVM', '12.0.0'),
     ('X11', '20220509'),
-#    ('libunwind', '1.5.0'),
+#    ('libunwind', '1.6.2'),
 ]
 
 configopts  = '-Dgbm=true'

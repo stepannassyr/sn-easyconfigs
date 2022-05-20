@@ -31,7 +31,7 @@ builddependencies = [
     ('CubeLib', '4.6'),
     ('CubeWriter', '4.6'),
     # Unwinding/sampling support (optional):
-    ('libunwind', '1.5.0'),
+    ('libunwind', '1.6.2'),
 ]
 
 dependencies = [

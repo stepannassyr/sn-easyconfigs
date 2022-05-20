@@ -1,24 +1,24 @@
 easyblock = 'ConfigureMake'
 
 name = 'elfutils'
-version = '0.183'
+version = '0.187'
 
 homepage = 'https://sourceware.org/elfutils/'
 description = """
 elfutils is a collection of utilities and libraries to read, create and modify ELF binary files, find and handle DWARF debug data, symbols, thread state and stacktraces for processes and core files on GNU/Linux. 
 """
 
-toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
+toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
 
 source_urls = ['ftp://sourceware.org/pub/%(name)s/%(version)s/']
 sources = [SOURCELOWER_TAR_BZ2]
-checksums = ['c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5']
+checksums = ['e70b0dfbe610f90c4d1fe0d71af142a4e25c3c4ef9ebab8d2d72b65159d454c8']
 
 builddependencies = [('binutils', '2.38')]
 dependencies = [
     ('cURL', '7.83.0'),
-    ('libmicrohttpd', '0.9.72'),
-    ('libarchive', '3.5.1'),
+    ('libmicrohttpd', '0.9.75'),
+    ('libarchive', '3.6.1'),
     ('pkg-config', '0.29.2'),
     ('SQLite', '3.38.5'),
 ]

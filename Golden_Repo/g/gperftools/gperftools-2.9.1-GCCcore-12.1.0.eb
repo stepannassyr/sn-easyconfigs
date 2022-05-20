@@ -22,7 +22,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('libunwind', '1.5.0'),
+    ('libunwind', '1.6.2'),
 ]
 
 preconfigopts="./autogen.sh && "
