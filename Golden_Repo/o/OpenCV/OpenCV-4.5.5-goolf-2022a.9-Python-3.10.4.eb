@@ -1,6 +1,6 @@
 # From the JSC-armlab easyconfig repository
 name = 'OpenCV'
-version = '4.5.2'
+version = '4.5.5'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'http://opencv.org/'

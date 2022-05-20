@@ -1,6 +1,6 @@
 # From the JSC-armlab easyconfig repository
 name = 'OpenCV'
-version = '4.5.2'
+version = '4.5.5'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'http://opencv.org/'
@@ -9,7 +9,7 @@ description = """OpenCV (Open Source Computer Vision Library) is an open source 
  a common infrastructure for computer vision applications and to accelerate
  the use of machine perception in the commercial products."""
 
-toolchain = {'name': 'goolf', 'version': '2022a.12'}
+toolchain = {'name': 'alplompi', 'version': '22.0.1'}
 
 source_urls = [
     'https://github.com/opencv/opencv/archive/',
@@ -41,14 +41,15 @@ dependencies = [
     ('Java', '11.0.15', '', True),
     ('ant', '1.10.12', '-Java-%(javaver)s', True),
     ('GLib', '2.72.1'),
-    ('GTK3', '3.24.34'),
+    ('GTK', '4.6.4'),
     ('protobuf', '3.20.1'),
-    ('SciPy-Stack', '2022a', versionsuffix, ('goolf', '2022a.12'))
+    ('SciPy-Stack', '2022a', versionsuffix, ('alplompi', '22.0.1'))
 ]
 
 configopts = "-DBUILD_PROTOBUF=OFF -DPROTOBUF_UPDATE_FILES=ON -DOpenBLAS_INCLUDE_DIR=$EBROOTOPENBLAS/include -DOpenBLAS_LIB=$EBROOTOPENBLAS/lib/libopenblas.so -DCPU_BASELINE=DETECT "
 
 # Use protobuf from module, avoid system protobuf
+configopts += " -DPROTOBUF_ROOT=$EBROOTPROTOBUF "
 configopts += " -DPROTOBUF_INCLUDE_DIR=$EBROOTPROTOBUF/include "
 configopts += " -DPROTOBUF_INCLUDE_DIRS=$EBROOTPROTOBUF/include "
 configopts += " -DPROTOBUF_LIBRARIES='$EBROOTPROTOBUF/lib64/libprotobuf.so;-lpthread' "
