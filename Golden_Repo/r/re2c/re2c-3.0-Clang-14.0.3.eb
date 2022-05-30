@@ -1,7 +1,7 @@
 easyblock = 'ConfigureMake'
 
 name = 're2c'
-version = '2.1.1'
+version = '3.0'
 
 homepage = 'https://re2c.org/'
 description = """re2c is a free and open-source lexer generator for C and C++. Its main goal is generating
@@ -9,11 +9,11 @@ fast lexers: at least as fast as their reasonably optimized hand-coded counterpa
 traditional table-driven approach, re2c encodes the generated finite state automata directly in the form
 of conditional jumps and comparisons."""
 
-toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
+toolchain = {'name': 'Clang', 'version': '14.0.3'}
 
 source_urls = ['https://github.com/skvadrik/re2c/releases/download/%(version)s']
 sources = ['%(name)s-%(version)s.tar.xz']
-checksums = ['036ee264fafd5423141ebd628890775aa9447a4c4068a6307385d7366fe711f8']
+checksums = ['b3babbbb1461e13fe22c630a40c43885efcfbbbb585830c6f4c0d791cf82ba0b']
 
 builddependencies = [('binutils', '2.38')]
 
