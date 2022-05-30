@@ -1,17 +1,17 @@
 easyblock = 'ConfigureMake'
 
 name = 'NSPR'
-version = '4.30'
+version = '4.34'
 
 homepage = 'https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSPR'
 description = """Netscape Portable Runtime (NSPR) provides a platform-neutral API for system level
  and libc-like functions."""
 
-toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
+toolchain = {'name': 'Clang', 'version': '14.0.3'}
 
 source_urls = ['https://archive.mozilla.org/pub/nspr/releases/v%(version)s/src/']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['8d4cd8f8409484dc4c3d31e180354bfc506573eccf86cd691106a1ef7edc913b']
+checksums = ['beef011cd15d8f40794984d17014366513cec5719bf1a78f5e8a3e3a1cebf99c']
 
 builddependencies = [('binutils', '2.38')]
 

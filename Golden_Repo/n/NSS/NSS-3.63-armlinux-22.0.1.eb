@@ -23,7 +23,7 @@ checksums = [
 
 builddependencies = [('binutils', '2.38')]
 dependencies = [
-    ('NSPR', '4.30'),
+    ('NSPR', '4.34'),
     ('zlib', '1.2.12'),
 ]
 
