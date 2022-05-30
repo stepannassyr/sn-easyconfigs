@@ -1,23 +1,22 @@
 easyblock = 'MakeCp'
 
 name = 'NSS'
-version = '3.63'
+version = '3.78'
 
 homepage = 'https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS'
 description = """Network Security Services (NSS) is a set of libraries designed to support cross-platform development
  of security-enabled client and server applications."""
 
-toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchain = {'name': 'Clang', 'version': '14.0.3'}
 
 source_urls = ['https://ftp.mozilla.org/pub/security/nss/releases/NSS_%(version_major)s_%(version_minor)s_RTM/src/']
 sources = [SOURCELOWER_TAR_GZ]
 patches = [
               'NSS-3.39_pkgconfig.patch',
               'NSS-3.50-hack-putenv-in.patch',
-              'NSS-3.50-getcwd-zero-zero.patch'
           ]
 checksums = [
-    '182d2fef629102ae9423aabf2c192242b565cf5098e82c5a26cf70c5e4ea2221',  # nss-3.63.tar.gz
+    'f455f341e787c1167328e80a84f77b9a557d595066dda6486a1874d72da68800',  # nss-3.78.tar.gz
     '5c4b55842e5afd1e8e67b90635f6474510b89242963c4ac2622d3e3da9062774',  # NSS-3.39_pkgconfig.patch
     '563e435d2275e681cb06688d7ee9cc0543869101717820dbf1e0d59e22e4568e',  # NSS-3.50-hack-putenv-in.patch
 ]
@@ -32,9 +31,9 @@ dependencies = [
 parallel = 1
 
 # fix for not being able to find header files
-buildopts = 'BUILD_OPT=1 USE_64=1 CPATH="$EBROOTNSPR/include/nspr:$CPATH" && '
+buildopts = 'BUILD_OPT=1 USE_64=1 CCC=clang++ CXX=clang++ CPATH="$EBROOTNSPR/include/nspr:$CPATH" && '
 # also install pkgconfig file (see patch)
-buildopts += "cd config && make PREFIX=%(installdir)s BUILD_OPT=1 USE_64=1 && cd -"
+buildopts += "cd config && make PREFIX=%(installdir)s CCC=clang++ CXX=clang++ BUILD_OPT=1 USE_64=1 && cd -"
 
 files_to_copy = ['../dist/Linux*.OBJ/*', (['../dist/public/*'], 'include')]
 
