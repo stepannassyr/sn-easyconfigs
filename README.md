@@ -22,3 +22,20 @@ run
 ./deploy.sh
 ```
 and follow the instructions
+
+After the script ran through you can set up the environment for installation with:
+
+```
+module use /<installation dir>/modules/devel
+module load EasyBuild Stages/<stage> Developers Architecture/<Architecture>
+```
+i.e for the default installation directory, stage `2022a` and the Haswell architecture:
+```
+module use /software/modules/devel
+module load EasyBuild Stages/2022a Developers Architecture/Haswell
+```
+Then `cd` into the `Golden_Repo` subdirectory and install packages with the `eb` command:
+```
+cd Golden_Repo
+eb o/OpenMPI/OpenMPI-4.1.3-GCC-12.1.0.eb
+```
