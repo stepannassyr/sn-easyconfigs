@@ -19,6 +19,6 @@
 
 run 
 ```
-~: ./deploy.sh
+./deploy.sh
 ```
 and follow the instructions
