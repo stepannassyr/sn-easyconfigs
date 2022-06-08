@@ -36,7 +36,7 @@ checksums = [
     '357344b9b0f63774d8ec290c5109a665330bca630d0e18b38d884c8091962a00',
 ]
 
-local_pyver = '3.9.4'
+local_pyver = '3.10.4'
 
 builddependencies = [
     ('binutils', '2.38'),
