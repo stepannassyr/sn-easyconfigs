@@ -11,7 +11,7 @@ toolchainopts = {'pic': True}
 
 source_urls = ['http://www.cpan.org/src/%(version_major)s.0']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['03b693901cd8ae807231b1787798cf1f2e0b8a56218d07b7da44f784a7caeb2c']
+checksums = ['357951a491b0ba1ce3611263922feec78ccd581dddc24a446b033e25acf242a1']
 
 builddependencies = [('binutils', '2.38')]
 
@@ -587,6 +587,7 @@ exts_list = [
     ('XML::Bare', '0.53', {
         'source_tmpl': 'XML-Bare-%(version)s.tar.gz',
         'source_urls': ['https://cpan.metacpan.org/authors/id/C/CO/CODECHILD'],
+        'patches': ['XML-Bare-0.53-use-defined-compiler.patch'],
         'checksums': ['865e198e98d904be1683ef5a53a4948f02dabdacde59fc554a082ffbcc5baefd'],
     }),
     ('Dist::CheckConflicts', '0.11', {
