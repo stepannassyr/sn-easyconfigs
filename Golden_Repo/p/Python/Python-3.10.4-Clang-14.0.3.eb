@@ -165,8 +165,8 @@ exts_list = [
     ('lockfile', '0.12.2', {
         'checksums': ['6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799'],
     }),
-    ('Cython', '0.29.28', {
-        'checksums': ['d6fac2342802c30e51426828fe084ff4deb1b3387367cf98976bb2e64b6f8e45'],
+    ('Cython', '0.29.30', {
+        'checksums': ['2235b62da8fe6fa8b99422c8e583f2fb95e143867d337b5c75e4b9a1a865f9e3'],
     }),
     ('python-dateutil', '2.8.2', {
         'modulename': 'dateutil',
