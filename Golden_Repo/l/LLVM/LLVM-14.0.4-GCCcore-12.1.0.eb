@@ -1,8 +1,7 @@
-# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
-easyblock = 'CMakeMake'
-
+# LLVM easyconfig
+#
 name = 'LLVM'
-version = '12.0.0'
+version = '14.0.4'
 
 homepage = "http://llvm.org/"
 description = """The LLVM Core libraries provide a modern source- and target-independent
@@ -14,12 +13,12 @@ description = """The LLVM Core libraries provide a modern source- and target-ind
  to use LLVM as an optimizer and code generator."""
 
 
-toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
-toolchainopts = {'cstd': 'gnu++11'}
+toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchainopts = {'pic': True}
 
 source_urls = ["https://github.com/llvm/llvm-project/releases/download/llvmorg-%(version)s/"]
 sources = ["llvm-%(version)s.src.tar.xz"]
-checksums = ['49dc47c8697a1a0abd4ee51629a696d7bfe803662f2a7252a3b16fc75f3a8b50']
+checksums = ['eb8e90dfadae4073a7f8fc6384bacc0dda072400d82b9d25dabb5280a737ba22']
 
 builddependencies = [
     ('CMake', '3.23.1'),
@@ -32,16 +31,13 @@ dependencies = [
     ('zlib', '1.2.12'),
 ]
 
-configopts = '-DBUILD_SHARED_LIBS=ON '
-# required to install extra tools in bin/
-configopts += '-DLLVM_INSTALL_UTILS=ON -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_RTTI=ON '
-configopts += '-DCMAKE_BUILD_TYPE=Release '
+build_shared_libs = True
 
 sanity_check_paths = {
     'files': ['bin/llvm-ar', 'bin/FileCheck'],
     'dirs': ['include/llvm', 'include/llvm-c'],
 }
 
-separate_build_dir = True
+sanity_check_commands = ["llvm-ar --help"]
 
 moduleclass = 'compiler'

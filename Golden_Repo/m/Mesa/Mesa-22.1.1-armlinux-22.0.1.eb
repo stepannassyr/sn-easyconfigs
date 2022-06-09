@@ -9,7 +9,7 @@
 easyblock = 'MesonNinja'
 
 name = 'Mesa'
-version = '21.0.3'
+version = '22.1.1'
 
 homepage = 'http://www.mesa3d.org/'
 description = """
@@ -18,7 +18,7 @@ Mesa is an open-source implementation of the OpenGL specification -
 """
 
 
-toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
+toolchain = {'name': 'armlinux', 'version': '22.0.1'}
 # swr detects and builds parts specific for AVX and AVX2. If we use
 # -xHost, this always gets overwritten and will fail.
 #toolchainopts = {'optarch': False}
@@ -46,7 +46,7 @@ builddependencies = [
     ('pkg-config', '0.29.2'),
     ('expat', '2.4.8'),
     ('Python', local_pyver),
-    ('Mako', '1.1.4'),
+    ('Mako', '1.2.0'),
     ('libxml2', '2.9.14', '-Python-%s' % local_pyver),
     ('Meson', '0.62.1', '-Python-%s' % local_pyver),
     ('Ninja', '1.10.2'),
@@ -55,10 +55,10 @@ builddependencies = [
 
 dependencies = [
     ('zlib', '1.2.12'),
-    ('nettle', '3.7.2'),
-    ('libdrm', '2.4.104'),
+    ('nettle', '3.8'),
+    ('libdrm', '2.4.111'),
     ('libglvnd', '1.4.0'),
-    ('LLVM', '12.0.0'),
+    ('LLVM', '14.0.4'),
     ('X11', '20220509'),
     ('libunwind', '1.6.2'),
 ]

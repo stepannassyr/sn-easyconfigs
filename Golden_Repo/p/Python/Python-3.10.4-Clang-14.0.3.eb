@@ -44,7 +44,7 @@ builddependencies = [
     # Needed just for unzipping zip files in systems without unzip
     ('unzip', '6.0'),
     # Needs llvm-profdata and llvm-ar, so use LLVM here
-    #('LLVM', '12.0.0', '', True),
+    #('LLVM', '14.0.4', '', True),
 ]
 
 osdependencies = [OS_PKG_OPENSSL_DEV]

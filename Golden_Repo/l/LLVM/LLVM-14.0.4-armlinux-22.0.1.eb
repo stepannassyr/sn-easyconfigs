@@ -1,7 +1,7 @@
 # LLVM easyconfig
 #
 name = 'LLVM'
-version = '14.0.3'
+version = '14.0.4'
 
 homepage = "http://llvm.org/"
 description = """The LLVM Core libraries provide a modern source- and target-independent
@@ -13,12 +13,12 @@ description = """The LLVM Core libraries provide a modern source- and target-ind
  to use LLVM as an optimizer and code generator."""
 
 
-toolchain = {'name': 'GCCcore', 'version': '12.1.0'}
-toolchainopts = {'cstd': 'gnu++11'}
+toolchain = {'name': 'armlinux', 'version': '22.0.1'}
+toolchainopts = {'pic': True}
 
 source_urls = ["https://github.com/llvm/llvm-project/releases/download/llvmorg-%(version)s/"]
 sources = ["llvm-%(version)s.src.tar.xz"]
-checksums = ['49dc47c8697a1a0abd4ee51629a696d7bfe803662f2a7252a3b16fc75f3a8b50']
+checksums = ['eb8e90dfadae4073a7f8fc6384bacc0dda072400d82b9d25dabb5280a737ba22']
 
 builddependencies = [
     ('CMake', '3.23.1'),

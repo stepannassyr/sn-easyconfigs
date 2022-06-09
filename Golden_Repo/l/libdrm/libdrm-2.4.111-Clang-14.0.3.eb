@@ -2,7 +2,7 @@
 easyblock = 'MesonNinja'
 
 name = 'libdrm'
-version = '2.4.104'
+version = '2.4.111'
 
 homepage = 'http://dri.freedesktop.org'
 description = """Direct Rendering Manager runtime library.
@@ -11,9 +11,9 @@ description = """Direct Rendering Manager runtime library.
 
 source_urls = ['http://dri.freedesktop.org/libdrm/']
 sources = [SOURCELOWER_TAR_XZ]
-checksums = ['d66ad8b5c2441015ac1333e40137bb803c3bde3612ff040286fcc12158ea1bcb']
+checksums = ['1ad7164f77424de6f4ecba7c262bde196a214c6e19a6fbf497f0815f4d7ab2a9']
 
-toolchain = {'name': 'GCCcore', 'version': '9.4.0'}
+toolchain = {'name': 'Clang', 'version': '14.0.3'}
 
 builddependencies = [
     ('binutils', '2.38'),
@@ -26,9 +26,8 @@ dependencies = [
 ]
 
 sanity_check_paths = {
-    'files': ['include/xf86drm.h', 'include/xf86drmMode.h',
-              'lib/libdrm_radeon.%s' % SHLIB_EXT, 'lib/libdrm.%s' % SHLIB_EXT, 'lib/libkms.%s' % SHLIB_EXT],
-    'dirs': ['include/libdrm', 'include/libkms', 'lib/pkgconfig'],
+    'files': ['lib/libdrm.%s' % SHLIB_EXT, 'include/libdrm/drm.h'],
+    'dirs': ['include', 'lib'],
 }
 
 moduleclass = 'lib'

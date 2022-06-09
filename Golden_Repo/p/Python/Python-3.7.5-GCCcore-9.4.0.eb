@@ -46,7 +46,7 @@ builddependencies = [
     # Needed just for unzipping zip files in systems without unzip
     ('unzip', '6.0'),
     # Needs llvm-profdata and llvm-ar, so use LLVM here
-    #('LLVM', '12.0.0', '', True),
+    #('LLVM', '14.0.4', '', True),
 ]
 
 osdependencies = [OS_PKG_OPENSSL_DEV]
@@ -300,7 +300,7 @@ exts_list = [
         'modulename': 'flask',
         'checksums': ['2353e7afbd0525d52ae8de3e259d89c2c951eae6f935126e20c7fd94c36e4255'],
     }),
-    ('Mako', '1.1.4', {
+    ('Mako', '1.2.0', {
         'modulename': 'mako',
         'checksums': ['17831f0b7087c313c0ffae2bcbbd3c1d5ba9eeac9c38f2eb7b50e8c99fe9d5ab'],
     }),

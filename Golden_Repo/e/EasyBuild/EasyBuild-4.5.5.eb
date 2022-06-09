@@ -1,0 +1,70 @@
+easyblock = 'EB_EasyBuildMeta'
+
+name = 'EasyBuild'
+version = '4.5.5'
+
+homepage = 'https://easybuilders.github.io/easybuild'
+description = """EasyBuild is a software build and installation framework
+ written in Python that allows you to install software in a structured,
+ repeatable and robust way."""
+
+toolchain = SYSTEM
+
+source_urls = [
+    # easybuild-framework
+    'https://files.pythonhosted.org/packages/14/f0/cc156a5f886d076fe7f0fef23a267710744608ce623aa85aee8f2cf65d2c/',
+    # easybuild-easyblocks
+    'https://files.pythonhosted.org/packages/b1/c9/99a8888a3ecf544ec6091ff31daa7e39412323e4d13ad423a719d5dd3f67/',
+    # easybuild-easyconfigs
+    'https://files.pythonhosted.org/packages/47/96/34a70ba9ebc2b65046f4a5955f681b975dfa31131af9cd87e4ccbc05b0c7/',
+]
+sources = [
+    'easybuild-framework-%(version)s.tar.gz',
+    'easybuild-easyblocks-%(version)s.tar.gz',
+    'easybuild-easyconfigs-%(version)s.tar.gz',
+]
+checksums = [
+    '9e45c18ab0105da68f5ccba1404515cba3bea4ba6a9fbecbe258addbf623a958',  # easybuild-framework-4.5.5.tar.gz
+    'aa59432efe389c3d2cfbae61c4083a40d7b9652ebd75bd03da7a8fdb8a139b53',  # easybuild-easyblocks-4.5.5.tar.gz
+    'ebb85680bc42653ec1816bfcd2e6c6433825191ce5c56ed152cbff5a0e4d7634',  # easybuild-easyconfigs-4.5.5.tar.gz
+]
+
+patches = [
+    ('framework-patches/0001-Add-lzip-support-EasyBuild-4.5.2.patch', '../easybuild-framework-%(version)s'),
+    ('framework-patches/0002-Undepreciate-goolf.patch', '../easybuild-framework-%(version)s'),
+    ('framework-patches/0003-Add-extra-libs-to-gcc-toolchain.patch', '../easybuild-framework-%(version)s'),
+    ('easyblock-patches/0001-Add-armclang-to-Boost-EasyBuild-4.5.2.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0002-Add-armclang-to-fortranpythonpackage.py.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0003-versionindependentpythonpackage.py-use-makedirs-inst.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0004-Add-Arm-PL-support-to-ScaLAPACK-EasyBuild-4.5.2.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0005-Add-armlinux-to-score-p-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0006-Add-clang-to-score-p-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0007-Add-armlinux-to-pdt-easyblock.patch', '../easybuild-easyblocks-%(version)s'),
+# Discard all the clang patches. They need a major rework
+#    ('easyblock-patches/0008-More-llvm-projects-in-clang-and-work-on-gcc-independ.patch', '../easybuild-easyblocks-%(version)s'),
+#    ('easyblock-patches/0009-clang-git-versions-more-gcc-independence-one_source-.patch', '../easybuild-easyblocks-%(version)s'),
+#    ('easyblock-patches/0010-clang-easyblock-check-symlink-existence.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0011-netcdf-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
+    ('easyblock-patches/0012-scalapack-fix-gcc10.patch', '../easybuild-easyblocks-%(version)s'),
+#    ('easyblock-patches/0013-fix-typos.patch', '../easybuild-easyblocks-%(version)s'),
+#    ('easyblock-patches/0014-Update-clang-options-for-later-stages.patch', '../easybuild-easyblocks-%(version)s'),
+#    ('easyblock-patches/0015-Clang-add-enable_modules-option.patch', '../easybuild-easyblocks-%(version)s'),
+#    ('easyblock-patches/0016-clang.py-fuse-ld-lld.patch', '../easybuild-easyblocks-%(version)s'),
+#    ('easyblock-patches/0017-clang.py-undo-runtimes.patch', '../easybuild-easyblocks-%(version)s'),
+#    ('easyblock-patches/clang-remove-pstl-and-make-compilable.patch', '../easybuild-easyblocks-%(version)s'),
+    ('boost-fix-arch-tags.patch', '../easybuild-easyblocks-%(version)s'),
+    ]
+
+# order matters a lot, to avoid having dependencies auto-resolved (--no-deps easy_install option doesn't work?)
+# EasyBuild is a (set of) Python packages, so it depends on Python
+# usually, we want to use the system Python, so no actual Python dependency is listed
+allow_system_deps = [('Python', SYS_PYTHON_VERSION)]
+
+local_pyshortver = '.'.join(SYS_PYTHON_VERSION.split('.')[:2])
+
+sanity_check_paths = {
+    'files': ['bin/eb'],
+    'dirs': ['lib/python%s/site-packages' % local_pyshortver],
+}
+
+moduleclass = 'tools'
