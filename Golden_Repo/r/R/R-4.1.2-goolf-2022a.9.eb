@@ -40,7 +40,7 @@ dependencies = [
     ('cURL', '7.83.0'),  # for RCurl
     ('libxml2', '2.9.14'),  # for XML
     ('GDAL', '3.2.2'),  # for rgdal
-    ('CFITSIO', '3.49'),  # for rgdal
+    ('CFITSIO', '4.1.0'),  # for rgdal
     ('Xerces-C++', '3.2.3'),  # for rgdal
     ('PROJ', '8.0.0'), # for rgdal
     ('GEOS', '3.9.1'),  # for sf
