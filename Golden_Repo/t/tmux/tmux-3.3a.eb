@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'tmux'
-version = '3.2a'
+version = '3.3a'
 
 homepage = 'http://tmux.sourceforge.net/'
 description = """tmux is a terminal multiplexer. It lets you switch easily between several programs in one terminal,
