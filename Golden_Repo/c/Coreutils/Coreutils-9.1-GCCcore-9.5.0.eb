@@ -1,0 +1,31 @@
+# This file is part of JSC's public easybuild repository (https://github.com/easybuilders/jsc)
+easyblock = 'ConfigureMake'
+
+name = "Coreutils"
+version = '9.1'
+
+homepage = 'http://www.gnu.org/software/coreutils/'
+description = """The GNU Core Utilities are the basic file, shell and text manipulation utilities of the
+ GNU operating system.  These are the core utilities which are expected to exist on every operating system.
+"""
+
+
+toolchain = {'name': 'GCCcore', 'version': '9.5.0'}
+toolchainopts = { 'pic': True}
+
+source_urls = [GNU_SOURCE]
+sources = [SOURCELOWER_TAR_XZ]
+#patches = ['Coreutils-8.32-getdents64.patch']
+checksums = [
+    '61a1f410d78ba7e7f37a5a4f50e6d1320aca33375484a3255eddf17a38580423',  # coreutils-9.1.tar.xz
+#    '8c093c8e24b7f221d22718c18681f31ade7c5fbd88ca865a24bddb1b6fc7ad54',  # Coreutils-8.32-getdents64.patch
+]
+
+builddependencies = [('binutils', '2.38')]
+
+sanity_check_paths = {
+    'files': ['bin/sort', 'bin/echo', 'bin/du', 'bin/date', 'bin/true'],
+    'dirs': []
+}
+
+moduleclass = 'tools'

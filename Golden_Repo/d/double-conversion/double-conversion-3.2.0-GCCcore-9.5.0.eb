@@ -1,0 +1,29 @@
+easyblock = 'CMakeMake'
+
+name = 'double-conversion'
+version = '3.2.0'
+
+homepage = 'https://github.com/google/double-conversion'
+description = "Efficient binary-decimal and decimal-binary conversion routines for IEEE doubles."
+
+toolchain = {'name': 'GCCcore', 'version': '9.5.0'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://github.com/google/%(name)s/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['3dbcdf186ad092a8b71228a5962009b5c96abde9a315257a3452eb988414ea3b']
+
+builddependencies = [
+    ('binutils', '2.38'),
+    ('CMake', '3.23.1'),
+]
+
+#installopts = "DESTDIR=%(installdir)s prefix='' && "
+#installopts += "mkdir %(installdir)s/include && cp double-conversion/*.h %(installdir)s/include"
+
+sanity_check_paths = {
+    'files': ['include/double-conversion/double-conversion.h', 'include/double-conversion/utils.h', 'lib64/libdouble-conversion.a'],
+    'dirs': ['lib64/cmake'],
+}
+
+moduleclass = 'lib'

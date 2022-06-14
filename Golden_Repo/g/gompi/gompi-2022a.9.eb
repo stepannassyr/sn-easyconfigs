@@ -13,8 +13,8 @@ description = """gcc and GFortran based compiler toolchain,
 toolchain = SYSTEM
 
 dependencies = [
-    ('GCC', '9.4.0'),
-    ('OpenMPI', '4.1.3', '', ('GCC', '9.4.0')),
+    ('GCC', '9.5.0'),
+    ('OpenMPI', '4.1.3', '', ('GCC', '9.5.0')),
 ]
 
 moduleclass = 'toolchain'
