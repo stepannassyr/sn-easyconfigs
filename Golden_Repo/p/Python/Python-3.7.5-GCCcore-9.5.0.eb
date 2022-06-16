@@ -264,7 +264,7 @@ exts_list = [
     }),
     ('PyYAML', '6.0', {
         'modulename': 'yaml',
-        'checksums': ['607774cbba28732bfa802b54baa7484215f530991055bb562efbed5b2f20a45e'],
+        'checksums': ['68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2'],
     }),
     ('psycopg2', '2.8.6', {
         'checksums': ['fb23f6c71107c37fd667cb4ea363ddeb936b348bbd6449278eb92c189699f543'],
@@ -302,7 +302,7 @@ exts_list = [
     }),
     ('Mako', '1.2.0', {
         'modulename': 'mako',
-        'checksums': ['17831f0b7087c313c0ffae2bcbbd3c1d5ba9eeac9c38f2eb7b50e8c99fe9d5ab'],
+        'checksums': ['9a7c7e922b87db3686210cf49d5d767033a41d4010b284e747682c92bddd8b39'],
     }),
     ('py', '1.10.0', {
         'checksums': ['21b81bda15b66ef5e1a777a21c4dcd9c20ad3efd0b3f817e7a809035269e1bd3'],

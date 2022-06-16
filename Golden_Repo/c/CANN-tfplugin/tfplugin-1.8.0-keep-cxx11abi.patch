@@ -1,0 +1,27 @@
+From 9c1fcae6844c4ad6f8b9136ca47abea2ef8ef11e Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Thu, 16 Jun 2022 12:33:44 +0200
+Subject: [PATCH 1/1] keep cxx11abi
+
+---
+ CMakeLists.txt | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index eae7c24e..8d7e5f1e 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -8,9 +8,7 @@ if (ENABLE_OPEN_SRC)
+ 
+     set(CMAKE_CXX_STANDARD 11)
+     set(CMAKE_C_FLAGS "-O2 -DNDEBUG -Wfloat-equal -Wextra -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_C_FLAGS}")
+-    set(CMAKE_CXX_FLAGS "-std=c++11 -O2 -DNDEBUG -Wfloat-equal -Wextra -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_CXX_FLAGS}")
+-
+-    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
++    set(CMAKE_CXX_FLAGS "-O2 -DNDEBUG -Wfloat-equal -Wextra -Wno-deprecated-declarations -Wall -fPIC -fstack-protector-all -Wl,-z,relro,-z,now,-z,noexecstack -s -pipe ${CMAKE_CXX_FLAGS}")
+ 
+     # build external prjects
+     if(DEFINED ENV{D_PKG_SERVER})
+-- 
+2.36.1
+

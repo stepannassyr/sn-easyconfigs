@@ -1,0 +1,12 @@
+diff --color -urN poetry-1.2.0b1-unpatched/pyproject.toml poetry-1.2.0b1/pyproject.toml
+--- poetry-1.2.0b1-unpatched/pyproject.toml	2022-06-15 11:35:41.671022013 +0000
++++ poetry-1.2.0b1/pyproject.toml	2022-06-15 11:36:40.740917190 +0000
+@@ -72,7 +72,7 @@
+ 
+ 
+ [build-system]
+-requires = ["poetry-core>=1.0.0"]
++requires = ["poetry-core>=1.1.0a7"]
+ build-backend = "poetry.core.masonry.api"
+ 
+ 

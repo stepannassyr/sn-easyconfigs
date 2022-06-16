@@ -1,0 +1,67 @@
+# Stepan Nassyr (JSC)
+#easyblock = 'Binary'
+easyblock = 'CMakeNinja'
+
+name = 'CANN-tfplugin'
+version = '1.8.0'
+homepage = 'https://e.huawei.com/en/products/cloud-computing-dc/atlas/cann'
+description = 'CANN plugin for TensorFlow'
+versionsuffix = '-Python-%(pyver)s'
+
+
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://gitee.com/ascend/',
+        'repo_name': 'tensorflow',
+        'commit': 'r1.8.0',
+        'recursive': True,
+        'keep_git_dir': True,
+    },
+}]
+
+patches = [
+    'tfplugin-1.7.0-use-swig-properly.patch',
+    'tfplugin-1.7.0-install-in-cmake.patch',
+    'tfplugin-1.8.0-keep-cxx11abi.patch',
+    'tfplugin-1.8.0-Fix-InsertEdge-signature.patch',
+    'tfplugin-1.8.0-Remove-FunctionalizeControlFlow.patch',
+    'tfplugin-1.8.0-Fix-unresolved-graphcycles-symbols.patch',
+]
+
+builddependencies = [
+    ('CMake', '3.23.1'),
+    ('Ninja', '1.10.2'),
+    ('SWIG', '4.0.2')
+]
+
+cann_version = "5.0.4.alpha005"
+
+dependencies = [
+    ('Python', '3.7.5'),
+    ('CANN-Toolkit', cann_version, versionsuffix),
+    ('SciPy-Stack', '2022a', versionsuffix),
+    ('TensorFlow-CANN-Core', '1.15.0', versionsuffix),
+]
+
+preconfigopts="olddir=$(pwd) && cd %%(builddir)s/tensorflow && ASCEND_CUSTOM_PATH=$EBROOTCANNMINTOOLKIT/ascend-toolkit/%s/ ./configure && cd $olddir &&" % cann_version
+configopts="-DENABLE_OPEN_SRC=True"
+
+
+sanity_check_paths = {
+    'files': ['lib/python/site-packages/npu_bridge/tf_adapter.py'],
+    'dirs' : ['lib/python/site-packages/npu_bridge']
+}
+
+sanity_check_commands = [
+    ('python3','-c "import npu_bridge"')
+]
+
+modextrapaths = {
+    'PYTHONPATH' : ['lib/python/site-packages'],
+}
+
+moduleclass = 'lib'
+

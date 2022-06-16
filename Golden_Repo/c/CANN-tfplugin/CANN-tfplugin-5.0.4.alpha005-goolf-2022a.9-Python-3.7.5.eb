@@ -1,0 +1,62 @@
+# Stepan Nassyr (JSC)
+#easyblock = 'Binary'
+easyblock = 'cann_package'
+
+name = 'CANN-tfplugin'
+version = '5.0.4.alpha005'
+homepage = 'https://e.huawei.com/en/products/cloud-computing-dc/atlas/cann'
+description = 'CANN plugin for TensorFlow'
+versionsuffix = '-Python-%(pyver)s'
+
+
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
+
+import platform as local_platform
+
+local_arch_suf = local_platform.machine()
+
+local_alt_suf = {
+    'x86_64'  : 'x64',
+    'aarch64' : 'arm64'
+}
+
+local_arch_sums = {
+    'x86_64'  : 'd3a787f91b2ee77828c455406dd9c2a468980a1b47492fdd3c59f37b936c7ef4',
+    'aarch64' : '23f25f02d2433ed87a230bfc5701cb777d1447031ac4fb69cfe9ec2c8dfab905',
+}
+
+sources = [{
+    'source_urls' : ['https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/%(version)s/'],
+    'filename': 'Ascend-cann-tfplugin_%%(version)s_linux-%s.run' % local_arch_suf,
+}]
+
+checksums = [
+    local_arch_sums[local_arch_suf],
+]
+
+dependencies = [
+    ('CMake', '3.23.1'),
+    ('Python', '3.7.5'),
+    ('CANN-Toolkit', version, versionsuffix),
+    ('TensorFlow-CANN-Core', '1.15.0', versionsuffix),
+    ('SciPy-Stack', '2022a', versionsuffix),
+]
+
+cann_installers=[
+    ('CANN-fwkplugin','fwkplugin/script/install.sh','--pylocal',False),
+]
+subdir_symlinks=[]
+
+
+
+sanity_check_paths = {
+    'files': ['ascend-toolkit/%(version)s/arm64-linux/tfplugin/python/site-packages/npu_bridge/tf_adapter.py'],
+    'dirs' : ['ascend-toolkit/%(version)s/arm64-linux/tfplugin/python/site-packages/npu_bridge']
+}
+
+modextrapaths = {
+    'PYTHONPATH' : ['ascend-toolkit/%(version)s/arm64-linux/tfplugin/python/site-packages'],
+}
+
+moduleclass = 'lib'
+

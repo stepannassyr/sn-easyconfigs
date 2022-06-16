@@ -1,0 +1,45 @@
+# NGHTTP2 library easyconfig
+
+easyblock = 'CMakeNinja'
+
+name = 'nghttp2'
+version = '1.47.0'
+
+homepage = 'https://nghttp2.org/'
+description = """
+nghttp2 is an implementation of HTTP/2 and its header compression algorithm HPACK in C
+"""
+
+
+toolchain = {'name': 'GCCcore', 'version': '9.5.0'}
+
+source_urls = ['https://github.com/%(name)s/%(name)s/releases/download/v%(version)s/']
+sources = ['%(name)s-%(version)s.tar.xz']
+
+checksums = ['68271951324554c34501b85190f22f2221056db69f493afc3bbac8e7be21e7cc']
+
+dependencies = [
+    ('zlib', '1.2.12'),
+    ('c-ares', '1.18.1')
+]
+
+builddependencies = [
+    ('binutils', '2.38'),
+    ('CMake', '3.23.1'),
+    ('Ninja', '1.10.2'),
+]
+
+osdependencies = [
+    ('openssl-devel', 'libssl-dev', 'libopenssl-devel'),
+    ('libev-devel')
+]
+
+configopts = ['-DENABLE_SHARED_LIB=ON -DENABLE_STATIC_LIB=ON']
+
+
+sanity_check_paths = {
+    'files': ['lib/libnghttp2.a', 'lib/libnghttp2.so'],
+    'dirs': ['lib/pkgconfig'],
+}
+
+moduleclass = 'tools'

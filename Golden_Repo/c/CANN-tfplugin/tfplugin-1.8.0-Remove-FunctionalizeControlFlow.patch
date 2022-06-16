@@ -1,0 +1,39 @@
+From a8cc5c7083dd9ff7daa79a9e14adac25300656cb Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Thu, 16 Jun 2022 12:54:20 +0200
+Subject: [PATCH 3/3] Remove FunctionalizeControlFlow
+
+---
+ tf_adapter/kernels/geop_npu.cc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/tf_adapter/kernels/geop_npu.cc b/tf_adapter/kernels/geop_npu.cc
+index d41e9ccb..d29497cd 100644
+--- a/tf_adapter/kernels/geop_npu.cc
++++ b/tf_adapter/kernels/geop_npu.cc
+@@ -76,10 +76,10 @@
+ 
+ namespace tensorflow {
+ #ifdef TF_VERSION_TF2
+-Status FunctionalizeControlFlow(Graph *graph, FunctionLibraryDefinition *library, const NodeFilter &node_filter = {},
++//Status FunctionalizeControlFlow(Graph *graph, FunctionLibraryDefinition *library, const NodeFilter &node_filter = {},
+                                 bool include_functions = false);
+ #else
+-Status FunctionalizeControlFlow(Graph *graph, FunctionLibraryDefinition *library);
++//Status FunctionalizeControlFlow(Graph *graph, FunctionLibraryDefinition *library);
+ #endif
+ namespace {
+ using geDataUniquePtr = std::unique_ptr<uint8_t[], std::function<void(uint8_t *)>>;
+@@ -1119,7 +1119,8 @@ Status GeOp::BuildGraphDef(FunctionLibraryDefinition &flib_def, const std::vecto
+   if (enable_force_v2_control == "1") {
+     WriteTextProto(Env::Default(), GetDumpPath() + function_.name() + "_v1.pbtxt", graph_def);
+ 
+-    Status status = FunctionalizeControlFlow(&graph, &flib_def);
++    //Status status = FunctionalizeControlFlow(&graph, &flib_def);
++    Status status = errors::Unavailable("FunctionalizeControlFlow unavailable");
+     if (status != Status::OK()) {
+       LOG(WARNING) << "[GEOP] Failed functionalize control flow: " << status.error_message();
+       return Status::OK();
+-- 
+2.36.1
+

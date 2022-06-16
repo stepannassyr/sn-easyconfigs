@@ -1,0 +1,32 @@
+From e94514c5035903f61a72bc7de6767506f5d1286d Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Thu, 16 Jun 2022 12:39:39 +0200
+Subject: [PATCH 2/2] Fix InsertEdge signature
+
+---
+ .../tensorflow/compiler/jit/graphcycles/graphcycles.h         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/inc/tensorflow/tensorflow/compiler/jit/graphcycles/graphcycles.h b/inc/tensorflow/tensorflow/compiler/jit/graphcycles/graphcycles.h
+index 74b2137e..a06017cf 100644
+--- a/inc/tensorflow/tensorflow/compiler/jit/graphcycles/graphcycles.h
++++ b/inc/tensorflow/tensorflow/compiler/jit/graphcycles/graphcycles.h
+@@ -69,7 +69,7 @@ public:
+   // Attempt to insert an edge from source_node to dest_node.  If the
+   // edge would introduce a cycle, return false without making any
+   // changes. Otherwise add the edge and return true.
+-  bool InsertEdge(int32 source_node, int32 dest_node);
++  bool InsertEdge(int32 source_node, int32 dest_node, bool ignore_cycle = false);
+ 
+   // Remove any edge that exists from source_node to dest_node.
+   void RemoveEdge(int32 source_node, int32 dest_node);
+@@ -144,4 +144,4 @@ private:
+ };
+ 
+ }  // namespace tensorflow
+-#endif  // TENSORFLOW_COMPILER_JIT_GRAPHCYCLES_GRAPHCYCLES_H_
+\ No newline at end of file
++#endif  // TENSORFLOW_COMPILER_JIT_GRAPHCYCLES_GRAPHCYCLES_H_
+-- 
+2.36.1
+

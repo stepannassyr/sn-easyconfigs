@@ -1,0 +1,31 @@
+diff --git a/easybuild/easyblocks/t/tensorflow.py b/easybuild/easyblocks/t/tensorflow.py
+index 1473b4c2..a8ace1e7 100644
+--- a/easybuild/easyblocks/t/tensorflow.py
++++ b/easybuild/easyblocks/t/tensorflow.py
+@@ -49,7 +49,7 @@ from easybuild.tools.filetools import adjust_permissions, apply_regex_substituti
+ from easybuild.tools.filetools import is_readable, read_file, which, write_file, remove_file
+ from easybuild.tools.modules import get_software_root, get_software_version, get_software_libdir
+ from easybuild.tools.run import run_cmd
+-from easybuild.tools.systemtools import X86_64, get_cpu_architecture, get_os_name, get_os_version
++from easybuild.tools.systemtools import X86_64, AARCH64, get_cpu_architecture, get_os_name, get_os_version
+ 
+ 
+ CPU_DEVICE = 'cpu'
+@@ -674,7 +674,16 @@ class EB_TensorFlow(PythonPackage):
+ 
+             # figure out location of GCC include files
+             # make sure we don't pick up the nvptx-none directory by looking for a specific include file
+-            res = glob.glob(os.path.join(gcc_root, 'lib', 'gcc', '*', gcc_ver, 'include', 'immintrin.h'))
++            header_name = ''
++            cpu_arch = get_cpu_architecture()
++            if cpu_arch == X86_64:
++                header_name = 'immintrin.h'
++            elif cpu_arch == AARCH64:
++                header_name = 'arm_neon.h'
++            else:
++                EasyBuildError("Can't determine a file name for a GCC header specific to the \"%s\" CPU architecture" % cpu_arch)
++
++            res = glob.glob(os.path.join(gcc_root, 'lib', 'gcc', '*', gcc_ver, 'include', header_name))
+             if res and len(res) == 1:
+                 gcc_lib_inc = os.path.dirname(res[0])
+                 inc_paths.append(gcc_lib_inc)

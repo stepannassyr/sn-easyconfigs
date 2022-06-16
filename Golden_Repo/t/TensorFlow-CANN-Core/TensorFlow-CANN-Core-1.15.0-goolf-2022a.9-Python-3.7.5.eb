@@ -80,6 +80,7 @@ exts_list = [
         'patches'  : ['https://github.com/berkerpeksag/astor/commit/30059dac4eb832e58ab2109db84508b294ba366d.patch']
     }),
     ('TensorFlow', version, {
+        'easyblock' : 'EB_TensorFlow',
         'patches': [
             'TensorFlow-1.14.0_swig-env.patch',
             'TensorFlow-%(version)s_remove-msse-hardcoding.patch',
