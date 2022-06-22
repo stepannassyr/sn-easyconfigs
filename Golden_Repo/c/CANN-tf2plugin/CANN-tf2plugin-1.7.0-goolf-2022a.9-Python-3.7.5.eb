@@ -1,0 +1,60 @@
+# Stepan Nassyr (JSC)
+#easyblock = 'Binary'
+#easyblock = 'CMakeNinja'
+easyblock = 'CMakePythonPackage'
+
+name = 'CANN-tf2plugin'
+version = '1.7.0'
+homepage = 'https://e.huawei.com/en/products/cloud-computing-dc/atlas/cann'
+description = 'CANN plugin for TensorFlow'
+versionsuffix = '-Python-%(pyver)s'
+
+
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://gitee.com/ascend/',
+        'repo_name': 'tensorflow',
+        'commit': 'r%(version)s',
+        'recursive': True,
+        'keep_git_dir': True,
+    },
+}]
+
+builddependencies = [
+    ('CMake', '3.23.1'),
+    ('Ninja', '1.10.2'),
+    ('SWIG', '4.0.2')
+]
+
+cann_version = "5.0.4.alpha005"
+
+dependencies = [
+    ('Python', '3.7.5'),
+    ('CANN-Toolkit', cann_version, versionsuffix),
+    ('SciPy-Stack', '2022a', versionsuffix),
+    ('TensorFlow-CANN-Core', '2.4.1', versionsuffix),
+]
+
+preconfigopts = 'cd %(builddir)s/tensorflow/tf_adapter_2.x/ && ' +\
+                ' ADAPTER_TARGET_PYTHON_PATH=$EBROOTPYTHON/bin/python3 ' +\
+                ' ASCEND_INSTALLED_PATH=$EBROOTCANNMINTOOLKIT/ascend-toolkit/%s/ ' % cann_version +\
+                ' ./configure && cd - && '
+
+srcdir = 'tf_adapter_2.x'
+install_src = 'dist/python/dist/npu_device-0.1-py3-none-any.whl'
+install_cmd = 'pip install --prefix=%%(installdir)s --no-deps --ignore-installed %s' % install_src
+
+options = {
+    'modulename' : 'npu_device'
+}
+
+sanity_check_paths = {
+    'files': ['lib/python%(pyshortver)s/site-packages/npu_device/npu_device.py'],
+    'dirs' : ['lib/python%(pyshortver)s/site-packages/npu_device']
+}
+
+moduleclass = 'lib'
+

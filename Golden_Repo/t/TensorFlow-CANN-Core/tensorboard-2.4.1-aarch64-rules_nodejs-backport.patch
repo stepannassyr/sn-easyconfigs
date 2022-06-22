@@ -1,0 +1,273 @@
+diff --git a/WORKSPACE b/WORKSPACE
+index 86f5feaa8..e1b444973 100644
+--- a/WORKSPACE
++++ b/WORKSPACE
+@@ -38,6 +38,8 @@ rules_closure_dependencies(
+ http_archive(
+     name = "build_bazel_rules_nodejs",
+     sha256 = "f9e7b9f42ae202cc2d2ce6d698ccb49a9f7f7ea572a78fd451696d03ef2ee116",
++    patches = ['//third_party:rules_nodejs-1.6.0-aarch64.patch'],
++    patch_args = ['-p1'],
+     urls = [
+         "http://mirror.tensorflow.org/github.com/bazelbuild/rules_nodejs/releases/download/1.6.0/rules_nodejs-1.6.0.tar.gz",
+         "https://github.com/bazelbuild/rules_nodejs/releases/download/1.6.0/rules_nodejs-1.6.0.tar.gz",
+diff --git a/third_party/rules_nodejs-1.6.0-aarch64.patch b/third_party/rules_nodejs-1.6.0-aarch64.patch
+new file mode 100644
+index 000000000..696523596
+--- /dev/null
++++ b/third_party/rules_nodejs-1.6.0-aarch64.patch
+@@ -0,0 +1,254 @@
++diff --git a/internal/common/os_name.bzl b/internal/common/os_name.bzl
++index 8b629b97..11c81618 100644
++--- a/internal/common/os_name.bzl
+++++ b/internal/common/os_name.bzl
++@@ -19,6 +19,7 @@ OS_ARCH_NAMES = [
++     ("darwin", "amd64"),
++     ("windows", "amd64"),
++     ("linux", "amd64"),
+++    ("linux", "arm64"),
++ ]
++ 
++ OS_NAMES = ["_".join(os_arch_name) for os_arch_name in OS_ARCH_NAMES]
++@@ -33,12 +34,16 @@ def os_name(rctx):
++       A string describing the os for a repository rule
++     """
++     os_name = rctx.os.name.lower()
+++    arch = rctx.execute(["uname", "-m"]).stdout.strip()
++     if os_name.startswith("mac os"):
++         return OS_NAMES[0]
++     elif os_name.find("windows") != -1:
++         return OS_NAMES[1]
++     elif os_name.startswith("linux"):
++-        return OS_NAMES[2]
+++        if arch == "x86_64":
+++            return OS_NAMES[2]
+++        elif arch == "aarch64":
+++            return OS_NAMES[3]
++     else:
++         fail("Unsupported operating system: " + os_name)
++ 
++diff --git a/internal/node/launcher.sh b/internal/node/launcher.sh
++index 61eec6d1..27f8a883 100644
++--- a/internal/node/launcher.sh
+++++ b/internal/node/launcher.sh
++@@ -122,11 +122,17 @@ else
++                   ;;
++   esac
++ 
+++  unameArch="$(uname -m)"
+++  case "${unameArch}" in
+++      x86_64*)  arch=amd64 ;;
+++      aarch64*) arch=arm64 ;;
+++  esac
+++
++   case "${machine}" in
++     # The following paths must match up with _download_node in node_repositories
++     darwin) readonly node_toolchain="nodejs_darwin_amd64/bin/nodejs/bin/node" ;;
++     windows) readonly node_toolchain="nodejs_windows_amd64/bin/nodejs/node.exe" ;;
++-    *) readonly node_toolchain="nodejs_linux_amd64/bin/nodejs/bin/node" ;;
+++    *) readonly node_toolchain="nodejs_linux_${arch}/bin/nodejs/bin/node" ;;
++   esac
++ 
++   readonly node=$(rlocation "${node_toolchain}")
++diff --git a/internal/node/node_repositories.bzl b/internal/node/node_repositories.bzl
++index dfd11aed..bcf7c763 100644
++--- a/internal/node/node_repositories.bzl
+++++ b/internal/node/node_repositories.bzl
++@@ -71,43 +71,63 @@ _ATTRS = {
++             # 8.9.1
++             "8.9.1-darwin_amd64": ("node-v8.9.1-darwin-x64.tar.gz", "node-v8.9.1-darwin-x64", "05c992a6621d28d564b92bf3051a5dc0adf83839237c0d4653a8cdb8a1c73b94"),
++             "8.9.1-linux_amd64": ("node-v8.9.1-linux-x64.tar.xz", "node-v8.9.1-linux-x64", "8be82805f7c1ab3e64d4569fb9a90ded2de78dd27cadbb91bad1bf975dae1e2d"),
+++            "8.9.1-linux_arm64": ("node-v8.9.1-linux-arm64.tar.xz", "node-v8.9.1-linux-arm64", "f774660980dcf931bf29847a5f26317823a063fa4a56f85f37c3222d77cce7c1"),
++             "8.9.1-windows_amd64": ("node-v8.9.1-win-x64.zip", "node-v8.9.1-win-x64", "db89c6e041da359561fbe7da075bb4f9881a0f7d3e98c203e83732cfb283fa4a"),
++             # 8.11.1
++             "8.11.1-darwin_amd64": ("node-v8.11.1-darwin-x64.tar.gz", "node-v8.11.1-darwin-x64", "5c7b05899ff56910a2b8180f139d48612f349ac2c5d20f08dbbeffbed9e3a089"),
++             "8.11.1-linux_amd64": ("node-v8.11.1-linux-x64.tar.xz", "node-v8.11.1-linux-x64", "6617e245fa0f7fbe0e373e71d543fea878315324ab31dc64b4eba10e42d04c11"),
+++            "8.11.1-linux_arm64": ("node-v8.11.1-linux-arm64.tar.xz", "node-v8.11.1-linux-arm64", "ff518f33751baa8ea4f18853d446357c2edecd930a1526ac9b2eaa79baddc1bf"),
++             "8.11.1-windows_amd64": ("node-v8.11.1-win-x64.zip", "node-v8.11.1-win-x64", "7d49b59c2b5d73a14c138e8a215d558a64a5241cd5035d9824f608e7bba097b1"),
++             # 8.12.0
++             "8.12.0-darwin_amd64": ("node-v8.12.0-darwin-x64.tar.gz", "node-v8.12.0-darwin-x64", "ca131b84dfcf2b6f653a6521d31f7a108ad7d83f4d7e781945b2eca8172064aa"),
++             "8.12.0-linux_amd64": ("node-v8.12.0-linux-x64.tar.xz", "node-v8.12.0-linux-x64", "29a20479cd1e3a03396a4e74a1784ccdd1cf2f96928b56f6ffa4c8dae40c88f2"),
+++            "8.12.0-linux_arm64": ("node-v8.12.0-linux-arm64.tar.xz", "node-v8.12.0-linux-arm64", "0fbdcfd8cf0cb5e8f5beff84ba091fd47126ba44c628e3a351501419b211aa1a"),
++             "8.12.0-windows_amd64": ("node-v8.12.0-win-x64.zip", "node-v8.12.0-win-x64", "9b22c9b23148b61ea0052826b3ac0255b8a3a542c125272b8f014f15bf11b091"),
++             # 9.11.1
++             "9.11.1-darwin_amd64": ("node-v9.11.1-darwin-x64.tar.gz", "node-v9.11.1-darwin-x64", "7b1fb394aa41a62b477e36df16644bd383cc9084808511f6cd318b835a06aac6"),
++             "9.11.1-linux_amd64": ("node-v9.11.1-linux-x64.tar.xz", "node-v9.11.1-linux-x64", "4d27a95d5c2f1c8ef99118794c9c4903e63963418d3e16ca7576760cff39879b"),
+++            "9.11.1-linux_arm64": ("node-v9.11.1-linux-arm64.tar.xz", "node-v9.11.1-linux-arm64", "dba2de106fbde2013a204ca9fafdfe67c0426b4e63d186f888e59432ad2dbb03"),
++             "9.11.1-windows_amd64": ("node-v9.11.1-win-x64.zip", "node-v9.11.1-win-x64", "0a3566d57ccb7fed95d18fc6c3bc1552a1b1e4753f9bc6c5d45e04f325e1ee53"),
++             # 10.3.0
++             "10.3.0-darwin_amd64": ("node-v10.3.0-darwin-x64.tar.gz", "node-v10.3.0-darwin-x64", "0bb5b7e3fe8cccda2abda958d1eb0408f1518a8b0cb58b75ade5d507cd5d6053"),
++             "10.3.0-linux_amd64": ("node-v10.3.0-linux-x64.tar.xz", "node-v10.3.0-linux-x64", "eb3c3e2585494699716ad3197c8eedf4003d3f110829b30c5a0dc34414c47423"),
+++            "10.3.0-linux_arm64": ("node-v10.3.0-linux-arm64.tar.xz", "node-v10.3.0-linux-arm64", "6811b7b9807135902990508143605c0c758d07f7726092ed1b2e27cc60111bd0"),
++             "10.3.0-windows_amd64": ("node-v10.3.0-win-x64.zip", "node-v10.3.0-win-x64", "65d586afb087406a2800d8e51f664c88b26d510f077b85a3b177a1bb79f73677"),
++             # 10.9.0
++             "10.9.0-darwin_amd64": ("node-v10.9.0-darwin-x64.tar.gz", "node-v10.9.0-darwin-x64", "3c4fe75dacfcc495a432a7ba2dec9045cff359af2a5d7d0429c84a424ef686fc"),
++             "10.9.0-linux_amd64": ("node-v10.9.0-linux-x64.tar.xz", "node-v10.9.0-linux-x64", "c5acb8b7055ee0b6ac653dc4e458c5db45348cecc564b388f4ed1def84a329ff"),
+++            "10.9.0-linux_arm64": ("node-v10.9.0-linux-arm64.tar.xz", "node-v10.9.0-linux-arm64", "3d6aa717d98bbf901c5325a02a81048eb47212bdc44963ef8d59c6e52e987b7c"),
++             "10.9.0-windows_amd64": ("node-v10.9.0-win-x64.zip", "node-v10.9.0-win-x64", "6a75cdbb69d62ed242d6cbf0238a470bcbf628567ee339d4d098a5efcda2401e"),
++             # 10.10.0
++             "10.10.0-darwin_amd64": ("node-v10.10.0-darwin-x64.tar.gz", "node-v10.10.0-darwin-x64", "00b7a8426e076e9bf9d12ba2d571312e833fe962c70afafd10ad3682fdeeaa5e"),
++             "10.10.0-linux_amd64": ("node-v10.10.0-linux-x64.tar.xz", "node-v10.10.0-linux-x64", "686d2c7b7698097e67bcd68edc3d6b5d28d81f62436c7cf9e7779d134ec262a9"),
+++            "10.10.0-linux_arm64": ("node-v10.10.0-linux-arm64.tar.xz", "node-v10.10.0-linux-arm64", "7d57961d18ea70b4e99906d87f9de1a2defc45a36fcd8cd84295e9ae5c4281da"),
++             "10.10.0-windows_amd64": ("node-v10.10.0-win-x64.zip", "node-v10.10.0-win-x64", "70c46e6451798be9d052b700ce5dadccb75cf917f6bf0d6ed54344c856830cfb"),
++             # 10.13.0
++             "10.13.0-darwin_amd64": ("node-v10.13.0-darwin-x64.tar.gz", "node-v10.13.0-darwin-x64", "815a5d18516934a3963ace9f0574f7d41f0c0ce9186a19be3d89e039e57598c5"),
++             "10.13.0-linux_amd64": ("node-v10.13.0-linux-x64.tar.xz", "node-v10.13.0-linux-x64", "0dc6dba645550b66f8f00541a428c29da7c3cde32fb7eda2eb626a9db3bbf08d"),
+++            "10.13.0-linux_arm64": ("node-v10.13.0-linux-arm64.tar.xz", "node-v10.13.0-linux-arm64", "1537ebe64dc34a2a9b8ab6254213079789e9d59ed0ed26987afb1da37b6a8f87"),
++             "10.13.0-windows_amd64": ("node-v10.13.0-win-x64.zip", "node-v10.13.0-win-x64", "eb09c9e9677f1919ec1ca78623c09b2a718ec5388b72b7662d5c41e5f628a52c"),
++             # 10.16.0
++             "10.16.0-darwin_amd64": ("node-v10.16.0-darwin-x64.tar.gz", "node-v10.16.0-darwin-x64", "6c009df1b724026d84ae9a838c5b382662e30f6c5563a0995532f2bece39fa9c"),
++             "10.16.0-linux_amd64": ("node-v10.16.0-linux-x64.tar.xz", "node-v10.16.0-linux-x64", "1827f5b99084740234de0c506f4dd2202a696ed60f76059696747c34339b9d48"),
+++            "10.16.0-linux_arm64": ("node-v10.16.0-linux-arm64.tar.xz", "node-v10.16.0-linux-arm64", "ae2e74ab2f5dbff96bf0b7d8457004bf3538233916f8834740bbe2d5a35442e5"),
++             "10.16.0-windows_amd64": ("node-v10.16.0-win-x64.zip", "node-v10.16.0-win-x64", "aa22cb357f0fb54ccbc06b19b60e37eefea5d7dd9940912675d3ed988bf9a059"),
++             # 12.13.0
++             "12.13.0-darwin_amd64": ("node-v12.13.0-darwin-x64.tar.gz", "node-v12.13.0-darwin-x64", "49a7374670a111b033ce16611b20fd1aafd3296bbc662b184fe8fb26a29c22cc"),
++             "12.13.0-linux_amd64": ("node-v12.13.0-linux-x64.tar.xz", "node-v12.13.0-linux-x64", "7a57ef2cb3036d7eacd50ae7ba07245a28336a93652641c065f747adb2a356d9"),
+++            "12.13.0-linux_arm64": ("node-v12.13.0-linux-arm64.tar.xz", "node-v12.13.0-linux-arm64", "d65b3ce27639f15ae22941e3ff98a1c900aa9049fcc15518038615b0676037d5"),
++             "12.13.0-windows_amd64": ("node-v12.13.0-win-x64.zip", "node-v12.13.0-win-x64", "6f920cebeecb4957b4ef0def6d9b04c49d4582864f8d1a207ce8d0665865781a"),
+++            # 12.22.12
+++            "12.22.12-darwin_amd64": ("node-v12.22.12-darwin-x64.tar.gz", "node-v12.22.12-darwin-x64", "32927913ed549ce01685a6f9f4697567a64592c7fd1e9a845ac8a10efa1475e6"),
+++            "12.22.12-linux_arm64": ("node-v12.22.12-linux-arm64.tar.xz", "node-v12.22.12-linux-arm64", "eebdeb528df727271635196188ed7d04a5dba2c61ccaded22f693ae501cf17f5"),
+++            "12.22.12-linux_amd64": ("node-v12.22.12-linux-x64.tar.xz", "node-v12.22.12-linux-x64", "e6d052364bfa2c17da92cf31794100cfd709ba147415ddaeed2222eec9ca1469"),
+++            "12.22.12-windows_amd64": ("node-v12.22.12-win-x64.zip", "node-v12.22.12-win-x64", "09639bac66d4dc4dd52179968209413ad4b7360e917dcbe8834052a4b936a087"),
+++            # 16.15.1
+++            "16.15.1-darwin_amd64": ("node-v16.15.1-darwin-x64.tar.gz", "node-v16.15.1-darwin-x64", "965f4c44d53be8c7fd718ecb8ca3889c49e9877e68382851e8bf3b9b26eb3b69"),
+++            "16.15.1-linux_arm64": ("node-v16.15.1-linux-arm64.tar.xz", "node-v16.15.1-linux-arm64", "ddd18ba09cfa937f75123a9d69256d44386ff1b9c0d12fa4b3f9ce0b0d121d9d"),
+++            "16.15.1-linux_amd64": ("node-v16.15.1-linux-x64.tar.xz", "node-v16.15.1-linux-x64", "b749f7a76e56dfd6dfb8a910b8a2a871159661557680aa95acf13c9514422c12"),
+++            "16.15.1-windows_amd64": ("node-v16.15.1-win-x64.zip", "node-v16.15.1-win-x64", "e160591f562b575eb18b9b234b738f21cb7fbec5a73df1bd8062f8d0c6cef431"),
++             # When adding a new version. please update /docs/install.md
++         },
++         doc = """Custom list of node repositories to use
++@@ -155,7 +175,7 @@ and expect that file to have sha256sum `00b7a8426e076e9bf9d12ba2d571312e833fe962
++ """,
++     ),
++     "node_version": attr.string(
++-        default = "12.13.0",
+++        default = "16.15.1",
++         doc = "the specific version of NodeJS to install or, if vendored_node is specified, the vendored version of node",
++     ),
++     "package_json": attr.label_list(
++@@ -200,6 +220,7 @@ are supported by the node version being used.""",
++             "1.13.0": ("yarn-v1.13.0.tar.gz", "yarn-v1.13.0", "125d40ebf621ebb08e3f66a618bd2cc5cd77fa317a312900a1ab4360ed38bf14"),
++             "1.19.1": ("yarn-v1.19.1.tar.gz", "yarn-v1.19.1", "34293da6266f2aae9690d59c2d764056053ff7eebc56b80b8df05010c3da9343"),
++             "1.22.4": ("yarn-v1.22.4.tar.gz", "yarn-v1.22.4", "bc5316aa110b2f564a71a3d6e235be55b98714660870c5b6b2d2d3f12587fb58"),
+++            "1.22.19": ("yarn-v1.22.19.tar.gz", "yarn-v1.22.19", "732620bac8b1690d507274f025f3c6cfdc3627a84d9642e38a07452cc00e0f2e"),
++             # When adding a new version. please update /docs/install.md
++         },
++         doc = """Custom list of yarn repositories to use.
++@@ -246,13 +267,14 @@ and expect the file to have sha256sum `09bea8f4ec41e9079fa03093d3b2db7ac5c533185
++     ),
++     "yarn_version": attr.string(
++         doc = "the specific version of Yarn to install",
++-        default = "1.19.1",
+++        default = "1.22.19",
++     ),
++ }
++ 
++ BUILT_IN_NODE_PLATFORMS = [
++     "darwin_amd64",
++     "linux_amd64",
+++    "linux_arm64",
++     "windows_amd64",
++ ]
++ 
++@@ -729,7 +751,10 @@ def node_repositories(**kwargs):
++             name = node_repository_name,
++             **kwargs
++         )
++-        native.register_toolchains("@build_bazel_rules_nodejs//toolchains/node:node_%s_toolchain" % os_arch_name[0])
+++        node_osarch = os_arch_name[0]
+++        if "linux" == node_osarch:
+++            node_osarch = "_".join(os_arch_name)
+++        native.register_toolchains("@build_bazel_rules_nodejs//toolchains/node:node_%s_toolchain" % node_osarch)
++         node_toolchain_configure(
++             name = "%s_config" % node_repository_name,
++             target_tool = "@%s//:node_bin" % node_repository_name,
++diff --git a/internal/npm_install/pre_process_package_json.js b/internal/npm_install/pre_process_package_json.js
++index e0c704d4..154c7526 100644
++--- a/internal/npm_install/pre_process_package_json.js
+++++ b/internal/npm_install/pre_process_package_json.js
++@@ -64,6 +64,7 @@ function clearYarnFilePathCaches(pkg) {
++   const fileRegex = /^file\:\/\//i;
++   const clearPackages = [];
++ 
+++  log_verbose(`pre-processing pkg.dependencies`);
++   if (pkg.dependencies) {
++     Object.keys(pkg.dependencies).forEach(p => {
++       if (pkg.dependencies[p].match(fileRegex)) {
++@@ -71,6 +72,7 @@ function clearYarnFilePathCaches(pkg) {
++       }
++     });
++   }
+++  log_verbose(`pre-processing pkg.devDependencies`);
++   if (pkg.devDependencies) {
++     Object.keys(pkg.devDependencies).forEach(p => {
++       if (pkg.devDependencies[p].match(fileRegex)) {
++@@ -78,6 +80,7 @@ function clearYarnFilePathCaches(pkg) {
++       }
++     });
++   }
+++  log_verbose(`pre-processing pkg.optionalDependencies`);
++   if (pkg.optionalDependencies) {
++     Object.keys(pkg.optionalDependencies).forEach(p => {
++       if (pkg.optionalDependencies[p].match(fileRegex)) {
++diff --git a/toolchains/node/BUILD.bazel b/toolchains/node/BUILD.bazel
++index 5f19dc9a..7f92625b 100644
++--- a/toolchains/node/BUILD.bazel
+++++ b/toolchains/node/BUILD.bazel
++@@ -33,6 +33,14 @@ platform(
++     ],
++ )
++ 
+++platform(
+++    name = "linux_arm64",
+++    constraint_values = [
+++        "@bazel_tools//platforms:linux",
+++        "@bazel_tools//platforms:aarch64",
+++    ],
+++)
+++
++ platform(
++     name = "windows_amd64",
++     constraint_values = [
++@@ -63,9 +71,10 @@ alias(
++     actual = select({
++         "@bazel_tools//src/conditions:darwin": "@nodejs_darwin_amd64_config//:toolchain",
++         "@bazel_tools//src/conditions:darwin_x86_64": "@nodejs_darwin_amd64_config//:toolchain",
+++        "@bazel_tools//src/conditions:linux_aarch64": "@nodejs_linux_arm64_config//:toolchain",
++         "@bazel_tools//src/conditions:linux_x86_64": "@nodejs_linux_amd64_config//:toolchain",
++         "@bazel_tools//src/conditions:windows": "@nodejs_windows_amd64_config//:toolchain",
++-        "//conditions:default": "@nodejs_linux_amd64_config//:toolchain",
+++        "//conditions:default": "@nodejs_linux_arm64_config//:toolchain",
++     }),
++     visibility = ["//visibility:public"],
++ )
++@@ -76,15 +85,26 @@ alias(
++     actual = select({
++         "@bazel_tools//src/conditions:darwin": "@nodejs_darwin_amd64//:node_bin",
++         "@bazel_tools//src/conditions:darwin_x86_64": "@nodejs_darwin_amd64//:node_bin",
+++        "@bazel_tools//src/conditions:linux_aarch64": "@nodejs_linux_arm64//:node_bin",
++         "@bazel_tools//src/conditions:linux_x86_64": "@nodejs_linux_amd64//:node_bin",
++         "@bazel_tools//src/conditions:windows": "@nodejs_windows_amd64//:node_bin",
++-        "//conditions:default": "@nodejs_linux_amd64//:node_bin",
+++        "//conditions:default": "@nodejs_linux_arm64//:node_bin",
++     }),
++     visibility = ["//visibility:public"],
++ )
++ 
++ toolchain(
++-    name = "node_linux_toolchain",
+++    name = "node_linux_arm64_toolchain",
+++    target_compatible_with = [
+++        "@bazel_tools//platforms:linux",
+++        "@bazel_tools//platforms:aarch64",
+++    ],
+++    toolchain = "@nodejs_linux_arm64_config//:toolchain",
+++    toolchain_type = ":toolchain_type",
+++)
+++
+++toolchain(
+++    name = "node_linux_amd64_toolchain",
++     target_compatible_with = [
++         "@bazel_tools//platforms:linux",
++         "@bazel_tools//platforms:x86_64",

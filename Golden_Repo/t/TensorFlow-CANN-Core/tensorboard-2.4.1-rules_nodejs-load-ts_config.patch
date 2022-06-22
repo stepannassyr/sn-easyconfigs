@@ -1,0 +1,28 @@
+From 940153cd4a6ac355d99db6adcf6be1c85bb712d6 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Sat, 18 Jun 2022 09:24:52 +0200
+Subject: [PATCH 3/3] rules_nodejs load ts_config
+
+---
+ WORKSPACE | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/WORKSPACE b/WORKSPACE
+index 7862bf27b..0ac95da54 100644
+--- a/WORKSPACE
++++ b/WORKSPACE
+@@ -48,8 +48,10 @@ http_archive(
+     sha256 = "10fffa29f687aa4d8eb6dfe8731ab5beb63811ab00981fc84a93899641fd4af1",
+     urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.0.3/rules_nodejs-2.0.3.tar.gz"],
+ )
+-load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories")
++load("@build_bazel_rules_nodejs//:index.bzl", "yarn_repositories", "node_repositories", "nodejs_binary", "npm_package_bin")
+ node_repositories()
++yarn_repositories()
++load("@npm//typescript:index.bzl", "ts_config")
+ 
+ #load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
+ 
+-- 
+2.36.1
+

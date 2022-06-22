@@ -1,0 +1,128 @@
+From 72602d04b2e03a70ad505038ee1325d6a25b7945 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Sun, 19 Jun 2022 20:59:53 +0200
+Subject: [PATCH 2/2] aarch64 try 2
+
+---
+ third_party/rules_nodejs-1.6.0-aarch64.patch | 81 ++------------------
+ 1 file changed, 6 insertions(+), 75 deletions(-)
+
+diff --git a/third_party/rules_nodejs-1.6.0-aarch64.patch b/third_party/rules_nodejs-1.6.0-aarch64.patch
+index 42212991f..90fad1d1d 100644
+--- a/third_party/rules_nodejs-1.6.0-aarch64.patch
++++ b/third_party/rules_nodejs-1.6.0-aarch64.patch
+@@ -21,13 +21,6 @@ index 61eec6d1..27f8a883 100644
+    esac
+  
+    readonly node=$(rlocation "${node_toolchain}")
+-@@ -281,4 +287,4 @@ else
+-   exit 0
+- fi
+- 
+--exit ${RESULT}
+-\ No newline at end of file
+-+exit ${RESULT}
+ diff --git a/internal/node/node_repositories.bzl b/internal/node/node_repositories.bzl
+ index dfd11aed..13f66bee 100644
+ --- a/internal/node/node_repositories.bzl
+@@ -93,63 +86,8 @@ index dfd11aed..13f66bee 100644
+      "windows_amd64",
+  ]
+  
+-diff --git a/internal/node/test/nodejs_toolchain_test.bzl b/internal/node/test/nodejs_toolchain_test.bzl
+-index 5a430668..99bae71d 100644
+---- a/internal/node/test/nodejs_toolchain_test.bzl
+-+++ b/internal/node/test/nodejs_toolchain_test.bzl
+-@@ -32,7 +32,7 @@ fi
+- 
+- _ATTRS = {
+-     "platform": attr.string(
+--        values = ["linux_amd64", "darwin_amd64", "windows_amd64"],
+-+        values = ["linux_amd64", "linux_arm64", "darwin_amd64", "windows_amd64"],
+-     ),
+- }
+- 
+-diff --git a/packages/typescript/src/devserver/BUILD.bazel b/packages/typescript/src/devserver/BUILD.bazel
+-index f738e72d..4ae679c2 100644
+---- a/packages/typescript/src/devserver/BUILD.bazel
+-+++ b/packages/typescript/src/devserver/BUILD.bazel
+-@@ -28,6 +28,14 @@ filegroup(
+-     visibility = ["//visibility:public"],
+- )
+- 
+-+filegroup(
+-+    name = "devserver_linux_arm64",
+-+    srcs = ["devserver-linux_arm64"],
+-+    # Don't build on CI
+-+    tags = ["manual"],
+-+    visibility = ["//visibility:public"],
+-+)
+-+
+- filegroup(
+-     name = "devserver_windows_amd64",
+-     srcs = ["devserver-windows_x64.exe"],
+-@@ -44,6 +52,14 @@ config_setting(
+-     ],
+- )
+- 
+-+config_setting(
+-+    name = "linux_arm64",
+-+    constraint_values = [
+-+        "@bazel_tools//platforms:linux",
+-+        "@bazel_tools//platforms:aarch64",
+-+    ],
+-+)
+-+
+- config_setting(
+-     name = "linux_x64",
+-     constraint_values = [
+-@@ -65,6 +81,7 @@ filegroup(
+-     srcs = select({
+-         ":darwin_x64": [":devserver_darwin_amd64"],
+-         ":linux_x64": [":devserver_linux_amd64"],
+-+        ":linux_arm64": [":devserver_linux_arm64"],
+-         ":windows_x64": [":devserver_windows_amd64"],
+-     }),
+-     # Don't build on CI
+ diff --git a/toolchains/node/BUILD.bazel b/toolchains/node/BUILD.bazel
+-index 5f19dc9a..359f0999 100644
++index 5f19dc9a..d2af3852 100644
+ --- a/toolchains/node/BUILD.bazel
+ +++ b/toolchains/node/BUILD.bazel
+ @@ -33,6 +33,14 @@ platform(
+@@ -183,20 +121,11 @@ index 5f19dc9a..359f0999 100644
+          "@bazel_tools//src/conditions:linux_x86_64": "@nodejs_linux_amd64//:node_bin",
+          "@bazel_tools//src/conditions:windows": "@nodejs_windows_amd64//:node_bin",
+          "//conditions:default": "@nodejs_linux_amd64//:node_bin",
+-@@ -84,7 +94,7 @@ alias(
++@@ -84,7 +94,17 @@ alias(
+  )
+  
+  toolchain(
+ -    name = "node_linux_toolchain",
+-+    name = "node_linux_amd64_toolchain",
+-     target_compatible_with = [
+-         "@bazel_tools//platforms:linux",
+-         "@bazel_tools//platforms:x86_64",
+-@@ -93,6 +103,16 @@ toolchain(
+-     toolchain_type = ":toolchain_type",
+- )
+- 
+-+toolchain(
+ +    name = "node_linux_arm64_toolchain",
+ +    target_compatible_with = [
+ +        "@bazel_tools//platforms:linux",
+@@ -206,6 +135,8 @@ index 5f19dc9a..359f0999 100644
+ +    toolchain_type = ":toolchain_type",
+ +)
+ +
+- toolchain(
+-     name = "node_darwin_toolchain",
+++toolchain(
+++    name = "node_linux_amd64_toolchain",
+      target_compatible_with = [
++         "@bazel_tools//platforms:linux",
++         "@bazel_tools//platforms:x86_64",
+-- 
+2.36.1
+

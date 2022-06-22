@@ -3,7 +3,7 @@
 easyblock = 'CMakeNinja'
 
 name = 'CANN-tfplugin'
-version = '1.6.0'
+version = '1.9.0'
 homepage = 'https://e.huawei.com/en/products/cloud-computing-dc/atlas/cann'
 description = 'CANN plugin for TensorFlow'
 versionsuffix = '-Python-%(pyver)s'
@@ -16,19 +16,19 @@ sources = [{
     'git_config': {
         'url': 'https://gitee.com/ascend/',
         'repo_name': 'tensorflow',
-        'commit': '9cf0552',
+        'commit': 'r%(version)s',
         'recursive': True,
         'keep_git_dir': True,
     },
 }]
 
 patches = [
-    'tfplugin-1.7.0-secure_c-checksum.patch',
     'tfplugin-1.7.0-use-swig-properly.patch',
     'tfplugin-1.7.0-install-in-cmake.patch',
-    'tfplugin-1.7.0-flag-fix-plus-keep-cxx11abi.patch',
-#    'tfplugin-1.7.0-ge-cxx11abi-shim.patch',
-    'tfplugin-1.6.0-fix-missing-symbols.patch',
+    'tfplugin-1.8.0-keep-cxx11abi.patch',
+    'tfplugin-1.8.0-Fix-InsertEdge-signature.patch',
+    'tfplugin-1.8.0-Remove-FunctionalizeControlFlow.patch',
+    'tfplugin-1.8.0-Fix-unresolved-graphcycles-symbols.patch',
 ]
 
 builddependencies = [
@@ -37,7 +37,7 @@ builddependencies = [
     ('SWIG', '4.0.2')
 ]
 
-cann_version = "5.0.2.alpha005"
+cann_version = "5.0.4.alpha005"
 
 dependencies = [
     ('Python', '3.7.5'),
@@ -54,6 +54,10 @@ sanity_check_paths = {
     'files': ['lib/python/site-packages/npu_bridge/tf_adapter.py'],
     'dirs' : ['lib/python/site-packages/npu_bridge']
 }
+
+sanity_check_commands = [
+    ('python3','-c "import npu_bridge"')
+]
 
 modextrapaths = {
     'PYTHONPATH' : ['lib/python/site-packages'],

@@ -1,0 +1,37 @@
+From b826f00fe6f9feb4839a29ae4b31635bab4e243f Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Fri, 17 Jun 2022 18:24:53 +0200
+Subject: [PATCH 1/1] depthwiseconv arm dotprod without vreinterpret
+
+---
+ .../optimized/depthwiseconv_3x3_filter_common.h        | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/tensorflow/lite/kernels/internal/optimized/depthwiseconv_3x3_filter_common.h b/tensorflow/lite/kernels/internal/optimized/depthwiseconv_3x3_filter_common.h
+index 916edd561ff..c519a81bc86 100644
+--- a/tensorflow/lite/kernels/internal/optimized/depthwiseconv_3x3_filter_common.h
++++ b/tensorflow/lite/kernels/internal/optimized/depthwiseconv_3x3_filter_common.h
+@@ -129,16 +129,14 @@ inline int32x4_t vdotq_four_lane_s32(int32x4_t acc, int8x16_t lhs,
+                                      int8x16_t rhs, const int lane) {
+   switch (lane) {
+     case 0:
+-      return vdotq_lane_s32(acc, lhs, vreinterpret_s32_s8(vget_low_s8(rhs)), 0);
++      return vdotq_lane_s32(acc, lhs, vget_low_s8(rhs), 0);
+     case 1:
+-      return vdotq_lane_s32(acc, lhs, vreinterpret_s32_s8(vget_low_s8(rhs)), 1);
++      return vdotq_lane_s32(acc, lhs, vget_low_s8(rhs), 1);
+     case 2:
+-      return vdotq_lane_s32(acc, lhs, vreinterpret_s32_s8(vget_high_s8(rhs)),
+-                            0);
++      return vdotq_lane_s32(acc, lhs, vget_high_s8(rhs), 0);
+     case 3:
+     default:
+-      return vdotq_lane_s32(acc, lhs, vreinterpret_s32_s8(vget_high_s8(rhs)),
+-                            1);
++      return vdotq_lane_s32(acc, lhs, vget_high_s8(rhs), 1);
+   }
+ }
+ 
+-- 
+2.36.1
+

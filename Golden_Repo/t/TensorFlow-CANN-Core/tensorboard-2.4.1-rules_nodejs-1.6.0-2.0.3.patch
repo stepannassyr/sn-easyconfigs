@@ -1,0 +1,40 @@
+From 065aee10566d669f36c614325c9f7d5607654333 Mon Sep 17 00:00:00 2001
+From: Stepan Nassyr <s.nassyr@fz-juelich.de>
+Date: Sat, 18 Jun 2022 08:48:30 +0200
+Subject: [PATCH 1/1] rules_nodejs 1.6.0 -> 2.0.3
+
+---
+ WORKSPACE | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/WORKSPACE b/WORKSPACE
+index 86f5feaa8..4c58dc452 100644
+--- a/WORKSPACE
++++ b/WORKSPACE
+@@ -35,13 +35,18 @@ rules_closure_dependencies(
+     omit_com_google_protobuf_js = True,
+ )
+ 
++#http_archive(
++#    name = "build_bazel_rules_nodejs",
++#    sha256 = "f9e7b9f42ae202cc2d2ce6d698ccb49a9f7f7ea572a78fd451696d03ef2ee116",
++#    urls = [
++#        "http://mirror.tensorflow.org/github.com/bazelbuild/rules_nodejs/releases/download/1.6.0/rules_nodejs-1.6.0.tar.gz",
++#        "https://github.com/bazelbuild/rules_nodejs/releases/download/1.6.0/rules_nodejs-1.6.0.tar.gz",
++#    ],
++#)
+ http_archive(
+     name = "build_bazel_rules_nodejs",
+-    sha256 = "f9e7b9f42ae202cc2d2ce6d698ccb49a9f7f7ea572a78fd451696d03ef2ee116",
+-    urls = [
+-        "http://mirror.tensorflow.org/github.com/bazelbuild/rules_nodejs/releases/download/1.6.0/rules_nodejs-1.6.0.tar.gz",
+-        "https://github.com/bazelbuild/rules_nodejs/releases/download/1.6.0/rules_nodejs-1.6.0.tar.gz",
+-    ],
++    sha256 = "10fffa29f687aa4d8eb6dfe8731ab5beb63811ab00981fc84a93899641fd4af1",
++    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.0.3/rules_nodejs-2.0.3.tar.gz"],
+ )
+ 
+ load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
+-- 
+2.36.1
+

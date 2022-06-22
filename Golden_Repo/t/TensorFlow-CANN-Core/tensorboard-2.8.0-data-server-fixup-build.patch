@@ -1,0 +1,38 @@
+diff --color -urN tensorboard-2.8.0-unpatched/tensorboard/data/server/pip_package/build.py tensorboard-2.8.0/tensorboard/data/server/pip_package/build.py
+--- tensorboard-2.8.0-unpatched/tensorboard/data/server/pip_package/build.py	2022-05-14 12:54:21.735192108 +0000
++++ tensorboard-2.8.0/tensorboard/data/server/pip_package/build.py	2022-05-14 12:58:03.836560489 +0000
+@@ -63,7 +63,7 @@
+ 
+     # Set up build tree.
+     srcdir = pathlib.Path(os.path.dirname(__file__))
+-    tmpdir = pathlib.Path(tempfile.mkdtemp(prefix="%s_build_" % TDS))
++    tmpdir = pathlib.Path(tempfile.mkdtemp(prefix="%s_build_" % TDS,dir=srcdir))
+     sys.stderr.write("tmpdir: %s\n" % tmpdir)
+     os.makedirs(tmpdir / TDS / "bin", exist_ok=True)
+     shutil.copyfile(srcdir / "setup.py", tmpdir / "setup.py")
+@@ -77,14 +77,14 @@
+     else:
+         platform_name = {
+             # using platform tag values from TensorFlow releases
+-            "Linux": "manylinux2010",
++            "Linux": "manylinux2014",
+             "Darwin": "macosx_10_9",
+         }.get(platform.system())
+         if platform_name is None:
+             raise RuntimeError(
+                 "Unsupported platform: %r" % (platform.system(),)
+             )
+-        cpu_name = "x86_64"
++        cpu_name = platform.machine()
+         platform_tag = "%s_%s" % (platform_name, cpu_name)
+
+     os.chdir(tmpdir)
+@@ -94,7 +94,7 @@
+         check=True,
+     )
+ 
+-    wheels = glob.glob(os.path.join(os.getcwd(), "dist", "*.whl"))
++    wheels = glob.glob(os.path.join(tmpdir, "dist", "*.whl"))
+     if len(wheels) != 1:
+         raise ValueError("Expected one output wheel; got: %r" % (wheels,))
+     wheel = wheels[0]

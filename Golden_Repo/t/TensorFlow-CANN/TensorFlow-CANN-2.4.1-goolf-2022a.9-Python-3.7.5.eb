@@ -1,7 +1,7 @@
 easyblock = 'Bundle'
 
 name = 'TensorFlow-CANN'
-version = '1.15.0'
+version = '2.4.1'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'https://www.tensorflow.org/'
@@ -13,8 +13,9 @@ dependencies = [
     ('Python', '3.7.5'),
     ('SciPy-Stack', '2022a', versionsuffix),
     ('protobuf-CANN', '3.15.6'),
+    ('JsonCpp-CANN', '1.9.5'),
     ('TensorFlow-CANN-Core', version, versionsuffix),
-    ('CANN-tfplugin', '1.9.0', versionsuffix),
+    ('CANN-tf2plugin', '1.7.0', versionsuffix),
     ('nsync-CANN', '1.22.0'),
 ]
 
