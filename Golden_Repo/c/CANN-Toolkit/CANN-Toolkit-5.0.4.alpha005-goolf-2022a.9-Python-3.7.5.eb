@@ -117,7 +117,15 @@ modextrapaths = {
                          'ascend-toolkit/%(version)s/include']
 }
 
+local_asc_pattern_suf = {
+    'x86_64'  : 'x86_64',
+    'aarch64' : 'arm64'
+}
+
 modextravars = {
+    'ASCEND_HOME'        : '%(installdir)s/',
+    'ASCEND_VERSION'     : 'ascend-toolkit/%(version)s',
+    'ARCH_PATTERN'       : '%s-linux' % local_asc_pattern_suf[local_arch_suf],
     'ASCEND_AICPU_PATH'  : '%(installdir)s/ascend-toolkit/%(version)s',
     'ASCEND_OPP_PATH'    : '%(installdir)s/ascend-toolkit/%(version)s/opp',
     'TOOLCHAIN_HOME'     : '%(installdir)s/ascend-toolkit/%(version)s/toolkit',
