@@ -1,0 +1,61 @@
+easyblock = 'CMakeNinja'
+
+name = 'Arrow'
+version = '7.0.0'
+
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://arrow.apache.org'
+description = """Apache Arrow (incl. PyArrow Python bindings), a cross-language development platform
+ for in-memory data."""
+
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
+
+source_urls = ['https://archive.apache.org/dist/%(namelower)s/%(namelower)s-%(version)s']
+sources = ['apache-arrow-%(version)s.tar.gz']
+checksums = ['e8f49b149a15ecef4e40fcfab1b87c113c6b1ee186005c169e5cdf95d31a99de']
+
+builddependencies = [
+    ('CMake', '3.23.1'),
+    ('Ninja', '1.10.2'),
+    ('Autotools', '20220509'),
+    ('flex', '2.6.4'),
+    ('Bison', '3.8.2'),
+    ('pkg-config', '0.29.2'),
+]
+
+# Arrow strongly prefers included jemalloc, so not including it as a dependency
+dependencies = [
+    ('Python', '3.7.5'),
+    ('SciPy-Stack', '2022a', versionsuffix),
+    ('Boost', '1.79.0', versionsuffix),
+]
+
+start_dir = 'cpp'
+
+# see https://arrow.apache.org/docs/developers/python.html
+configopts = "-DARROW_PYTHON=on -DARROW_PARQUET=ON -DARROW_WITH_SNAPPY=ON "
+configopts += "-DCMAKE_INSTALL_LIBDIR=lib -DPython3_ROOT_DIR=$EBROOTPYTHON"
+
+# also install Python bindings
+local_install_pyarrow_cmds = "export PKG_CONFIG_PATH=%(installdir)s/lib/pkgconfig:$PKG_CONFIG_PATH && "
+local_install_pyarrow_cmds += "export PYTHONPATH=%(installdir)s/lib/python%(pyshortver)s/site-packages:$PYTHONPATH && "
+local_install_pyarrow_cmds += "cd %(builddir)s/*arrow-%(version)s/python && export XDG_CACHE_HOME=$TMPDIR && "
+local_install_pyarrow_cmds += "sed -i 's/numpy==[0-9.]*/numpy/g' pyproject.toml && "
+local_install_pyarrow_cmds += "PYARROW_WITH_PARQUET=1 pip install --prefix %(installdir)s ."
+postinstallcmds = [local_install_pyarrow_cmds]
+
+modextrapaths = {'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages'}
+
+sanity_check_paths = {
+    'files': ['lib/libarrow.a', 'lib/libarrow.%s' % SHLIB_EXT,
+              'lib/libarrow_python.a', 'lib/libarrow_python.%s' % SHLIB_EXT],
+    'dirs': ['include/arrow', 'lib/cmake/arrow', 'lib/pkgconfig', 'lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_commands = [
+    "python -c 'import pyarrow'",
+    "python -c 'import pyarrow.parquet'",
+]
+
+moduleclass = 'data'
