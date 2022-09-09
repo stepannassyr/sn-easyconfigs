@@ -1,0 +1,71 @@
+# EasyConfig for Huawei/Ascend's MindSpore Deep Learning framework (dependencies only)
+
+easyblock = 'PythonBundle'
+
+name = 'MindSpore-deps'
+version = '1.8.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://www.mindspore.cn/'
+description = "MindSpore is a new open source deep learning training/inference framework that could be used for mobile, edge and cloud scenarios."
+
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
+toolchainopts = {'pic': True}
+
+local_cann_version = '5.0.4.alpha005'
+
+builddependencies = [
+    ('git', '2.36.1'),
+    ('git-lfs', '2.13.2', '', SYSTEM),
+    ('pybind11', '2.9.2', versionsuffix),
+    ('unzip', '6.0'),
+]
+dependencies = [
+    ('Python', '3.7.5'),
+    ('SciPy-Stack', '2022a', versionsuffix),
+    ('absl-py', '1.0.0', versionsuffix),
+    ('cURL', '7.83.0'),
+    ('hwloc', '2.7.1'),
+    ('numactl', '2.0.14'),
+    ('SQLite', '3.38.5'),
+    ('CANN-Toolkit', local_cann_version, versionsuffix),
+    ('protobuf-CANN-python', '3.15.6', versionsuffix),
+    ('libpng', '1.6.37'),
+    ('zlib', '1.2.12'),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+
+exts_list = [
+    ('astunparse', '1.6.3', {
+        'checksums': ['5ad93a8456f0d084c3456d059fd9a92cce667963232cbf763eac3bc5b7940872'],
+    }),
+    ('easydict', '1.9', {
+        'checksums': ['3f3f0dab07c299f0f4df032db1f388d985bb57fa4c5be30acd25c5f9a516883b'],
+    }),
+    ('pycocotools', '2.0.4', {
+        'checksums': ['2ab586aa389b9657b6d73c2b9a827a3681f8d00f36490c2e8ab05902e3fd9e93'],
+    }),
+    ('topi', '0.4.0', {
+        'sources': ['empty_source.whl'],
+        'skipsteps': ['configure','build'],
+        'buildcmd': 'echo no build',
+        'install_src': '$EBROOTCANNMINTOOLKIT/ascend-toolkit/%s/arm64-linux/fwkacllib/lib64/%%(name)s-%%(version)s-py3-none-any.whl' % local_cann_version,
+    }),
+    ('te', '0.4.0', {
+        'sources': ['empty_source.whl'],
+        'skipsteps': ['configure','build'],
+        'buildcmd': 'echo no build',
+        'install_src': '$EBROOTCANNMINTOOLKIT/ascend-toolkit/%s/arm64-linux/fwkacllib/lib64/%%(name)s-%%(version)s-py3-none-any.whl' % local_cann_version,
+    }),
+    ('hccl', '0.1.0', {
+        'sources': ['empty_source.whl'],
+        'skipsteps': ['configure','build'],
+        'buildcmd': 'echo no build',
+        'install_src': '$EBROOTCANNMINTOOLKIT/ascend-toolkit/%s/arm64-linux/fwkacllib/lib64/%%(name)s-%%(version)s-py3-none-any.whl' % local_cann_version,
+    }),
+]
+
+moduleclass = 'lib'

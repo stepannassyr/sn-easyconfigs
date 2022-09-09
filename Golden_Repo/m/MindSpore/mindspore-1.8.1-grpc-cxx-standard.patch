@@ -1,0 +1,13 @@
+diff --git a/cmake/external_libs/grpc.cmake b/cmake/external_libs/grpc.cmake
+index f5a020f6a7..11a0224bd7 100644
+--- a/cmake/external_libs/grpc.cmake
++++ b/cmake/external_libs/grpc.cmake
+@@ -9,7 +9,7 @@ else()
+         -Dgrpc=mindspore_grpc -Dgrpc_impl=mindspore_grpc_impl -Dgrpc_core=mindspore_grpc_core")
+     set(grpc_CFLAGS "-fstack-protector-all -D_FORTIFY_SOURCE=2 -O2")
+     if(NOT ENABLE_GLIBCXX)
+-        set(grpc_CXXFLAGS "${grpc_CXXFLAGS} -D_GLIBCXX_USE_CXX11_ABI=0")
++        set(grpc_CXXFLAGS "${grpc_CXXFLAGS} -D_GLIBCXX_USE_CXX11_ABI=0 -DCMAKE_CXX_STANDARD=11")
+     endif()
+ endif()
+ 

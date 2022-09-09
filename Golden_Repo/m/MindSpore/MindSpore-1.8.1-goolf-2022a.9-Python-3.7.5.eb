@@ -1,0 +1,84 @@
+# EasyConfig for Huawei/Ascend's MindSpore Deep Learning framework
+
+easyblock = 'CMakePythonPackage'
+
+name = 'MindSpore'
+version = '1.8.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://www.mindspore.cn/'
+description = "MindSpore is a new open source deep learning training/inference framework that could be used for mobile, edge and cloud scenarios."
+
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
+toolchainopts = {'pic': True}
+
+builddependencies = [
+    ('git', '2.36.1'),
+    ('git-lfs', '2.13.2', '', SYSTEM),
+    ('unzip', '6.0'),
+]
+dependencies = [
+    ('Python', '3.7.5'),
+    ('MindSpore-deps', version, versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://gitee.com/mindspore',
+        'repo_name': 'mindspore',
+        'tag': 'v1.8.1'
+    }},{
+    'filename': 'graphengine-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://gitee.com/mindspore',
+        'repo_name': 'graphengine',
+        'commit': '78f9368'
+    }},{
+    'filename': 'akg-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://gitee.com/mindspore',
+        'repo_name': 'akg',
+        'commit': 'ce98e0a'
+    }},{
+    'filename': 'metadef-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://gitee.com/ascend',
+        'repo_name': 'metadef',
+        'commit': '03482fe'
+    }},{
+    'filename': 'parser-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://gitee.com/ascend',
+        'repo_name': 'parser',
+        'commit': '7a2daaa'
+    }},
+]
+
+patches = [
+    'mindspore-1.8.1-no-submodule-update.patch',
+    'mindspore-1.8.1-grpc-cxx-standard.patch',
+]
+
+checksums = [
+    '3b5eee03385a20172149278200283da0a4c16061b676aafb45a09b9b2333eb80',
+    '5172ff727ed116217e5d0aa997b3bd5387f192690fb5eeca442f0f67ca5904f7',
+    '29a5907e8eaf7d8d7a778211297ecbefb0c3d2ca781d4c6bbf1ec28a64883edf',
+    'f13a06e48c0ebead62bbe77a06c51225de1562e25d0ddf8b81cae69474a50227',
+    'c5a4f1ad8fb33e624c4c54eb0a4a020fc181d34dd0ac1b609da03fc3eea80716',
+    '6f7ade265124db953c826cd9a12f5f1d9607bcbeab1faed10123faff6334f405',
+    'b4e104ec863e6f0c099cf043cd3e40a6a142a1d8f8a16fc18b8e26e048138bf7',
+]
+prebuildopts = ("cp -r ../graphengine ./ && "
+                "cp -r ../akg ./ && "
+                "cp -r ../metadef ./graphengine/ && "
+                "cp -r ../parser ./graphengine/ && "
+)
+configopts = "-DDEBUG_MODE=off -DBUILD_PATH=%(builddir)s/build/ -DENABLE_DUMP_PROTO=ON -DENABLE_DUMP_IR=on -DENABLE_PYTHON=on -DENABLE_MPI=ON -DENABLE_D=ON -DENABLE_CPU=ON -DX86_64_SIMD=off -DARM_SIMD=off -DENABLE_MINDDATA=ON -DUSE_GLOG=ON -DENABLE_AKG=ON -DENABLE_ACL=ON -DENABLE_DEBUGGER=ON -DENABLE_FAST_HASH_TABLE=ON -DPython3_EXECUTABLE=$EBROOTPYTHON/bin/python3 -DCMAKE_CXX_FLAGS=\"-D_GLIBCXX_USE_CXX11_ABI=0\" -DCMAKE_CXX_STANDARD=11"
+install_src = '%(name)s-%(version)s/output/mindspore_ascend-%(version)s-py3.whl'
+
+moduleclass = 'lib'
