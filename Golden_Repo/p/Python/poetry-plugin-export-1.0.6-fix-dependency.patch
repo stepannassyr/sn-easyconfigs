@@ -1,0 +1,11 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index 04f6d31..1ccc90b 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -72,5 +72,5 @@ module = [
+ warn_unused_ignores = false
+ 
+ [build-system]
+-requires = ["poetry-core"]
++requires = ["poetry-core==1.1.0b3"]
+ build-backend = "poetry.core.masonry.api"

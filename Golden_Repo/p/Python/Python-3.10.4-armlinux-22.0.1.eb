@@ -259,7 +259,6 @@ exts_list = [
     }),
     ('PyYAML', '6.0', {
         'modulename': 'yaml',
-#        'patches': ['https://github.com/yaml/pyyaml/commit/3237b4074243704a9cce41dbf6dc14a2a2d4d78e.patch'],
         'checksums': ['68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2'],
     }),
     ('psycopg2', '2.9.3', {
@@ -726,9 +725,14 @@ exts_list = [
     ('ruamel.yaml', '0.17.21', {
         'checksums': ['8b7ce697a2f212752a35c1ac414471dc16c424c9573be4926b56ff3f5d23b7af'],
     }),
-    ('yaspin', '2.1.0', {
+    ('termcolor_whl', '1.1.2', {
+        'modulename': 'termcolor',
+        'source_tmpl': SOURCE_WHL,
+        'checksums': ['3e7eda7348bb90ddea2d7a2171df65ed4a37adf62574fbd5459198410fdba881'],
+    }),
+    ('yaspin', '2.2.0', {
         'use_pip': False,
-        'checksums': ['c8d34eca9fda3f4dfbe59f57f3cf0f3641af3eefbf1544fbeb9b3bacf82c580a'],
+        'checksums': ['febdf35f3e0e45845dc2caa79a18780f9ec7a85a37a9a2c0389b314ba82d8912'],
     }),
 #    ('dephell', '0.8.3', {
 #        'patches': ['dephell-optimistic-dependencies.patch'],
@@ -737,9 +741,12 @@ exts_list = [
 #            'bf5cba650f593871062ab99b247ca42558f68c2a21eb2c0aab9a8c66c15bbdf9',  # dephell-optimistic-dependencies.patch
 #        ],
 #    }),
-    ('cleo', '1.0.0a4', {
+    ('cleo', '1.0.0a5', {
         'use_pip': False,
-        'checksums': ['a103a065d031b7d936ee88a6b93086a69bd9c1b40fa2ebfe8c056285a66b481d'],
+        'checksums': ['097c9d0e0332fd53cc89fc11eb0a6ba0309e6a3933c08f7b38558555486925d3'],
+    }),
+    ('dulwich', '0.20.45', {
+        'checksums': ['70710dd9ca2a442190c7e506892db074c318ac762e221f7529b8ce34802041b7'],
     }),
     ('cachy', '0.3.0', {
         'checksums': ['186581f4ceb42a0bbe040c407da73c14092379b1e4c0e327fdb72ae4a9b269b1'],
@@ -757,19 +764,29 @@ exts_list = [
     ('entrypoints', '0.4', {
         'checksums': ['b706eddaa9218a19ebcd67b56818f05bb27589b1ca9e8d797b74affad4ccacd4'],
     }),
-    ('poetry-core', '1.1.0a7', {
+    ('poetry-core', '1.1.0b3', {
         'modulename': 'poetry.core',
-        'checksums': ['4622ae680842ac9b1b9c3b0e8dc467c2e291d1a5c434b6bd413907a2e5571d92'],
+        'checksums': ['ea257bb0aab15008d1680cc221a46f3457a3b36f3d463736f552497f0b6b9350'],
     }),
-    ('poetry', '1.2.0b2', {
-#        'patches': ['poetry-unrestrict-importlib-version.patch'],
+    ('poetry-plugin-export', '1.0.6', {
+        'modulename': 'poetry_plugin_export',
+        'patches': [
+            'poetry-plugin-export-1.0.6-fix-dependency.patch',
+        ],
         'checksums': [
-            '875552acd2b658cf12356acc2ff6ba454639a983b6150e0d8b093554d87e4983',  # poetry-1.2.0b1.tar.gz
-            # poetry-unrestrict-importlib-version.patch
-#            '6681fb3a24cbe436bb5f490aefe099b1e44d4b4dfcfd76f0b0cc5e4b6120e8bc',
+            'af870afceb38e583afa57bcfadfa5cd35ebd74e35aacadcb802bb3a073c13adb',
+            'fe36e9a44ef0a8547ab05d974f8a102e59dbb518929e0f4cc47691edd91c7a30',
+        ],
+    }),
+    ('poetry', '1.2.0b3', {
+        'patches': [
+            'poetry-1.2.0b3-fix-core-version-dependency.patch'
+        ],
+        'checksums': [
+            'f3d29486128fbfcece49390b5fb1f91a8f81c91f1b6eb131f15301984fba26ba',  # poetry-1.2.0b3.tar.gz
+            '2313d6a9dab33a09a5030f1885fbe2ee18483b9fa923ed9d59fdf8d0c5d6200a',  # poetry-1.2.0b3-fix-core-version-dependency.patch
         ],
     }),
 ]
-
 
 moduleclass = 'lang'

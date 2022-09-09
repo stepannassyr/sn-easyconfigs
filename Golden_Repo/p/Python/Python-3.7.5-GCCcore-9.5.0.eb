@@ -34,7 +34,7 @@ dependencies = [
     ('PostgreSQL', '14.2'),
 # Rust -> setuptools_rust -> cryptography
     ('Rust', '1.60.0'),
-    ('protobuf', '3.20.1'),
+    ('protobuf', '3.15.6-CANN'),
     ('gflags', '2.2.2'),
     ('libspatialindex', '1.9.3'), # Needed for rtree
     ('libjpeg-turbo', '2.1.3'),
@@ -269,9 +269,9 @@ exts_list = [
     ('psycopg2', '2.8.6', {
         'checksums': ['fb23f6c71107c37fd667cb4ea363ddeb936b348bbd6449278eb92c189699f543'],
     }),
-    ('protobuf', '3.19.3', {
+    ('protobuf', '3.15.6', {
         'modulename': 'google.protobuf',
-        'checksums': ['d975a6314fbf5c524d4981e24294739216b5fb81ef3c14b86fb4b045d6690907'],
+        'checksums': ['2b974519a2ae83aa1e31cff9018c70bbe0e303a46a598f982943c49ae1d4fcd3'],
     }),
     ('python-gflags', '3.1.2', {
         'modulename': 'gflags',
@@ -741,6 +741,10 @@ exts_list = [
     ('grpcio-tools', '1.43.0', {
         'modulename' : 'grpc_tools',
         'checksums': ['f42f1d713096808b1b0472dd2a3749b712d13f0092dab9442d9c096446e860b2'],
+    }),
+    ('future', '0.18.2', {
+        #'modulename' : '__future__',
+        'checksums': ['b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d'],
     }),
 ]
 
