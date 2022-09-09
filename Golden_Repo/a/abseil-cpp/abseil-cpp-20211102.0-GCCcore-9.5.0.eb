@@ -1,7 +1,11 @@
+# Abseil C++ libraries.
+#
+# NOTE: #define ABSL_OPTION_USE_STD_STRING_VIEW 0 workaround for the complicated C++ ABI situation
+
 easyblock = 'CMakeNinja'
 
 name = 'abseil-cpp'
-version = '20210324.1'
+version = '20211102.0'
 
 homepage = 'https://abseil.io/'
 description = "Abseil is an open source collection of C++ libraries drawn from the most fundamental pieces of Google’s internal codebase."
@@ -13,7 +17,7 @@ github_account = 'abseil'
 source_urls = [GITHUB_SOURCE]
 sources = ['%(version)s.tar.gz']
 patches = ['abseil-cpp-20210324.1-old-cxxabi.patch']
-checksums = ['441db7c09a0565376ecacf0085b2d4c2bbedde6115d7773551bc116212c2a8d6']
+checksums = ['dcf71b9cba8dc0ca9940c4b316a0c796be8fab42b070bb6b7cab62b48f0e66c4']
 
 builddependencies = [
     ('binutils', '2.38'),
