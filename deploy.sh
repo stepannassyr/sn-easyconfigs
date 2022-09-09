@@ -1,5 +1,12 @@
 #!/bin/bash
 
+aor_ver="21.02"
+currentstage=2022a
+stages=(2022a)
+declare -A stage_eb_version
+stage_eb_version[2021a]="4.5.2"
+stage_eb_version[2022a]="4.5.5"
+
 cat << EOF
 This script will deploy an EasyBuild-based software stack
 on this machine
@@ -321,7 +328,6 @@ do
 done
 
 
-currentstage=2021a
 echo "Writing sw stack loading script to $installpath/switch_stage.sh"
 
 cat << EOF > $installpath/switch_stage.sh
@@ -451,13 +457,6 @@ esac
 
 if [ $OSARCH == "aarch64" ]
 then
-	read -p "You are on $OSARCH. Would you like to install Arm Compiler for Linux (ACfL)? Answer \"yes\" only if you have an ACfL licence. (y/N) " install_acfl
-	[[ $install_acfl == "" ]] && install_acfl=N
-	case $install_acfl in
-		[Yy]* ) echo "will install ACfL";;
-		[Nn]* ) echo "will not install ACfL";;
-		* ) echo "Invalid answer, aborting"; exit 1;;
-	esac
 	
 	read -p "You are on $OSARCH. Would you like to install Arm Optimized Routines? (Y/n) " install_aor
 	[[ $install_aor == "" ]] && install_aor=Y
@@ -483,7 +482,6 @@ arch_cflags[Cortex-A72]="-march=armv8-a+fp+simd+crc -mtune=cortex-a72"
 arch_cflags[Kunpeng920]="-march=armv8.2-a+crypto+dotprod+fp16fml"
 arch_cflags[ThunderX2]="-march=armv8.1-a+fp+simd+crc -mtune=thunderx2t99"
 
-aor_ver="21.02"
 case $install_aor in
 	[Yy]* )
 		echo "Installing arm optimized routines for all architectures"
@@ -652,10 +650,6 @@ fi
 
 
 # installing repo EasyBuild 
-stages=(2022a)
-declare -A stage_eb_version
-stage_eb_version[2021a]="4.5.2"
-stage_eb_version[2022a]="4.5.4"
 
 echo Installing EasyBuild from repo for all stages and architectures
 for stage in ${stages[@]}
@@ -669,7 +663,13 @@ do
 		fi
 		echo "Installing EasyBuild from stage $stage for $arch"
 		olddir=$(pwd)
-		cd $repodir/Golden_Repo/$stage/
+        stageyear=$(echo $stage | cut -c1-4)
+        repostagedir=$repodir/Golden_Repo/
+        if (( $stageyear < 2022 )); then
+            repostagedir=$repodir/Golden_Repo/$stage/
+        fi
+		cd $repostagedir
+
 		. $installpath/switch_stage.sh -q -s $stage
 		module use $installpath/modules/system || exit 1
 		module use $installpath/modules/devel || exit 1
