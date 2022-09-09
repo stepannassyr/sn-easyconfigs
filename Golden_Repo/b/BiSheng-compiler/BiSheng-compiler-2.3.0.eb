@@ -1,0 +1,28 @@
+# Huawei's bisheng compiler. Installed from binary tarball
+#
+
+easyblock = "Tarball"
+
+name = "BiSheng-compiler"
+version = "2.3.0"
+
+homepage = 'https://support.huaweicloud.com/intl/en-us/ug-bisheng-kunpengdevps/kunpengbisheng_06_0001.html'
+description = """BiSheng compiler is a high-performance, high-reliability, and easy-to-expand compiler toolchain developed by Huawei Compiler Laboratory for general-purpose processor architectures, such as Kunpeng"""
+
+
+toolchain = SYSTEM
+
+source_urls = ["https://mirrors.huaweicloud.com/kunpeng/archive/compiler/bisheng_compiler/"]
+sources = ["%(namelower)s-%(version)s-%(arch)s-linux.tar.gz"]
+
+checksums = ["4dc91bc58072c7c1aefd24e53e2208b57b7c4d12084dda0f2ab84e6c1ad8b75b"]
+
+
+sanity_check_paths = {
+    'files': ["bin/clang","bin/clang++","bin/flang"],
+    'dirs': ["bin","include","lib","libexec","share"]
+}
+
+recursive_module_unload = True
+
+moduleclass = 'compiler'
