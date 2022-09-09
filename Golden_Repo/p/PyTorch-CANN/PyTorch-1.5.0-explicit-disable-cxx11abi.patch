@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f63f23d45b..3c7b9e412d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -38,6 +38,8 @@ if (DEFINED GLIBCXX_USE_CXX11_ABI)
+   if (${GLIBCXX_USE_CXX11_ABI} EQUAL 1)
+     set(CXX_STANDARD_REQUIRED ON)
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_USE_CXX11_ABI=1")
++  else()
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_USE_CXX11_ABI=0")
+   endif()
+ endif()
+ 

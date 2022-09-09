@@ -1,0 +1,21 @@
+diff --git a/cmake/public/npu.cmake b/cmake/public/npu.cmake
+index 97c3f471bd..c392c32187 100644
+--- a/cmake/public/npu.cmake
++++ b/cmake/public/npu.cmake
+@@ -15,6 +15,9 @@ if(${CMAKE_VERSION} VERSION_LESS "3.12.0")
+ message(FATAL_ERROR "Please consider switch to CMake 3.12.0 or above")
+ endif()
+ 
++set(Python3_ROOT_DIR "$ENV{EBROOTPYTHON}")
++set(Python3_EXECUTABLE "$ENV{EBROOTPYTHON}/bin/python3")
++
+ if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.12.0") 
+   find_package (Python3 COMPONENTS Interpreter Development REQUIRED)
+   message("Python3 RUNTIME LIBRAY DIRS: " ${Python3_RUNTIME_LIBRARY_DIRS})
+@@ -27,4 +29,4 @@ if(USE_HCCL)
+   target_link_libraries(npu_interface INTERFACE acl_op_compiler ascendcl acl_tdt_channel hccl python3.7m graph ge_runner)
+ else()
+   target_link_libraries(npu_interface INTERFACE acl_op_compiler ascendcl acl_tdt_channel python3.7m graph ge_runner)
+-endif()
+\ No newline at end of file
++endif()

@@ -1,0 +1,333 @@
+# PyTorch 1.5.0 with CANN/Ascend support
+#
+# Hack because I don't have infinite time:
+#   Temporarily remove the dependency of schedule-search (in CANN-Toolkit)
+#   on tensorflow to install this
+
+easyblock = 'EB_PyTorch'
+name = 'PyTorch-CANN'
+version = '1.5.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://pytorch.org/'
+description = """Tensors and Dynamic neural networks in Python with strong GPU acceleration.
+PyTorch is a deep learning framework that puts Python first."""
+
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
+
+local_pytorchthirdpartydir = 'pytorch-%(version)s/third_party'
+local_extract_cmd_pattern = 'tar -C %s/%s --strip-components=1 -xf %%s'
+
+source_urls = ['https://github.com/pytorch/pytorch/archive']
+sources = [
+    'v%(version)s.tar.gz',  # PyTorch
+    {
+        'source_urls': ['https://github.com/Maratyszcza/FP16/archive'],
+        'download_filename': 'febbb1c163726b5db24bed55cc9dc42529068997.tar.gz',
+        'filename': 'FP16-20181128.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'FP16'),
+    },
+    {
+        'source_urls': ['https://github.com/Maratyszcza/FXdiv/archive'],
+        'download_filename': 'b742d1143724d646cd0f914646f1240eacf5bd73.tar.gz',
+        'filename': 'FXdiv-20181117.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'FXdiv'),
+    },
+    {
+        'source_urls': ['https://github.com/Maratyszcza/NNPACK/archive'],
+        'download_filename': '24b55303f5cf65d75844714513a0d1b1409809bd.tar.gz',
+        'filename': 'NNPACK-20191007.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'NNPACK'),
+    },
+    {
+        'source_urls': ['https://github.com/pytorch/QNNPACK/archive'],
+        'download_filename': '7d2a4e9931a82adc3814275b6219a03e24e36b4c.tar.gz',
+        'filename': 'QNNPACK-20190828.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'QNNPACK'),
+    },
+    {
+        'source_urls': ['https://github.com/google/XNNPACK/archive'],
+        'download_filename': '7493bfb9d412e59529bcbced6a902d44cfa8ea1c.tar.gz',
+        'filename': 'XNNPACK-20200225.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'XNNPACK'),
+    },
+    {
+        'source_urls': ['https://github.com/google/benchmark/archive'],
+        'download_filename': '505be96ab23056580a3a2315abba048f4428b04e.tar.gz',
+        'filename': 'benchmark-20180606.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'benchmark'),
+    },
+    {
+        'source_urls': ['https://github.com/pytorch/cpuinfo/archive'],
+        'download_filename': '0e6bde92b343c5fbcfe34ecd41abf9515d54b4a7.tar.gz',
+        'filename': 'cpuinfo-20200122.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'cpuinfo'),
+    },
+    {
+        'source_urls': ['https://github.com/NVlabs/cub/archive'],
+        'download_filename': '285aeebaa34b0e8a7670867a2e66c1a52d998d6a.tar.gz',
+        'filename': 'cub-20170829.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'cub'),
+    },
+    {
+        'source_urls': ['https://github.com/eigenteam/eigen-git-mirror/archive'],
+        'download_filename': 'd41dc4dd74acce21fb210e7625d5d135751fa9e5.tar.gz',
+        'filename': 'eigen-20190125.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'eigen'),
+    },
+    {
+        'source_urls': ['https://github.com/pytorch/fbgemm/archive'],
+        'download_filename': '58c002d1593f32aa420ab56b5c344e60d3fb6d05.tar.gz',
+        'filename': 'fbgemm-20200323.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'fbgemm'),
+    },
+    {
+        'source_urls': ['https://github.com/asmjit/asmjit/archive'],
+        'download_filename': 'ac77dfcd75f043e2fe317133a971040e5b999916.tar.gz',
+        'filename': 'asmjit-20191025.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'fbgemm/third_party/asmjit'),
+    },
+    {
+        'source_urls': ['https://github.com/pytorch/cpuinfo/archive'],
+        'download_filename': 'd5e37adf1406cf899d7d9ec1d317c47506ccb970.tar.gz',
+        'filename': 'cpuinfo-20190201.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'fbgemm/third_party/cpuinfo'),
+    },
+    {
+        'source_urls': ['https://github.com/google/googletest/archive'],
+        'download_filename': '0fc5466dbb9e623029b1ada539717d10bd45e99e.tar.gz',
+        'filename': 'googletest-20180925.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'fbgemm/third_party/googletest'),
+    },
+    {
+        'source_urls': ['https://github.com/houseroad/foxi/archive'],
+        'download_filename': '8015abb727dfc9e223bfd293730daa9138f1f9c4.tar.gz',
+        'filename': 'foxi-20191220.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'foxi'),
+    },
+    {
+        'source_urls': ['https://github.com/google/gemmlowp/archive'],
+        'download_filename': '3fb5c176c17c765a3492cd2f0321b0dab712f350.tar.gz',
+        'filename': 'gemmlowp-20181126.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'gemmlowp/gemmlowp'),
+    },
+    {
+        'source_urls': ['https://github.com/facebookincubator/gloo/archive'],
+        'download_filename': '113bde13035594cafdca247be953610b53026553.tar.gz',
+        'filename': 'gloo-20200317.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'gloo'),
+    },
+    {
+        'source_urls': ['https://github.com/google/googletest/archive'],
+        'download_filename': '2fe3bd994b3189899d93f1d5a881e725e046fdc2.tar.gz',
+        'filename': 'googletest-20180831.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'googletest'),
+    },
+    {
+        'source_urls': ['https://github.com/intel/ideep/archive'],
+        'download_filename': '3fc96899dced7ea2dc68c32495afb30d26b59486.tar.gz',
+        'filename': 'ideep-20200116.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'ideep'),
+    },
+    {
+        'source_urls': ['https://github.com/intel/mkl-dnn/archive'],
+        'download_filename': '7d2fd500bc78936d1d648ca713b901012f470dbc.tar.gz',
+        'filename': 'mkl-dnn-20190928.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'ideep/mkl-dnn'),
+    },
+    {
+        'source_urls': ['https://github.com/onnx/onnx/archive'],
+        'download_filename': '9fdae4c68960a2d44cd1cc871c74a6a9d469fa1f.tar.gz',
+        'filename': 'onnx-20200216.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'onnx'),
+    },
+    {
+        'source_urls': ['https://github.com/google/benchmark/archive'],
+        'download_filename': 'e776aa0275e293707b6a0901e0e8d8a8a3679508.tar.gz',
+        'filename': 'benchmark-20180525.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'onnx/third_party/benchmark'),
+    },
+    {
+        'source_urls': ['https://github.com/onnx/onnx-tensorrt/archive'],
+        'download_filename': 'c153211418a7c57ce071d9ce2a41f8d1c85a878f.tar.gz',
+        'filename': 'onnx-tensorrt-20190916.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'onnx-tensorrt'),
+    },
+    {
+        'source_urls': ['https://github.com/Maratyszcza/psimd/archive'],
+        'download_filename': '10b4ffc6ea9e2e11668f86969586f88bc82aaefa.tar.gz',
+        'filename': 'psimd-20191226.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'psimd'),
+    },
+    {
+        'source_urls': ['https://github.com/Maratyszcza/pthreadpool/archive'],
+        'download_filename': 'd465747660ecf9ebbaddf8c3db37e4a13d0c9103.tar.gz',
+        'filename': 'pthreadpool-20191029.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'pthreadpool'),
+    },
+    {
+        'source_urls': ['https://github.com/Maratyszcza/PeachPy/archive'],
+        'download_filename': '07d8fde8ac45d7705129475c0f94ed8925b93473.tar.gz',
+        'filename': 'PeachPy-20180218.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'python-peachpy'),
+    },
+    {
+        'source_urls': ['https://github.com/shibatch/sleef/archive'],
+        'download_filename': '7f523de651585fe25cade462efccca647dcc8d02.tar.gz',
+        'filename': 'sleef-20190730.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'sleef'),
+    },
+    {
+        'source_urls': ['https://github.com/01org/tbb/archive'],
+        'download_filename': 'a51a90bc609bb73db8ea13841b5cf7aa4344d4a9.tar.gz',
+        'filename': 'tbb-20181009.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % (local_pytorchthirdpartydir, 'tbb'),
+    },
+]
+patches = [
+    'PyTorch-1.4.0_fix-system-pybind11.patch',
+    'PyTorch-1.5.0_fix-missing-source-dir.patch',
+    'PyTorch-1.6.0_fix-test-cuda.patch',
+    'PyTorch-1.6.0_fix-test-dataloader-fixed-affinity.patch',
+    'PyTorch-1.6.0_fix-test-tensorexpr.patch',
+    'PyTorch-1.6.0_fix-test-missing-rpc-shutdown.patch',
+    # 'PyTorch-1.6.0_fix-rpc-test-world-size.patch',
+    'PyTorch-1.5.0_fix-ifnot.patch',
+    # equivalent to using scripts/gen.sh from 'https://gitee.com/ascend/pytorch/'
+    'PyTorch-1.5.0-ascend-npu-support.patch',
+    'PyTorch-1.5.0-npu-python3-easybuild-hint.patch',
+    ('PyTorch-1.5.0-onnx-fix-newer-protobuf.patch','third_party/onnx'),
+    'PyTorch-1.5.0-caffe2-newer-protobuf-fix.patch',
+    'PyTorch-1.5.0-npu-c10_npu-dl.patch',
+    'PyTorch-1.5.0-caffe2-tests-nocxx11abi.patch',
+    'PyTorch-1.5.0-explicit-disable-cxx11abi.patch',
+]
+checksums = [
+    '509f3914ac4f99569cb7e5755f581f622d26ad751f8e7b76b09a9844590fdb66',  # v1.5.0.tar.gz
+    '3e71681e0a67cd28552aa0bbb78ec6a6bd238216df15336dc1326280f7958de2',  # FP16-20181128.tar.gz
+    '07625551202a1f35fe5e826669ad495962b26f6a139290e90b321c5996f002ef',  # FXdiv-20181117.tar.gz
+    '1f11dbbfad78d0a4c39fe94e52a28c0821cb25f9880420bb304f6302f73fe002',  # NNPACK-20191007.tar.gz
+    '0d752bd75f46ce4d7c6f0a60b0d6c0e5918a7b4683c825284f8db3706dd24f76',  # QNNPACK-20190828.tar.gz
+    '97ffef27354d43c77d48443dd6d225d511b516168e99d3fbed1f943eb9f76e7a',  # XNNPACK-20200225.tar.gz
+    '0de43b6eaddd356f1d6cd164f73f37faf2f6c96fd684e1f7ea543ce49c1d144e',  # benchmark-20180606.tar.gz
+    'a333789aca954301c84465174f3aadd58ff454f129871614d027b264e81cde47',  # cpuinfo-20200122.tar.gz
+    '7224b03af4acbc54525105bb42e3ecd75c66a3a5b47e8a725ab008467c4109f9',  # cub-20170829.tar.gz
+    '2ec954f18cec50a7063a7358ce555f7e11788a7f6d4e7e597d83687dc2f3b989',  # eigen-20190125.tar.gz
+    'de0274806371acd23e7bde37bc0b9a3dd9b576b15ddfa5158521af17c2fda7fe',  # fbgemm-20200323.tar.gz
+    '24e4f4a727b404a30dcdcad12761c7e9090de0075067ecab12ce4c33085aa587',  # asmjit-20191025.tar.gz
+    '3f2dc1970f397a0e59db72f9fca6ff144b216895c1d606f6c94a507c1e53a025',  # cpuinfo-20190201.tar.gz
+    'e99b904983d08ac8e9bddb5b0d21196b78ad9499e3c5d12192cee2ddd2b7515c',  # googletest-20180925.tar.gz
+    '982100f4a514b0678e3161e39c3660dc7be3c83bdc1e39617066dc49712d50ac',  # foxi-20191220.tar.gz
+    'fdd6f08bdb33d33f4df516ffb91730fdb163479c19502cfc983083fd9cf43bfa',  # gemmlowp-20181126.tar.gz
+    '5243b523dba4aa55090790c9836803c671daa58bff24411e52267e119f4a61e0',  # gloo-20200317.tar.gz
+    'd0d447b4feeedca837a0d46a289d4223089b32ac2f84545fa4982755cc8919be',  # googletest-20180831.tar.gz
+    '60c35329cf78bec0f79e4a7f4f2ad1ae8f0153524ca866e04320d2030ba9af91',  # ideep-20200116.tar.gz
+    'de7e4df12f4c474000ecc83dadc386f16337b5f9ecf13c1c5eae6314bf444c6f',  # mkl-dnn-20190928.tar.gz
+    '561df1eb0765b3eeb4928c126491b55e3f8189515d905c8b7c6cece01a377ee7',  # onnx-20200216.tar.gz
+    'c7682e9007ddfd94072647abab3e89ffd9084089460ae47d67060974467b58bf',  # benchmark-20180525.tar.gz
+    '314cde420a7cf692bdb6877bc6af6bc514805f6cdb8bee90f32566ed08d94b1c',  # onnx-tensorrt-20190916.tar.gz
+    '1fefd66702cb2eb3462b962f33d4fb23d59a55d5889ee6372469d286c4512df4',  # psimd-20191226.tar.gz
+    '20503d03cf537a3b077607bfb435a33cd685ca5cb683792716cc4fe8eb4bda8f',  # pthreadpool-20191029.tar.gz
+    '13100c3deed300bbf16f87d8af3539f432462bfef9d38f0c7e3e387dc2e88676',  # PeachPy-20180218.tar.gz
+    '8cb5fae822077ca9cbc14dcc7bba9a3a35ad519284fc5169f9a176672c63860a',  # sleef-20190730.tar.gz
+    'be111cf161b587812fa3b106fe550efb6f129b8b0b702fef32fac23af9580e5e',  # tbb-20181009.tar.gz
+    '1c9f36f959ea5d7cf0d4ca678ec6bf60ef9ed16c556f97197aa018c7b1e5e21d',  # PyTorch-1.4.0_fix-system-pybind11.patch
+    '5ecf93eb73029a69710d3de5cb7fa8d6c55cd26ba6d3ae781fe74f8cd8a30bf6',  # PyTorch-1.5.0_fix-missing-source-dir.patch
+    'adf21e77dbc5e60fd46fe21fceb908633b0da7d4fc9b6a3ea7f7cfb0c4a44678',  # PyTorch-1.6.0_fix-test-cuda.patch
+    # PyTorch-1.6.0_fix-test-dataloader-fixed-affinity.patch
+    'a4208a46cd2098744daaba96cebb96cd91166f8fc616924315e05974bad80c67',
+    '37c19e286f4090115bc67989e537241f2988041ef5c3ff6d02d8c736d8703090',  # PyTorch-1.6.0_fix-test-tensorexpr.patch
+    # PyTorch-1.6.0_fix-test-missing-rpc-shutdown.patch
+    '9afd9b3a85a7b115e9535cf6a618d5dd137a69a5f36747d6290ac3bf123ab896',
+    # '7d48c4ef7ae98a8a9e5eade3341ce18e41fa3fe4b868e9435efbfba849d1f977',  # PyTorch-1.6.0_fix-rpc-test-world-size.patch
+    'aff3dc5a41e600a8c8739f0f05bf91486720b1b5fcb43bfe6f17f739faad3447',  # PyTorch-1.5.0_fix-ifnot.patch
+    '400cd122751a982e5f58433c1eeecdc2457b0e8b83f8cd4bb7b11dd2f5d48cae',  # PyTorch-1.5.0-ascend-npu-support.patch
+    '85759e46a952a28662fa530ee310fff5f13e5fcb8ec45bf52c9d254e401d94a8',  # PyTorch-1.5.0-npu-python3-easybuild-hint.patch
+    '5bc676c300e08885bb7e119dab983fea58eb2703c3b1dc7eadb21246e6b0d313',  # PyTorch-1.5.0-onnx-fix-newer-protobuf.patch
+    '90d4791a91d125bbd17f79dfc51f91e800da7ede7afaa7f39be2ef24728fe329',  # PyTorch-1.5.0-caffe2-newer-protobuf-fix.patch
+    '7a5133596c6250fe874191899834cf0fdbc64e5f55b17cdf3a7e052f62c675e3',  # PyTorch-1.5.0-npu-c10_npu-dl.patch
+    '14d0af784f885445ee99279b0f3e485d5386a719e565c6d335697c049c3045dc',  # PyTorch-1.5.0-caffe2-tests-nocxx11abi.patch
+    '500dc749352e755c382bbe7ebbb1d331d48670954b9f94f3efebce0293b93728',  # PyTorch-1.5.0-explicit-disable-cxx11abi.patch
+]
+
+# PyTorch pulls in a bunch of submodules that are not releases. We download the submodule revisions from their repos.
+# determine commit of additional sources via https://github.com/pytorch/pytorch/tree/v1.6.0/third_party
+osdependencies = [OS_PKG_IBVERBS_DEV]
+
+builddependencies = [
+    ('CMake', '3.23.1'),
+]
+
+dependencies = [
+    ('Ninja', '1.10.2'),  # Required for JIT compilation of C++ extensions
+    ('CANN-Toolkit', '5.0.4.alpha005', versionsuffix),
+    ('protobuf', '3.15.6-CANN'),
+    ('protobuf-python', '3.15.6-CANN', versionsuffix),
+    ('Python', '3.7.5'),
+    ('pybind11', '2.9.2', versionsuffix),
+    ('absl-py', '1.0.0', versionsuffix),
+    ('SciPy-Stack', '2022a', versionsuffix),
+    # ('PyYAML', '6.0'),
+    ('MPFR', '4.1.0'),
+    ('GMP', '6.2.1'),
+    ('numactl', '2.0.14'),
+    ('FFmpeg4', '4.4.2'),
+    # ('Pillow', '9.1.1'),
+]
+
+excluded_tests = {
+    'POWER': [
+        # https://github.com/pytorch/pytorch/issues/41186
+        'test_autograd',
+        # https://github.com/pytorch/pytorch/issues/41261
+        'test_cpp_extensions_aot_no_ninja', 'test_cpp_extensions_aot_ninja',
+        # https://github.com/pytorch/pytorch/issues/41400
+        'test_jit',
+        # https://github.com/pytorch/pytorch/issues/41469
+        'test_nn',
+    ],
+    '': [
+        # This test fails everywhere: https://github.com/pytorch/pytorch/issues/41242
+        'test_cpp_extensions_jit',
+        # Throws illegal memory access due to float16: https://github.com/pytorch/pytorch/issues/41340
+        'test_torch',
+        # Potentially problematic save/load issue with test_lstm on only some machines. Tell users to verify save&load!
+        # https://github.com/pytorch/pytorch/issues/43209
+        'test_quantization',
+    ],
+}
+
+prebuildopts = "_GLIBCXX_USE_CXX11_ABI=0 USE_NPU=1 USE_HCCL=1 BUILD_TEST=0 "
+
+components = [
+    ('apex','0.1', {
+            'easyblock' : 'PythonPackage',
+            'source_urls' : ['https://github.com/NVIDIA/apex/archive/'],
+            'sources': [{
+                'download_filename': '4ef930c1c884fdca5f472ab2ce7cb9b505d26c1a.tar.gz',
+                'filename': '%(name)s-%(version)s.tar.gz'
+            }, {
+                'filename': 'ascend-apex.tar.gz',
+                'git_config': {
+                    'url': 'https://gitee.com/luweizheng/',
+                    'repo_name': 'ascend-apex.git',
+                    'tag': '19ed874',
+                }
+            }],
+            'buildcmd': ("cd ascend-apex/ &&"
+                         "cp -r %(srcdir)s/apex-%(version)s apex && "
+                         "cd scripts && "
+                         "bash gen.sh && "
+                         "cd ../apex && "
+                         "python3 setup.py --cpp_ext --npu_float_status bdist_wheel"
+            ),
+            'install_src': 'ascend-apex/apex-%(version)s+ascend-cp37-cp37m-linux_%(arch)s.whl',
+        }),
+]
+
+#runtest = 'cd test && %(python)s run_test.py --verbose %(excluded_tests)s'
+
+sanity_check_commands = ["python -c 'import caffe2.python'"]
+tests = ['PyTorch-check-cpp-extension.py']
+
+moduleclass = 'devel'

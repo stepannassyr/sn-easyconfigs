@@ -1,0 +1,12 @@
+diff --git a/caffe2/CMakeLists.txt b/caffe2/CMakeLists.txt
+index 5a6d17c2a9..c40a3877e9 100644
+--- a/caffe2/CMakeLists.txt
++++ b/caffe2/CMakeLists.txt
+@@ -1281,6 +1281,7 @@ if (BUILD_TEST)
+     target_link_libraries(${test_name} ${Caffe2_MAIN_LIBS} gtest_main)
+     target_include_directories(${test_name} PRIVATE $<INSTALL_INTERFACE:include>)
+     target_include_directories(${test_name} PRIVATE ${Caffe2_CPU_INCLUDE})
++    target_compile_definitions(${test_name} PRIVATE _GLIBCXX_USE_CXX11_ABI=0)
+     add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${test_name}>)
+     if (INSTALL_TEST)
+       install(TARGETS ${test_name} DESTINATION test)

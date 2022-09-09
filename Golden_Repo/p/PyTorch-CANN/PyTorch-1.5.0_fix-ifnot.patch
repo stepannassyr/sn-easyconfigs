@@ -1,0 +1,114 @@
+diff --git a/cmake/Dependencies.cmake b/cmake/Dependencies.cmake
+index ef02e05501..d4fe4053f4 100644
+--- a/cmake/Dependencies.cmake
++++ b/cmake/Dependencies.cmake
+@@ -506,7 +506,7 @@ if(BUILD_TEST)
+               "-P"
+               "${CMAKE_CURRENT_LIST_DIR}/GoogleTestPatch.cmake"
+       RESULT_VARIABLE _exitcode)
+-    if(NOT ${_exitcode} EQUAL 0)
++    if(NOT _exitcode EQUAL 0)
+       message(WARNING "Patching failed for Google Test. The build may fail.")
+     endif()
+   endif()
+@@ -546,7 +546,7 @@ if(BUILD_TEST)
+               "-P"
+               "${CMAKE_CURRENT_LIST_DIR}/GoogleTestPatch.cmake"
+       RESULT_VARIABLE _exitcode)
+-    if(NOT ${_exitcode} EQUAL 0)
++    if(NOT _exitcode EQUAL 0)
+       message(WARNING "Reverting changes failed for Google Test. The build may fail.")
+     endif()
+   endif()
+@@ -766,7 +766,7 @@ if(BUILD_PYTHON)
+     execute_process(
+         COMMAND "${PYTHON_EXECUTABLE}" "--version"
+         RESULT_VARIABLE _exitcode)
+-    if(NOT ${_exitcode} EQUAL 0)
++    if(NOT _exitcode EQUAL 0)
+       message(FATAL_ERROR "The Python executable ${PYTHON_EXECUTABLE} cannot be run. Make sure that it is an absolute path.")
+     endif()
+   endif()
+@@ -1072,7 +1072,7 @@ if(USE_NCCL)
+         "Not using CUDA/ROCM, so disabling USE_NCCL. Suppress this warning with "
+         "-DUSE_NCCL=OFF.")
+     caffe2_update_option(USE_NCCL OFF)
+-  elseif(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
++  elseif(NOT CMAKE_SYSTEM_NAME STREQUAL "Linux")
+     message(WARNING "NCCL is currently only supported under Linux.")
+     caffe2_update_option(USE_NCCL OFF)
+   elseif(USE_CUDA)
+diff --git a/cmake/Modules_CUDA_fix/upstream/FindCUDA.cmake b/cmake/Modules_CUDA_fix/upstream/FindCUDA.cmake
+index ffcc49e29c..a25edda0cb 100644
+--- a/cmake/Modules_CUDA_fix/upstream/FindCUDA.cmake
++++ b/cmake/Modules_CUDA_fix/upstream/FindCUDA.cmake
+@@ -1505,7 +1505,7 @@ macro(CUDA_WRAP_SRCS cuda_target format generated_files)
+         set(_cuda_source_format ${format})
+       endif()
+       # If file isn't a .cu file, we need to tell nvcc to treat it as such.
+-      if(NOT ${file} MATCHES "\\.cu$")
++      if(NOT file MATCHES "\\.cu$")
+         set(cuda_language_flag -x=cu)
+       else()
+         set(cuda_language_flag)
+diff --git a/cmake/ProtoBuf.cmake b/cmake/ProtoBuf.cmake
+index 5629f03344..e694323d9a 100644
+--- a/cmake/ProtoBuf.cmake
++++ b/cmake/ProtoBuf.cmake
+@@ -80,7 +80,7 @@ endmacro()
+ # coded BUILD_CUSTOM_PROTOBUF, we will hard code the use of custom protobuf
+ # in the submodule.
+ if (ANDROID OR IOS)
+-  if (NOT ${BUILD_CUSTOM_PROTOBUF})
++  if (NOT BUILD_CUSTOM_PROTOBUF)
+     message(WARNING
+         "For Android and iOS cross compilation, I am automatically using "
+         "custom protobuf under third party. Note that this behavior may "
+diff --git a/cmake/Utils.cmake b/cmake/Utils.cmake
+index b0f931f11c..4b2c8fc934 100644
+--- a/cmake/Utils.cmake
++++ b/cmake/Utils.cmake
+@@ -154,7 +154,7 @@ function(dedent outvar text)
+     INPUT_FILE "${CMAKE_BINARY_DIR}/indented.txt"
+     RESULT_VARIABLE _dedent_exitcode
+     OUTPUT_VARIABLE _dedent_text)
+-  if(NOT ${_dedent_exitcode} EQUAL 0)
++  if(NOT _dedent_exitcode EQUAL 0)
+     message(ERROR " Failed to remove indentation from: \n\"\"\"\n${text}\n\"\"\"
+     Python dedent failed with error code: ${_dedent_exitcode}")
+     message(FATAL_ERROR " Python dedent failed with error code: ${_dedent_exitcode}")
+@@ -202,7 +202,7 @@ function(pycmd outvar cmd)
+   dedent(_dedent_cmd "${cmd}")
+   pycmd_no_exit(_output _exitcode "${_dedent_cmd}")
+ 
+-  if(NOT ${_exitcode} EQUAL 0)
++  if(NOT _exitcode EQUAL 0)
+     message(ERROR " Failed when running python code: \"\"\"\n${_dedent_cmd}\n\"\"\"")
+     message(FATAL_ERROR " Python command failed with error code: ${_exitcode}")
+   endif()
+diff --git a/cmake/public/cuda.cmake b/cmake/public/cuda.cmake
+index 545d6cd924..4a3e803b07 100644
+--- a/cmake/public/cuda.cmake
++++ b/cmake/public/cuda.cmake
+@@ -74,7 +74,7 @@ if(CUDA_FOUND)
+     message(FATAL_ERROR "Caffe2: Couldn't determine version from header: " ${output_var})
+   endif()
+   message(STATUS "Caffe2: Header version is: " ${cuda_version_from_header})
+-  if(NOT ${cuda_version_from_header} STREQUAL ${CUDA_VERSION_STRING})
++  if(NOT cuda_version_from_header STREQUAL ${CUDA_VERSION_STRING})
+     # Force CUDA to be processed for again next time
+     # TODO: I'm not sure if this counts as an implementation detail of
+     # FindCUDA
+diff --git a/torch/CMakeLists.txt b/torch/CMakeLists.txt
+index c61291b9e1..6569320d4f 100644
+--- a/torch/CMakeLists.txt
++++ b/torch/CMakeLists.txt
+@@ -163,7 +163,7 @@ if (MSVC)
+     if (BUILD_TEST)
+       list(APPEND TORCH_PYTHON_LINK_LIBRARIES onnx_library)
+     endif(BUILD_TEST)
+-    if (NOT ${CMAKE_BUILD_TYPE} MATCHES "Release")
++    if (NOT CMAKE_BUILD_TYPE MATCHES "Release")
+       string(APPEND TORCH_PYTHON_LINK_FLAGS " /DEBUG:FULL")
+     endif()
+ elseif (APPLE)
