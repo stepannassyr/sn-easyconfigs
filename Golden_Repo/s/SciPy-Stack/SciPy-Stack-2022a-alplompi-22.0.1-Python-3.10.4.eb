@@ -64,16 +64,16 @@ exts_list = [
     ('pythran', '0.11.0', {
         'checksums': ['0b2cba712e09f7630879dff69f268460bfe34a6d6000451b47d598558a92a875'],
     }),
-    ('numpy', '1.22.3', {
+    ('numpy', '1.23.2', {
         'buildopts': " -j$EASYBUILD_PARALLEL",
         'patches': [
             'numpy-1.22.0-disable-linalg-test_nan.patch',
-            'numpy-1.22.3-optimistic-dependency-versions.patch',
+            'numpy-1.23.0rc2-optimistic-dependencies.patch',
         ],
-        'source_tmpl': 'numpy-%(version)s.zip',
-        'source_urls': ['https://github.com/numpy/numpy/releases/download/v1.22.3/'],
+        'source_tmpl': 'numpy-%(version)s.tar.gz',
+        'source_urls': ['https://github.com/numpy/numpy/releases/download/v1.23.2/'],
         'checksums': [
-            'dbc7601a3b7472d559dc7b933b18b4b66f9aa7452c120e87dfb33d02008c8a18',  # numpy-1.22.3.zip
+            'b78d00e48261fbbd04aa0d7427cf78d18401ee0abd89c7559bbf422e5b1c7d01',  # numpy-1.23.2.tar.gz
             'c43cf2904382d7c40ea20ba0980f5ecf85835ba6212b6604e6fdc90b61a46271',  # numpy-1.22.0-disable-linalg-test_nan.patch
         ],
     }),
