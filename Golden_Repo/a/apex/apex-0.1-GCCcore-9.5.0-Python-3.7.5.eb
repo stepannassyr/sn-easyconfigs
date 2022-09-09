@@ -1,0 +1,55 @@
+# EasyConfig for NVIDIA apex, modified for use with Huawei Ascend hardware
+
+easyblock = 'PythonPackage'
+name = 'apex'
+version = "0.1"
+versionsuffix = "-Python-%(pyver)s"
+
+homepage = 'https://github.com/NVIDIA/apex'
+description = """NVIDIA-maintained utilities to streamline mixed precision and distributed training in Pytorch.
+"""
+
+toolchain = {'name': 'goolf', 'version': '2022a.9'}
+
+dependencies = [
+    ('Python', '3.7.5'),
+    ('PyTorch-CANN', '1.5.0', versionsuffix)
+]
+
+local_apex_commit = '4ef930c1c884fdca5f472ab2ce7cb9b505d26c1a'
+
+sources = [
+    {
+        'source_urls':       ['https://github.com/NVIDIA/apex/archive'],
+        'download_filename': '%s.tar.gz' % local_apex_commit,
+        'filename':          '%(name)s-%(version)s.tar.gz' 
+    },
+    {
+    'filename': 'ascend-apex.tar.gz',
+    'git_config': {
+        'url': 'https://gitee.com/luweizheng/',
+        'repo_name': 'ascend-apex',
+        'commit': '19ed874',
+    }
+}
+]
+
+patches = [('ascend-apex-0.1-aten-to-c10-include-path.patch','../ascend-apex')]
+
+checksums = [
+    "6733ad2a0698ca76d996bb53fe9727672d4fb16d88c4f4adde0fa43cf9511081",
+    "37ffa6f09dd623d7f7086df176d3ca645f808820fdee936bf8c1be8629b80638",
+    "b9babe597b5426805954f6ac4cebd228ae685ec99ec0f7aababd05ead831129b",
+]
+
+
+buildcmd = ("cd ../ascend-apex && "
+            "ln -s ../apex-%s apex && "
+            "cd scripts && "
+            "bash gen.sh && "
+            "cd ../apex && "
+            "%%(python)s setup.py --cpp_ext --npu_float_status bdist_wheel") % local_apex_commit
+
+install_src = 'dist/apex-%(version)s+ascend-cp37-cp37m-linux_%(arch)s.whl'
+
+use_pip = True

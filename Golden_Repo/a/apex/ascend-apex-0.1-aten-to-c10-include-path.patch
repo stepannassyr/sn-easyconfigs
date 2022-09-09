@@ -1,0 +1,13 @@
+diff --git a/src/csrc/npu_float_status/op_runner.cpp b/src/csrc/npu_float_status/op_runner.cpp
+index 0b2eb18..dcb4453 100644
+--- a/src/csrc/npu_float_status/op_runner.cpp
++++ b/src/csrc/npu_float_status/op_runner.cpp
+@@ -18,7 +18,7 @@
+ #include <limits>
+ #include "common.h"
+ #include <torch/extension.h>
+-#include <ATen/npu/NPUEvent.h>
++#include <c10/npu/NPUEvent.h>
+ 
+ using namespace std;
+ 
