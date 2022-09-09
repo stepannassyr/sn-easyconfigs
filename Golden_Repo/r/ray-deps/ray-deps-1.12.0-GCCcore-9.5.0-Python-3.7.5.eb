@@ -1,0 +1,43 @@
+# Author: Pavel Grochal (INUITS)
+# License: GPLv2
+
+easyblock = 'PythonBundle'
+
+name = 'ray-deps'
+version = '1.12.0'
+
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://docs.ray.io/en/latest/"
+description = "Python packages needed by ray-project."
+
+toolchain = {'name': 'GCCcore', 'version': '9.5.0'}
+
+builddependencies = [
+   ('CMake', '3.23.1'),
+   ('binutils', '2.38'),
+]
+
+dependencies = [
+    ('Python', '3.7.5'),
+#    ('SciPy-Stack', '2022a', versionsuffix),
+    ('protobuf', '3.20.1'),
+]
+
+use_pip = True
+sanity_pip_check = True
+
+exts_list = [
+    ('aiosignal', '1.2.0', {
+        'checksums': ['78ed67db6c7b7ced4f98e495e572106d5c432a93e1ddd1bf475e1dc05f5b7df2'],
+    }),
+    ('frozenlist', '1.3.0', {
+        'checksums': ['ce6f2ba0edb7b0c1d8976565298ad2deba6f8064d2bebb6ffce2ca896eb35b0b'],
+    }),
+    ('grpcio', '1.43.0', {
+        'modulename' : 'grpc',
+        'checksums': ['735d9a437c262ab039d02defddcb9f8f545d7009ae61c0114e19dda3843febe5'],
+    }),
+]
+
+moduleclass = 'lib'

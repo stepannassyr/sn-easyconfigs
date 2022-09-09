@@ -1,0 +1,47 @@
+# Deepmind tree
+
+easyblock = 'PythonPackage'
+
+name = 'dm-tree'
+version = '0.1.7'
+
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://github.com/deepmind/tree'
+description = """dm-tree provides tree, a library for working with nested data structures. In a way,
+tree generalizes the builtin map function which only supports flat sequences, and
+allows to apply a function to each "leaf" preserving the overall structure."""
+
+toolchain = {'name': 'GCCcore', 'version': '9.5.0'}
+
+sources = [SOURCELOWER_TAR_GZ]
+checksums = ['30fec8aca5b92823c0e796a2f33b875b4dccd470b57e91e6c542405c5f77fd2a']
+patches = [
+    'dm-tree-0.1.7-system-absl.patch',
+    'dm-tree-0.1.7-use-c++17.patch',
+    'dm-tree-0.1.7-use-old-cxxabi.patch',
+    'dm-tree-0.1.7-hack-absl-stringview.patch',
+]
+
+builddependencies = [
+    ('binutils', '2.38'),
+    ('CMake', '3.23.1'),
+# Why would this need Bazel?
+#    ('Bazel', '3.7.2'),
+]
+dependencies = [
+    ('Python', '3.7.5'),
+    ('abseil-cpp', '20211102.0'),
+    ('absl-py', '1.0.0', versionsuffix),
+]
+
+download_dep_fail = True
+
+use_pip = True
+sanity_pip_check = True
+
+check_ldshared = True
+
+options = {'modulename': 'tree'}
+
+moduleclass = 'lib'

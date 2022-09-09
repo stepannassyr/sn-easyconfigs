@@ -1,0 +1,15 @@
+diff --git a/tree/tree.cc b/tree/tree.cc
+index 33922ea..c106b1b 100644
+--- a/tree/tree.cc
++++ b/tree/tree.cc
+@@ -18,6 +18,10 @@ limitations under the License.
+ #include <string>
+ #include <unordered_map>
+ 
++// hacky way to avoid c++ abi issues
++#include "absl/base/config.h"
++#undef ABSL_HAVE_STD_STRING_VIEW
++
+ // logging
+ #include "absl/memory/memory.h"
+ #include "absl/strings/str_cat.h"
