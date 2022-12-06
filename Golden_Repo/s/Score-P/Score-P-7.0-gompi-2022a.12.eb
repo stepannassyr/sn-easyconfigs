@@ -40,7 +40,7 @@ dependencies = [
     ('OPARI2', '2.0.6'),
     ('OTF2', '2.3'),
     # Hardware counter support (optional):
-    ('PAPI', '6.0.0.1-70887df7'),
+    ('PAPI', '7.0.0'),
     # PDT source-to-source instrumentation support (optional):
     ('PDT', '3.25.1'),
 ]

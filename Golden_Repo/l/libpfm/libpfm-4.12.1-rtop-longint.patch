@@ -1,0 +1,13 @@
+diff --git a/perf_examples/rtop.c b/perf_examples/rtop.c
+index bb662df..4a5561a 100644
+--- a/perf_examples/rtop.c
++++ b/perf_examples/rtop.c
+@@ -371,7 +371,7 @@ mainloop(void)
+ 			if (u_cycles > 100.0) u_cycles = 100.0;
+ 
+ 			printw("CPU%-2ld %6.2f%% usr %6.2f%% sys %6.2f%% idle (scaling ratio %.2f%%)\n",
+-				i,
++				(long int)i,
+ 				u_cycles,
+ 				k_cycles,
+ 				i_cycles,
