@@ -13,6 +13,9 @@ toolchain = {'name': 'goolf', 'version': '2022a.9'}
 toolchainopts = {'pic': True}
 
 local_cann_version = '5.0.4.alpha005'
+# This doesn't work. not sure how to do this dynamically
+# local_pysuff = pyshortver.strip('.')
+local_pysuff = "37"
 
 builddependencies = [
     ('git', '2.36.1'),
@@ -66,9 +69,11 @@ exts_list = [
         'skipsteps': ['configure','build'],
         'install_src': '$EBROOTCANNMINTOOLKIT/ascend-toolkit/%s/arm64-linux/fwkacllib/lib64/%%(name)s-%%(version)s-py3-none-any.whl' % local_cann_version,
     }),
-    ('mindspore', '1.6.2', {
-        'sources': ['mindspore-1.6.2-cp37-none-any.whl'],
-        'checksums': ['4f9da5f9a8908852b72cb0de5fed0a0d6fb186101ab8579f8ce5608221a3b2ff'],
+    ('mindspore-ascend', '1.6.2', {
+        'modulename': 'mindspore',
+        'source_urls': ['https://ms-release.obs.cn-north-4.myhuaweicloud.com/%(version)s/MindSpore/ascend/%(arch)s/'],
+        'sources': ['mindspore_ascend-%(version)s-cp{0}-cp{0}m-linux_%(arch)s.whl'.format(local_pysuff)],
+        'checksums': ['c84b9fa1d285a0fc4bba889091dbcddc45da725335bc76f595d30c5ab2db7ed4'],
     }),
 ]
 
